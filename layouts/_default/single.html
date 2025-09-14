@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Title }} ─ {{ .Site.Title }}</title>
+    <meta
+      name="description"
+      content="Traducción de {{ .Title }} al español por {{ .Site.Title }}."
+    />
+    <meta name="author" content="{{ .Site.Title }}" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" href="/assets/img/logos/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/img/logos/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/img/logos/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/img/logos/favicon-16x16.png"
+    />
+    <link rel="stylesheet" href="/assets/css/style-general.css?v=1.3.1" />
+    <link rel="stylesheet" href="/assets/css/style-novelas.css?v=1.0.2" />
+    <script src="/assets/js/script-modo-oscuro.js?v=1.0"></script>
+    <script src="/assets/js/script-navbar.js?v=1.0" defer></script>
+    <meta property="og:title" content="{{ .Title }} ─ {{ .Site.Title }}" />
+    <meta
+      property="og:description"
+      content="Traducción de {{ .Title }} al español por {{ .Site.Title }}."
+    />
+    <meta
+      property="og:image"
+      content="{{ .Site.BaseURL }}assets/img/logos/imagen-og.jpg"
+    />
+    <meta property="og:url" content="{{ .Permalink }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ .Title }} ─ {{ .Site.Title }}" />
+    <meta
+      name="twitter:description"
+      content="Traducción de {{ .Title }} al español por {{ .Site.Title }}."
+    />
+    <meta
+      name="twitter:image"
+      content="{{ .Site.BaseURL }}assets/img/logos/imagen-og.jpg"
+    />
+    <link rel="canonical" href="{{ .Permalink }}" />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      title="Sitemap"
+      href="/sitemap.xml"
+    />
+  </head>
+  <body>
+    {{ partial "header.html" . }}
+
+    <div class="container-1">
+      <div class="contenido">
+        <div class="novela-detalle">
+          <div class="portada-container">
+            <picture class="portada">
+              <source
+                srcset="/assets/img/avif/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.avif"
+                type="image/avif"
+              />
+              <img
+                src="/assets/img/jpg/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.jpg"
+                alt="Portada {{ .Title }}"
+                style="view-transition-name: {{ .Params.nombre_guiones }}"
+              />
+            </picture>
+          </div>
+
+          <div class="info-novela">
+            <h1>{{ .Title }}</h1>
+            <p class="sinopsis">{{ .Params.sinopsis }}</p>
+          </div>
+        </div>
+
+        <div class="info-tecnica hr">
+          <div class="fila-info">
+            <div class="dato">
+              <span class="etiqueta">Autor</span>
+              <span class="valor">{{ .Params.autor }}</span>
+            </div>
+            <div class="dato">
+              <span class="etiqueta">Traductor</span>
+              <span class="valor">{{ .Params.traductor_ing_esp }}</span>
+            </div>
+          </div>
+          <div class="fila-info">
+            <div class="dato">
+              <span class="etiqueta">Ilustrador</span>
+              <span class="valor">{{ .Params.ilustrador }}</span>
+            </div>
+            <div class="dato">
+              <span class="etiqueta">Estado</span>
+              <span class="valor">
+                {{ if eq .Params.estado "activa" }}Traducción activa{{ else }}Traducción pausada{{ end }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-2">
+      <div class="contenido">
+        <div class="nav-buttons">
+          <button class="nav-button active" data-target="descargas">
+            Descargas
+          </button>
+          <button class="nav-button" data-target="informacion">
+            Información Adicional
+          </button>
+        </div>
+
+        <section id="descargas">
+          <div class="grid-volumenes">
+            {{ range .Params.volumenes }}
+              <div class="volumen">
+                <div class="portada-volumen {{ if eq .estado_volumen "proximamente" }}proximamente{{ else if eq .estado_volumen "proceso" }}traduccion{{ end }}">
+                  <picture>
+                    <source
+                      srcset="/assets/img/avif/{{ $.Params.nombre_guiones }}/v{{ printf "%02d" .numero }}.avif"
+                      type="image/avif"
+                    />
+                    <img
+                      src="/assets/img/jpg/{{ $.Params.nombre_guiones }}/v{{ printf "%02d" .numero }}.jpg"
+                      alt="{{ $.Title }} Volumen {{ .numero }}"
+                    />
+                  </picture>
+                </div>
+                <div class="botones-descarga">
+                  {{ if and (eq .estado_volumen "traducido") .pdf }}
+                    <a
+                      href="{{ $.Site.Params.descargasBaseURL }}/{{ $.Params.nombre_guiones }}/Volumen-{{ printf "%02d" .numero }}-[Kasnia-Project].pdf"
+                      target="_blank"
+                      class="boton-descarga pdf"
+                    >
+                      <span>PDF</span>
+                      <img
+                        src="/assets/img/png/pdf-icon.png"
+                        alt="PDF"
+                        class="icono-descarga"
+                      />
+                    </a>
+                  {{ else }}
+                    <a href="#" target="_blank" class="boton-descarga pdf">
+                      <span>PDF</span>
+                      <img
+                        src="/assets/img/png/pdf-icon.png"
+                        alt="PDF"
+                        class="icono-descarga"
+                      />
+                    </a>
+                  {{ end }}
+
+                  {{ if and (eq .estado_volumen "traducido") .epub }}
+                    <a
+                      href="{{ $.Site.Params.descargasBaseURL }}/{{ $.Params.nombre_guiones }}/Volumen-{{ printf "%02d" .numero }}-[Kasnia-Project].epub"
+                      target="_blank"
+                      class="boton-descarga epub"
+                    >
+                      <span>EPUB</span>
+                      <img
+                        src="/assets/img/png/epub-icon.png"
+                        alt="EPUB"
+                        class="icono-descarga"
+                      />
+                    </a>
+                  {{ else }}
+                    <a href="#" target="_blank" class="boton-descarga epub">
+                      <span>EPUB</span>
+                      <img
+                        src="/assets/img/png/epub-icon.png"
+                        alt="EPUB"
+                        class="icono-descarga"
+                      />
+                    </a>
+                  {{ end }}
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </section>
+
+        <section id="informacion">
+          <div class="info-tecnica">
+            <div class="fila-info">
+              <div class="dato">
+                <span class="etiqueta">Traductor jap-ing</span>
+                <span class="valor">{{ .Params.traductor_jap_ing }}</span>
+              </div>
+              <div class="dato">
+                <span class="etiqueta">Traductor ing-esp</span>
+                <span class="valor">{{ .Params.traductor_ing_esp }}</span>
+              </div>
+            </div>
+            <div class="fila-info">
+              <div class="dato">
+                <span class="etiqueta">Corrector</span>
+                <span class="valor">{{ .Params.corrector }}</span>
+              </div>
+              <div class="dato">
+                <span class="etiqueta">Editor</span>
+                <span class="valor">{{ .Params.editor }}</span>
+              </div>
+            </div>
+            <div class="fila-info">
+              <div class="dato">
+                <span class="etiqueta">Maquetador PDF</span>
+                <span class="valor">{{ .Params.maquetador_pdf }}</span>
+              </div>
+              <div class="dato">
+                <span class="etiqueta">Maquetador EPUB</span>
+                <span class="valor">{{ .Params.maquetador_epub }}</span>
+              </div>
+            </div>
+            <div class="fila-info">
+              <div class="dato">
+                <span class="etiqueta">Demografía</span>
+                <span class="valor">{{ .Params.demografia }}</span>
+              </div>
+              <div class="dato">
+                <span class="etiqueta">Géneros</span>
+                <span class="valor">{{ .Params.generos }}</span>
+              </div>
+            </div>
+            <div class="fila-info">
+              <div class="dato">
+                <span class="etiqueta">Volúmenes lanzados</span>
+                <span class="valor">{{ .Params.volumenes_lanzados }}</span>
+              </div>
+              <div class="dato">
+                <span class="etiqueta">Volúmenes traducidos</span>
+                <span class="valor">{{ .Params.volumenes_traducidos }}</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    {{ partial "footer.html" . }}
+
+    <script src="/assets/js/script-novelas.js?v=1.0"></script>
+  </body>
+</html>

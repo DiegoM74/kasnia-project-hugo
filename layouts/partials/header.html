@@ -1,0 +1,43 @@
+<header>
+  <div class="nav-izquierda">
+    <a href="{{ .Site.BaseURL }}">Página principal</a>
+  </div>
+
+  <div class="nav-derecha">
+    <div class="dropdown">
+      <button
+        class="dropdown-toggle"
+        aria-expanded="false"
+        aria-controls="novelas-dropdown"
+      >
+        Novelas
+        <svg class="dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 10l5 5 5-5z" />
+        </svg>
+      </button>
+      <div class="dropdown-menu" id="novelas-dropdown">
+        <div class="dropdown-group">
+          <h4 class="dropdown-header">Activas</h4>
+          <ul>
+            {{ $novelas := where .Site.RegularPages "Section" "novelas" }}
+            {{ range $novelas }}
+              {{ if eq .Params.estado "activa" }}
+                <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+              {{ end }}
+            {{ end }}
+          </ul>
+        </div>
+        <div class="dropdown-group">
+          <h4 class="dropdown-header">Pausadas</h4>
+          <ul>
+            {{ range $novelas }}
+              {{ if eq .Params.estado "pausada" }}
+                <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+              {{ end }}
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

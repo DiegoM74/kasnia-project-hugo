@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ .Site.Title }}</title>
+    <meta
+      name="description"
+      content="Grupo de traducción de novelas ligeras del inglés al español."
+    />
+    <meta name="author" content="Kasnia Project" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" href="/assets/img/logos/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/img/logos/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/img/logos/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/img/logos/favicon-16x16.png"
+    />
+    <link rel="stylesheet" href="/assets/css/style-general.css?v=1.3.1" />
+    <script src="/assets/js/script-modo-oscuro.js?v=1.0"></script>
+    <script src="/assets/js/script-navbar.js?v=1.0" defer></script>
+    <meta property="og:title" content="Kasnia Project" />
+    <meta
+      property="og:description"
+      content="Grupo de traducción de novelas ligeras del inglés al español."
+    />
+    <meta
+      property="og:image"
+      content="https://kasniaproject.us.kg/assets/img/logos/imagen-og.jpg"
+    />
+    <meta property="og:url" content="https://kasniaproject.us.kg/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kasnia Project" />
+    <meta
+      name="twitter:description"
+      content="Grupo de traducción de novelas ligeras del inglés al español."
+    />
+    <meta
+      name="twitter:image"
+      content="https://kasniaproject.us.kg/assets/img/logos/imagen-og.jpg"
+    />
+    <link rel="canonical" href="https://kasniaproject.us.kg/" />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      title="Sitemap"
+      href="/sitemap.xml"
+    />
+  </head>
+  <body>
+    {{ partial "header.html" . }}
+
+    <div class="container-1">
+      <div class="contenido">
+        <picture class="logo light-theme">
+          <source
+            srcset="/assets/img/logos/logo-blanco.avif"
+            type="image/avif"
+          />
+          <img src="/assets/img/logos/logo-blanco.png" alt="Kasnia Project" />
+        </picture>
+
+        <picture class="logo dark-theme">
+          <source
+            srcset="/assets/img/logos/logo-negro.avif"
+            type="image/avif"
+          />
+          <img src="/assets/img/logos/logo-negro.png" alt="Kasnia Project" />
+        </picture>
+      </div>
+    </div>
+
+    <div class="container-2">
+      <div class="contenido">
+        <h2>Novelas Activas</h2>
+
+        <div class="separador"></div>
+
+        <div class="lista-novelas">
+          {{ $novelas := where .Site.RegularPages "Section" "novelas" }}
+          {{ range $novelas }}
+            {{ if eq .Params.estado "activa" }}
+              <a href="{{ .RelPermalink }}" class="novela-item">
+                <picture class="portada">
+                  <source
+                    srcset="/assets/img/avif/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.avif"
+                    type="image/avif"
+                  />
+                  <img
+                    src="/assets/img/jpg/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.jpg"
+                    alt="Portada {{ .Title }}"
+                    style="view-transition-name: {{ .Params.nombre_guiones }}"
+                  />
+                </picture>
+                <div class="centrado">
+                  <button class="link">Ver más</button>
+                </div>
+              </a>
+            {{ end }}
+          {{ end }}
+        </div>
+
+        <div class="separador"></div>
+        <div class="separador"></div>
+
+        <h2>Novelas Pausadas</h2>
+
+        <div class="separador"></div>
+
+        <div class="lista-novelas">
+          {{ range $novelas }}
+            {{ if eq .Params.estado "pausada" }}
+              <a href="{{ .RelPermalink }}" class="novela-item">
+                <picture class="portada">
+                  <source
+                    srcset="/assets/img/avif/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.avif"
+                    type="image/avif"
+                  />
+                  <img
+                    src="/assets/img/jpg/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.jpg"
+                    alt="Portada {{ .Title }}"
+                    style="view-transition-name: {{ .Params.nombre_guiones }}"
+                  />
+                </picture>
+                <div class="centrado">
+                  <button class="link">Ver más</button>
+                </div>
+              </a>
+            {{ end }}
+          {{ end }}
+        </div>
+      </div>
+    </div>
+
+    {{ partial "footer.html" . }}
+  </body>
+</html>
