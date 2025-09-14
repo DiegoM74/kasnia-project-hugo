@@ -145,7 +145,7 @@
                 <div class="botones-descarga">
                   {{ if and (eq .estado_volumen "traducido") .pdf }}
                     <a
-                      href="{{ $.Site.Params.descargasBaseURL }}/{{ $.Params.nombre_guiones }}/Volumen-{{ printf "%02d" .numero }}-[Kasnia-Project].pdf"
+                      href="{{ $.Site.Params.descargasBaseURL }}/{{ replace (title (replace $.Params.nombre_guiones "-" " ")) " " "-" }}-Volumen-{{ printf "%02d" .numero }}-[Kasnia-Project].pdf"
                       target="_blank"
                       class="boton-descarga pdf"
                     >
@@ -169,7 +169,7 @@
 
                   {{ if and (eq .estado_volumen "traducido") .epub }}
                     <a
-                      href="{{ $.Site.Params.descargasBaseURL }}/{{ $.Params.nombre_guiones }}/Volumen-{{ printf "%02d" .numero }}-[Kasnia-Project].epub"
+                      href="{{ $.Site.Params.descargasBaseURL }}/{{ replace (title (replace $.Params.nombre_guiones "-" " ")) " " "-" }}-Volumen-{{ printf "%02d" .numero }}-[Kasnia-Project].epub"
                       target="_blank"
                       class="boton-descarga epub"
                     >
