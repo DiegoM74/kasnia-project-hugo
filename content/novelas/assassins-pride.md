@@ -1,5 +1,6 @@
 ---
 title: "Assassins Pride"
+description: "Traducción de Assassins Pride al español por Kasnia Project."
 nombre_guiones: "assassins-pride"
 portada: "v01"
 sinopsis: "Solo aquellos procedentes de linajes de familias nobles tienen la capacidad de enfrentar a los monstruos. Kufa es un noble nacido en la familia de un duque a quien envían como tutor de una joven llamada Merida. Merida no tiene talento alguno con el maná, lo que hace que en realidad la misión secreta y real de Kufa sea asesinarla."

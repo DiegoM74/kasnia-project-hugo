@@ -2,14 +2,16 @@ baseURL = "https://kasniaproject.us.kg/"
 languageCode = "es"
 title = "Kasnia Project"
 
+disableKinds = ["taxonomy", "section"]
+
 [params]
   description = "Grupo de traducción de novelas ligeras del inglés al español."
   author = "Kasnia Project"
   descargasBaseURL = "https://descargas.kasniaproject.us.kg"
 
 [permalinks]
-  novelas = "/:filename/"
+  novelas = "/:contentbasename/"
 
 [outputs]
-  home = ["HTML"]
+  home = ["HTML", "RSS"]
   page = ["HTML"]

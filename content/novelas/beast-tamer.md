@@ -1,5 +1,6 @@
 ---
 title: "Beast Tamer"
+description: "Traducción de Beast Tamer al español por Kasnia Project."
 nombre_guiones: "beast-tamer"
 portada: "v01"
 sinopsis: "¡Esta historia de fantasía transmite el vínculo entre un domador de bestias y la chica gato más fuerte desde su primer encuentro! Rein, un domador de bestias que lucha con la ayuda de animales, ha sido miembro del grupo del héroe durante mucho tiempo. Sin embargo, sin que él lo supiera, estaba arrastrando a sus compañeros de equipo porque no tenía otras habilidades. 'No vales nada más que domesticar animales. Estás despedido'. Con eso, fue expulsado del grupo."

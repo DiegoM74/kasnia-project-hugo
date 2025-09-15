@@ -1,5 +1,6 @@
 ---
 title: "Seirei Gensouki"
+description: "Traducción de Seirei Gensouki al español por Kasnia Project."
 nombre_guiones: "seirei-gensouki"
 portada: "v25"
 sinopsis: "Su vida pasada y su vida actual se cruzan, ¡pues un joven con recuerdos de dos vidas se enfrenta a su destino! Tras morir su madre asesinada cuando él era muy pequeño, el huérfano Rio tuvo que luchar por sobrevivir en los suburbios. Un día recupera los recuerdos de Haruto Amakawa, quien murió en un accidente cuando soñaba con reunirse con una amistad de la infancia, y es entonces cuando descubre que tras la reencarnación acabó en un mundo de magia y espada."
