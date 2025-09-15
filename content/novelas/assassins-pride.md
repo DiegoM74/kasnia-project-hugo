@@ -11,12 +11,11 @@ traductor_ing_esp: "LughAT"
 corrector: "LughAT"
 editor: "-"
 maquetador_pdf: "LughAT"
-maquetador_epub: "Diego (ZeePubs)"
+maquetador_epub: "Diego"
 estado: "pausada"
 demografia: "Maduro, Adultos, Seinen"
 generos: "Acción, Erótico, Escolar, Fantasía"
 volumenes_lanzados: 13
-volumenes_traducidos: 3
 volumenes:
   - numero: 1
     estado_volumen: "traducido"

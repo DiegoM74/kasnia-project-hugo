@@ -11,12 +11,11 @@ traductor_ing_esp: "LughAT"
 corrector: "LughAT"
 editor: "-"
 maquetador_pdf: "LughAT"
-maquetador_epub: "Diego (ZeePubs)"
+maquetador_epub: "Diego"
 estado: "activa"
 demografia: "Juvenil, Chicos, Shounen"
 generos: "Acción, Aventura, Comedia, Drama, Erótico, Fantasía, Romance, Sobrenatural"
 volumenes_lanzados: 10
-volumenes_traducidos: 7
 volumenes:
   - numero: 1
     estado_volumen: "traducido"

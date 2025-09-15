@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página no encontrada ─ {{ .Site.Title }}</title>
+    <meta name="description" content="Página no encontrada - Error 404" />
+    <meta name="author" content="{{ .Site.Title }}" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/assets/img/logos/favicon.ico" />
+    <link rel="stylesheet" href="/assets/css/style-general.css?v=1.3.1" />
+    <script src="/assets/js/script-modo-oscuro.js?v=1.0"></script>
+    <script src="/assets/js/script-navbar.js?v=1.0" defer></script>
+  </head>
+  <body>
+    {{ partial "header.html" . }}
+
+    <div class="container-1">
+      <div class="contenido">
+        <h1>Página no encontrada (Error 404)</h1>
+        
+        <div class="separador"></div>
+
+        <div class="justificado">
+          <p>Lo sentimos, la página que estás buscando no existe o ha sido movida.</p>
+          
+          <p>Puedes:</p>
+          <ul>
+            <li>Volver a la <a href="{{ .Site.BaseURL }}" class="enlinea">página principal</a></li>
+            <li>Usar el menú de navegación para encontrar lo que buscas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {{ partial "footer.html" . }}
+  </body>
+</html>

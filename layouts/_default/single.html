@@ -95,14 +95,14 @@
               <span class="valor">{{ .Params.autor }}</span>
             </div>
             <div class="dato">
-              <span class="etiqueta">Traductor</span>
-              <span class="valor">{{ .Params.traductor_ing_esp }}</span>
+              <span class="etiqueta">Ilustrador</span>
+              <span class="valor">{{ .Params.ilustrador }}</span>
             </div>
           </div>
           <div class="fila-info">
             <div class="dato">
-              <span class="etiqueta">Ilustrador</span>
-              <span class="valor">{{ .Params.ilustrador }}</span>
+              <span class="etiqueta">Traductor</span>
+              <span class="valor">{{ .Params.traductor_ing_esp }}</span>
             </div>
             <div class="dato">
               <span class="etiqueta">Estado</span>
@@ -225,7 +225,7 @@
               </div>
               <div class="dato">
                 <span class="etiqueta">Maquetador EPUB</span>
-                <span class="valor">{{ .Params.maquetador_epub }}</span>
+                <span class="valor">{{ .Params.maquetador_epub }} (<a href="https://www.facebook.com/ZeePubs" target="_blank" class="enlinea">ZeePubs</a>)</span>
               </div>
             </div>
             <div class="fila-info">
@@ -245,7 +245,15 @@
               </div>
               <div class="dato">
                 <span class="etiqueta">Volúmenes traducidos</span>
-                <span class="valor">{{ .Params.volumenes_traducidos }}</span>
+                <span class="valor">
+                  {{ $ultimo := 0 }}
+                  {{ range .Params.volumenes }}
+                    {{ if eq .estado_volumen "traducido" }}
+                      {{ $ultimo = .numero }}
+                  {{ end }}
+                  {{ end }}
+                  {{ $ultimo }}
+              </span>
               </div>
             </div>
           </div>

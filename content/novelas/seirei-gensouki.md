@@ -11,12 +11,11 @@ traductor_ing_esp: "Diego"
 corrector: "Diego"
 editor: "-"
 maquetador_pdf: "Diego"
-maquetador_epub: "Saosora (ZeePubs)"
+maquetador_epub: "Saosora"
 estado: "activa"
 demografia: "Juvenil, Chicos, Shounen"
 generos: "Acción, Aventura, Drama, Fantasía, Romance"
 volumenes_lanzados: 26
-volumenes_traducidos: 26
 volumenes:
   - numero: 25
     estado_volumen: "traducido"
