@@ -16,3 +16,16 @@ disableKinds = ["taxonomy", "section"]
   home = ["HTML", "RSS"]
   page = ["HTML"]
   404 = ["HTML"]
+
+[minify]
+  disableHTML = false
+  disableCSS = false
+  disableJS = false
+  disableJSON = false
+  disableXML = false
+  disableSVG = false
+
+[module]
+  [[module.mounts]]
+    source = "assets"
+    target = "assets"
