@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".dropdown-toggle");e.addEventListener("click",t=>{t.preventDefault();const n=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",!n)}),document.addEventListener("click",t=>{t.target.closest(".dropdown")||e.setAttribute("aria-expanded","false")})})

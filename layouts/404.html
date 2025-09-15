@@ -8,9 +8,14 @@
     <meta name="author" content="{{ .Site.Title }}" />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/assets/img/logos/favicon.ico" />
-    <link rel="stylesheet" href="/assets/css/style-general.css?v=1.3.1" />
-    <script src="/assets/js/script-modo-oscuro.js?v=1.0"></script>
-    <script src="/assets/js/script-navbar.js?v=1.0" defer></script>
+    {{ $styleGeneral := resources.Get "css/style-general.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styleGeneral.RelPermalink }}" integrity="{{ $styleGeneral.Data.Integrity }}">
+    
+    {{ $scriptModoOscuro := resources.Get "js/script-modo-oscuro.js" | minify | fingerprint }}
+    <script src="{{ $scriptModoOscuro.RelPermalink }}" integrity="{{ $scriptModoOscuro.Data.Integrity }}"></script>
+    
+    {{ $scriptNavbar := resources.Get "js/script-navbar.js" | minify | fingerprint }}
+    <script src="{{ $scriptNavbar.RelPermalink }}" integrity="{{ $scriptNavbar.Data.Integrity }}" defer></script>
   </head>
   <body>
     {{ partial "header.html" . }}

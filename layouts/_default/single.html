@@ -28,10 +28,17 @@
       sizes="16x16"
       href="/assets/img/logos/favicon-16x16.png"
     />
-    <link rel="stylesheet" href="/assets/css/style-general.css?v=1.3.1" />
-    <link rel="stylesheet" href="/assets/css/style-novelas.css?v=1.0.2" />
-    <script src="/assets/js/script-modo-oscuro.js?v=1.0"></script>
-    <script src="/assets/js/script-navbar.js?v=1.0" defer></script>
+    {{ $styleGeneral := resources.Get "css/style-general.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styleGeneral.RelPermalink }}" integrity="{{ $styleGeneral.Data.Integrity }}">
+    
+    {{ $styleNovelas := resources.Get "css/style-novelas.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $styleNovelas.RelPermalink }}" integrity="{{ $styleNovelas.Data.Integrity }}">
+    
+    {{ $scriptModoOscuro := resources.Get "js/script-modo-oscuro.js" | minify | fingerprint }}
+    <script src="{{ $scriptModoOscuro.RelPermalink }}" integrity="{{ $scriptModoOscuro.Data.Integrity }}"></script>
+    
+    {{ $scriptNavbar := resources.Get "js/script-navbar.js" | minify | fingerprint }}
+    <script src="{{ $scriptNavbar.RelPermalink }}" integrity="{{ $scriptNavbar.Data.Integrity }}" defer></script>
     <meta property="og:title" content="{{ .Title }} ─ {{ .Site.Title }}" />
     <meta
       property="og:description"
@@ -263,6 +270,7 @@
 
     {{ partial "footer.html" . }}
 
-    <script src="/assets/js/script-novelas.js?v=1.0"></script>
+  {{ $scriptNovelas := resources.Get "js/script-novelas.js" | minify | fingerprint }}
+  <script src="{{ $scriptNovelas.RelPermalink }}" integrity="{{ $scriptNovelas.Data.Integrity }}"></script>
   </body>
 </html>
