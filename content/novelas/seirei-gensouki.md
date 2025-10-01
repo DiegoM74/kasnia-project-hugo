@@ -15,7 +15,7 @@ maquetador_epub: "Saosora"
 estado: "activa"
 demografia: "Juvenil, Chicos, Shounen"
 generos: "Acción, Aventura, Drama, Fantasía, Romance"
-volumenes_lanzados: 26
+volumenes_lanzados: 27
 volumenes:
   - numero: 25
     estado_volumen: "traducido"
@@ -26,7 +26,7 @@ volumenes:
     pdf: true
     epub: true
   - numero: 27
-    estado_volumen: "proximamente"
+    estado_volumen: "proceso"
     pdf: false
     epub: false
 ---
