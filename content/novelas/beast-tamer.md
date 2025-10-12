@@ -15,7 +15,7 @@ maquetador_epub: "Diego"
 estado: "activa"
 demografia: "Juvenil, Chicos, Shounen"
 generos: "Acción, Aventura, Comedia, Drama, Erótico, Fantasía, Romance, Sobrenatural"
-volumenes_lanzados: 10
+volumenes_lanzados: 11
 volumenes:
   - numero: 1
     estado_volumen: "traducido"
@@ -54,6 +54,10 @@ volumenes:
     pdf: false
     epub: false
   - numero: 10
+    estado_volumen: "proximamente"
+    pdf: false
+    epub: false
+  - numero: 11
     estado_volumen: "proximamente"
     pdf: false
     epub: false
