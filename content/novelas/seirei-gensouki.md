@@ -5,11 +5,11 @@ nombre_guiones: "seirei-gensouki"
 portada: "v25"
 sinopsis: "Su vida pasada y su vida actual se cruzan, ¡pues un joven con recuerdos de dos vidas se enfrenta a su destino! Tras morir su madre asesinada cuando él era muy pequeño, el huérfano Rio tuvo que luchar por sobrevivir en los suburbios. Un día recupera los recuerdos de Haruto Amakawa, quien murió en un accidente cuando soñaba con reunirse con una amistad de la infancia, y es entonces cuando descubre que tras la reencarnación acabó en un mundo de magia y espada."
 autor: "Yuri Kitayama"
-ilustrador: "Riv"
+ilustrador: "Riv - Kyoko Yufu"
 traductor_jap_ing: "J-Novel Club"
 traductor_ing_esp: "Diego"
 corrector: "Diego"
-editor: "-"
+editor: "EliasQ"
 maquetador_pdf: "Diego"
 maquetador_epub: "Saosora"
 estado: "activa"
@@ -26,7 +26,7 @@ volumenes:
     pdf: true
     epub: true
   - numero: 27
-    estado_volumen: "proceso"
-    pdf: false
-    epub: false
+    estado_volumen: "traducido"
+    pdf: true
+    epub: true
 ---
