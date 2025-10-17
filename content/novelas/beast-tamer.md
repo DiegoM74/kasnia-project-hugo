@@ -48,7 +48,7 @@ volumenes:
   - numero: 8
     estado_volumen: "traducido"
     pdf: true
-    epub: false
+    epub: true
   - numero: 9
     estado_volumen: "proceso"
     pdf: false
