@@ -2,7 +2,6 @@
   <div class="nav-izquierda">
     <a href="{{ .Site.BaseURL }}">Página principal</a>
   </div>
-
   <div class="nav-derecha">
     <div class="dropdown">
       <button
@@ -16,27 +15,58 @@
         </svg>
       </button>
       <div class="dropdown-menu" id="novelas-dropdown">
-        <div class="dropdown-group">
-          <h4 class="dropdown-header">Activas</h4>
-          <ul>
-            {{ $novelas := where .Site.RegularPages "Section" "novelas" }}
-            {{ range $novelas }}
-              {{ if eq .Params.estado "activa" }}
+        {{ $novelas := where .Site.Pages "Section" "novelas" }}
+        {{ $novelasActivas := where $novelas "Params.estado" "activa" }}
+        {{ $novelasPausadas := where $novelas "Params.estado" "pausada" }}
+        {{ $novelasTerminadas := where $novelas "Params.estado" "terminada" }}
+        
+        {{ if gt (len $novelasActivas) 0 }}
+          <div class="dropdown-group">
+            <button class="dropdown-subheader" data-submenu="activas">
+              Activas
+              <svg class="dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 10l5 5 5-5z" />
+              </svg>
+            </button>
+            <ul class="dropdown-submenu" id="submenu-activas">
+              {{ range $novelasActivas }}
                 <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
               {{ end }}
-            {{ end }}
-          </ul>
-        </div>
-        <div class="dropdown-group">
-          <h4 class="dropdown-header">Pausadas</h4>
-          <ul>
-            {{ range $novelas }}
-              {{ if eq .Params.estado "pausada" }}
+            </ul>
+          </div>
+        {{ end }}
+        
+        {{ if gt (len $novelasPausadas) 0 }}
+          <div class="dropdown-group">
+            <button class="dropdown-subheader" data-submenu="pausadas">
+              Pausadas
+              <svg class="dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 10l5 5 5-5z" />
+              </svg>
+            </button>
+            <ul class="dropdown-submenu" id="submenu-pausadas">
+              {{ range $novelasPausadas }}
                 <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
               {{ end }}
-            {{ end }}
-          </ul>
-        </div>
+            </ul>
+          </div>
+        {{ end }}
+        
+        {{ if gt (len $novelasTerminadas) 0 }}
+          <div class="dropdown-group">
+            <button class="dropdown-subheader" data-submenu="terminadas">
+              Terminadas
+              <svg class="dropdown-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 10l5 5 5-5z" />
+              </svg>
+            </button>
+            <ul class="dropdown-submenu" id="submenu-terminadas">
+              {{ range $novelasTerminadas }}
+                <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+              {{ end }}
+            </ul>
+          </div>
+        {{ end }}
       </div>
     </div>
   </div>

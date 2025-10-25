@@ -90,14 +90,17 @@
 
     <div class="container-2">
       <div class="contenido">
-        <h2>Novelas Activas</h2>
-
-        <div class="separador"></div>
-
-        <div class="lista-novelas">
-          {{ $novelas := where .Site.RegularPages "Section" "novelas" }}
-          {{ range $novelas }}
-            {{ if eq .Params.estado "activa" }}
+        
+        {{ $novelas := where .Site.Pages "Section" "novelas" }}
+        {{ $novelasActivas := where $novelas "Params.estado" "activa" }}
+        {{ $novelasPausadas := where $novelas "Params.estado" "pausada" }}
+        {{ $novelasTerminadas := where $novelas "Params.estado" "terminada" }}
+        
+        {{ if gt (len $novelasActivas) 0 }}
+          <h2>Novelas Activas</h2>
+          <div class="separador"></div>
+          <div class="lista-novelas">
+            {{ range $novelasActivas }}
               <a href="{{ .RelPermalink }}" class="novela-item">
                 <picture class="portada">
                   <source
@@ -115,19 +118,19 @@
                 </div>
               </a>
             {{ end }}
+          </div>
+          
+          {{ if or (gt (len $novelasPausadas) 0) (gt (len $novelasTerminadas) 0) }}
+            <div class="separador"></div>
+            <div class="separador"></div>
           {{ end }}
-        </div>
-
-        <div class="separador"></div>
-        <div class="separador"></div>
-
-        <h2>Novelas Pausadas</h2>
-
-        <div class="separador"></div>
-
-        <div class="lista-novelas">
-          {{ range $novelas }}
-            {{ if eq .Params.estado "pausada" }}
+        {{ end }}
+        
+        {{ if gt (len $novelasPausadas) 0 }}
+          <h2>Novelas Pausadas</h2>
+          <div class="separador"></div>
+          <div class="lista-novelas">
+            {{ range $novelasPausadas }}
               <a href="{{ .RelPermalink }}" class="novela-item">
                 <picture class="portada">
                   <source
@@ -145,8 +148,39 @@
                 </div>
               </a>
             {{ end }}
+          </div>
+          
+          {{ if gt (len $novelasTerminadas) 0 }}
+            <div class="separador"></div>
+            <div class="separador"></div>
           {{ end }}
-        </div>
+        {{ end }}
+        
+        {{ if gt (len $novelasTerminadas) 0 }}
+          <h2>Novelas Terminadas</h2>
+          <div class="separador"></div>
+          <div class="lista-novelas">
+            {{ range $novelasTerminadas }}
+              <a href="{{ .RelPermalink }}" class="novela-item">
+                <picture class="portada">
+                  <source
+                    srcset="/assets/img/avif/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.avif"
+                    type="image/avif"
+                  />
+                  <img
+                    src="/assets/img/jpg/{{ .Params.nombre_guiones }}/{{ .Params.portada }}.jpg"
+                    alt="Portada {{ .Title }}"
+                    style="view-transition-name: {{ .Params.nombre_guiones }}"
+                  />
+                </picture>
+                <div class="centrado">
+                  <button class="link">Ver más</button>
+                </div>
+              </a>
+            {{ end }}
+          </div>
+        {{ end }}
+        
       </div>
     </div>
 

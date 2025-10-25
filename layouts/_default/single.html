@@ -114,7 +114,13 @@
             <div class="dato">
               <span class="etiqueta">Estado</span>
               <span class="valor">
-                {{ if eq .Params.estado "activa" }}Traducción activa{{ else }}Traducción pausada{{ end }}
+                {{ if eq .Params.estado "activa" }}
+                  Traducción activa
+                {{ else if eq .Params.estado "pausada" }}
+                  Traducción pausada
+                {{ else if eq .Params.estado "terminada" }}
+                  Traducción terminada
+                {{ end }}
               </span>
             </div>
           </div>
