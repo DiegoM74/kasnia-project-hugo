@@ -12,7 +12,7 @@ corrector: "Diego"
 editor: "EliasQ"
 maquetador_pdf: "Diego"
 maquetador_epub: "Saosora"
-estado: "activa"
+estado: "pausada"
 demografia: "Juvenil, Chicos, Shounen"
 generos: "Acción, Aventura, Drama, Fantasía, Romance"
 volumenes_lanzados: 27
