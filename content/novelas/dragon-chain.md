@@ -26,7 +26,7 @@ volumenes:
     pdf: true
     epub: true
   - numero: 3
-    estado_volumen: "proximamente"
+    estado_volumen: "proceso"
     pdf: false
     epub: false
   - numero: 4
