@@ -1,0 +1,236 @@
+/* ========================================
+   MAIN CONTAINER
+======================================== */
+main {
+  max-width: 1000px;
+  margin: 70px auto 0;
+  padding: 4rem 1.5rem;
+}
+
+/* ========================================
+   HERO SECTION
+======================================== */
+.heroSection {
+  margin-bottom: 5rem;
+  padding: 0 1rem;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pageTitle {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  margin: 0 auto;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* ========================================
+   CONTENT WRAPPER
+======================================== */
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+/* ========================================
+   INFO GRID
+======================================== */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.infoCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-out backwards;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.infoCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.infoCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.infoCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.infoCard:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.infoCard.highlight {
+  background: linear-gradient(
+    180deg,
+    var(--bg-secondary) 0%,
+    rgba(255, 154, 197, 0.03) 100%
+  );
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+[data-theme="light"] .iconWrapper {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.infoCard:hover .iconWrapper {
+  background: var(--accent);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.infoIcon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+.infoCard:hover .infoIcon {
+  color: var(--bg-primary);
+}
+
+.cardTitle {
+  color: var(--text-primary);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.cardDescription {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   DONATION CTA
+======================================== */
+.donationCta {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  animation: fadeIn 0.8s ease-out backwards;
+  animation-delay: 0.4s;
+}
+
+.ctaCard {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  padding: 3.5rem 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.ctaCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.ctaContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 2;
+}
+
+.ctaTitle {
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.ctaText {
+  max-width: 50ch;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.paypalButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  background-color: var(--accent);
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  color: var(--bg-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paypalButton:hover {
+  transform: scale(1.03);
+}
+
+.paypalSvg {
+  width: 24px;
+  height: 24px;
+}
+
+.paypalLinkText {
+  color: var(--text-secondary);
+  font-family: monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  opacity: 0.6;
+}

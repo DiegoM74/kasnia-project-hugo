@@ -1,0 +1,364 @@
+/* ========================================
+   CSS VARIABLES
+======================================== */
+:root {
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] {
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ========================================
+   MAIN CONTAINER
+======================================== */
+main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  max-width: 1000px;
+  margin: 70px auto 0;
+  padding: 3rem 1.5rem;
+  z-index: 1;
+}
+
+/* ========================================
+   HERO SECTION
+======================================== */
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroTitle {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(45deg, var(--text-primary), var(--accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.heroSubtitle {
+  max-width: 60ch;
+  margin-bottom: 3rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.heroStats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 180px;
+  padding: 1.5rem 2.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.statNumber {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.statLabel {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ========================================
+   RECRUITMENT BANNER
+======================================== */
+.recruitmentBanner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 154, 197, 0.03) 0%,
+    var(--bg-secondary) 100%
+  );
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.bannerTitle {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.bannerText {
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.highlightLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--accent);
+  transition: color 0.2s ease;
+}
+
+.highlightLink:hover {
+  color: var(--accent);
+}
+
+.iconExternal {
+  width: 14px;
+  height: 14px;
+}
+
+/* ========================================
+   FEATURED SECTION (Novelas Destacadas)
+======================================== */
+.featuredSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.sectionHeader {
+  text-align: center;
+}
+
+.sectionTitle {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-size: 1.8rem;
+}
+
+.sectionDescription {
+  color: var(--text-secondary);
+}
+
+.novelsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.novelCard {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1.43;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  overflow: hidden;
+  z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.novelCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+
+.novelCoverContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.novelCover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hoverOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.novelCard:hover .hoverOverlay {
+  opacity: 1;
+}
+
+.hoverOverlay span {
+  padding: 0.4rem 1.2rem;
+  color: #fff;
+  font-weight: 700;
+  border: 2px solid #fff;
+  border-radius: 50px;
+}
+
+.viewMoreWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.8rem;
+  background-color: var(--accent);
+  border-radius: 50px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.btnPrimary svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btnPrimary:hover {
+  transform: scale(1.03);
+}
+
+/* ========================================
+   COMMUNITY SECTION
+======================================== */
+.communitySection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.communityGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.actionCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.actionCard:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1.5rem;
+  background: rgba(255, 154, 197, 0.1);
+  border-radius: 50%;
+  color: var(--accent);
+}
+
+.cardIcon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.cardTitle {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  font-size: 1.4rem;
+}
+
+.cardText {
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.btnCard {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: transparent;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btnCard:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}

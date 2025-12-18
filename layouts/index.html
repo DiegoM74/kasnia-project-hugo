@@ -1,0 +1,157 @@
+{{ define "css" }}
+  {{ $cssFile := resources.Get "css/home.css" }}
+  {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $css.Permalink }}">
+{{ end }}
+
+{{ define "main" }}
+<section class="heroSection">
+  <h1 class="heroTitle">¡Bienvenido a Kasnia Project!</h1>
+  <p class="heroSubtitle">
+    Somos un grupo dedicado a traducir novelas ligeras al español. Nos enfocamos
+    en hacer un trabajo de calidad.
+  </p>
+
+  <div class="heroStats">
+    <div class="statCard">
+      <span class="statNumber">+1</span>
+      <span class="statLabel">año de trayectoria</span>
+    </div>
+    <div class="statCard">
+      <span class="statNumber">+20</span>
+      <span class="statLabel">volúmenes lanzados</span>
+    </div>
+  </div>
+</section>
+
+<section class="recruitmentBanner">
+  <div class="bannerContent">
+    <h2 class="bannerTitle">Aviso Importante</h2>
+    <p class="bannerText">
+      Estamos reclutando gente que quiera ayudar al grupo. Si estás interesado,
+      contáctanos en
+      <a
+        href="https://www.facebook.com/profile.php?id=61569583498113"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="highlightLink"
+      >
+        nuestro Facebook
+        <svg class="iconExternal">
+          <use href="/img/svg/home.svg#iconExternal" />
+        </svg> </a
+      >.
+    </p>
+  </div>
+</section>
+
+<section class="featuredSection">
+  <div class="sectionHeader">
+    <h2 class="sectionTitle">Novelas Destacadas</h2>
+    <p class="sectionDescription">
+      ¿No sabes qué leer? Mira nuestras novelas más populares.
+    </p>
+  </div>
+  <div class="novelsGrid">
+    <a
+      href="/novelas/seirei-gensouki"
+      class="novelCard"
+      style="view-transition-name: n01"
+    >
+      <div class="novelCoverContainer">
+        <picture>
+          <source srcset="/img/cover/avif/01.avif" type="image/avif" />
+          <img
+            src="/img/cover/jpg/01.jpg"
+            alt="Portada Seirei Gensouki"
+            class="novelCover"
+          />
+        </picture>
+        <div class="hoverOverlay">
+          <span>Leer Ahora</span>
+        </div>
+      </div>
+    </a>
+    <a
+      href="/novelas/beast-tamer"
+      class="novelCard"
+      style="view-transition-name: n02"
+    >
+      <div class="novelCoverContainer">
+        <picture>
+          <source srcset="/img/cover/avif/02.avif" type="image/avif" />
+          <img
+            src="/img/cover/jpg/02.jpg"
+            alt="Portada Yuusha Party wo Tsuihou sareta Beast Tamer, Saikyoushu no Nekomimi Shoujo to Deau"
+            class="novelCover"
+          />
+        </picture>
+        <div class="hoverOverlay">
+          <span>Leer Ahora</span>
+        </div>
+      </div>
+    </a>
+    <a
+      href="/novelas/dragon-chain"
+      class="novelCard"
+      style="view-transition-name: n03"
+    >
+      <div class="novelCoverContainer">
+        <picture>
+          <source srcset="/img/cover/avif/03.avif" type="image/avif" />
+          <img
+            src="/img/cover/jpg/03.jpg"
+            alt="Portada Dragon Chain Ori -Spirit in the “Heart”"
+            class="novelCover"
+          />
+        </picture>
+        <div class="hoverOverlay">
+          <span>Leer Ahora</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="viewMoreWrapper">
+    <a href="/novelas" class="btnPrimary">
+      Ver todas las novelas
+      <svg>
+        <use href="/img/svg/home.svg#arrowRight" />
+      </svg>
+    </a>
+  </div>
+</section>
+
+<section class="communitySection">
+  <h2 class="sectionTitle">Comunidad y Apoyo</h2>
+  <div class="communityGrid">
+    <div class="actionCard staffCard">
+      <div class="cardIcon">
+        <svg>
+          <use href="/img/svg/home.svg#staffIcon" />
+        </svg>
+      </div>
+      <div class="cardContent">
+        <h3 class="cardTitle">Nuestro Equipo</h3>
+        <p class="cardText">
+          Conoce a las personas que hacen posible este proyecto.
+        </p>
+        <a href="/staff" class="btnCard"> Conocer Staff </a>
+      </div>
+    </div>
+
+    <div class="actionCard donationCard">
+      <div class="cardIcon">
+        <svg>
+          <use href="/img/svg/home.svg#donationIcon" />
+        </svg>
+      </div>
+      <div class="cardContent">
+        <h3 class="cardTitle">Donaciones</h3>
+        <p class="cardText">Tu apoyo nos ayuda a traer más contenido.</p>
+        <a href="/donaciones" class="btnCard"> Hacer una donación </a>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}

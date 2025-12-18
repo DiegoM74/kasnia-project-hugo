@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="serverIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="2" width="20" height="8" rx="2"/>
+      <rect x="2" y="14" width="20" height="8" rx="2"/>
+      <path d="M6 6h.01M6 18h.01"/>
+    </symbol>
+    <symbol id="bookIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 016.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2"/>
+    </symbol>
+    <symbol id="heartIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78"/>
+    </symbol>
+    <symbol id="paypalIcon" viewBox="0 0 48 48">
+      <circle fill="#0070ba" cx="24" cy="24" r="20"/>
+      <path fill="#fff" fill-opacity=".6" d="M32.33 18.098q-.033.213-.076.437c-.984 5.051-4.35 6.796-8.648 6.796h-2.189c-.525 0-.968.382-1.05.9l-1.12 7.107-.318 2.015a.56.56 0 0 0 .553.647h3.881c.46 0 .85-.334.923-.787l.038-.198.731-4.638.047-.254a.934.934 0 0 1 .922-.79h.581c3.761 0 6.705-1.526 7.566-5.945.36-1.846.173-3.387-.778-4.471a3.7 3.7 0 0 0-1.062-.82"/>
+      <path fill="#fff" fill-opacity=".8" d="M31.3 17.687a8 8 0 0 0-.956-.212 12 12 0 0 0-1.93-.141h-5.846a.93.93 0 0 0-.922.789L20.402 26l-.036.23c.082-.518.525-.9 1.05-.9h2.19c4.298 0 7.664-1.746 8.648-6.796q.044-.224.076-.437a5 5 0 0 0-.809-.342z"/>
+      <path fill="#fff" d="M21.646 18.123a.93.93 0 0 1 .922-.788h5.847c.693 0 1.34.045 1.93.14q.252.042.492.094a8 8 0 0 1 .685.187q.435.145.809.342c.293-1.867-.002-3.138-1.012-4.289C30.207 12.542 28.2 12 25.63 12h-7.46c-.525 0-.973.382-1.054.901l-3.107 19.696a.64.64 0 0 0 .632.741h4.606l1.156-7.337z"/>
+    </symbol>
+  </defs>
+</svg>

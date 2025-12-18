@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://localhost:1313/novelas/assassins-pride/</loc>
+  </url><url>
+    <loc>http://localhost:1313/novelas/beast-tamer/</loc>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+  </url><url>
+    <loc>http://localhost:1313/donaciones/</loc>
+  </url><url>
+    <loc>http://localhost:1313/novelas/dragon-chain/</loc>
+  </url><url>
+    <loc>http://localhost:1313/novelas/madougushi-dahliya/</loc>
+  </url><url>
+    <loc>http://localhost:1313/novelas/mizu-zokusei/</loc>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+  </url><url>
+    <loc>http://localhost:1313/novelas/</loc>
+  </url><url>
+    <loc>http://localhost:1313/staff/</loc>
+  </url><url>
+    <loc>http://localhost:1313/novelas/seirei-gensouki/</loc>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+  </url>
+</urlset>

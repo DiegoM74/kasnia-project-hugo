@@ -1,0 +1,74 @@
+{{ define "css" }}
+  {{ $cssFile := resources.Get "css/staff.css" }}
+  {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $css.Permalink }}">
+{{ end }}
+
+{{ define "main" }}
+<section class="staffHeader">
+  <h1 class="staffTitle">{{ .Title }}</h1>
+  <p class="staffSubtitle">Conoce a las personas que hacen posible Kasnia Project.</p>
+</section>
+
+<section class="staffGrid">
+  {{ range .Params.miembros }}
+    {{ $staffId := .staffId }}
+    {{ $nombre := .nombre }}
+    {{ $rol := .rol }}
+    {{ $badge := .badge }}
+    {{ $novelIds := .novelIds }}
+
+    <article class="staffCard{{ if $badge }} staffCard{{ $badge }}{{ end }}">
+      <div class="staffCardHeader">
+        <div class="staffAvatarContainer">
+          <picture>
+            <source srcset="/img/staff/avif/{{ $staffId }}.avif" type="image/avif" />
+            <img
+              src="/img/staff/jpg/{{ $staffId }}.jpg"
+              alt="{{ $nombre }}"
+              class="staffAvatar"
+              loading="lazy"
+              onerror="this.parentElement.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';"
+            />
+          </picture>
+          <div class="staffAvatarPlaceholder">{{ substr $nombre 0 1 }}</div>
+        </div>
+        <div class="staffIdentity">
+          {{ if $badge }}
+            <div class="staffNameWrapper">
+              <h2 class="staffName">{{ $nombre }}</h2>
+              <span class="staffBadge staffBadge{{ $badge }}">
+                {{ if eq $badge "Creator" }}Creador{{ else }}{{ $badge }}{{ end }}
+              </span>
+
+            </div>
+          {{ else }}
+            <h2 class="staffName">{{ $nombre }}</h2>
+          {{ end }}
+          <p class="staffRole">{{ $rol }}</p>
+        </div>
+      </div>
+      <div class="staffBody">
+        <h3 class="staffProjectsLabel">
+          <svg class="staffIcon">
+            <use href="/img/svg/staff.svg#book" />
+          </svg>
+          Proyectos
+        </h3>
+        <ul class="staffProjectsList">
+          {{ range $novelIds }}
+            {{ $novelId := . }}
+            {{ range where $.Site.Pages "Section" "novelas" }}
+              {{ if eq .Params.novelId $novelId }}
+                <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+              {{ end }}
+            {{ end }}
+          {{ else }}
+            Sin proyectos asignados
+          {{ end }}
+        </ul>
+      </div>
+    </article>
+  {{ end }}
+</section>
+{{ end }}
