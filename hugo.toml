@@ -6,3 +6,10 @@ title = 'Kasnia Project'
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+[outputFormats.novelasJSON]
+  mediaType = "application/json"
+  baseName = "novelas"
+  isPlainText = true
+  notAlternative = true
+  

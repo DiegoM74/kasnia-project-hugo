@@ -1,6 +1,6 @@
 ---
 title: "Nuestro Equipo"
-layout: list
+layout: staff
 miembros:
   - staffId: "01"
     nombre: "Lugh"

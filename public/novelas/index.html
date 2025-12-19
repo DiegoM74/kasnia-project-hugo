@@ -7,7 +7,7 @@
     
       
     
-    <title>Donaciones ─ Kasnia Project</title> 
+    <title>Novelas ─ Kasnia Project</title> 
 
     
     <meta
@@ -25,7 +25,7 @@
       content="Grupo de traducción de novelas ligeras del inglés al español."
     />
     <meta name="twitter:image" content="/img/icon/og.jpg" />
-    <link rel="canonical" href="https://preview.kasniaproject.us.kg/donaciones/" />
+    <link rel="canonical" href="https://preview.kasniaproject.us.kg/novelas/" />
 
     
     <link rel="icon" href="/img/icon/favicon.ico" type="image/x-icon" />
@@ -52,19 +52,9 @@
     <link rel="stylesheet" href="https://preview.kasniaproject.us.kg/css/main.min.51e449007979f79dd3c4466714533448338fe686b1af15d80441966d446ee6f3.css" />
 
     
-    
-  
-  
-    
-  
+     
 
-  
-    
-    
-      
-      <link rel="stylesheet" href="https://preview.kasniaproject.us.kg/css/donaciones.min.675c46ed65d646f6eb97b17411991bc7947ebda4e1c3644d3a3b7da57e7f12b5.css">
-    
-  
+<link rel="stylesheet" href="https://preview.kasniaproject.us.kg/css/novelas.min.2637611457449f76e8d9e72f909d644a8a66e74c2166dcd6117b5077133b91c8.css" />
 
 
     
@@ -131,60 +121,76 @@
 
     
     <main>
-  <section class="heroSection">
-  <h1 class="pageTitle">Apoya el Proyecto</h1>
-  <p class="heroSubtitle">Ayúdanos a adquirir el material para futuras traducciones.</p>
+<section class="novelsPageHeader">
+  <h1 class="pageTitle">Catálogo de Novelas</h1>
+  <p class="pageDescription">
+    Explora nuestro catálogo completo de novelas ligeras traducidas al español.
+  </p>
 </section>
-<div class="contentWrapper">
-  <section class="infoGrid">
-    <div class="infoCard highlight">
-      <div class="iconWrapper">
-        <svg class="infoIcon"><use href="/img/svg/donaciones.svg#bookIcon" /></svg>
-      </div>
-      <h3 class="cardTitle">Material Original</h3>
-      <p class="cardDescription">
-        El 100% de las donaciones se utiliza para comprar las RAWs
-        (novelas originales) que traducimos en la página.
-      </p>
+
+<section class="searchSection">
+  <div class="searchContainer">
+    <div class="searchInputWrapper">
+      <svg class="searchIcon">
+        <use href="/img/svg/novelas.svg#searchIcon" />
+      </svg>
+      <input
+        type="text"
+        id="searchInput"
+        class="searchInput"
+        placeholder="Buscar por título..."
+        aria-label="Buscar novelas por título"
+      />
     </div>
-    <div class="infoCard">
-      <div class="iconWrapper">
-        <svg class="infoIcon"><use href="/img/svg/donaciones.svg#heartIcon" /></svg>
-      </div>
-      <h3 class="cardTitle">Transparencia</h3>
-      <p class="cardDescription">
-        No hay beneficios exclusivos por donar. Sin embargo, si nos apoyas
-        con un volumen, te mencionaremos en los créditos.
-      </p>
+
+    <button
+      id="filterToggle"
+      class="filterToggleBtn"
+      aria-label="Abrir filtros de género"
+      aria-expanded="false"
+    >
+      <svg>
+        <use href="/img/svg/novelas.svg#filterIcon" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="genreFilters" class="genreFiltersContainer">
+    <div class="genreFiltersWrapper">
+      <div id="genreList" class="genreList"></div>
     </div>
-    <div class="infoCard">
-      <div class="iconWrapper">
-        <svg class="infoIcon"><use href="/img/svg/donaciones.svg#serverIcon" /></svg>
-      </div>
-      <h3 class="cardTitle">Infraestructura</h3>
-      <p class="cardDescription">
-        El hosting es gratuito y el dominio es muy económico. No
-        necesitamos fondos para mantener el sitio web en línea.
-      </p>
+  </div>
+</section>
+
+<section class="novelsDisplaySection">
+  <div id="novelsGrid" class="novelsGrid"></div>
+
+  <div id="noResultsMessage" class="noResultsMessage" style="display: none">
+    <svg class="noResultsIcon">
+      <use href="/img/svg/novelas.svg#noResultsIcon" />
+    </svg>
+    <h2>No se encontraron novelas</h2>
+    <p>Intenta con otros términos de búsqueda o filtros.</p>
+  </div>
+
+  <div id="paginationBottom" class="paginationControls" style="display: none">
+    <div class="paginationLeft">
+      <select id="itemsPerPage" class="itemsPerPageSelect">
+        <option value="10">Mostrar 10</option>
+        <option value="all">Mostrar todas</option>
+      </select>
     </div>
-  </section>
-  <section class="donationCta">
-    <div class="ctaCard">
-      <div class="ctaContent">
-        <h2 class="ctaTitle">Haz tu donación</h2>
-        <p class="ctaText">
-          Todo el proceso es seguro a través de PayPal. Tu apoyo hace
-          posible que continuemos.
-        </p>
-        <a href="https://paypal.me/KasniaPLD07" target="_blank" rel="noopener noreferrer" class="paypalButton">
-          <svg class="paypalSvg"><use href="/img/svg/donaciones.svg#paypalIcon" /></svg>
-          <span>Donar con PayPal</span>
-        </a>
-        <span class="paypalLinkText">paypal.me/KasniaPLD07</span>
-      </div>
+    <div class="paginationRight">
+      <button id="prevPageBottom" class="paginationBtn" aria-label="Anterior">
+        <svg><use href="/img/svg/novelas.svg#arrowLeft" /></svg>
+      </button>
+      <span id="pageInfoBottom" class="pageInfo">Página 1 de 1</span>
+      <button id="nextPageBottom" class="paginationBtn" aria-label="Siguiente">
+        <svg><use href="/img/svg/novelas.svg#arrowRight" /></svg>
+      </button>
     </div>
-  </section>
-</div>
+  </div>
+</section>
 </main>
 
     
@@ -262,5 +268,9 @@
 
     
     
+  
+  
+  <script src="https://preview.kasniaproject.us.kg/js/novelas.min.9bba8dbdf4e9b8f4b560b7dde0011916ede34058a3e6152fa3fb16e840cd039e.js"></script>
+
   </body>
 </html>

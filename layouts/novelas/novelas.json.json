@@ -1,0 +1,15 @@
+{{- $novelas := where .Site.RegularPages "Section" "novelas" -}}
+{{- $list := slice -}}
+{{- range $novelas -}}
+  {{- $item := dict
+    "id" .Params.novelId
+    "nameJp" .Params.nameJp
+    "nameEn" .Params.nameEn
+    "nameEs" .Params.nameEs
+    "novelTitle" .Params.novelTitle
+    "genres" .Params.genres
+    "link" .File.BaseFileName
+  -}}
+  {{- $list = $list | append $item -}}
+{{- end -}}
+{{- $list | jsonify -}}

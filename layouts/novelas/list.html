@@ -1,0 +1,83 @@
+{{ define "css" }} {{ $cssFile := resources.Get "css/novelas.css" }}
+{{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $css.Permalink }}" />
+{{ end }}
+
+{{ define "main" }}
+<section class="novelsPageHeader">
+  <h1 class="pageTitle">Catálogo de Novelas</h1>
+  <p class="pageDescription">
+    Explora nuestro catálogo completo de novelas ligeras traducidas al español.
+  </p>
+</section>
+
+<section class="searchSection">
+  <div class="searchContainer">
+    <div class="searchInputWrapper">
+      <svg class="searchIcon">
+        <use href="/img/svg/novelas.svg#searchIcon" />
+      </svg>
+      <input
+        type="text"
+        id="searchInput"
+        class="searchInput"
+        placeholder="Buscar por título..."
+        aria-label="Buscar novelas por título"
+      />
+    </div>
+
+    <button
+      id="filterToggle"
+      class="filterToggleBtn"
+      aria-label="Abrir filtros de género"
+      aria-expanded="false"
+    >
+      <svg>
+        <use href="/img/svg/novelas.svg#filterIcon" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="genreFilters" class="genreFiltersContainer">
+    <div class="genreFiltersWrapper">
+      <div id="genreList" class="genreList"></div>
+    </div>
+  </div>
+</section>
+
+<section class="novelsDisplaySection">
+  <div id="novelsGrid" class="novelsGrid"></div>
+
+  <div id="noResultsMessage" class="noResultsMessage" style="display: none">
+    <svg class="noResultsIcon">
+      <use href="/img/svg/novelas.svg#noResultsIcon" />
+    </svg>
+    <h2>No se encontraron novelas</h2>
+    <p>Intenta con otros términos de búsqueda o filtros.</p>
+  </div>
+
+  <div id="paginationBottom" class="paginationControls" style="display: none">
+    <div class="paginationLeft">
+      <select id="itemsPerPage" class="itemsPerPageSelect">
+        <option value="10">Mostrar 10</option>
+        <option value="all">Mostrar todas</option>
+      </select>
+    </div>
+    <div class="paginationRight">
+      <button id="prevPageBottom" class="paginationBtn" aria-label="Anterior">
+        <svg><use href="/img/svg/novelas.svg#arrowLeft" /></svg>
+      </button>
+      <span id="pageInfoBottom" class="pageInfo">Página 1 de 1</span>
+      <button id="nextPageBottom" class="paginationBtn" aria-label="Siguiente">
+        <svg><use href="/img/svg/novelas.svg#arrowRight" /></svg>
+      </button>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{ define "js" }}
+  {{ $jsFile := resources.Get "js/novelas.js" }}
+  {{ $js := $jsFile | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.Permalink }}"></script>
+{{ end }}
