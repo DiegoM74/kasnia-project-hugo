@@ -3,7 +3,7 @@
 {{- $list := slice -}}
 {{- range $sorted -}}
   {{- $item := dict
-    "id" .Params.novelId
+    "novelId" .Params.novelId
     "nameJp" .Params.nameJp
     "nameEn" .Params.nameEn
     "nameEs" .Params.nameEs

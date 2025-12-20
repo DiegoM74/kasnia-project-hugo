@@ -114,15 +114,17 @@
         <article
           class="volumeCard{{ if $isPreview }} preview{{ end }}{{ if $isUpcoming }} upcoming{{ end }}"
           data-volume="{{ $num }}"
-          data-credits='[
-            {"role":"Traductor","name":"{{ $vol.credits.translator }}"},
-            {"role":"Corrector","name":"{{ $vol.credits.corrector }}"},
-            {"role":"Editor","name":"{{ $vol.credits.editor }}"},
-            {"role":"Maquetador PDF","name":"{{ if ne $vol.credits.pdfTypesetter "-" }}{{ $vol.credits.pdfTypesetter }}{{ else }}-{{ end }}"},
-            {"role":"Maquetador EPUB","name":"{{ if ne $vol.credits.epubTypesetter "-" }}{{ $vol.credits.epubTypesetter }}{{ if and (ne $vol.credits.epubTypesetter "-") (eq $vol.credits.epubTypesetter "Saosora") }} (<a href=\"https://www.facebook.com/ZeePubs\" target=\"_blank\">ZeePubs</a>){{ end }}{{ else }}-{{ end }}"}
-          ]'
-          data-links='{"propio":{"pdf":"{{ $pdfLink }}","epub":"{{ $epubLink }}"},"drive":{"pdf":"{{ $pdfDrive }}","epub":"{{ $epubDrive }}"}}'
-        >
+          {{ if not $isUpcoming }}
+            data-credits='[
+              {"role":"Traductor","name":"{{ $vol.credits.translator }}"},
+              {"role":"Corrector","name":"{{ $vol.credits.corrector }}"},
+              {"role":"Editor","name":"{{ $vol.credits.editor }}"},
+              {"role":"Maquetador PDF","name":"{{ if ne $vol.credits.pdfTypesetter "-" }}{{ $vol.credits.pdfTypesetter }}{{ else }}-{{ end }}"},
+              {"role":"Maquetador EPUB","name":"{{ if ne $vol.credits.epubTypesetter "-" }}{{ $vol.credits.epubTypesetter }} (<a href=\"https://www.facebook.com/ZeePubs\" target=\"_blank\">ZeePubs</a>){{ else }}-{{ end }}"}
+            ]'
+            data-links='{"propio":{"pdf":"{{ $pdfLink }}","epub":"{{ $epubLink }}"},"drive":{"pdf":"{{ $pdfDrive }}","epub":"{{ $epubDrive }}"}}'
+          {{ end }}
+          >
           <div class="volumeCoverContainer">
             {{ if or $isPreview $isUpcoming }}
               <span class="volumeBadge {{ $badgeClass }}"></span>
@@ -154,6 +156,11 @@
     {{ if eq .state "published" }}
       {{ $latestPublished = .num }}
     {{ end }}
+  {{ end }}
+
+  {{ $volDisplay := $latestPublished }}
+  {{ if and $latestPublished (hasPrefix $latestPublished "0") }}
+    {{ $volDisplay = substr $latestPublished 1 }}
   {{ end }}
 
   <section class="infoSection">
@@ -192,7 +199,7 @@
           <svg><use href="/img/svg/novela.svg#bookIcon" /></svg>
           Volúmenes Traducidos
         </span>
-        <span class="infoValue">{{ $latestPublished }}</span>
+          <span class="infoValue">{{ $volDisplay }}</span>
       </div>
 
       <div class="infoItem">

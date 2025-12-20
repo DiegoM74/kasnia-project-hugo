@@ -1,6 +1,13 @@
 languageCode = "es"
 title = "Kasnia Project"
 
+#Para minificación de archivos
+[minify]
+  disableHTML = false
+  disableJSON = false
+  disableXML = false
+  disableSVG = false
+
 #Para poner html en markdown
 [markup]
   [markup.goldmark]

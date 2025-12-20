@@ -159,11 +159,11 @@
 
       for (const novel of pageData) {
         template.innerHTML = `
-          <a href="/novelas/${novel.link}" class="novelCard" style="view-transition-name: n${novel.id}">
+          <a href="/novelas/${novel.link}" class="novelCard" style="view-transition-name: n${novel.novelId}">
             <div class="novelCoverContainer">
               <picture>
-                <source srcset="/img/cover/avif/${novel.id}.avif" type="image/avif" />
-                <img src="/img/cover/jpg/${novel.id}.jpg" alt="${novel.nameJp}" class="novelCover" loading="lazy" />
+                <source srcset="/img/cover/avif/${novel.novelId}.avif" type="image/avif" />
+                <img src="/img/cover/jpg/${novel.novelId}.jpg" alt="${novel.nameJp}" class="novelCover" loading="lazy" />
               </picture>
               <div class="hoverOverlay">
                 <span>Leer Ahora</span>
