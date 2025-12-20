@@ -1,6 +1,7 @@
 {{- $novelas := where .Site.RegularPages "Section" "novelas" -}}
+{{- $sorted := sort $novelas "Params.novelId" "asc" -}}
 {{- $list := slice -}}
-{{- range $novelas -}}
+{{- range $sorted -}}
   {{- $item := dict
     "id" .Params.novelId
     "nameJp" .Params.nameJp

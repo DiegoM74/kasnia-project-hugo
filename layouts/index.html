@@ -53,63 +53,34 @@
     </p>
   </div>
   <div class="novelsGrid">
-    <a
-      href="/novelas/seirei-gensouki"
-      class="novelCard"
-      style="view-transition-name: n01"
-    >
-      <div class="novelCoverContainer">
-        <picture>
-          <source srcset="/img/cover/avif/01.avif" type="image/avif" />
-          <img
-            src="/img/cover/jpg/01.jpg"
-            alt="Portada Seirei Gensouki"
-            class="novelCover"
-          />
-        </picture>
-        <div class="hoverOverlay">
-          <span>Leer Ahora</span>
-        </div>
-      </div>
-    </a>
-    <a
-      href="/novelas/beast-tamer"
-      class="novelCard"
-      style="view-transition-name: n02"
-    >
-      <div class="novelCoverContainer">
-        <picture>
-          <source srcset="/img/cover/avif/02.avif" type="image/avif" />
-          <img
-            src="/img/cover/jpg/02.jpg"
-            alt="Portada Yuusha Party wo Tsuihou sareta Beast Tamer, Saikyoushu no Nekomimi Shoujo to Deau"
-            class="novelCover"
-          />
-        </picture>
-        <div class="hoverOverlay">
-          <span>Leer Ahora</span>
-        </div>
-      </div>
-    </a>
-    <a
-      href="/novelas/dragon-chain"
-      class="novelCard"
-      style="view-transition-name: n03"
-    >
-      <div class="novelCoverContainer">
-        <picture>
-          <source srcset="/img/cover/avif/03.avif" type="image/avif" />
-          <img
-            src="/img/cover/jpg/03.jpg"
-            alt="Portada Dragon Chain Ori -Spirit in the “Heart”"
-            class="novelCover"
-          />
-        </picture>
-        <div class="hoverOverlay">
-          <span>Leer Ahora</span>
-        </div>
-      </div>
-    </a>
+    {{ $destacadas := slice "01" "02" "03" }}
+    {{ range $destacadas }}
+      {{ $novelId := . }}
+      {{ range where $.Site.RegularPages "Section" "novelas" }}
+        {{ if eq .Params.novelId $novelId }}
+          {{ $coverId := printf "%02d" (int .Params.novelId) }}
+          <a
+            href="{{ .RelPermalink }}"
+            class="novelCard"
+            style="view-transition-name: n{{ $coverId }}"
+          >
+            <div class="novelCoverContainer">
+              <picture>
+                <source srcset="/img/cover/avif/{{ $coverId }}.avif" type="image/avif" />
+                <img
+                  src="/img/cover/jpg/{{ $coverId }}.jpg"
+                  alt="Portada {{ .Params.novelTitle }}"
+                  class="novelCover"
+                />
+              </picture>
+              <div class="hoverOverlay">
+                <span>Leer Ahora</span>
+              </div>
+            </div>
+          </a>
+        {{ end }}
+      {{ end }}
+    {{ end }}
   </div>
 
   <div class="viewMoreWrapper">

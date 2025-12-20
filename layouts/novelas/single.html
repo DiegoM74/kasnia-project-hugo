@@ -1,0 +1,257 @@
+{{ define "css" }}
+  {{ $cssFile := resources.Get "css/novela.css" }}
+  {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $css.Permalink }}">
+{{ end }}
+
+{{ define "main" }}
+  {{ $novelId := .Params.novelId }}
+  {{ $coverId := printf "%02s" $novelId }}
+  {{ $novelTitle := .Params.novelTitle }}
+
+  <section class="novelHero">
+    <div class="coverContainer" style="view-transition-name: n{{ $coverId }}">
+      <span class="statusBadge {{ .Params.status }}"></span>
+      <picture>
+        <source srcset="/img/cover/avif/{{ $coverId }}.avif" type="image/avif" />
+        <img
+          class="novelCover"
+          src="/img/cover/jpg/{{ $coverId }}.jpg"
+          alt="Portada de {{ .Params.novelTitle }}"
+          loading="eager"
+        />
+      </picture>
+    </div>
+
+    <div class="novelInfo">
+      <h1 class="novelTitle">{{ .Params.novelTitle }}</h1>
+      <div class="novelSynopsis">
+        <p class="synopsisContent collapsed">
+          {{ .Params.synopsis }}
+        </p>
+        <button class="synopsisToggle">
+          Ver más
+          <svg><use href="/img/svg/novela.svg#chevronDown" /></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="creatorCards">
+    <div class="creatorCard">
+      <div class="creatorIcon">
+        <svg><use href="/img/svg/novela.svg#authorIcon" /></svg>
+      </div>
+      <div class="creatorInfo">
+        <span class="creatorLabel">Autor</span>
+        <span class="creatorName">{{ .Params.author }}</span>
+      </div>
+    </div>
+
+    <div class="creatorCard">
+      <div class="creatorIcon">
+        <svg><use href="/img/svg/novela.svg#illustratorIcon" /></svg>
+      </div>
+      <div class="creatorInfo">
+        <span class="creatorLabel">Ilustrador</span>
+        <span class="creatorName">{{ .Params.illustrator }}</span>
+        {{ with .Params.illustratorNote }}
+          <span class="creatorNote">{{ . }}</span>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  <section class="downloadsSection">
+    <div class="sectionHeader">
+      <h2 class="sectionTitle">Descargas</h2>
+      <p class="sectionDescription">Hace clic sobre un volumen para descargar</p>
+    </div>
+
+    <div class="volumesGrid">
+      {{ range .Params.volumes }}
+        {{ $vol := . }}
+        {{ $num := .num }}
+        {{ $state := .state }}
+        {{ $isPublished := eq $state "published" }}
+        {{ $isPreview := eq $state "preview" }}
+        {{ $isUpcoming := eq $state "upcoming" }}
+
+        {{ $pdfPropio := false }}
+        {{ $epubPropio := false }}
+        {{ with .propio }}
+          {{ $pdfPropio = .pdf }}
+          {{ $epubPropio = .epub }}
+        {{ end }}
+
+        {{ $pdfDrive := "#" }}
+        {{ $epubDrive := "#" }}
+        {{ with .drive }}
+          {{ $pdfDrive = .pdf }}
+          {{ $epubDrive = .epub }}
+        {{ end }}
+
+        {{ $pdfLink := "#" }}
+        {{ $epubLink := "#" }}
+        {{ if $pdfPropio }}
+          {{ $pdfLink = printf "https://descargas.kasniaproject.us.kg/%s-Volumen-%s-[Kasnia-Project].pdf" (replace $novelTitle " " "-") $num }}
+        {{ end }}
+        {{ if $epubPropio }}
+          {{ $epubLink = printf "https://descargas.kasniaproject.us.kg/%s-Volumen-%s-[Kasnia-Project].epub" (replace $novelTitle " " "-") $num }}
+        {{ end }}
+
+        {{ $badgeClass := "" }}
+        {{ if $isPreview }}{{ $badgeClass = "previewBadge" }}{{ end }}
+        {{ if $isUpcoming }}{{ $badgeClass = "upcomingBadge" }}{{ end }}
+
+        {{ $icon := "downloadIcon" }}
+        {{ $hintText := "Clic para descargar" }}
+        {{ if $isUpcoming }}
+          {{ $icon = "lockIcon" }}
+          {{ $hintText = "No disponible" }}
+        {{ end }}
+
+        <article
+          class="volumeCard{{ if $isPreview }} preview{{ end }}{{ if $isUpcoming }} upcoming{{ end }}"
+          data-volume="{{ $num }}"
+          data-credits='[
+            {"role":"Traductor","name":"{{ $vol.credits.translator }}"},
+            {"role":"Corrector","name":"{{ $vol.credits.corrector }}"},
+            {"role":"Editor","name":"{{ $vol.credits.editor }}"},
+            {"role":"Maquetador PDF","name":"{{ if ne $vol.credits.pdfTypesetter "-" }}{{ $vol.credits.pdfTypesetter }}{{ else }}-{{ end }}"},
+            {"role":"Maquetador EPUB","name":"{{ if ne $vol.credits.epubTypesetter "-" }}{{ $vol.credits.epubTypesetter }}{{ if and (ne $vol.credits.epubTypesetter "-") (eq $vol.credits.epubTypesetter "Saosora") }} (<a href=\"https://www.facebook.com/ZeePubs\" target=\"_blank\">ZeePubs</a>){{ end }}{{ else }}-{{ end }}"}
+          ]'
+          data-links='{"propio":{"pdf":"{{ $pdfLink }}","epub":"{{ $epubLink }}"},"drive":{"pdf":"{{ $pdfDrive }}","epub":"{{ $epubDrive }}"}}'
+        >
+          <div class="volumeCoverContainer">
+            {{ if or $isPreview $isUpcoming }}
+              <span class="volumeBadge {{ $badgeClass }}"></span>
+            {{ end }}
+            <picture>
+              <source srcset="/img/vols/{{ $coverId }}/avif/v{{ $num }}.avif" type="image/avif" />
+              <img
+                class="volumeCover"
+                src="/img/vols/{{ $coverId }}/jpg/v{{ $num }}.jpg"
+                alt="Volumen {{ $num }}"
+                loading="lazy"
+              />
+            </picture>
+            <div class="volumeOverlay">
+              <span class="volumeNumber">Volumen {{ $num }}</span>
+              <span class="volumeDownloadHint">
+                <svg><use href="/img/svg/novela.svg#{{ $icon }}" /></svg>
+                {{ $hintText }}
+              </span>
+            </div>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  {{ $latestPublished := "" }}
+  {{ range .Params.volumes }}
+    {{ if eq .state "published" }}
+      {{ $latestPublished = .num }}
+    {{ end }}
+  {{ end }}
+
+  <section class="infoSection">
+    <div class="sectionHeader">
+      <h2 class="sectionTitle">Información</h2>
+      <p class="sectionDescription">Detalles adicionales de la novela</p>
+    </div>
+
+    <div class="infoGrid">
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#statusIcon" /></svg>
+          Estado
+        </span>
+        <span class="infoValue {{ .Params.status }}"></span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#usersIcon" /></svg>
+          Demografía
+        </span>
+        <span class="infoValue">{{ .Params.demography }}</span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#bookIcon" /></svg>
+          Volúmenes Lanzados
+        </span>
+        <span class="infoValue">{{ .Params.volumesReleased }}</span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#bookIcon" /></svg>
+          Volúmenes Traducidos
+        </span>
+        <span class="infoValue">{{ $latestPublished }}</span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#hashIcon" /></svg>
+          Nombre japonés
+        </span>
+        <span class="infoValue">{{ .Params.nameJp }}</span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#hashIcon" /></svg>
+          Nombre inglés
+        </span>
+        <span class="infoValue">{{ .Params.nameEn }}</span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#mangaIcon" /></svg>
+          Adaptación Manga
+        </span>
+        <span class="infoValue">
+          <span class="adaptationBadge {{ if .Params.mangaAdaptation }}yes{{ else }}no{{ end }}">
+            <svg><use href="/img/svg/novela.svg#{{ if .Params.mangaAdaptation }}checkIcon{{ else }}uncheckIcon{{ end }}" /></svg>
+          </span>
+        </span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#tvIcon" /></svg>
+          Adaptación Anime
+        </span>
+        <span class="infoValue">
+          <span class="adaptationBadge {{ if .Params.animeAdaptation }}yes{{ else }}no{{ end }}">
+            <svg><use href="/img/svg/novela.svg#{{ if .Params.animeAdaptation }}checkIcon{{ else }}uncheckIcon{{ end }}" /></svg>
+          </span>
+        </span>
+      </div>
+
+      <div class="infoItem" style="grid-column: 1 / -1">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#tagIcon" /></svg>
+          Géneros
+        </span>
+        <div class="genreTags">
+          {{ range .Params.genres }}
+            <span class="genreTag">{{ . }}</span>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+{{ define "js" }}
+  {{ $jsFile := resources.Get "js/novela.js" }}
+  {{ $js := $jsFile | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.Permalink }}"></script>
+{{ end }}

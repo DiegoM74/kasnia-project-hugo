@@ -55,13 +55,7 @@
     
   
   
-    
-  
-
-  
-    
-    
-  
+  <link rel="stylesheet" href="https://preview.kasniaproject.us.kg/css/novela.min.dd694060665f61003a0a1be3bbeb2951b3a7b09cf1a7e6f53ce1ba4cdbd4d138.css">
 
 
     
@@ -129,6 +123,180 @@
     
     <main>
   
+  
+  
+
+  <section class="novelHero">
+    <div class="coverContainer" style="view-transition-name: n02">
+      <span class="statusBadge "></span>
+      <picture>
+        <source srcset="/img/cover/avif/02.avif" type="image/avif" />
+        <img
+          class="novelCover"
+          src="/img/cover/jpg/02.jpg"
+          alt="Portada de Beast Tamer"
+          loading="eager"
+        />
+      </picture>
+    </div>
+
+    <div class="novelInfo">
+      <h1 class="novelTitle">Beast Tamer</h1>
+      <div class="novelSynopsis">
+        <p class="synopsisContent collapsed">
+          
+        </p>
+        <button class="synopsisToggle">
+          Ver más
+          <svg><use href="/img/svg/novela.svg#chevronDown" /></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="creatorCards">
+    <div class="creatorCard">
+      <div class="creatorIcon">
+        <svg><use href="/img/svg/novela.svg#authorIcon" /></svg>
+      </div>
+      <div class="creatorInfo">
+        <span class="creatorLabel">Autor</span>
+        <span class="creatorName"></span>
+      </div>
+    </div>
+
+    <div class="creatorCard">
+      <div class="creatorIcon">
+        <svg><use href="/img/svg/novela.svg#illustratorIcon" /></svg>
+      </div>
+      <div class="creatorInfo">
+        <span class="creatorLabel">Ilustrador</span>
+        <span class="creatorName"></span>
+        
+      </div>
+    </div>
+  </section>
+
+  <section class="downloadsSection">
+    <div class="sectionHeader">
+      <h2 class="sectionTitle">Descargas</h2>
+      <p class="sectionDescription">Hace clic sobre un volumen para descargar</p>
+    </div>
+
+    <div class="volumesGrid">
+      
+    </div>
+  </section>
+
+  
+  
+
+  <section class="infoSection">
+    <div class="sectionHeader">
+      <h2 class="sectionTitle">Información</h2>
+      <p class="sectionDescription">Detalles adicionales de la novela</p>
+    </div>
+
+    <div class="infoGrid">
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#statusIcon" /></svg>
+          Estado
+        </span>
+        <span class="infoValue "></span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#usersIcon" /></svg>
+          Demografía
+        </span>
+        <span class="infoValue"></span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#bookIcon" /></svg>
+          Volúmenes Lanzados
+        </span>
+        <span class="infoValue"></span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#bookIcon" /></svg>
+          Volúmenes Traducidos
+        </span>
+        <span class="infoValue"></span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#hashIcon" /></svg>
+          Nombre japonés
+        </span>
+        <span class="infoValue">Yuusha Party wo Tsuihou sareta Beast Tamer, Saikyoushu no Nekomimi Shoujo to Deau</span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#hashIcon" /></svg>
+          Nombre inglés
+        </span>
+        <span class="infoValue">The Beast Tamer Who Was Exiled from His Party Meets a Cat Girl From the Strongest Race</span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#mangaIcon" /></svg>
+          Adaptación Manga
+        </span>
+        <span class="infoValue">
+          <span class="adaptationBadge no">
+            <svg><use href="/img/svg/novela.svg#uncheckIcon" /></svg>
+          </span>
+        </span>
+      </div>
+
+      <div class="infoItem">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#tvIcon" /></svg>
+          Adaptación Anime
+        </span>
+        <span class="infoValue">
+          <span class="adaptationBadge no">
+            <svg><use href="/img/svg/novela.svg#uncheckIcon" /></svg>
+          </span>
+        </span>
+      </div>
+
+      <div class="infoItem" style="grid-column: 1 / -1">
+        <span class="infoLabel">
+          <svg><use href="/img/svg/novela.svg#tagIcon" /></svg>
+          Géneros
+        </span>
+        <div class="genreTags">
+          
+            <span class="genreTag">Acción</span>
+          
+            <span class="genreTag">Aventura</span>
+          
+            <span class="genreTag">Comedia</span>
+          
+            <span class="genreTag">Drama</span>
+          
+            <span class="genreTag">Erótico</span>
+          
+            <span class="genreTag">Fantasía</span>
+          
+            <span class="genreTag">Romance</span>
+          
+            <span class="genreTag">Sobrenatural</span>
+          
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
     
@@ -201,10 +369,45 @@
     </div>
 
     
+      <div class="modalOverlay" id="downloadModal">
+        <div class="modal">
+          <div class="modalHeader">
+            <h3 class="modalTitle" id="modalVolumeTitle">Volumen</h3>
+            <button class="modalClose" aria-label="Cerrar modal">
+              <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
+            </button>
+          </div>
+          <div class="creditsSection">
+            <h4 class="creditsSectionTitle">Créditos</h4>
+            <div class="creditsList" id="creditsContainer"></div>
+          </div>
+          <div class="serverToggle">
+            <button class="serverBtn active" data-server="propio">Servidor Propio</button>
+            <button class="serverBtn" data-server="drive">Google Drive</button>
+          </div>
+          <div class="downloadLinks">
+            <a href="#" class="downloadLink" id="pdfDownloadLink" target="_blank" rel="noopener noreferrer">
+              <div class="downloadIcon pdf"><svg><use href="/img/svg/novela.svg#pdfIcon" /></svg></div>
+              <div class="downloadFormat">PDF</div>
+            </a>
+            <a href="#" class="downloadLink" id="epubDownloadLink" target="_blank" rel="noopener noreferrer">
+              <div class="downloadIcon epub"><svg><use href="/img/svg/novela.svg#epubIcon" /></svg></div>
+              <div class="downloadFormat">EPUB</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    
+
+    
     
     <script src="https://preview.kasniaproject.us.kg/js/main.min.a59aa924e1825a79f422c193d7b594b6e1f2441654d4b4ef0dfafb033bc8c5cc.js"></script>
 
     
     
+  
+  
+  <script src="https://preview.kasniaproject.us.kg/js/novela.min.2c016d5e4e475e07438aacb531912b367bb31719f3c130296d27205feada21d6.js"></script>
+
   </body>
 </html>

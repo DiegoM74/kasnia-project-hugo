@@ -1,0 +1,14 @@
+document.addEventListener("DOMContentLoaded",()=>{initSynopsisToggle(),initModal()});function initSynopsisToggle(){const e=document.querySelector(".synopsisContent"),t=document.querySelector(".synopsisToggle");if(!e||!t)return;const n=()=>{e.classList.add("collapsed");const n=e.scrollHeight>e.clientHeight;t.classList.toggle("visible",n),n||e.classList.remove("collapsed")};n(),window.addEventListener("resize",n,{passive:!0}),t.addEventListener("click",()=>{const n=t.classList.contains("expanded");e.classList.toggle("collapsed",n),t.classList.toggle("expanded",!n),t.innerHTML=`
+      ${n?"Ver más":"Ver menos"}
+      <svg><use href="/img/svg/novela.svg#chevronDown" /></svg>
+    `})}function initModal(){const e=document.getElementById("downloadModal");if(!e)return;const p=e.querySelector(".modalClose"),c=document.getElementById("modalVolumeTitle"),h=e.querySelector(".modalHeader"),u=document.getElementById("creditsContainer"),d=document.getElementById("pdfDownloadLink"),l=document.getElementById("epubDownloadLink"),n=e.querySelectorAll(".serverBtn"),i=e=>e&&e!=="#"&&e.trim()!=="",o=e=>i(e?.pdf)||i(e?.epub);let t={};function r(e,t){e.href=t||"#",e.classList.toggle("disabled",!i(t))}function a(e){const n=t[e]||{};r(d,n.pdf),r(l,n.epub)}function m(){n.forEach(e=>{const n=t[e.dataset.server];e.classList.toggle("disabled",!o(n))})}function f(s){const r=s.dataset.volume,l=JSON.parse(s.dataset.credits||"[]");t=JSON.parse(s.dataset.links||"{}");const d=s.classList.contains("preview");h.querySelector(".previewIndicator")?.remove(),c.textContent=`Volumen ${r}`,d&&c.insertAdjacentHTML("afterend",`
+        <span class="previewIndicator">
+          <svg><use href="/img/svg/novela.svg#eyeIcon" /></svg>
+          Vista previa
+        </span>
+      `),u.innerHTML=l.map(e=>`
+        <div class="creditItem">
+          <span class="creditRole">${e.role}</span>
+          <span class="creditName">${e.name}</span>
+        </div>
+      `).join(""),m();const f=o(t.propio),p=o(t.drive),i=f?"propio":p?"drive":"propio";n.forEach(e=>{e.classList.toggle("active",e.dataset.server===i)}),a(i),e.classList.add("active")}function s(){e.classList.remove("active")}function g(t){a(t),e.querySelectorAll(".downloadLink:not(.disabled)").forEach(e=>{e.classList.remove("update-flash"),void e.offsetWidth,e.classList.add("update-flash")})}document.querySelector(".volumesGrid")?.addEventListener("click",e=>{const t=e.target.closest(".volumeCard");t&&!t.classList.contains("upcoming")&&f(t)}),p?.addEventListener("click",s),e.addEventListener("click",t=>{t.target===e&&s()}),document.addEventListener("keydown",t=>{t.key==="Escape"&&e.classList.contains("active")&&s()}),e.querySelector(".serverToggle")?.addEventListener("click",e=>{const t=e.target.closest(".serverBtn");if(!t||t.classList.contains("disabled")||t.classList.contains("active"))return;n.forEach(e=>e.classList.remove("active")),t.classList.add("active"),g(t.dataset.server)})}
