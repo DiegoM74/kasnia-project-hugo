@@ -2,11 +2,13 @@ baseURL = 'https://preview.kasniaproject.us.kg/'
 languageCode = 'en-us'
 title = 'Kasnia Project'
 
+#Para poner html en markdown
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
 
+#Para generar json
 [outputFormats.novelasJSON]
   mediaType = "application/json"
   baseName = "novelas"
