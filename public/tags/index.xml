@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Kasnia Project</title>
-    <link>https://preview.kasniaproject.us.kg/tags/</link>
+    <link>https://kasniaproject.us.kg/tags/</link>
     <description>Recent content in Tags on Kasnia Project</description>
     <generator>Hugo</generator>
-    <language>en-us</language>
-    <atom:link href="https://preview.kasniaproject.us.kg/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>es</language>
+    <atom:link href="https://kasniaproject.us.kg/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
