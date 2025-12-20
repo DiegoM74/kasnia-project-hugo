@@ -1,5 +1,6 @@
 ---
 title: "Donaciones"
+description: "Apoya a Kasnia Project en la adquisición de novelas originales para futuras traducciones. El 100% de las donaciones se utiliza para comprar material RAW."
 ---
 
 <section class="heroSection">

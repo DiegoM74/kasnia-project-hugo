@@ -1,0 +1,12 @@
+/* EQUIPO */
+Creador: Lugh
+Administrador: Diego
+Traductores: Lugh, Diego, JoséBR, Álvaro
+Correctores: Hiro寛, Yaf
+Editor: EliasQ
+Sitio web: https://kasniaproject.us.kg
+
+/* SITIO */
+Estándares: HTML5, CSS3
+Componentes: Hugo, JavaScript
+Software: Hugo Static Site Generator

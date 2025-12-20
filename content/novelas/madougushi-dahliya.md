@@ -1,5 +1,6 @@
 ---
 title: "Madougushi Dahliya"
+description: "Lee Madougushi Dahliya en español. Descarga los volúmenes traducidos de esta novela ligera de fantasía, comedia y romance. Traducción de calidad por Kasnia Project."
 novelId: "05"
 novelTitle: "Madougushi Dahliya"
 nameJp: "Madougushi Dahliya wa Utsumukanai: Kyou kara Jiyuu na Shokunin Life"

@@ -1,5 +1,6 @@
 ---
 title: "Seirei Gensouki"
+description: "Lee Seirei Gensouki (Spirit Chronicles) en español. Descarga los volúmenes traducidos de esta novela ligera de fantasía, acción y romance. Traducción de calidad por Kasnia Project."
 novelId: "01"
 novelTitle: "Seirei Gensouki"
 nameJp: "Seirei Gensouki"

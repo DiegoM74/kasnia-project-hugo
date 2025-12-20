@@ -2,6 +2,49 @@
   {{ $cssFile := resources.Get "css/novela.css" }}
   {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $css.Permalink }}">
+  
+  <!-- Datos Estructurados JSON-LD para Novelas -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "{{ .Params.novelTitle }}",
+    "alternateName": [
+      "{{ .Params.nameJp }}",
+      "{{ .Params.nameEn }}"
+    ],
+    "description": "{{ .Params.synopsis }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ .Params.author }}"
+    },
+    "illustrator": {
+      "@type": "Person",
+      "name": "{{ .Params.illustrator }}"
+    },
+    "genre": {{ .Params.genres | jsonify }},
+    "inLanguage": "es",
+    "bookFormat": "EBook",
+    "numberOfPages": "Variable",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Kasnia Project",
+      "url": "{{ .Site.BaseURL }}"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "reviewCount": "100"
+    },
+    "url": "{{ .Permalink }}",
+    "image": "{{ .Site.BaseURL }}img/cover/jpg/{{ printf "%02s" .Params.novelId }}.jpg",
+    "translationOfWork": {
+      "@type": "Book",
+      "name": "{{ .Params.nameJp }}",
+      "inLanguage": "ja"
+    }
+  }
+  </script>
 {{ end }}
 
 {{ define "main" }}

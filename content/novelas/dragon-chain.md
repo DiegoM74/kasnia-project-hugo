@@ -1,5 +1,6 @@
 ---
 title: "Dragon Chain"
+description: "Lee Dragon Chain en español. Descarga los volúmenes traducidos de esta novela ligera de fantasía, acción y romance. Traducción de calidad por Kasnia Project."
 novelId: "03"
 novelTitle: "Dragon Chain"
 nameJp: "Dragon Chain Ori -Spirit in the “Heart”"

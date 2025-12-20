@@ -1,5 +1,6 @@
 ---
 title: "Beast Tamer"
+description: "Lee Beast Tamer en español. Descarga los volúmenes traducidos de esta novela ligera de fantasía, acción y romance. Traducción de calidad por Kasnia Project."
 novelId: "02"
 novelTitle: "Beast Tamer"
 nameJp: "Yuusha Party wo Tsuihou sareta Beast Tamer, Saikyoushu no Nekomimi Shoujo to Deau"

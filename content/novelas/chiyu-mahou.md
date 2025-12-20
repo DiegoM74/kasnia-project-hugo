@@ -1,5 +1,6 @@
 ---
 title: "Chiyu Mahou no Machigatta Tsukaikata"
+description: "Lee Chiyu Mahou no Machigatta Tsukaikata en español. Descarga los volúmenes traducidos de esta novela ligera de fantasía, acción y romance. Traducción de calidad por Kasnia Project."
 novelId: "07"
 novelTitle: "Chiyu Mahou no Machigatta Tsukaikata"
 nameJp: "Chiyu Mahou no Machigatta Tsukaikata: Senjou wo Kakeru Kaifuku Youin"

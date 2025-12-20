@@ -1,5 +1,6 @@
 ---
 title: "Mizu Zokusei no Mahoutsukai"
+description: "Lee Mizu Zokusei no Mahoutsukai en español. Descarga los volúmenes traducidos de esta novela ligera de fantasía, acción y comedia. Traducción de calidad por Kasnia Project."
 novelId: "06"
 novelTitle: "Mizu Zokusei no Mahoutsukai"
 nameJp: "Mizu Zokusei no Mahoutsukai"

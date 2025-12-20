@@ -1,5 +1,6 @@
 ---
 title: "Nuestro Equipo"
+description: "Conoce al equipo de Kasnia Project. Traductores, correctores, editores y maquetadores dedicados a traerte las mejores traducciones de novelas ligeras al español."
 layout: list
 miembros:
   - staffId: "01"

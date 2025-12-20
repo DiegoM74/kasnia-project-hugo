@@ -1,5 +1,6 @@
 ---
 title: "Assassin's Pride"
+description: "Lee Assassin's Pride en español. Descarga los volúmenes traducidos de esta novela ligera de fantasía, acción y romance. Traducción de calidad por Kasnia Project."
 novelId: "04"
 novelTitle: "Assassin's Pride"
 nameJp: "Assassin's Pride"

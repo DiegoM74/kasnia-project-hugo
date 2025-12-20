@@ -1,5 +1,33 @@
 languageCode = "es"
 title = "Kasnia Project"
+copyright = "© 2025 Kasnia Project. Todos los derechos reservados."
+enableRobotsTXT = true
+enableGitInfo = false
+
+# SEO y Metadatos
+[params]
+  description = "Kasnia Project es un grupo dedicado a traducir novelas ligeras japonesas al español. Nos enfocamos en hacer un trabajo de calidad, trayéndote las mejores light novels."
+  author = "Kasnia Project"
+  keywords = "novelas ligeras, light novels, traducción español, novelas japonesas, novelas web, traducción novelas, Kasnia Project"
+  images = ["/img/icon/og.jpg"]
+  
+  [params.social]
+    facebook = "https://www.facebook.com/profile.php?id=61569583498113"
+  
+  [params.seo]
+    title_suffix = " ─ Kasnia Project"
+    og_locale = "es_ES"
+
+# Sitemap configuration
+[sitemap]
+  changefreq = "weekly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+# Taxonomías
+[taxonomies]
+  tag = "tags"
+  category = "categories"
 
 #Para minificación de archivos
 [minify]

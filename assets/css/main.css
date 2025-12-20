@@ -337,15 +337,22 @@ footer {
   align-items: flex-start;
 }
 
+.footerLogoLink {
+  display: inline-block;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.footerLogoLink:hover {
+  transform: scale(1.05);
+}
+
 .footerLogoSvg {
   height: 60px;
   width: auto;
   margin-bottom: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.footerLogoSvg:hover {
-  transform: scale(1.05);
+  color: var(--text-primary);
 }
 
 .footerDescription {
