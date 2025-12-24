@@ -68,7 +68,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1m2GMS3ZlNJPDiFZzOrpmMWs4rn1BZC37/view"
 
   - num: "04"
-    state: "upcoming"
+    state: "published"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
