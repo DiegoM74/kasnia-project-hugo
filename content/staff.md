@@ -38,5 +38,5 @@ miembros:
   - staffId: "07"
     nombre: "Álvaro"
     rol: "Traductor"
-    novelIds: ["07"]
+    novelIds: []
 ---
