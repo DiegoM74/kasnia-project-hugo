@@ -1,82 +1,74 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Kasnia Project</title>
-    <link>https://kasniaproject.us.kg/</link>
-    <description>Recent content on Kasnia Project</description>
-    <generator>Hugo</generator>
-    <language>es</language>
-    <copyright>© 2025 Kasnia Project. Todos los derechos reservados.</copyright>
-    <atom:link href="https://kasniaproject.us.kg/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Assassin&#39;s Pride</title>
-      <link>https://kasniaproject.us.kg/novelas/assassins-pride/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/novelas/assassins-pride/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Beast Tamer</title>
-      <link>https://kasniaproject.us.kg/novelas/beast-tamer/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/novelas/beast-tamer/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>DMCA</title>
-      <link>https://kasniaproject.us.kg/dmca/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/dmca/</guid>
-      <description>&lt;section class=&#34;legalHero&#34;&gt;&#xD;&#xA;  &lt;h1 class=&#34;legalTitle&#34;&gt;Política DMCA&lt;/h1&gt;&#xD;&#xA;  &lt;p class=&#34;legalSubtitle&#34;&gt;&#xD;&#xA;    Compromiso con la protección de los derechos de autor y la propiedad&#xD;&#xA;    intelectual.&#xD;&#xA;  &lt;/p&gt;&#xD;&#xA;&lt;/section&gt;&#xD;&#xA;&lt;section class=&#34;legalSection&#34;&gt;&#xD;&#xA;  &lt;h2 class=&#34;sectionTitle&#34;&gt;Notificación de Infracción&lt;/h2&gt;&#xD;&#xA;  &lt;p class=&#34;legalText&#34;&gt;&#xD;&#xA;    Kasnia Project respeta la propiedad intelectual de otros y espera que&#xD;&#xA;    sus usuarios hagan lo mismo. De acuerdo con la Digital Millennium&#xD;&#xA;    Copyright Act (DMCA), responderemos expeditamente a las notificaciones&#xD;&#xA;    claras de presunta infracción de derechos de autor.&#xD;&#xA;  &lt;/p&gt;&#xD;&#xA;  &lt;p class=&#34;legalText&#34;&gt;&#xD;&#xA;    Si usted es propietario de derechos de autor o un agente autorizado y&#xD;&#xA;    cree que algún contenido en nuestro sitio infringe sus derechos, por&#xD;&#xA;    favor envíe una notificación que incluya la siguiente información:&#xD;&#xA;  &lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Donaciones</title>
-      <link>https://kasniaproject.us.kg/donaciones/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/donaciones/</guid>
-      <description>&lt;section class=&#34;heroSection&#34;&gt;&#xD;&#xA;  &lt;h1 class=&#34;pageTitle&#34;&gt;Apoya el Proyecto&lt;/h1&gt;&#xD;&#xA;  &lt;p class=&#34;heroSubtitle&#34;&gt;Ayúdanos a adquirir el material para futuras traducciones.&lt;/p&gt;&#xD;&#xA;&lt;/section&gt;&#xD;&#xA;&lt;div class=&#34;contentWrapper&#34;&gt;&#xD;&#xA;  &lt;section class=&#34;infoGrid&#34;&gt;&#xD;&#xA;    &lt;div class=&#34;infoCard highlight&#34;&gt;&#xD;&#xA;      &lt;div class=&#34;iconWrapper&#34;&gt;&#xD;&#xA;        &lt;svg class=&#34;infoIcon&#34;&gt;&lt;use href=&#34;https://kasniaproject.us.kg/img/svg/donaciones.svg#bookIcon&#34; /&gt;&lt;/svg&gt;&#xD;&#xA;      &lt;/div&gt;&#xD;&#xA;      &lt;h3 class=&#34;cardTitle&#34;&gt;Material Original&lt;/h3&gt;&#xD;&#xA;      &lt;p class=&#34;cardDescription&#34;&gt;&#xD;&#xA;        El 100% de las donaciones se utiliza para comprar las RAWs&#xD;&#xA;        (novelas originales) que traducimos en la página.&#xD;&#xA;      &lt;/p&gt;&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div class=&#34;infoCard&#34;&gt;&#xD;&#xA;      &lt;div class=&#34;iconWrapper&#34;&gt;&#xD;&#xA;        &lt;svg class=&#34;infoIcon&#34;&gt;&lt;use href=&#34;https://kasniaproject.us.kg/img/svg/donaciones.svg#heartIcon&#34; /&gt;&lt;/svg&gt;&#xD;&#xA;      &lt;/div&gt;&#xD;&#xA;      &lt;h3 class=&#34;cardTitle&#34;&gt;Transparencia&lt;/h3&gt;&#xD;&#xA;      &lt;p class=&#34;cardDescription&#34;&gt;&#xD;&#xA;        No hay beneficios exclusivos por donar. Sin embargo, si nos apoyas&#xD;&#xA;        con un volumen, te mencionaremos en los créditos.&#xD;&#xA;      &lt;/p&gt;&#xD;&#xA;    &lt;/div&gt;&#xD;&#xA;    &lt;div class=&#34;infoCard&#34;&gt;&#xD;&#xA;      &lt;div class=&#34;iconWrapper&#34;&gt;&#xD;&#xA;        &lt;svg class=&#34;infoIcon&#34;&gt;&lt;use href=&#34;https://kasniaproject.us.kg/img/svg/donaciones.svg#serverIcon&#34; /&gt;&lt;/svg&gt;&#xD;&#xA;      &lt;/div&gt;&#xD;&#xA;      &lt;h3 class=&#34;cardTitle&#34;&gt;Infraestructura&lt;/h3&gt;&#xD;&#xA;      &lt;p class=&#34;cardDescription&#34;&gt;&#xD;&#xA;        El hosting es gratuito y el dominio es muy económico. No&#xD;&#xA;        necesitamos fondos para mantener el sitio web en línea.&#xD;&#xA;      &lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Dragon Chain</title>
-      <link>https://kasniaproject.us.kg/novelas/dragon-chain/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/novelas/dragon-chain/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Madougushi Dahliya</title>
-      <link>https://kasniaproject.us.kg/novelas/madougushi-dahliya/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/novelas/madougushi-dahliya/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Mizu Zokusei no Mahoutsukai</title>
-      <link>https://kasniaproject.us.kg/novelas/mizu-zokusei/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/novelas/mizu-zokusei/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Nuestro Equipo</title>
-      <link>https://kasniaproject.us.kg/staff/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/staff/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Política de Privacidad</title>
-      <link>https://kasniaproject.us.kg/privacy/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/privacy/</guid>
-      <description>&lt;section class=&#34;legalHero&#34;&gt;&#xD;&#xA;  &lt;h1 class=&#34;legalTitle&#34;&gt;Política de Privacidad&lt;/h1&gt;&#xD;&#xA;  &lt;p class=&#34;legalSubtitle&#34;&gt;&#xD;&#xA;    Cómo recopilamos, usamos y protegemos tu información.&#xD;&#xA;  &lt;/p&gt;&#xD;&#xA;&lt;/section&gt;&#xD;&#xA;&lt;section class=&#34;legalSection&#34;&gt;&#xD;&#xA;  &lt;h2 class=&#34;sectionTitle&#34;&gt;Información que Recopilamos&lt;/h2&gt;&#xD;&#xA;  &lt;p class=&#34;legalText&#34;&gt;&#xD;&#xA;    En Kasnia Project, valoramos tu privacidad. Este sitio web no recopila&#xD;&#xA;    información personal identificable de forma directa. Sin embargo, como&#xD;&#xA;    la mayoría de los sitios web, utilizamos servicios de terceros que&#xD;&#xA;    pueden recopilar cierta información automáticamente.&#xD;&#xA;  &lt;/p&gt;&#xD;&#xA;  &lt;p class=&#34;legalText&#34;&gt;&#xD;&#xA;    La información que puede ser recopilada automáticamente incluye:&#xD;&#xA;    dirección IP, tipo de navegador, sistema operativo, páginas visitadas&#xD;&#xA;    y tiempo de permanencia en el sitio. Esta información se utiliza&#xD;&#xA;    únicamente con fines estadísticos y para mejorar la experiencia del&#xD;&#xA;    usuario.&#xD;&#xA;  &lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Seirei Gensouki</title>
-      <link>https://kasniaproject.us.kg/novelas/seirei-gensouki/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://kasniaproject.us.kg/novelas/seirei-gensouki/</guid>
-      <description></description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kasnia Project</title><link>https://kasniaproject.us.kg/</link><description>Recent content on Kasnia Project</description><generator>Hugo</generator><language>es</language><copyright>© 2025 Kasnia Project. Todos los derechos reservados.</copyright><atom:link href="https://kasniaproject.us.kg/index.xml" rel="self" type="application/rss+xml"/><item><title>Assassin's Pride</title><link>https://kasniaproject.us.kg/novelas/assassins-pride/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/novelas/assassins-pride/</guid><description/></item><item><title>Beast Tamer</title><link>https://kasniaproject.us.kg/novelas/beast-tamer/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/novelas/beast-tamer/</guid><description/></item><item><title>DMCA</title><link>https://kasniaproject.us.kg/dmca/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/dmca/</guid><description>&lt;section class="legalHero"&gt;
+ &lt;h1 class="legalTitle"&gt;Política DMCA&lt;/h1&gt;
+ &lt;p class="legalSubtitle"&gt;
+ Compromiso con la protección de los derechos de autor y la propiedad
+ intelectual.
+ &lt;/p&gt;
+&lt;/section&gt;
+&lt;section class="legalSection"&gt;
+ &lt;h2 class="sectionTitle"&gt;Notificación de Infracción&lt;/h2&gt;
+ &lt;p class="legalText"&gt;
+ Kasnia Project respeta la propiedad intelectual de otros y espera que
+ sus usuarios hagan lo mismo. De acuerdo con la Digital Millennium
+ Copyright Act (DMCA), responderemos expeditamente a las notificaciones
+ claras de presunta infracción de derechos de autor.
+ &lt;/p&gt;
+ &lt;p class="legalText"&gt;
+ Si usted es propietario de derechos de autor o un agente autorizado y
+ cree que algún contenido en nuestro sitio infringe sus derechos, por
+ favor envíe una notificación que incluya la siguiente información:
+ &lt;/p&gt;</description></item><item><title>Donaciones</title><link>https://kasniaproject.us.kg/donaciones/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/donaciones/</guid><description>&lt;section class="heroSection"&gt;
+ &lt;h1 class="pageTitle"&gt;Apoya el Proyecto&lt;/h1&gt;
+ &lt;p class="heroSubtitle"&gt;Ayúdanos a adquirir el material para futuras traducciones.&lt;/p&gt;
+&lt;/section&gt;
+&lt;div class="contentWrapper"&gt;
+ &lt;section class="infoGrid"&gt;
+ &lt;div class="infoCard highlight"&gt;
+ &lt;div class="iconWrapper"&gt;
+ &lt;svg class="infoIcon"&gt;&lt;use href="https://kasniaproject.us.kg/img/svg/donaciones.svg#bookIcon" /&gt;&lt;/svg&gt;
+ &lt;/div&gt;
+ &lt;h3 class="cardTitle"&gt;Material Original&lt;/h3&gt;
+ &lt;p class="cardDescription"&gt;
+ El 100% de las donaciones se utiliza para comprar las RAWs
+ (novelas originales) que traducimos en la página.
+ &lt;/p&gt;
+ &lt;/div&gt;
+ &lt;div class="infoCard"&gt;
+ &lt;div class="iconWrapper"&gt;
+ &lt;svg class="infoIcon"&gt;&lt;use href="https://kasniaproject.us.kg/img/svg/donaciones.svg#heartIcon" /&gt;&lt;/svg&gt;
+ &lt;/div&gt;
+ &lt;h3 class="cardTitle"&gt;Transparencia&lt;/h3&gt;
+ &lt;p class="cardDescription"&gt;
+ No hay beneficios exclusivos por donar. Sin embargo, si nos apoyas
+ con un volumen, te mencionaremos en los créditos.
+ &lt;/p&gt;
+ &lt;/div&gt;
+ &lt;div class="infoCard"&gt;
+ &lt;div class="iconWrapper"&gt;
+ &lt;svg class="infoIcon"&gt;&lt;use href="https://kasniaproject.us.kg/img/svg/donaciones.svg#serverIcon" /&gt;&lt;/svg&gt;
+ &lt;/div&gt;
+ &lt;h3 class="cardTitle"&gt;Infraestructura&lt;/h3&gt;
+ &lt;p class="cardDescription"&gt;
+ El hosting es gratuito y el dominio es muy económico. No
+ necesitamos fondos para mantener el sitio web en línea.
+ &lt;/p&gt;</description></item><item><title>Dragon Chain</title><link>https://kasniaproject.us.kg/novelas/dragon-chain/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/novelas/dragon-chain/</guid><description/></item><item><title>Madougushi Dahliya</title><link>https://kasniaproject.us.kg/novelas/madougushi-dahliya/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/novelas/madougushi-dahliya/</guid><description/></item><item><title>Mizu Zokusei no Mahoutsukai</title><link>https://kasniaproject.us.kg/novelas/mizu-zokusei/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/novelas/mizu-zokusei/</guid><description/></item><item><title>Nuestro Equipo</title><link>https://kasniaproject.us.kg/staff/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/staff/</guid><description/></item><item><title>Política de Privacidad</title><link>https://kasniaproject.us.kg/privacy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/privacy/</guid><description>&lt;section class="legalHero"&gt;
+ &lt;h1 class="legalTitle"&gt;Política de Privacidad&lt;/h1&gt;
+ &lt;p class="legalSubtitle"&gt;
+ Cómo recopilamos, usamos y protegemos tu información.
+ &lt;/p&gt;
+&lt;/section&gt;
+&lt;section class="legalSection"&gt;
+ &lt;h2 class="sectionTitle"&gt;Información que Recopilamos&lt;/h2&gt;
+ &lt;p class="legalText"&gt;
+ En Kasnia Project, valoramos tu privacidad. Este sitio web no recopila
+ información personal identificable de forma directa. Sin embargo, como
+ la mayoría de los sitios web, utilizamos servicios de terceros que
+ pueden recopilar cierta información automáticamente.
+ &lt;/p&gt;
+ &lt;p class="legalText"&gt;
+ La información que puede ser recopilada automáticamente incluye:
+ dirección IP, tipo de navegador, sistema operativo, páginas visitadas
+ y tiempo de permanencia en el sitio. Esta información se utiliza
+ únicamente con fines estadísticos y para mejorar la experiencia del
+ usuario.
+ &lt;/p&gt;</description></item><item><title>Seirei Gensouki</title><link>https://kasniaproject.us.kg/novelas/seirei-gensouki/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://kasniaproject.us.kg/novelas/seirei-gensouki/</guid><description/></item></channel></rss>
