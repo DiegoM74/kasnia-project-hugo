@@ -12,7 +12,7 @@ genres:
   - "Escolar"
   - "Fantasía"
 link: "assassins-pride"
-status: "paused"
+status: "active"
 synopsis: "Solo aquellos procedentes de linajes de familias nobles tienen la capacidad de enfrentar a los monstruos. Kufa es un noble nacido en la familia de un duque a quien envían como tutor de una joven llamada Merida. Merida no tiene talento alguno con el maná, lo que hace que en realidad la misión secreta y real de Kufa sea asesinarla."
 author: "Kei Amagi"
 illustrator: "Ninomotonino"
