@@ -12,7 +12,7 @@ genres:
   - "Escolar"
   - "Fantasía"
 link: "assassins-pride"
-status: "paused"
+status: "active"
 synopsis: "Solo aquellos procedentes de linajes de familias nobles tienen la capacidad de enfrentar a los monstruos. Kufa es un noble nacido en la familia de un duque a quien envían como tutor de una joven llamada Merida. Merida no tiene talento alguno con el maná, lo que hace que en realidad la misión secreta y real de Kufa sea asesinarla."
 author: "Kei Amagi"
 illustrator: "Ninomotonino"
@@ -49,8 +49,8 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1d1xc8BstxZsX1N0xHRe9zEb1josOb3d6/view"
-      epub: "https://drive.google.com/file/d/1ryvFwEQJt1FCzccwA9U86CD_Ubc34-JT/view"
+      pdf: "https://drive.google.com/file/d/1KDfeSFQVqv9Gugc-Dt3Cf1NrPaFebyxa/view"
+      epub: "https://drive.google.com/file/d/1bBhBWBBte-x7GmIKlM8oD6CmnlirQwvJ/view"
 
   - num: "03"
     state: "published"
@@ -64,23 +64,23 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1ziT67zhOm4vI3pd-ehvExixxfsVkU-Uq/view"
-      epub: "https://drive.google.com/file/d/1x5to9pKKyGUbkZKJocorTjpfquetmtp3/view"
+      pdf: "https://drive.google.com/file/d/1JOI9nQprcG-Fzz31WEzFzeq64KbMlEkx/view"
+      epub: "https://drive.google.com/file/d/1m2GMS3ZlNJPDiFZzOrpmMWs4rn1BZC37/view"
 
   - num: "04"
-    state: "upcoming"
+    state: "published"
     credits:
-      translator: "DeepSeek (IA)"
+      translator: "LughAT"
       corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "LughAT"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "https://drive.google.com/file/d/1aaTE4NzDM_2TuyKaxlluAP-D3ORcaFSh/view"
+      epub: "https://drive.google.com/file/d/131l8jrDNGHGMY1ZuVPIgrcjuAwcEqQTG/view"
 
   - num: "05"
     state: "upcoming"
