@@ -70,17 +70,17 @@ volumes:
   - num: "04"
     state: "upcoming"
     credits:
-      translator: "DeepSeek (IA)"
+      translator: "LughAT"
       corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "LughAT"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "https://drive.google.com/file/d/1aaTE4NzDM_2TuyKaxlluAP-D3ORcaFSh/view"
+      epub: "https://drive.google.com/file/d/131l8jrDNGHGMY1ZuVPIgrcjuAwcEqQTG/view"
 
   - num: "05"
     state: "upcoming"
