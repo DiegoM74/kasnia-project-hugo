@@ -37,7 +37,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1j4PxLEf_cj-u0HrLAA2RuEVcHncEG4hZ/view"
-      epub: "https://drive.google.com/file/1IuHNyiopy69MXI-7lgZ6xHAlnqbgtBUV/view"
+      epub: "https://drive.google.com/file/d/1IuHNyiopy69MXI-7lgZ6xHAlnqbgtBUV/view"
 
   - num: "26"
     state: "published"
