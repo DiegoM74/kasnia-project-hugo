@@ -40,7 +40,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1V0Ph7oN3dc5EbTFUrjodHbxBMAUizTI1/view"
-      epub: "https://drive.google.com/file/d/18KwoAEW8c4DXhweXPh0RxjC4-TJgKkqn/view"
+      epub: "https://drive.google.com/file/d/1fr4CHWY3xHYRcS68nBLZ_F2qcmEO9aPY/view"
 
   - num: "02"
     state: "published"
@@ -55,7 +55,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1bSZvTPU9_tuE7WXBwx2rp013MORfoYIM/view"
-      epub: "https://drive.google.com/file/d/1N-0Ph9_YL6ru4Aa92YYBL69FElNggNCg/view"
+      epub: "https://drive.google.com/file/d/1sMCgJzt1uhboGgjgPVgBaXq2am2qK6hm/view"
 
   - num: "03"
     state: "published"
@@ -70,7 +70,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1_PWzT5hEObe9SVxGg_AYPI9_h5pxPiMn/view"
-      epub: "https://drive.google.com/file/d/1V4btFxPgUEJp2IPguiWYQu3wQUqlOQL9/view"
+      epub: "https://drive.google.com/file/d/1f_JchWTR6M7VgowXrEeiRFTH0kZf047d/view"
 
   - num: "04"
     state: "published"
@@ -85,7 +85,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/16DvrKjINZT7ZLZUTCTba22Mt5RVBPONJ/view"
-      epub: "https://drive.google.com/file/d/1o8yfN7S05CHPjIm54dZ35FGSrmt8PSxv/view"
+      epub: "https://drive.google.com/file/d/1VrhveOqjVj6bkLm7gWi6ammMAGNAvu41/view"
 
   - num: "05"
     state: "published"
@@ -100,7 +100,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1owyoqnsYTlLu-Nu8PEzOX-jpa0-XKOi6/view"
-      epub: "https://drive.google.com/file/d/198r6KtWeRLFTFPIy9OALFFs3634eK4mz/view"
+      epub: "https://drive.google.com/file/d/1VBz_5ndi3vDSSpcV0O4Prmg12vMfXu7W/view"
 
   - num: "06"
     state: "published"
@@ -115,7 +115,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1ZJPR5mA8B_WMum0h5yXfHXQl_c1Sbj6x/view"
-      epub: "https://drive.google.com/file/d/1JevpLcBUw2tl8wDVG2fiQh8Dud45fDLa/view"
+      epub: "https://drive.google.com/file/d/105sGH3ywtQRDNOvVzssPEAh7fZQsVYyT/view"
 
   - num: "07"
     state: "published"
@@ -130,7 +130,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1R72wZt4Mr0lppUbAI0n1LEX3vmlF4Qe_/view"
-      epub: "https://drive.google.com/file/d/1Wry1eDjaT4SMF7WxJQAgkcGUbgrTQb6l/view"
+      epub: "https://drive.google.com/file/d/15s3UlgPxh0FC8yt2QDa4Iyyo5GRvzuDh/view"
 
   - num: "08"
     state: "published"
@@ -145,7 +145,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1BzlM16sC8IB8dtdnRQ4ROFhpvv3VALhv/view"
-      epub: "https://drive.google.com/file/d/1MTKaeA6-IgWRIEuY6MHvWkjfxVCMudPO/view"
+      epub: "https://drive.google.com/file/d/1iHWj9R1SI0VmJTU_ZYo9L_bJoVLLtToj/view"
 
   - num: "09"
     state: "published"
@@ -160,7 +160,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1X7Xax9joeOfH0BWsJmHY1ezZpQ7HFoXl/view"
-      epub: "https://drive.google.com/file/d/14iadU5KX-AQL2bFMOigXsvx-iXAYIG-8/view"
+      epub: "https://drive.google.com/file/d/15-P4h3yUqS5Y2f-T4BRcmgBpgVKM3A87/view"
 
   - num: "10"
     state: "upcoming"
