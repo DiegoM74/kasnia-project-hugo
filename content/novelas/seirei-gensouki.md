@@ -13,19 +13,19 @@ genres:
   - "Fantasía"
   - "Romance"
 link: "seirei-gensouki"
-status: "uptodate" # active | uptodate | paused | completed
+status: "uptodate"
 synopsis: "Su vida pasada y su vida actual se cruzan, ¡pues un joven con recuerdos de dos vidas se enfrenta a su destino! Tras morir su madre asesinada cuando él era muy pequeño, el huérfano Rio tuvo que luchar por sobrevivir en los suburbios. Un día recupera los recuerdos de Haruto Amakawa, quien murió en un accidente cuando soñaba con reunirse con una amistad de la infancia, y es entonces cuando descubre que tras la reencarnación acabó en un mundo de magia y espada."
 author: "Yuri Kitayama"
 illustrator: "Riv"
-illustratorNote: "Kyoko Yufu desde Vol. 27" # opcional
+illustratorNote: "Kyoko Yufu desde Vol. 27"
 volumesReleased: 27
 demography: "Shounen (Juvenil, Chicos)"
-mangaAdaptation: true # true → "yes", false → "no"
+mangaAdaptation: true
 animeAdaptation: true
 
 volumes:
   - num: "25"
-    state: "published" # published | preview | upcoming
+    state: "published"
     credits:
       translator: "Diego"
       corrector: "Diego"
@@ -36,8 +36,8 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1PGdNrXf8IzTvvKjr7oJk_S-Uge0PjMvM/view"
-      epub: "https://drive.google.com/file/d/149ZGxaz2DtHwiP_joU2VNvl-RwI6RZcv/view"
+      pdf: "https://drive.google.com/file/d/1j4PxLEf_cj-u0HrLAA2RuEVcHncEG4hZ/view"
+      epub: "https://drive.google.com/file/1IuHNyiopy69MXI-7lgZ6xHAlnqbgtBUV/view"
 
   - num: "26"
     state: "published"
@@ -51,8 +51,8 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1Kx1RltpbibAsNPuBechHJHQKzhhYzIMn/view"
-      epub: "https://drive.google.com/file/d/1hwldOg8EO0ba7eEE8xJbsjPcESH7MWQg/view"
+      pdf: "https://drive.google.com/file/d/1922CbakIRc-lJ-JiLT3IhVvle2QW5-_0/view"
+      epub: "https://drive.google.com/file/d/1kVNKkPJQgAuKafMXnxNQSoFuSmr5x1X0/view"
 
   - num: "27"
     state: "published"
@@ -66,6 +66,6 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1R_SQ-yKn9NQ67wI6gHZ76UF3jiiRorLe/view"
-      epub: "https://drive.google.com/file/d/1xrI2eEogHv7K0XtX3TzJoKsBcCNgVnR8/view"
+      pdf: "https://drive.google.com/file/d/1G20RBBcwn1wjSgL52jpy15R-0jFsHm_t/view"
+      epub: "https://drive.google.com/file/d/1LeMMGnABWPHuGhGts89siFLryryZamal/view"
 ---
