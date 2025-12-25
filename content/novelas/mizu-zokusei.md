@@ -36,7 +36,7 @@ volumes:
       epub: true
     drive:
       pdf: "https://drive.google.com/file/d/15JRKVr6rkE90h7TPa6Q1PlVl8qh_wjj4/view"
-      epub: "https://drive.google.com/file/d/1pr_5UwEzkzDWEZAhirddHMPPGf-ZjNaj/view"
+      epub: "https://drive.google.com/file/d/18GTRBYMwT5h6Gytmd8KxiVPtjeSuVUfN/view"
 
   - num: "02"
     state: "upcoming"
