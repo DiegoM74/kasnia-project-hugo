@@ -24,7 +24,7 @@ animeAdaptation: true
 
 volumes:
   - num: "01"
-    state: "preview"
+    state: "published"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -32,11 +32,11 @@ volumes:
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1pAxzDacm5Thc2LkEx7MUsrXlIOGuHAbu/view"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/15JRKVr6rkE90h7TPa6Q1PlVl8qh_wjj4/view"
+      epub: "https://drive.google.com/file/d/1pr_5UwEzkzDWEZAhirddHMPPGf-ZjNaj/view"
 
   - num: "02"
     state: "upcoming"
