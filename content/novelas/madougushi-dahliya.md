@@ -64,7 +64,7 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "https://drive.google.com/file/d/1YlUwlPdY15QAUyDVqkiE6u3G6oxL7pzh/view"
+      pdf: "https://drive.google.com/file/d/1cWZsjYu1miEPsKOl8-Q_4PGcWhEQlMb_/view"
       epub: "#"
 
   - num: "04"
