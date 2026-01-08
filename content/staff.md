@@ -34,9 +34,4 @@ miembros:
     nombre: "Yaf"
     rol: "Corrector"
     novelIds: ["06"]
-
-  - staffId: "07"
-    nombre: "Álvaro"
-    rol: "Traductor"
-    novelIds: []
 ---

@@ -1,41 +1,43 @@
 <!DOCTYPE html>
-<html lang="es-ES" data-theme="dark" itemscope itemtype="https://schema.org/WebPage">
+<html
+  lang="es-ES"
+  data-theme="dark"
+  itemscope
+  itemtype="https://schema.org/WebPage"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Título dinámico -->
-    {{ $title := .Title }} 
-    {{ $description := .Site.Params.description }}
-    {{ if eq .Kind "home" }} 
-      {{ $title = "Kasnia Project" }}
-    {{ else }} 
-      {{ $title = printf "%s ─ Kasnia Project" .Title }}
-      {{ if .Description }}
-        {{ $description = .Description }}
-      {{ else if .Summary }}
-        {{ $description = .Summary }}
-      {{ end }}
-    {{ end }}
+    {{ $title := .Title }} {{ $description := .Site.Params.description }} {{ if
+    eq .Kind "home" }} {{ $title = "Kasnia Project" }} {{ else }} {{ $title =
+    printf "%s ─ Kasnia Project" .Title }} {{ if .Description }} {{ $description
+    = .Description }} {{ else if .Summary }} {{ $description = .Summary }} {{
+    end }} {{ end }}
     <title>{{ $title }}</title>
 
     <!-- Meta Description -->
     <meta name="description" content="{{ $description }}" />
-    
+
     <!-- Meta Keywords -->
     <meta name="keywords" content="{{ .Site.Params.keywords }}" />
-    
+
     <!-- Meta Author -->
     <meta name="author" content="{{ .Site.Params.author }}" />
-    
+
     <!-- Meta Robots -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ .Permalink }}" />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="{{ if eq .Kind "home" }}website{{ else }}article{{ end }}" />
+    <meta property="og:type" content="{{ if eq .Kind "home" }}website{{ else
+    }}article{{ end }}" />
     <meta property="og:url" content="{{ .Permalink }}" />
     <meta property="og:title" content="{{ $title }}" />
     <meta property="og:description" content="{{ $description }}" />
@@ -46,9 +48,9 @@
     <meta property="og:site_name" content="Kasnia Project" />
     {{ if ne .Kind "home" }}
     <meta property="article:author" content="{{ .Site.Params.author }}" />
-    <meta property="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}" />
-    <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}" />
-    {{ end }}
+    <meta property="article:published_time" content="{{ .PublishDate.Format
+    "2006-01-02T15:04:05Z07:00" }}" /> <meta property="article:modified_time"
+    content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}" /> {{ end }}
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -59,38 +61,36 @@
 
     <!-- Datos Estructurados JSON-LD -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Kasnia Project",
-      "url": "{{ .Site.BaseURL }}",
-      "logo": "{{ .Site.BaseURL }}img/icon/og.jpg",
-      "description": "{{ .Site.Params.description }}",
-      "sameAs": [
-        "{{ .Site.Params.social.facebook }}"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "Customer Service",
-        "availableLanguage": ["Spanish"]
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Kasnia Project",
+        "url": "{{ .Site.BaseURL }}",
+        "logo": "{{ .Site.BaseURL }}img/icon/og.jpg",
+        "description": "{{ .Site.Params.description }}",
+        "sameAs": ["{{ .Site.Params.social.facebook }}"],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Customer Service",
+          "availableLanguage": ["Spanish"]
+        }
       }
-    }
     </script>
 
     {{ if eq .Kind "home" }}
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Kasnia Project",
-      "url": "{{ .Site.BaseURL }}",
-      "description": "{{ .Site.Params.description }}",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "{{ .Site.BaseURL }}novelas?q={search_term_string}",
-        "query-input": "required name=search_term_string"
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Kasnia Project",
+        "url": "{{ .Site.BaseURL }}",
+        "description": "{{ .Site.Params.description }}",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "{{ .Site.BaseURL }}novelas?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
       }
-    }
     </script>
     {{ end }}
 
@@ -188,34 +188,52 @@
 
     <!-- Modal de la página de descargas -->
     {{ if and (eq .Section "novelas") (eq .Kind "page") }}
-      <div class="modalOverlay" id="downloadModal">
-        <div class="modal">
-          <div class="modalHeader">
-            <h3 class="modalTitle" id="modalVolumeTitle">Volumen</h3>
-            <button class="modalClose" aria-label="Cerrar modal">
-              <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
-            </button>
-          </div>
-          <div class="creditsSection">
-            <h4 class="creditsSectionTitle">Créditos</h4>
-            <div class="creditsList" id="creditsContainer"></div>
-          </div>
-          <div class="serverToggle">
-            <button class="serverBtn active" data-server="propio">Servidor Propio</button>
-            <button class="serverBtn" data-server="drive">Google Drive</button>
-          </div>
-          <div class="downloadLinks">
-            <a href="#" class="downloadLink" id="pdfDownloadLink" target="_blank" rel="noopener noreferrer">
-              <div class="downloadIcon pdf"><svg><use href="/img/svg/novela.svg#pdfIcon" /></svg></div>
-              <div class="downloadFormat">PDF</div>
-            </a>
-            <a href="#" class="downloadLink" id="epubDownloadLink" target="_blank" rel="noopener noreferrer">
-              <div class="downloadIcon epub"><svg><use href="/img/svg/novela.svg#epubIcon" /></svg></div>
-              <div class="downloadFormat">EPUB</div>
-            </a>
-          </div>
+    <div class="modalOverlay" id="downloadModal">
+      <div class="modal">
+        <div class="modalHeader">
+          <h3 class="modalTitle" id="modalVolumeTitle">Volumen</h3>
+          <button class="modalClose" aria-label="Cerrar modal">
+            <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
+          </button>
+        </div>
+        <div class="creditsSection">
+          <h4 class="creditsSectionTitle">Créditos</h4>
+          <div class="creditsList" id="creditsContainer"></div>
+        </div>
+        <div class="serverToggle">
+          <button class="serverBtn active" data-server="propio">
+            Servidor Propio
+          </button>
+          <button class="serverBtn" data-server="drive">Google Drive</button>
+        </div>
+        <div class="downloadLinks">
+          <a
+            href="#"
+            class="downloadLink"
+            id="pdfDownloadLink"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="downloadIcon pdf">
+              <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
+            </div>
+            <div class="downloadFormat">PDF</div>
+          </a>
+          <a
+            href="#"
+            class="downloadLink"
+            id="epubDownloadLink"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="downloadIcon epub">
+              <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
+            </div>
+            <div class="downloadFormat">EPUB</div>
+          </a>
         </div>
       </div>
+    </div>
     {{ end }}
 
     <!-- Footer común -->
@@ -223,7 +241,11 @@
       <div class="footerContainer">
         <div class="footerContent">
           <div class="footerBrand">
-            <a href="/" class="footerLogoLink" aria-label="Ir a la página principal">
+            <a
+              href="/"
+              class="footerLogoLink"
+              aria-label="Ir a la página principal"
+            >
               <svg
                 class="footerLogoSvg"
                 viewBox="0 0 793.4 543.8"
@@ -276,7 +298,7 @@
         </div>
 
         <div class="footerBottom">
-          <p>&copy; 2025 Kasnia Project. Todos los derechos reservados.</p>
+          <p>&copy; 2026 Kasnia Project. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>
