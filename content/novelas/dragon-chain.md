@@ -55,18 +55,18 @@ volumes:
       epub: "https://drive.google.com/file/d/1xw_5VSGeHwSd9vE13Fg5NfInU-yC7OPN/view"
 
   - num: "03"
-    state: "preview"
+    state: "published"
     credits:
-      translator: "LughAT"
+      translator: "LughAT & Diego"
       corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "LughAT"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
+      pdf: true
       epub: false
     drive:
-      pdf: "https://drive.google.com/file/d/1lJUc0RzR9pIQ-OC0vSbp8Ke7KgpkMyvm/view"
+      pdf: "https://drive.google.com/file/d/1oLj5aZf8UEpRkHpXT6zaOwk7TgLHCoNn/view"
       epub: "#"
 
   - num: "04"
