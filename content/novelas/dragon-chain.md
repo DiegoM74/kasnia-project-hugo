@@ -70,17 +70,17 @@ volumes:
       epub: "#"
 
   - num: "04"
-    state: "upcoming"
+    state: "preview"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "-"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
+      pdf: true
       epub: false
     drive:
-      pdf: "#"
+      pdf: "https://drive.google.com/open?id=16CfP_tNG-0LLc2qegpXwhHRm7L9qZOL0&usp=drive_fs"
       epub: "#"
 ---
