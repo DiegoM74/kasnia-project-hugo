@@ -78,7 +78,7 @@ volumes:
       pdfTypesetter: "-"
       epubTypesetter: "Diego"
     propio:
-      pdf: true
+      pdf: false
       epub: false
     drive:
       pdf: "https://drive.google.com/open?id=16CfP_tNG-0LLc2qegpXwhHRm7L9qZOL0&usp=drive_fs"
