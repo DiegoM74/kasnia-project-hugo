@@ -64,10 +64,10 @@ volumes:
       epubTypesetter: "Diego"
     propio:
       pdf: true
-      epub: false
+      epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1oLj5aZf8UEpRkHpXT6zaOwk7TgLHCoNn/view"
-      epub: "#"
+      epub: "https://drive.google.com/file/d/1qW3lmcHyxPDHzR9Rxe1pwTQQ6ttCv4Ls/view"
 
   - num: "04"
     state: "preview"
@@ -75,12 +75,12 @@ volumes:
       translator: "LughAT"
       corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "Diego"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: "https://drive.google.com/open?id=16CfP_tNG-0LLc2qegpXwhHRm7L9qZOL0&usp=drive_fs"
+      pdf: "https://drive.google.com/file/d/16CfP_tNG-0LLc2qegpXwhHRm7L9qZOL0/view"
       epub: "#"
 ---
