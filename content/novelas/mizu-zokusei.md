@@ -45,13 +45,13 @@ volumes:
       corrector: "Yaf"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
       pdf: true
-      epub: false
+      epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1H_rGgrIfcF6GtUYWELDkxaUNg9pBg-HI/view"
-      epub: "#"
+      epub: "https://drive.google.com/file/d/1ffOMGPBY8nRBGPeXQ30r3lTWKVUNGdo6/view"
 
   - num: "03"
     state: "upcoming"
