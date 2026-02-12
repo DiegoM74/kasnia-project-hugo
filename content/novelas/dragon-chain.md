@@ -81,6 +81,6 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "https://drive.google.com/file/d/16CfP_tNG-0LLc2qegpXwhHRm7L9qZOL0/view"
+      pdf: "https://drive.google.com/open?id=1VOiPXc4VYMVDLJ9SXy_U5PHlWCYjwvbY&usp=drive_fs"
       epub: "#"
 ---
