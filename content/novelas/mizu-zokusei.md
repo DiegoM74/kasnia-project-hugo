@@ -60,7 +60,7 @@ volumes:
       corrector: "Yaf"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: ""
     propio:
       pdf: false
       epub: false
