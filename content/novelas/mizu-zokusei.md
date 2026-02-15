@@ -54,10 +54,10 @@ volumes:
       epub: "https://drive.google.com/file/d/1ffOMGPBY8nRBGPeXQ30r3lTWKVUNGdo6/view"
 
   - num: "03"
-    state: "upcoming"
+    state: "preview"
     credits:
-      translator: ""
-      corrector: "-"
+      translator: "Diego"
+      corrector: "Yaf"
       editor: "-"
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
@@ -65,13 +65,13 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: "https://drive.google.com/file/d/1103y9OacIj4GqeMy3ooyu5z99udfDny5/view"
       epub: "#"
 
   - num: "04"
     state: "upcoming"
     credits:
-      translator: ""
+      translator: "-"
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
@@ -86,7 +86,7 @@ volumes:
   - num: "05"
     state: "upcoming"
     credits:
-      translator: ""
+      translator: "-"
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
