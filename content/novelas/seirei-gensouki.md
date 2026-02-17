@@ -68,4 +68,19 @@ volumes:
     drive:
       pdf: "https://drive.google.com/file/d/1G20RBBcwn1wjSgL52jpy15R-0jFsHm_t/view"
       epub: "https://drive.google.com/file/d/1LeMMGnABWPHuGhGts89siFLryryZamal/view"
+  
+  - num: "28"
+    state: "upcoming"
+    credits:
+      translator: "Qwen3.5 (IA)"
+      corrector: "Diego"
+      editor: "-"
+      pdfTypesetter: "Diego"
+      epubTypesetter: "Diego"
+    propio:
+      pdf: false
+      epub: false
+    drive:
+      pdf: "#"
+      epub: "#"
 ---
