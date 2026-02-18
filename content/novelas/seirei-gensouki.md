@@ -70,17 +70,17 @@ volumes:
       epub: "https://drive.google.com/file/d/1LeMMGnABWPHuGhGts89siFLryryZamal/view"
   
   - num: "28"
-    state: "upcoming"
+    state: "preview"
     credits:
       translator: "Qwen3.5 (IA)"
       corrector: "Diego"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: "https://drive.google.com/file/d/1ie4tV9DhAv-catQ-O0kp4noMloXFuGhK/view"
       epub: "#"
 ---
