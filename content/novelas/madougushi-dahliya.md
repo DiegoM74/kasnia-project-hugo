@@ -53,7 +53,7 @@ volumes:
       epub: "https://drive.google.com/file/d/14dkHuZT0xdSF6Ul_7OS0Q7jZyDNAESI4/view"
 
   - num: "03"
-    state: "preview"
+    state: "published"
     credits:
       translator: "JoséBR"
       corrector: "Hiro寛"
@@ -61,17 +61,17 @@ volumes:
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1cWZsjYu1miEPsKOl8-Q_4PGcWhEQlMb_/view"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1zvEMHvEEWqW9Rr3Hc87_w5_bAGU5Cl9J/view"
+      epub: "https://drive.google.com/file/d/1kOcOhMwvZXz_4h3p_5A-6emVXBeqQSgT/view"
 
   - num: "04"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "JoséBR"
+      corrector: "Hiro寛"
       editor: "-"
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
