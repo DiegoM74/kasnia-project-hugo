@@ -14,7 +14,7 @@ genres:
   - "Fantasía"
   - "Romance"
 link: "dragon-chain"
-status: "active"
+status: "uptodate"
 synopsis: "La Academia Solminati es un lugar de encuentro para jóvenes con sueños, esperanzas, ambiciones y diversas inquietudes. Entre ellos había un chico que ingresó a la escuela con el único propósito de apoyar el sueño de su amada. Sin embargo, la habilidad del chico, que hasta entonces solo existía en su imaginación, no mostraba mejoras. Fue objeto de burlas por parte de quienes lo rodeaban, no tenía amigos, se separó de su amada y sus pasos se detuvieron. No obstante, un día conoció a una anciana, y ese encuentro marcó el inicio de un cambio gradual en él. Esta es la historia de un chico que comienza a descubrir su verdadera fuerza."
 author: "cadet"
 illustrator: "sime"
@@ -79,8 +79,8 @@ volumes:
       epubTypesetter: "Diego"
     propio:
       pdf: true
-      epub: false
+      epub: true
     drive:
       pdf: "https://drive.google.com/open?id=1xmF3l37uHMeccOFo_FIYqOuQP5W7iwVn&usp=drive_fs"
-      epub: "#"
+      epub: "https://drive.google.com/open?id=17u4k9TZZPotTjw37UU_gNWxhMhjdOIb5&usp=drive_fs"
 ---
