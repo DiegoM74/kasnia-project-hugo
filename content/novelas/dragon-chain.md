@@ -70,7 +70,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1qW3lmcHyxPDHzR9Rxe1pwTQQ6ttCv4Ls/view"
 
   - num: "04"
-    state: "preview"
+    state: "published"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -78,9 +78,9 @@ volumes:
       pdfTypesetter: "LughAT"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
+      pdf: true
       epub: false
     drive:
-      pdf: "https://drive.google.com/open?id=1VOiPXc4VYMVDLJ9SXy_U5PHlWCYjwvbY&usp=drive_fs"
+      pdf: "https://drive.google.com/open?id=1xmF3l37uHMeccOFo_FIYqOuQP5W7iwVn&usp=drive_fs"
       epub: "#"
 ---
