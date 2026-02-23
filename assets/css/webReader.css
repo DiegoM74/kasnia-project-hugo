@@ -1,0 +1,428 @@
+/* ====== VARIABLES GLOBALES ====== */
+:root {
+  --reader-bg: #1a1a1a;
+  --reader-text: #e0e0e0;
+  --reader-font: system-ui, -apple-system, sans-serif;
+  --reader-size: 18px;
+  --reader-line-height: 1.6;
+
+  --reader-ui-bg: rgba(20, 20, 20, 0.95);
+  --reader-ui-border: #333;
+  --reader-ui-text: #fff;
+  
+  --reader-accent: #3498db;
+  --reader-toast-bg: #222;
+  --reader-toast-text: #eee;
+}
+
+/* Temas */
+[data-theme="light"] {
+  --reader-bg: #ffffff;
+  --reader-text: #222222;
+  --reader-ui-bg: rgba(250, 250, 250, 0.95);
+  --reader-ui-border: #ddd;
+  --reader-ui-text: #111;
+  --reader-toast-bg: #fff;
+  --reader-toast-text: #111;
+}
+
+[data-theme="sepia"] {
+  --reader-bg: #f4ecd8;
+  --reader-text: #5b4636;
+  --reader-ui-bg: rgba(240, 230, 210, 0.97);
+  --reader-ui-border: #d5c8a4;
+  --reader-ui-text: #4a382b;
+  --reader-toast-bg: #fdf6e3;
+  --reader-toast-text: #5b4636;
+}
+
+[data-theme="oled"] {
+  --reader-bg: #000000;
+  --reader-text: #dcdcdc;
+  --reader-ui-bg: rgba(0, 0, 0, 0.98);
+  --reader-ui-border: #222;
+  --reader-ui-text: #fff;
+  --reader-toast-bg: #111;
+  --reader-toast-text: #fff;
+}
+
+/* ====== RESET Y CONTENEDOR ====== */
+html, body.webReaderBody {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--reader-bg);
+  color: var(--reader-text);
+  font-family: var(--reader-font);
+  font-size: var(--reader-size);
+  line-height: var(--reader-line-height);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.webReaderContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ====== COMPONENTES UI (HEADER / FOOTER) ====== */
+.webReaderHeader, .webReaderFooter {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: var(--reader-ui-bg);
+  color: var(--reader-ui-text);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 50;
+  border: 1px solid var(--reader-ui-border);
+}
+
+.webReaderHeader {
+  top: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+}
+
+.webReaderFooter {
+  bottom: 0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+}
+
+.webReaderFooter.hidden {
+  transform: translateY(100%);
+}
+
+.readerTitleContainer {
+  text-align: center;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.readerNovelTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.readerChapterTitle {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin: 0;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.readerBtn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.readerBtn:hover {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+/* ====== ÁREA DE LECTURA (CONTENT) ====== */
+.webReaderContent {
+  flex-grow: 1;
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  /* Espaciado superior/inferior por interacciones */
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+/* Clases utilitarias solicitadas por el usuario */
+.webReaderContent p {
+  margin-bottom: 1em;
+  text-indent: 1.5em; /* Sangría por defecto para párrafos */
+  text-align: justify;
+}
+
+.webReaderContent p.noidentar {
+  text-indent: 0 !important;
+}
+
+.webReaderContent p.salto2 {
+  margin-top: 2em;
+}
+
+.webReaderContent p.centrado {
+  text-align: center !important;
+  text-indent: 0 !important;
+}
+
+.webReaderContent p.grande {
+  font-size: 1.16em;
+}
+
+.webReaderContent b, .webReaderContent strong {
+  font-weight: bold;
+}
+
+.webReaderContent i, .webReaderContent em {
+  font-style: italic;
+}
+
+.webReaderContent img {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  display: block;
+  margin: 2em auto;
+  border-radius: 4px;
+}
+
+.readerLoadingSpinner {
+  text-align: center;
+  opacity: 0.7;
+  padding: 2rem;
+  font-style: italic;
+}
+
+.readerLoadPrevBtn {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background: rgba(128, 128, 128, 0.1);
+  border: 1px dashed var(--reader-ui-border);
+  border-radius: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+.readerLoadPrevBtn:hover {
+  background: rgba(128, 128, 128, 0.2);
+}
+
+/* ====== BARRA LATERAL (AJUSTES) ====== */
+.webReaderSettings {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+  transition: opacity 0.3s ease;
+}
+
+.webReaderSettings.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.settingsOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.settingsPanel {
+  position: relative;
+  width: 320px;
+  max-width: 80%;
+  height: 100%;
+  background: var(--reader-ui-bg);
+  border-left: 1px solid var(--reader-ui-border);
+  color: var(--reader-ui-text);
+  padding: 20px;
+  box-sizing: border-box;
+  transform: translateX(0);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.webReaderSettings.hidden .settingsPanel {
+  transform: translateX(100%);
+}
+
+.settingsPanel h3 {
+  margin-top: 0;
+  border-bottom: 1px solid var(--reader-ui-border);
+  padding-bottom: 10px;
+}
+
+.settingGroup {
+  margin-bottom: 25px;
+}
+
+.settingGroup label {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.themeOptions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.themeBtn {
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.rangeControl {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rangeControl input[type="range"] {
+  flex-grow: 1;
+}
+
+.readerSelect {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--reader-ui-border);
+  font-family: inherit;
+}
+.readerSelect option {
+  background: var(--reader-ui-bg);
+  color: var(--reader-ui-text);
+}
+
+/* ====== TOAST (FOOTNOTES) ====== */
+.footnoteToast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  width: 90%;
+  max-width: 500px;
+  background: var(--reader-toast-bg);
+  color: var(--reader-toast-text);
+  border: 1px solid var(--reader-ui-border);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 200;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.footnoteToast.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(150px);
+  pointer-events: none;
+}
+
+.toastHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(128,128,128,0.2);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.toastHeader button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.toastContent {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: left;
+}
+.toastContent p {
+  margin: 0;
+  text-indent: 0;
+}
+
+/* ====== TOC ====== */
+.readerTocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tocBtn {
+  width: 100%;
+  text-align: left;
+  background: rgba(128, 128, 128, 0.1);
+  border: 1px solid transparent;
+  color: inherit;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.tocBtn:hover {
+  background: rgba(128, 128, 128, 0.2);
+  border-color: var(--reader-ui-border);
+}
+
+.readerSectionTitle {
+  margin: 3rem 0 1rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--reader-ui-border);
+  text-align: center;
+}

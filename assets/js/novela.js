@@ -40,6 +40,7 @@ function initModal() {
   const modalTitle = document.getElementById("modalVolumeTitle");
   const modalHeader = modalOverlay.querySelector(".modalHeader");
   const creditsContainer = document.getElementById("creditsContainer");
+  const webReaderLink = document.getElementById("webReaderLink");
   const pdfLink = document.getElementById("pdfDownloadLink");
   const epubLink = document.getElementById("epubDownloadLink");
   const serverBtns = modalOverlay.querySelectorAll(".serverBtn");
@@ -73,6 +74,19 @@ function initModal() {
     const creditsData = JSON.parse(card.dataset.credits || "[]");
     currentLinks = JSON.parse(card.dataset.links || "{}");
     const isPreview = card.classList.contains("preview");
+    const hasWebReader = card.dataset.webReader === "true";
+    const novelLink = card.dataset.novelLink || "#";
+
+    // Setup Reader Link
+    if (webReaderLink) {
+      if (hasWebReader) {
+        webReaderLink.style.display = "flex";
+        webReaderLink.href = novelLink;
+      } else {
+        webReaderLink.style.display = "none";
+        webReaderLink.href = "#";
+      }
+    }
 
     // Limpiar indicador previo
     modalHeader.querySelector(".previewIndicator")?.remove();

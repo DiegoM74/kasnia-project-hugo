@@ -866,3 +866,44 @@ main {
   width: 14px;
   height: 14px;
 }
+
+/* ========================================
+   WEB READER BUTTON (Modal)
+======================================== */
+.webReaderContainerModal {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+}
+
+.webReaderBtnModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 1.2rem;
+  background: linear-gradient(135deg, var(--accent), #ff6b9d);
+  color: #fff;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 10px 20px rgba(255, 154, 197, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.webReaderBtnModal:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(255, 154, 197, 0.6);
+  color: #fff;
+}
+
+.readerBtnIcon {
+  width: 28px;
+  height: 28px;
+}

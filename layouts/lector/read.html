@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html
+  lang="es-ES"
+  data-theme="dark"
+  itemscope
+  itemtype="https://schema.org/WebPage"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Lector Web ─ Kasnia Project</title>
+    <meta name="description" content="Lector de novelas de Kasnia Project." />
+    <!-- Meta Robots -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/img/icon/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/icon/apple-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/icon/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/icon/favicon-16.png" />
+
+    <!-- CSS exclusivo del Lector -->
+    {{ $readerCSS := resources.Get "css/webReader.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $readerCSS.Permalink }}" />
+  </head>
+  <body class="webReaderBody">
+    <div id="webReaderContainer" class="webReaderContainer">
+      <!-- Topbar / Controls Header -->
+      <header id="webReaderHeader" class="webReaderHeader hidden">
+        <button id="btnBack" class="readerBtn" aria-label="Volver">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </button>
+        <div class="readerTitleContainer">
+          <h1 id="readerNovelTitle" class="readerNovelTitle">Cargando...</h1>
+          <h2 id="readerChapterTitle" class="readerChapterTitle"></h2>
+        </div>
+        <button id="btnSettings" class="readerBtn" aria-label="Configuración">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+        </button>
+      </header>
+
+      <!-- Sidebar / Settings Overlay -->
+      <aside id="webReaderSettings" class="webReaderSettings hidden">
+        <div class="settingsOverlay" id="settingsOverlay"></div>
+        <div class="settingsPanel">
+          <h3>Apariencia</h3>
+          
+          <div class="settingGroup">
+            <label>Tema</label>
+            <div class="themeOptions">
+              <button class="themeBtn" data-theme="light" style="background: #ffffff; color: #000;">Luz</button>
+              <button class="themeBtn" data-theme="sepia" style="background: #f4ecd8; color: #5b4636;">Sepia</button>
+              <button class="themeBtn" data-theme="dark" style="background: #1a1a1a; color: #fff;">Oscuro</button>
+              <button class="themeBtn" data-theme="oled" style="background: #000000; color: #fff; border: 1px solid #333;">OLED</button>
+            </div>
+          </div>
+
+          <div class="settingGroup">
+            <label>Tamaño de texto</label>
+            <div class="rangeControl">
+              <span class="rangeIcon smallText">A</span>
+              <input type="range" id="fontSizeRange" min="14" max="32" step="1" value="18">
+              <span class="rangeIcon largeText">A</span>
+            </div>
+          </div>
+
+          <div class="settingGroup">
+            <label>Interlineado</label>
+            <div class="rangeControl">
+              <span class="rangeIcon smallLineHeight">≡</span>
+              <input type="range" id="lineHeightRange" min="1.2" max="2.4" step="0.1" value="1.6">
+              <span class="rangeIcon largeLineHeight">≡</span>
+            </div>
+          </div>
+
+          <div class="settingGroup">
+            <label>Fuente</label>
+            <select id="fontFamilySelect" class="readerSelect">
+              <option value="system-ui, sans-serif">Sistema (Sans-serif)</option>
+              <option value="Georgia, serif">Georgia (Serif)</option>
+              <option value="'Times New Roman', Times, serif">Times New Roman</option>
+              <option value="'Courier New', Courier, monospace">Courier New</option>
+            </select>
+          </div>
+
+          <!-- TOC Dinamico JS -->
+          <div class="settingGroup" style="margin-top: 1rem;">
+            <label>Índice (TOC)</label>
+            <ul id="readerTocList" class="readerTocList"></ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content Area -->
+      <main id="webReaderContent" class="webReaderContent" role="main">
+          <!-- Text and Images will be injected here via JS -->
+          <div class="readerLoadingSpinner">Cargando volumen...</div>
+      </main>
+
+      <!-- Footnote Toast / Tooltip Modal -->
+      <div id="footnoteToast" class="footnoteToast hidden">
+        <div class="toastHeader">
+          <span>Nota al pie</span>
+          <button id="btnCloseToast" aria-label="Cerrar nota">&times;</button>
+        </div>
+        <div id="footnoteToastContent" class="toastContent"></div>
+      </div>
+
+      <!-- Bottom Footer / Progress -->
+      <footer id="webReaderFooter" class="webReaderFooter hidden">
+        <div class="readerProgress">
+           <span id="progressText">1%</span>
+        </div>
+      </footer>
+    </div>
+
+    <!-- JS exclusivo del Lector -->
+    {{ $readerJS := resources.Get "js/webReader.js" | minify | fingerprint }}
+    <script src="{{ $readerJS.Permalink }}"></script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "title": "Seirei Gensouki",
+  "nameEs": "Crónicas de los Espíritus",
+  "volume": "25",
+  "author": "Yuri Kitayama",
+  "illustrator": "Riv",
+  "order": [
+    { "id": "cover", "title": "Portada", "type": "image", "images": ["cover.avif", "cover.jpg"] },
+    { "id": "synopsis", "title": "Sinopsis", "type": "html", "file": "sinopsis.html" },
+    { "id": "color_illus", "title": "Ilustraciones a color", "type": "gallery", "images": [ ["color-1.avif", "color-1.jpg"], ["color-2.avif", "color-2.jpg"], ["color-3.avif", "color-3.jpg"] ] },
+    { "id": "title_page", "title": "Página de título", "type": "html", "file": "titulo.html" },
+    { "id": "characters", "title": "Personajes y Mapa", "type": "gallery", "images": [ ["character-1.avif", "character-1.jpg"], ["character-2.avif", "character-2.jpg"] ] },
+    { "id": "toc", "title": "Índice original (TOC)", "type": "image", "images": ["toc.avif", "toc.jpg"] },
+    { "id": "prologue", "title": "Prólogo", "type": "html", "file": "prologo.html" },
+    { "id": "cap1", "title": "Capítulo 1", "type": "html", "file": "cap-01.html" },
+    { "id": "cap2", "title": "Capítulo 2", "type": "html", "file": "cap-02.html" }
+  ]
+}

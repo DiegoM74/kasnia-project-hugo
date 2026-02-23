@@ -142,6 +142,9 @@
         {{ if $epubPropio }}
           {{ $epubLink = printf "https://descargas.kasniaproject.us.kg/%s-Volumen-%s-[Kasnia-Project].epub" (replace $novelTitle " " "-") $num }}
         {{ end }}
+        
+        {{ $novelSlug := $.Params.link }}
+        {{ $baseURL := $.Site.BaseURL }}
 
         {{ $badgeClass := "" }}
         {{ if $isPreview }}{{ $badgeClass = "previewBadge" }}{{ end }}
@@ -157,6 +160,8 @@
         <article
           class="volumeCard{{ if $isPreview }} preview{{ end }}{{ if $isUpcoming }} upcoming{{ end }}"
           data-volume="{{ $num }}"
+          data-novel-link="{{ $baseURL }}lector/?novel={{ $novelSlug }}&vol={{ $num }}"
+          {{ if .webReader }}data-web-reader="true"{{ end }}
           {{ if not $isUpcoming }}
             data-credits='[
               {"role":"Traductor","name":"{{ $vol.credits.translator }}"},

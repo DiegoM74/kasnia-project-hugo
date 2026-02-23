@@ -26,6 +26,7 @@ animeAdaptation: true
 volumes:
   - num: "25"
     state: "published"
+    webReader: true
     credits:
       translator: "Diego"
       corrector: "Diego"
