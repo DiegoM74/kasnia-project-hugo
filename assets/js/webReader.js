@@ -158,7 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  window.addEventListener('scroll', updateProgress, {passive: true});
+  window.addEventListener('scroll', () => {
+     updateProgress();
+     if(typeof checkBoundaries === 'function') checkBoundaries();
+  }, {passive: true});
 
   // 5. Motor de Carga Asíncrona con index.json
   const webReaderContent = document.getElementById('webReaderContent');
@@ -208,16 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let nodes = [];
 
     try {
-      // 1. Generación de Header de Sección si no es portada o ilustraciones
-      if(fileObj.id !== 'cover' && fileObj.id !== 'color_illus' && fileObj.id !== 'title_page') { 
-         let headerChunk = document.createElement('div');
-         headerChunk.className = 'readerSectionTitle';
-         let h1 = document.createElement('h1');
-         h1.textContent = fileObj.title;
-         headerChunk.appendChild(h1);
-         nodes.push(headerChunk);
-      }
-
       // Tipos nativos JSON
       if(fileObj.type === 'cover' || fileObj.type === 'image') {
          let tempChunk = document.createElement('figure');
@@ -237,23 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
          return nodes;
       }
 
-      if(fileObj.type === 'synopsis') {
-         let tempChunk = document.createElement('div');
-         tempChunk.className = 'readerChunk';
-         tempChunk.innerHTML = `<h2 class="centrado" style="margin-bottom:2rem;">Sinopsis</h2><p>${activeJsonData.synopsis}</p>`;
-         nodes.push(tempChunk);
-         return nodes;
-      }
-
-      if(fileObj.type === 'title') {
-         let tempChunk = document.createElement('div');
-         tempChunk.className = 'readerChunk';
-         tempChunk.innerHTML = `<div class="centrado salto2"><h1 style="font-size:3rem; margin-bottom:0;">${activeJsonData.title}</h1><h2 style="opacity:0.8; margin-top:0;">Volumen ${activeJsonData.volume}</h2><p class="salto2">Autor: ${activeJsonData.author}<br>Ilustrador: ${activeJsonData.illustrator}</p></div>`;
-         nodes.push(tempChunk);
-         return nodes;
-      }
-
-      // Archivos HTML (EPUB originales)
+      // Archivos HTML (EPUB originales o genéricos como sinopsis/título en los nuevos libros)
       if(fileObj.type === 'html') {
          const response = await fetch(`${basePath}${fileObj.file}`);
          if (!response.ok) throw new Error('Fragmento HTML fallido');
@@ -296,79 +273,89 @@ document.addEventListener('DOMContentLoaded', () => {
     return nodes;
   };
 
+  // Controladores de scroll bidireccional más robustos (sin IntersectionObserver defectuoso)
+  const loadPreviousChapter = async () => {
+      if (isFetchingChapter || currentStartFileIndex <= 0) return;
+      isFetchingChapter = true;
+      currentStartFileIndex--;
+      
+      const nodes = await fetchChapterNodes(currentStartFileIndex);
+      if (nodes.length > 0) {
+         const anchor = topBoundary.nextElementSibling;
+         let offsetTopBefore = anchor ? anchor.getBoundingClientRect().top : 0;
+         
+         nodes.reverse().forEach(node => topBoundary.insertAdjacentElement('afterend', node));
+
+         // Compensar el scroll por los nodos inyectados arriba
+         if (anchor) {
+            const scrollDiff = anchor.getBoundingClientRect().top - offsetTopBefore;
+            window.scrollBy(0, scrollDiff);
+         }
+      }
+      
+      initFootnotes();
+      isFetchingChapter = false;
+      setTimeout(checkBoundaries, 150); // Revisar si debemos seguir cargando
+  };
+
+  const loadNextChapter = async () => {
+      if (isFetchingChapter || currentEndFileIndex >= readingQueue.length - 1) return;
+      isFetchingChapter = true;
+      currentEndFileIndex++;
+      
+      const nodes = await fetchChapterNodes(currentEndFileIndex);
+      nodes.forEach(node => bottomBoundary.insertAdjacentElement('beforebegin', node));
+
+      initFootnotes();
+
+      if (currentEndFileIndex >= readingQueue.length - 1) {
+         let fin = document.createElement('p');
+         fin.className = 'centrado salto2';
+         fin.innerHTML = '<b>Fin del volumen.</b><br>Gracias por leer Kasnia Project.';
+         bottomBoundary.insertAdjacentElement('beforebegin', fin);
+         document.querySelector('.readerLoadingSpinner')?.remove();
+      }
+      
+      isFetchingChapter = false;
+      setTimeout(checkBoundaries, 150);
+  };
+
+  const checkBoundaries = () => {
+     if (isFetchingChapter) return;
+     const topRect = topBoundary.getBoundingClientRect();
+     const bottomRect = bottomBoundary.getBoundingClientRect();
+     const vh = window.innerHeight || document.documentElement.clientHeight;
+     
+     // Top is hitting viewport -> Scroll up
+     if (topRect.bottom >= -300 && currentStartFileIndex > 0) {
+        loadPreviousChapter();
+     } 
+     // Bottom is hitting viewport -> Scroll down
+     else if (bottomRect.top <= vh + 300 && currentEndFileIndex < readingQueue.length - 1) {
+        loadNextChapter();
+     }
+  };
+
   const loadInitialChapter = async (index) => {
+     isFetchingChapter = true;
      webReaderContent.innerHTML = '';
-     webReaderContent.appendChild(topBoundary);
+     
      currentStartFileIndex = index;
      currentEndFileIndex = index;
 
-     isFetchingChapter = true;
      const nodes = await fetchChapterNodes(index);
+     
+     webReaderContent.appendChild(topBoundary);
      nodes.forEach(node => webReaderContent.appendChild(node));
      webReaderContent.appendChild(bottomBoundary);
+     
      isFetchingChapter = false;
      
      initFootnotes();
      window.scrollTo(0, 0);
+     
+     setTimeout(checkBoundaries, 200);
   };
-
-  // Infinite Scroll Observers
-  const observerCallback = async (entries) => {
-     for (const entry of entries) {
-        if (entry.isIntersecting && !isFetchingChapter) {
-           
-           // Scroll Hacia Arriba (Cargar Capitulo Anterior)
-           if (entry.target === topBoundary && currentStartFileIndex > 0) {
-              isFetchingChapter = true;
-              currentStartFileIndex--;
-              const nodes = await fetchChapterNodes(currentStartFileIndex);
-              
-              if (nodes.length > 0) {
-                 const oldHeight = document.body.scrollHeight;
-                 const oldScroll = window.scrollY || document.documentElement.scrollTop;
-                 
-                 // Prepend reversed list after topBoundary
-                 nodes.reverse().forEach(node => {
-                    topBoundary.insertAdjacentElement('afterend', node);
-                 });
-                 
-                 const newHeight = document.body.scrollHeight;
-                 window.scrollTo(0, oldScroll + (newHeight - oldHeight));
-              }
-              initFootnotes();
-              isFetchingChapter = false;
-           }
-           
-           // Scroll Hacia Abajo (Cargar Capitulo Siguiente)
-           if (entry.target === bottomBoundary && currentEndFileIndex < readingQueue.length - 1) {
-              isFetchingChapter = true;
-              currentEndFileIndex++;
-              const nodes = await fetchChapterNodes(currentEndFileIndex);
-              
-              nodes.forEach(node => {
-                 bottomBoundary.insertAdjacentElement('beforebegin', node);
-              });
-
-              initFootnotes();
-
-              // Si llegamos al final, mostramos un aviso final
-              if (currentEndFileIndex >= readingQueue.length - 1) {
-                 let fin = document.createElement('p');
-                 fin.className = 'centrado salto2';
-                 fin.innerHTML = '<b>Fin del volumen.</b><br>Gracias por leer Kasnia Project.';
-                 bottomBoundary.insertAdjacentElement('beforebegin', fin);
-                 document.querySelector('.readerLoadingSpinner')?.remove();
-              }
-              
-              isFetchingChapter = false;
-           }
-        }
-     }
-  };
-
-  const scrollObserver = new IntersectionObserver(observerCallback, { rootMargin: '200px' });
-  scrollObserver.observe(topBoundary);
-  scrollObserver.observe(bottomBoundary);
 
   const loadIndexJson = async () => {
     try {
