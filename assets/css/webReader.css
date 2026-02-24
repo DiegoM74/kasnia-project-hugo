@@ -98,9 +98,8 @@ html, body.webReaderBody {
   border-bottom: none;
   border-left: none;
   border-right: none;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1rem;
   text-align: center;
-  font-size: 0.85rem;
 }
 
 .hidden {
@@ -120,12 +119,15 @@ html, body.webReaderBody {
 }
 
 .readerNovelTitle {
-  font-size: 0.9rem;
-  font-weight: bold;
+  font-size: 0.95rem;
+  font-weight: 600;
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: 0.5px;
+  font-family: var(--reader-font);
+  opacity: 0.9;
 }
 
 .readerChapterTitle {
@@ -162,8 +164,8 @@ html, body.webReaderBody {
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  padding-top: 70px;
-  padding-bottom: 70px;
+  padding-top: 80px;
+  padding-bottom: 80px;
 }
 
 /* Clases utilitarias solicitadas por el usuario */
@@ -295,6 +297,8 @@ html, body.webReaderBody {
 .webReaderSettings.hidden {
   visibility: hidden;
   pointer-events: none;
+  opacity: 1;
+  transform: none;
   transition: visibility 0s linear 0.3s;
 }
 
@@ -537,26 +541,33 @@ input:checked + .slider:before {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
 .tocBtn {
   width: 100%;
   text-align: left;
-  background: rgba(128, 128, 128, 0.1);
-  border: 1px solid transparent;
+  background: transparent;
+  border: 1px solid var(--reader-ui-border);
+  border-left: 4px solid transparent;
   color: inherit;
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-radius: 6px;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .tocBtn:hover {
-  background: rgba(128, 128, 128, 0.2);
+  background: rgba(128, 128, 128, 0.1);
   border-color: var(--reader-ui-border);
+}
+
+.tocBtn.active {
+  border-left-color: var(--reader-accent);
+  background: rgba(128, 128, 128, 0.15);
+  font-weight: bold;
 }
 
 .readerChunk {

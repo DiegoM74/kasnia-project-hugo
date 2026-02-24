@@ -188,9 +188,38 @@ document.addEventListener('DOMContentLoaded', () => {
     footnoteToast.classList.add('hidden');
   });
 
-  // Re-hook checkBoundaries para el Infinite Scroll
+  // 4.5 Resaltado dinámico del TOC
+  const updateActiveToc = () => {
+     const chunks = document.querySelectorAll('.readerChunk[data-chapter-index]');
+     let activeIndex = -1;
+     let minDistance = Infinity;
+     const vh = window.innerHeight || document.documentElement.clientHeight;
+     
+     chunks.forEach(chunk => {
+        const rect = chunk.getBoundingClientRect();
+        if (rect.top <= vh/3 && rect.bottom >= vh/3) {
+           activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
+        } else if (rect.top >= 0 && rect.top < minDistance) {
+           minDistance = rect.top;
+           if (activeIndex === -1) activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
+        }
+     });
+
+     if (activeIndex !== -1) {
+        document.querySelectorAll('.tocBtn').forEach((btn, idx) => {
+           if (idx === activeIndex) {
+              btn.classList.add('active');
+           } else {
+              btn.classList.remove('active');
+           }
+        });
+     }
+  };
+
+  // Re-hook checkBoundaries para el Infinite Scroll y actualizar TOC
   window.addEventListener('scroll', () => {
      if(typeof checkBoundaries === 'function') checkBoundaries();
+     updateActiveToc();
   }, {passive: true});
 
   // 5. Motor de Carga Asíncrona con index.json
@@ -245,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(fileObj.type === 'cover' || fileObj.type === 'image') {
          let tempChunk = document.createElement('figure');
          tempChunk.className = 'dimg grande readerChunk';
+         tempChunk.setAttribute('data-chapter-index', fileIndex);
          tempChunk.innerHTML = createPictureHTML(fileObj.images, fileObj.title);
          nodes.push(tempChunk);
          return nodes;
@@ -254,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
          fileObj.images.forEach(imgGroup => {
             let tempChunk = document.createElement('figure');
             tempChunk.className = 'dimg grande readerChunk';
+            tempChunk.setAttribute('data-chapter-index', fileIndex);
             tempChunk.innerHTML = createPictureHTML(imgGroup, fileObj.title);
             nodes.push(tempChunk);
          });
@@ -289,6 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
          let wrapper = document.createElement('div');
          wrapper.className = 'readerChunk';
+         wrapper.setAttribute('data-chapter-index', fileIndex);
          Array.from(childrenSource).forEach(child => {
             wrapper.appendChild(child.cloneNode(true));
          });
@@ -411,7 +443,10 @@ document.addEventListener('DOMContentLoaded', () => {
      initFootnotes();
      window.scrollTo(0, 0);
      
-     setTimeout(checkBoundaries, 200);
+     setTimeout(() => {
+        checkBoundaries();
+        updateActiveToc();
+     }, 200);
   };
 
   const loadIndexJson = async () => {
