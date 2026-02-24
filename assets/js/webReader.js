@@ -20,8 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const footnoteToastContent = document.getElementById('footnoteToastContent');
   const btnCloseToast = document.getElementById('btnCloseToast');
 
-  // Lectura del progreso (dummy base)
-  const progressText = document.getElementById('progressText');
+  const btnToc = document.getElementById('btnToc');
+  const webReaderTocPanel = document.getElementById('webReaderTocPanel');
+  const tocOverlay = document.getElementById('tocOverlay');
+  
+  const hyphensToggle = document.getElementById('hyphensToggle');
+  const btnCloseSettings = document.getElementById('btnCloseSettings');
+  const btnCloseToc = document.getElementById('btnCloseToc');
+
   let isUIVisible = false; // UI is invisible initially for reading
 
   // 1. Cargar Configuración del LocalStorage (Persistencia)
@@ -30,12 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedFontSize = localStorage.getItem('kasniaReaderFontSize') || '18';
     const savedLineHeight = localStorage.getItem('kasniaReaderLineHeight') || '1.6';
     const savedFont = localStorage.getItem('kasniaReaderFont') || 'system-ui, sans-serif';
+    const savedHyphens = localStorage.getItem('kasniaReaderHyphens') || 'false';
 
     // Aplicar a HTML
     htmlElement.setAttribute('data-theme', savedTheme);
     document.documentElement.style.setProperty('--reader-size', `${savedFontSize}px`);
     document.documentElement.style.setProperty('--reader-line-height', savedLineHeight);
     document.documentElement.style.setProperty('--reader-font', savedFont);
+    
+    if (savedHyphens === 'true') {
+       webReaderContent.setAttribute('data-hyphens', 'true');
+       hyphensToggle.checked = true;
+    }
 
     // Actualizar controles UI
     fontSizeRange.value = savedFontSize;
@@ -75,6 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
     saveSettings('kasniaReaderFont', val);
   });
 
+  hyphensToggle.addEventListener('change', (e) => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+       webReaderContent.setAttribute('data-hyphens', 'true');
+       saveSettings('kasniaReaderHyphens', 'true');
+    } else {
+       webReaderContent.removeAttribute('data-hyphens');
+       saveSettings('kasniaReaderHyphens', 'false');
+    }
+  });
+
   // 3. UI Toggle (Mostrar/Ocultar Header Sidebar)
   const toggleUI = () => {
     isUIVisible = !isUIVisible;
@@ -85,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
       webReaderHeader.classList.add('hidden');
       webReaderFooter.classList.add('hidden');
       webReaderSettings.classList.add('hidden'); // Also close settings
+      webReaderTocPanel.classList.add('hidden'); // Also close TOC
     }
   };
 
@@ -99,11 +123,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnSettings.addEventListener('click', () => {
     webReaderSettings.classList.remove('hidden');
+    webReaderTocPanel.classList.add('hidden');
   });
 
   settingsOverlay.addEventListener('click', () => {
     webReaderSettings.classList.add('hidden');
   });
+
+  if (btnToc) {
+    btnToc.addEventListener('click', () => {
+      webReaderTocPanel.classList.remove('hidden');
+      webReaderSettings.classList.add('hidden');
+    });
+  }
+
+  if (tocOverlay) {
+    tocOverlay.addEventListener('click', () => {
+      webReaderTocPanel.classList.add('hidden');
+    });
+  }
+
+  if (btnCloseSettings) {
+    btnCloseSettings.addEventListener('click', () => {
+      webReaderSettings.classList.add('hidden');
+    });
+  }
+
+  if (btnCloseToc) {
+    btnCloseToc.addEventListener('click', () => {
+      webReaderTocPanel.classList.add('hidden');
+    });
+  }
 
   btnBack.addEventListener('click', () => {
     window.history.back(); // Or redirect to novel's main page
@@ -138,28 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
     footnoteToast.classList.add('hidden');
   });
 
-  /* Lógica de scroll para 'Lectura continua' progresiva */
-  const updateProgress = () => {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const scrollHeight = Math.max(
-      document.body.scrollHeight, document.documentElement.scrollHeight,
-      document.body.offsetHeight, document.documentElement.offsetHeight,
-      document.body.clientHeight, document.documentElement.clientHeight
-    );
-    const clientHeight = document.documentElement.clientHeight;
-    
-    const maxScroll = scrollHeight - clientHeight;
-    
-    if (maxScroll > 0) {
-      const progress = Math.min(100, Math.max(0, Math.round((scrollTop / maxScroll) * 100)));
-      progressText.textContent = `${progress}%`;
-    } else {
-      progressText.textContent = `100%`;
-    }
-  };
-
+  // Re-hook checkBoundaries para el Infinite Scroll
   window.addEventListener('scroll', () => {
-     updateProgress();
      if(typeof checkBoundaries === 'function') checkBoundaries();
   }, {passive: true});
 
@@ -197,9 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
            if(p.endsWith('.webp')) html += `<source srcset="${basePath}${p}" type="image/webp">`;
         });
         const fallback = pathsArr.find(p => p.endsWith('.jpg') || p.endsWith('.png')) || pathsArr[0];
-        html += `<img src="${basePath}${fallback}" alt="${altText}" loading="lazy">`;
+        html += `<img src="${basePath}${fallback}" alt="${altText}">`;
      } else {
-        html += `<img src="${pathsArr}" alt="${altText}" loading="lazy">`;
+        html += `<img src="${pathsArr}" alt="${altText}">`;
      }
      html += `</picture>`;
      return html;
@@ -238,18 +268,18 @@ document.addEventListener('DOMContentLoaded', () => {
          const parser = new DOMParser();
          const doc = parser.parseFromString(htmlText, 'text/html');
          
-         const images = doc.querySelectorAll('img');
-         images.forEach(img => {
-           let oldSrc = img.getAttribute('src');
-           if (oldSrc && oldSrc.includes('../Images/')) {
-              oldSrc = oldSrc.replace('../Images/', '');
-              let baseName = oldSrc.replace('.jpg', '').replace('.jpeg', '').replace('.png', '');
-              let picture = document.createElement('picture');
-              // Loading lazy asume la optimización de bandwidth del navegador
-              picture.innerHTML = `<source srcset="${basePath}${baseName}.avif" type="image/avif"><img src="${basePath}${oldSrc}" alt="Ilustración" loading="lazy">`;
-              img.parentNode.replaceChild(picture, img);
-           }
-         });
+          const images = doc.querySelectorAll('img');
+          images.forEach(img => {
+            let oldSrc = img.getAttribute('src');
+            if (oldSrc && oldSrc.includes('../Images/')) {
+               oldSrc = oldSrc.replace('../Images/', '');
+               let baseName = oldSrc.replace('.jpg', '').replace('.jpeg', '').replace('.png', '');
+               let picture = document.createElement('picture');
+               // Sin loading lazy explícito, permitimos carga veloz para calcular alturas
+               picture.innerHTML = `<source srcset="${basePath}${baseName}.avif" type="image/avif"><img src="${basePath}${oldSrc}" alt="Ilustración">`;
+               img.parentNode.replaceChild(picture, img);
+            }
+          });
 
          // Nivelar nodos (evitar que la etiqueta section agrupe todo y genere cajas blancas)
          let childrenSource = doc.body.children;
@@ -257,12 +287,12 @@ document.addEventListener('DOMContentLoaded', () => {
              childrenSource = childrenSource[0].children;
          }
 
+         let wrapper = document.createElement('div');
+         wrapper.className = 'readerChunk';
          Array.from(childrenSource).forEach(child => {
-            let wrapper = document.createElement('div');
-            wrapper.className = 'readerChunk';
             wrapper.appendChild(child.cloneNode(true));
-            nodes.push(wrapper);
          });
+         nodes.push(wrapper);
 
          // Quitar headerChunk redundante generado
          return nodes;
@@ -281,6 +311,24 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const nodes = await fetchChapterNodes(currentStartFileIndex);
       if (nodes.length > 0) {
+         // Precargar imágenes para asegurar que tengan altura definida antes de compensar el scroll
+         const imagesToPreload = [];
+         nodes.forEach(n => {
+            if (n.nodeType === 1) {
+               imagesToPreload.push(...Array.from(n.querySelectorAll('img')));
+            }
+         });
+
+         if (imagesToPreload.length > 0) {
+            await Promise.all(imagesToPreload.map(img => {
+               if (img.complete) return Promise.resolve();
+               return new Promise(resolve => {
+                  img.onload = resolve;
+                  img.onerror = resolve; // Resolvemos igual si falla
+               });
+            }));
+         }
+
          const anchor = topBoundary.nextElementSibling;
          let offsetTopBefore = anchor ? anchor.getBoundingClientRect().top : 0;
          
@@ -347,6 +395,15 @@ document.addEventListener('DOMContentLoaded', () => {
      
      webReaderContent.appendChild(topBoundary);
      nodes.forEach(node => webReaderContent.appendChild(node));
+     
+     if (currentEndFileIndex >= readingQueue.length - 1) {
+         let fin = document.createElement('p');
+         fin.className = 'centrado salto2';
+         fin.innerHTML = '<b>Fin del volumen.</b><br>Gracias por leer Kasnia Project.';
+         webReaderContent.appendChild(fin);
+         document.querySelector('.readerLoadingSpinner')?.remove();
+     }
+     
      webReaderContent.appendChild(bottomBoundary);
      
      isFetchingChapter = false;
@@ -398,7 +455,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Init Base
   loadSettings();
   initFootnotes();
-  updateProgress();
   
   // Start Loader Queue workflow
   loadIndexJson().then((success) => {
