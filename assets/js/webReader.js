@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSettings = document.getElementById('btnSettings');
   const webReaderSettings = document.getElementById('webReaderSettings');
   const settingsOverlay = document.getElementById('settingsOverlay');
+  const webReaderContent = document.getElementById('webReaderContent');
+  const readerNovelTitle = document.getElementById('readerNovelTitle');
   
   // Settings Controls
   const themeBtns = document.querySelectorAll('.themeBtn');
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tocOverlay = document.getElementById('tocOverlay');
   
   const hyphensToggle = document.getElementById('hyphensToggle');
+  const pagedModeToggle = document.getElementById('pagedModeToggle');
   const btnCloseSettings = document.getElementById('btnCloseSettings');
   const btnCloseToc = document.getElementById('btnCloseToc');
 
@@ -37,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedLineHeight = localStorage.getItem('kasniaReaderLineHeight') || '1.6';
     const savedFont = localStorage.getItem('kasniaReaderFont') || 'system-ui, sans-serif';
     const savedHyphens = localStorage.getItem('kasniaReaderHyphens') || 'false';
+    const savedPaged = localStorage.getItem('kasniaReaderPagedMode') || 'false';
 
     // Aplicar a HTML
     htmlElement.setAttribute('data-theme', savedTheme);
@@ -46,7 +50,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (savedHyphens === 'true') {
        webReaderContent.setAttribute('data-hyphens', 'true');
-       hyphensToggle.checked = true;
+       if(hyphensToggle) hyphensToggle.checked = true;
+    }
+
+    if (savedPaged === 'true') {
+       document.body.classList.add('pagedMode');
+       webReaderContent.classList.add('pagedMode');
+       if(pagedModeToggle) pagedModeToggle.checked = true;
     }
 
     // Actualizar controles UI
@@ -98,6 +108,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  if (pagedModeToggle) {
+     pagedModeToggle.addEventListener('change', (e) => {
+       const isChecked = e.target.checked;
+       if (isChecked) {
+          document.body.classList.add('pagedMode');
+          webReaderContent.classList.add('pagedMode');
+          saveSettings('kasniaReaderPagedMode', 'true');
+       } else {
+          document.body.classList.remove('pagedMode');
+          webReaderContent.classList.remove('pagedMode');
+          saveSettings('kasniaReaderPagedMode', 'false');
+       }
+     });
+  }
+
   // 3. UI Toggle (Mostrar/Ocultar Header Sidebar)
   const toggleUI = () => {
     isUIVisible = !isUIVisible;
@@ -112,13 +137,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Click en medio de la pantalla para mostrar UI
+  // Click en medio de la pantalla para mostrar UI (o pasar pag en modo paginado)
   webReaderContainer.addEventListener('click', (e) => {
     // Evitar si se hace click en controles o links
     if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.webReaderHeader') || e.target.closest('.webReaderSettings') || e.target.closest('.footnoteToast')) {
       return;
     }
-    toggleUI();
+    
+    if (webReaderContent.classList.contains('pagedMode')) {
+      const clickX = e.clientX;
+      const width = window.innerWidth;
+      if (clickX < width * 0.25) {
+         // Page Prev
+         webReaderContent.scrollBy({ left: -width, behavior: 'smooth' });
+      } else if (clickX > width * 0.75) {
+         // Page Next
+         webReaderContent.scrollBy({ left: width, behavior: 'smooth' });
+      } else {
+         toggleUI(); // Center click opens UI
+      }
+    } else {
+      toggleUI();
+    }
   });
 
   btnSettings.addEventListener('click', () => {
@@ -191,17 +231,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4.5 Resaltado dinámico del TOC
   const updateActiveToc = () => {
      const chunks = document.querySelectorAll('.readerChunk[data-chapter-index]');
+     const isPaged = webReaderContent.classList.contains('pagedMode');
      let activeIndex = -1;
      let minDistance = Infinity;
      const vh = window.innerHeight || document.documentElement.clientHeight;
+     const vw = window.innerWidth || document.documentElement.clientWidth;
      
      chunks.forEach(chunk => {
         const rect = chunk.getBoundingClientRect();
-        if (rect.top <= vh/3 && rect.bottom >= vh/3) {
-           activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
-        } else if (rect.top >= 0 && rect.top < minDistance) {
-           minDistance = rect.top;
-           if (activeIndex === -1) activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
+        if (isPaged) {
+           if (rect.left <= vw/2 && rect.right >= vw/2) {
+              activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
+           } else if (rect.left >= 0 && rect.left < minDistance) {
+              minDistance = rect.left;
+              if (activeIndex === -1) activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
+           }
+        } else {
+           if (rect.top <= vh/3 && rect.bottom >= vh/3) {
+              activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
+           } else if (rect.top >= 0 && rect.top < minDistance) {
+              minDistance = rect.top;
+              if (activeIndex === -1) activeIndex = parseInt(chunk.getAttribute('data-chapter-index'));
+           }
         }
      });
 
@@ -222,9 +273,14 @@ document.addEventListener('DOMContentLoaded', () => {
      updateActiveToc();
   }, {passive: true});
 
+  webReaderContent.addEventListener('scroll', () => {
+     if(webReaderContent.classList.contains('pagedMode')){
+         if(typeof checkBoundaries === 'function') checkBoundaries();
+         updateActiveToc();
+     }
+  }, {passive: true});
+
   // 5. Motor de Carga Asíncrona con index.json
-  const webReaderContent = document.getElementById('webReaderContent');
-  const readerNovelTitle = document.getElementById('readerNovelTitle');
   
   let currentFragments = [];
   let currentFragmentIndex = 0;
@@ -361,15 +417,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }));
          }
 
+         const isPaged = webReaderContent.classList.contains('pagedMode');
          const anchor = topBoundary.nextElementSibling;
          let offsetTopBefore = anchor ? anchor.getBoundingClientRect().top : 0;
+         let offsetLeftBefore = anchor ? anchor.getBoundingClientRect().left : 0;
          
          nodes.reverse().forEach(node => topBoundary.insertAdjacentElement('afterend', node));
 
-         // Compensar el scroll por los nodos inyectados arriba
+         // Compensar el scroll por los nodos inyectados arriba/izquierda
          if (anchor) {
-            const scrollDiff = anchor.getBoundingClientRect().top - offsetTopBefore;
-            window.scrollBy(0, scrollDiff);
+            if (isPaged) {
+               const scrollDiff = anchor.getBoundingClientRect().left - offsetLeftBefore;
+               webReaderContent.scrollBy({ left: scrollDiff, behavior: 'instant' });
+            } else {
+               const scrollDiff = anchor.getBoundingClientRect().top - offsetTopBefore;
+               window.scrollBy(0, scrollDiff);
+            }
          }
       }
       
@@ -402,17 +465,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const checkBoundaries = () => {
      if (isFetchingChapter) return;
-     const topRect = topBoundary.getBoundingClientRect();
-     const bottomRect = bottomBoundary.getBoundingClientRect();
-     const vh = window.innerHeight || document.documentElement.clientHeight;
+     const isPaged = webReaderContent.classList.contains('pagedMode');
      
-     // Top is hitting viewport -> Scroll up
-     if (topRect.bottom >= -300 && currentStartFileIndex > 0) {
-        loadPreviousChapter();
-     } 
-     // Bottom is hitting viewport -> Scroll down
-     else if (bottomRect.top <= vh + 300 && currentEndFileIndex < readingQueue.length - 1) {
-        loadNextChapter();
+     if (isPaged) {
+        const scrollL = webReaderContent.scrollLeft;
+        const scrollW = webReaderContent.scrollWidth;
+        const clientW = webReaderContent.clientWidth;
+        
+        if (scrollL <= 300 && currentStartFileIndex > 0) {
+           loadPreviousChapter();
+        } else if (scrollL + clientW >= scrollW - 300 && currentEndFileIndex < readingQueue.length - 1) {
+           loadNextChapter();
+        }
+     } else {
+         const topRect = topBoundary.getBoundingClientRect();
+         const bottomRect = bottomBoundary.getBoundingClientRect();
+         const vh = window.innerHeight || document.documentElement.clientHeight;
+         
+         // Top is hitting viewport -> Scroll up
+         if (topRect.bottom >= -300 && currentStartFileIndex > 0) {
+            loadPreviousChapter();
+         } 
+         // Bottom is hitting viewport -> Scroll down
+         else if (bottomRect.top <= vh + 300 && currentEndFileIndex < readingQueue.length - 1) {
+            loadNextChapter();
+         }
      }
   };
 

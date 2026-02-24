@@ -61,6 +61,12 @@ html, body.webReaderBody {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+body.webReaderBody.pagedMode {
+  overflow: hidden; /* Evitar scroll vertical nativo en modo libro */
+  height: 100vh;
+  height: 100dvh;
+}
+
 .webReaderContainer {
   display: flex;
   flex-direction: column;
@@ -636,4 +642,55 @@ input:checked + .slider:before {
 
 .readerChunk a:hover {
   text-decoration: underline;
+}
+
+/* ====== MODO PAGINADO ====== */
+.webReaderContent.pagedMode {
+  /* Dynamic viewport height restando la altura del top y bottom bar estimados (unos 100px) */
+  height: calc(100vh - 120px);
+  height: calc(100dvh - 120px);
+  min-height: auto;
+  max-width: none;
+  
+  /* Reset padding original vertical y dar padding ajustado */
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 0;
+  
+  /* Lógica de Columnas */
+  column-width: calc(100vw - 40px); /* Ancho pantalla menos el padding X */
+  column-gap: 40px; /* Separación clave para no pisar columnas y ocultarlas detrás del bezel */
+  column-fill: auto;
+  
+  /* Scroll y Layout */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Control estricto de Párrafos: Viudas y Huérfanas */
+.webReaderContent.pagedMode p {
+  orphans: 2;
+  widows: 2;
+}
+
+/* Prevenir que imágenes y títulos se partan a la mitad entre dos "Páginas" */
+.webReaderContent.pagedMode h1,
+.webReaderContent.pagedMode h2,
+.webReaderContent.pagedMode h3,
+.webReaderContent.pagedMode h4,
+.webReaderContent.pagedMode h5,
+.webReaderContent.pagedMode figure,
+.webReaderContent.pagedMode .readerChunk > div {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Las imágenes necesitan amarrarse a la nueva altura cortada de la columna */
+.webReaderContent.pagedMode img {
+  max-height: calc(100dvh - 170px);
+  width: auto;
+  margin: 0 auto;
 }
