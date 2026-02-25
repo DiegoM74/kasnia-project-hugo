@@ -33,6 +33,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isUIVisible = false; // UI is invisible initially for reading
 
+  // Medir y exponer las alturas reales del header/footer como variables CSS
+  // Esto permite que el modo paginado calcule la altura exacta del área de lectura
+  const updateReaderHeightVars = () => {
+    const headerH = webReaderHeader.offsetHeight || 60;
+    const footerH = webReaderFooter.offsetHeight || 60;
+    document.documentElement.style.setProperty('--reader-header-h', `${headerH}px`);
+    document.documentElement.style.setProperty('--reader-footer-h', `${footerH}px`);
+  };
+
+  // Recalcular en cambios de tamaño de viewport (rotación, chrome del nav entrando/saliendo)
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(() => updateReaderHeightVars());
+    ro.observe(webReaderHeader);
+    ro.observe(webReaderFooter);
+  }
+  window.addEventListener('resize', updateReaderHeightVars, { passive: true });
+
   // 1. Cargar Configuración del LocalStorage (Persistencia)
   const loadSettings = () => {
     const savedTheme = localStorage.getItem('kasniaReaderTheme') || 'dark';
@@ -120,6 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
           webReaderContent.classList.remove('pagedMode');
           saveSettings('kasniaReaderPagedMode', 'false');
        }
+       // Recalcular variables de altura al cambiar el modo
+       setTimeout(updateReaderHeightVars, 50);
      });
   }
 
@@ -135,6 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
       webReaderSettings.classList.add('hidden'); // Also close settings
       webReaderTocPanel.classList.add('hidden'); // Also close TOC
     }
+    // Recalcular variables de altura del lector tras la transición CSS (300ms)
+    setTimeout(updateReaderHeightVars, 350);
   };
 
   // Click en medio de la pantalla para mostrar UI (o pasar pag en modo paginado)
@@ -566,6 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Init Base
   loadSettings();
+  updateReaderHeightVars(); // Calcular alturas reales al inicio
   initFootnotes();
   
   // Start Loader Queue workflow

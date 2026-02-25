@@ -65,6 +65,9 @@ body.webReaderBody.pagedMode {
   overflow: hidden; /* Evitar scroll vertical nativo en modo libro */
   height: 100vh;
   height: 100dvh;
+  /* Compensar el área segura del navegador (menús del navegador en móvil) */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .webReaderContainer {
@@ -72,6 +75,14 @@ body.webReaderBody.pagedMode {
   flex-direction: column;
   min-height: 100vh;
   position: relative;
+}
+
+/* En modo paginado, el body ya tiene overflow:hidden y height fija.
+   El contenedor no debe forzar una altura mínima que cause overflow vertical. */
+body.pagedMode .webReaderContainer {
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* ====== COMPONENTES UI (HEADER / FOOTER) ====== */
@@ -645,29 +656,64 @@ input:checked + .slider:before {
 }
 
 /* ====== MODO PAGINADO ====== */
+
+/*
+  Estrategia del modo paginado:
+  ─────────────────────────────
+  Se usa CSS Multi-column layout: el contenedor tiene overflow-x:auto + overflow-y:hidden.
+  column-width = ancho de la pantalla menos el padding horizontal → cada "columna" es una página.
+  column-gap = 40px (los 40px entre columnas quedan fuera del viewport, actuando como separador).
+  column-fill: auto → rellena columna a columna sin balancear.
+  El usuario avanza con scroll horizontal (o click en los bordes de pantalla).
+
+  Problema de los menús del navegador (Brave, Chrome en móvil):
+  ─────────────────────────────────────────────────────────────
+  dvh  = dynamic viewport height → cambia según si los menús están visibles o no.
+  svh  = small viewport height   → altura cuando los menús ESTÁN visibles (el mínimo).
+  lvh  = large viewport height   → altura cuando los menús están ocultos (el máximo).
+
+  Usando 100svh aseguramos que el contenido NUNCA quede tapado por los menús del nav,
+  porque siempre calculamos con la altura más pequeña (la más conservadora).
+
+  El header y footer del lector son position:fixed y flotan encima del contenido.
+  Con margin-top/bottom igualamos su altura para que el texto no quede detrás de ellos.
+  --reader-header-h y --reader-footer-h se calculan en JS con offsetHeight real.
+*/
+
 .webReaderContent.pagedMode {
-  /* Dynamic viewport height restando la altura del top y bottom bar estimados (unos 100px) */
-  height: calc(100vh - 120px);
-  height: calc(100dvh - 120px);
+  /* Altura del área de lectura: svh total menos las barras del lector */
+  height: calc(100svh - var(--reader-header-h, 60px) - var(--reader-footer-h, 60px));
   min-height: auto;
   max-width: none;
-  
-  /* Reset padding original vertical y dar padding ajustado */
-  padding-top: 15px;
-  padding-bottom: 15px;
+
+  /*
+    margin-top reserva el espacio del header del lector.
+    Aunque el header esté oculto (opacity:0 + translateY), como es position:fixed
+    no afecta el flujo del documento. El margin-top aquí define desde dónde
+    empieza el área de lectura en el viewport — siempre bajo el header del lector.
+    Esto también sirve de buffer contra los menús del navegador en dispositivos móviles.
+  */
+  margin-top: var(--reader-header-h, 60px);
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+
+  /* Padding interno: espacio entre el borde de la "página" y el texto */
+  padding-top: 12px;
+  padding-bottom: 12px;
   padding-left: 20px;
   padding-right: 20px;
-  margin: 0;
-  
-  /* Lógica de Columnas */
-  column-width: calc(100vw - 40px); /* Ancho pantalla menos el padding X */
-  column-gap: 40px; /* Separación clave para no pisar columnas y ocultarlas detrás del bezel */
-  column-fill: auto;
-  
-  /* Scroll y Layout */
+
+  /* Lógica de columnas (= páginas) */
+  column-width: calc(100vw - 40px); /* Una columna = viewport - padding L+R (20+20) */
+  column-gap: 40px;                  /* Gap entre cols → queda oculto fuera del viewport */
+  column-fill: auto;                 /* Sin balanceo: rellena col por col */
+
+  /* Scroll horizontal entre páginas, sin scroll vertical */
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
+  box-sizing: border-box;
 }
 
 /* Control estricto de Párrafos: Viudas y Huérfanas */
@@ -676,21 +722,59 @@ input:checked + .slider:before {
   widows: 2;
 }
 
-/* Prevenir que imágenes y títulos se partan a la mitad entre dos "Páginas" */
+/*
+  SECCIONES: cada readerChunk empieza en su propia página (columna).
+  break-before: column fuerza que la sección nunca comparta página con la anterior.
+  El primer chunk dentro del contenedor no necesita salto previo (:not(:first-child)).
+*/
+.webReaderContent.pagedMode .readerChunk:not(:first-child) {
+  break-before: column;
+  page-break-before: always;
+}
+
+/*
+  IMÁGENES SOLAS EN PÁGINA:
+  Las figures (ilustraciones, portadas) se muestran solas:
+  - break-before: empieza siempre en una nueva página
+  - break-after: lo que venga después va a la siguiente página
+  - height: 100% + flex centra la imagen verticalmente en la página
+*/
+.webReaderContent.pagedMode figure {
+  break-before: column;
+  break-after: column;
+  page-break-before: always;
+  page-break-after: always;
+  break-inside: avoid;
+  page-break-inside: avoid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevenir que títulos y bloques internos se partan entre páginas */
 .webReaderContent.pagedMode h1,
 .webReaderContent.pagedMode h2,
 .webReaderContent.pagedMode h3,
 .webReaderContent.pagedMode h4,
 .webReaderContent.pagedMode h5,
-.webReaderContent.pagedMode figure,
 .webReaderContent.pagedMode .readerChunk > div {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
-/* Las imágenes necesitan amarrarse a la nueva altura cortada de la columna */
+/*
+  IMÁGENES: se ajustan al alto de la página disponible.
+  Usamos svh menos el espacio de las barras y el padding interno (24px = 12+12).
+*/
 .webReaderContent.pagedMode img {
-  max-height: calc(100dvh - 170px);
+  max-height: calc(100svh - var(--reader-header-h, 60px) - var(--reader-footer-h, 60px) - 24px);
+  max-width: 100%;
   width: auto;
+  height: auto;
+  display: block;
   margin: 0 auto;
+  object-fit: contain;
 }
