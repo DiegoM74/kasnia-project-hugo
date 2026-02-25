@@ -104,7 +104,7 @@ Para trabajar en el código del sitio o visualizar cambios en tiempo real:
     ```
 3.  **Ejecutar Servidor de Desarrollo**:
     ```bash
-    hugo server -D --minify
+    hugo server --gc --minify --cleanDestinationDir
     ```
     El sitio estará disponible en `http://localhost:1313/`. Los cambios en los `.md` o layouts se reflejarán automáticamente.
 
