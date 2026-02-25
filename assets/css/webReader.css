@@ -724,22 +724,30 @@ input:checked + .slider:before {
 
 /*
   SECCIONES: cada readerChunk empieza en su propia página (columna).
-  break-before: column fuerza que la sección nunca comparta página con la anterior.
-  El primer chunk dentro del contenedor no necesita salto previo (:not(:first-child)).
+
+  Selector: .readerChunk ~ .readerChunk
+  Significa: un readerChunk que esté precedido por OTRO readerChunk como hermano.
+  Esto es correcto porque dentro del contenedor hay un elemento topBoundary (div)
+  ANTES del primer readerChunk. Si usáramos :not(:first-child), el primer chunk
+  también recibiría break-before (porque no es el primer HIJO, sí el primer chunk),
+  generando una página vacía al principio.
+  Con ~ solo aplicamos break-before a chunks que vienen DESPUÉS de otro chunk.
 */
-.webReaderContent.pagedMode .readerChunk:not(:first-child) {
+.webReaderContent.pagedMode .readerChunk ~ .readerChunk {
   break-before: column;
   page-break-before: always;
 }
 
 /*
   IMÁGENES SOLAS EN PÁGINA:
-  Las figures (ilustraciones, portadas) se muestran solas:
-  - break-before: empieza siempre en una nueva página
-  - break-after: lo que venga después va a la siguiente página
-  - height: 100% + flex centra la imagen verticalmente en la página
+  Las figures que son ilustraciones reales (portadas, ilustraciones internas) se muestran solas.
+  Excluimos figure.hr (separadores decorativos pequeños) que deben fluir con el texto.
+  - break-before/after: su "página" está aislada (nada antes ni después)
+  - height: var(--reader-content-h) → ocupa exactamente el alto de una página
+    (la variable la calcula JS con visualViewport.height - header - footer)
+  - display:flex + align/justify center → centra la imagen dentro de esa página
 */
-.webReaderContent.pagedMode figure {
+.webReaderContent.pagedMode figure:not(.hr) {
   break-before: column;
   break-after: column;
   page-break-before: always;
@@ -749,7 +757,10 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  /* Altura = toda la página disponible para el contenido */
+  height: var(--reader-content-h, 80dvh);
+  min-height: var(--reader-content-h, 80dvh);
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
@@ -767,10 +778,11 @@ input:checked + .slider:before {
 
 /*
   IMÁGENES: se ajustan al alto de la página disponible.
-  Usamos svh menos el espacio de las barras y el padding interno (24px = 12+12).
+  --reader-content-h lo calcula JS en px exactos (= viewH - headerH - footerH).
+  El padding interno es 12px arriba + 12px abajo = 24px.
 */
 .webReaderContent.pagedMode img {
-  max-height: calc(100svh - var(--reader-header-h, 60px) - var(--reader-footer-h, 60px) - 24px);
+  max-height: calc(var(--reader-content-h, 80dvh) - 24px);
   max-width: 100%;
   width: auto;
   height: auto;

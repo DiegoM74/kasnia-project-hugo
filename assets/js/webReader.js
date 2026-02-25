@@ -33,22 +33,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isUIVisible = false; // UI is invisible initially for reading
 
-  // Medir y exponer las alturas reales del header/footer como variables CSS
-  // Esto permite que el modo paginado calcule la altura exacta del área de lectura
-  const updateReaderHeightVars = () => {
+  // ── Altura del modo paginado ──────────────────────────────────────────────
+  //
+  // En navegadores móviles (Brave, Chrome), el chrome del navegador (barra de
+  // URL arriba y barra de navegación abajo) consume parte del viewport. Las
+  // unidades CSS como svh/dvh no son 100% fiables en todos los dispositivos.
+  //
+  // La solución más robusta: leer window.visualViewport.height desde JS.
+  // visualViewport.height = altura real disponible excluido el chrome del nav.
+  // Aplicamos el resultado como estilos inline en px → más confiable que CSS.
+  //
+  // Se llama en:
+  //   · Activación/desactivación del modo paginado
+  //   · Evento resize del viewport (rotación, teclado, etc.)
+  //   · Evento resize del visualViewport (chrome del nav entrando/saliendo)
+  //   · toggleUI (cuando las barras propias del lector aparecen/desaparecen)
+  // ─────────────────────────────────────────────────────────────────────────
+  const updatePagedLayout = () => {
+    const isPaged = webReaderContent.classList.contains('pagedMode');
+
+    if (!isPaged) {
+      // Limpiar cualquier estilo inline al salir del modo paginado
+      webReaderContent.style.height = '';
+      webReaderContent.style.marginTop = '';
+      document.documentElement.style.removeProperty('--reader-header-h');
+      document.documentElement.style.removeProperty('--reader-footer-h');
+      document.documentElement.style.removeProperty('--reader-content-h');
+      return;
+    }
+
+    // Altura visible real (visualViewport excluye el chrome del navegador)
+    const vp = window.visualViewport;
+    const viewH = vp ? vp.height : window.innerHeight;
+
+    // Altura de las barras propias del lector (siempre se miden aunque estén ocultas)
     const headerH = webReaderHeader.offsetHeight || 60;
     const footerH = webReaderFooter.offsetHeight || 60;
+
+    // Exponer las variables CSS (usadas por otras reglas como max-height de imágenes)
     document.documentElement.style.setProperty('--reader-header-h', `${headerH}px`);
     document.documentElement.style.setProperty('--reader-footer-h', `${footerH}px`);
+
+    // Aplicar dimensiones exactas en px al área de lectura
+    const contentH = viewH - headerH - footerH;
+    webReaderContent.style.height = `${contentH}px`;
+    webReaderContent.style.marginTop = `${headerH}px`;
+    // Exponer también la altura del contenido para usarla en otros elementos (ej. max-height de img)
+    document.documentElement.style.setProperty('--reader-content-h', `${contentH}px`);
   };
 
-  // Recalcular en cambios de tamaño de viewport (rotación, chrome del nav entrando/saliendo)
-  if (window.ResizeObserver) {
-    const ro = new ResizeObserver(() => updateReaderHeightVars());
-    ro.observe(webReaderHeader);
-    ro.observe(webReaderFooter);
+  // Escuchar cambios del viewport (resize del visualViewport = chrome del nav)
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updatePagedLayout, { passive: true });
   }
-  window.addEventListener('resize', updateReaderHeightVars, { passive: true });
+  // Fallback: window resize (rotación, teclado, etc.)
+  window.addEventListener('resize', updatePagedLayout, { passive: true });
 
   // 1. Cargar Configuración del LocalStorage (Persistencia)
   const loadSettings = () => {
@@ -138,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
           saveSettings('kasniaReaderPagedMode', 'false');
        }
        // Recalcular variables de altura al cambiar el modo
-       setTimeout(updateReaderHeightVars, 50);
+       setTimeout(updatePagedLayout, 50);
      });
   }
 
@@ -154,8 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
       webReaderSettings.classList.add('hidden'); // Also close settings
       webReaderTocPanel.classList.add('hidden'); // Also close TOC
     }
-    // Recalcular variables de altura del lector tras la transición CSS (300ms)
-    setTimeout(updateReaderHeightVars, 350);
+    // Recalcular layout paginado tras la transición CSS (300ms)
+    setTimeout(updatePagedLayout, 350);
   };
 
   // Click en medio de la pantalla para mostrar UI (o pasar pag en modo paginado)
@@ -542,6 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
      window.scrollTo(0, 0);
      
      setTimeout(() => {
+        updatePagedLayout(); // Recalcular dimensiones con el contenido ya en DOM
         checkBoundaries();
         updateActiveToc();
      }, 200);
@@ -587,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Init Base
   loadSettings();
-  updateReaderHeightVars(); // Calcular alturas reales al inicio
+  updatePagedLayout(); // Calcular dimensiones del modo paginado al inicio
   initFootnotes();
   
   // Start Loader Queue workflow
