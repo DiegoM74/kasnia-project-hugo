@@ -9,7 +9,7 @@
   --reader-ui-bg: rgba(20, 20, 20, 0.95);
   --reader-ui-border: #333;
   --reader-ui-text: #fff;
-  
+
   --reader-accent: #3498db;
   --reader-toast-bg: #222;
   --reader-toast-text: #eee;
@@ -47,7 +47,8 @@
 }
 
 /* ====== RESET Y CONTENEDOR ====== */
-html, body.webReaderBody {
+html,
+body.webReaderBody {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -58,16 +59,21 @@ html, body.webReaderBody {
   font-size: var(--reader-size);
   line-height: var(--reader-line-height);
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 body.webReaderBody.pagedMode {
-  overflow: hidden; /* Evitar scroll vertical nativo en modo libro */
-  height: 100vh;
-  height: 100dvh;
-  /* Compensar el área segura del navegador (menús del navegador en móvil) */
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  overflow: hidden;
+  height: 100svh; /* CAMBIAR de 100dvh a 100svh (small viewport height) */
+  width: 100vw;
+  position: fixed; /* Evitar scroll del body */
+  top: 0;
+  left: 0;
+  /* Compensar safe-area de manera más agresiva */
+  padding-top: max(env(safe-area-inset-top, 0px), 10px);
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 10px);
 }
 
 .webReaderContainer {
@@ -86,7 +92,8 @@ body.pagedMode .webReaderContainer {
 }
 
 /* ====== COMPONENTES UI (HEADER / FOOTER) ====== */
-.webReaderHeader, .webReaderFooter {
+.webReaderHeader,
+.webReaderFooter {
   position: fixed;
   left: 0;
   right: 0;
@@ -94,7 +101,9 @@ body.pagedMode .webReaderContainer {
   color: var(--reader-ui-text);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
   z-index: 50;
   border: 1px solid var(--reader-ui-border);
 }
@@ -233,11 +242,13 @@ body.pagedMode .webReaderContainer {
   font-size: 0.83rem;
 }
 
-.webReaderContent b, .webReaderContent strong {
+.webReaderContent b,
+.webReaderContent strong {
   font-weight: bold;
 }
 
-.webReaderContent i, .webReaderContent em {
+.webReaderContent i,
+.webReaderContent em {
   font-style: italic;
 }
 
@@ -409,7 +420,7 @@ body.pagedMode .webReaderContainer {
   height: 24px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -423,7 +434,7 @@ body.pagedMode .webReaderContainer {
   right: 0;
   bottom: 0;
   background-color: rgba(128, 128, 128, 0.3);
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .slider:before {
@@ -434,7 +445,7 @@ body.pagedMode .webReaderContainer {
   left: 3px;
   bottom: 3px;
   background-color: var(--reader-ui-text);
-  transition: .3s;
+  transition: 0.3s;
 }
 
 input:checked + .slider {
@@ -505,9 +516,11 @@ input:checked + .slider:before {
   color: var(--reader-toast-text);
   border: 1px solid var(--reader-ui-border);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   z-index: 200;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.3s ease;
   padding: 15px;
   box-sizing: border-box;
 }
@@ -522,7 +535,7 @@ input:checked + .slider:before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(128,128,128,0.2);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
   padding-bottom: 10px;
   margin-bottom: 10px;
   font-size: 0.85rem;
@@ -593,7 +606,12 @@ input:checked + .slider:before {
 }
 
 /* Estilos texto */
-.readerChunk h1, .readerChunk h2, .readerChunk h3, .readerChunk h4, .readerChunk h5, .readerChunk h6 {
+.readerChunk h1,
+.readerChunk h2,
+.readerChunk h3,
+.readerChunk h4,
+.readerChunk h5,
+.readerChunk h6 {
   font-size: 1.16666666rem;
   font-weight: bold;
   text-align: center;
@@ -607,7 +625,7 @@ input:checked + .slider:before {
 }
 
 .readerChunk h2 {
-  font-size: 1.3750rem;
+  font-size: 1.375rem;
   line-height: 1.09090909;
   margin-top: 2.18181818rem;
   margin-bottom: 1.09090909rem;
@@ -682,7 +700,7 @@ input:checked + .slider:before {
 
 .webReaderContent.pagedMode {
   /* Altura del área de lectura: svh total menos las barras del lector */
-  height: calc(100svh - var(--reader-header-h, 60px) - var(--reader-footer-h, 60px));
+  height: calc(100svh - var(--reader-header-h, 60px) - var(--reader-footer-h, 60px)) !important;
   min-height: auto;
   max-width: none;
 
@@ -705,9 +723,11 @@ input:checked + .slider:before {
   padding-right: 20px;
 
   /* Lógica de columnas (= páginas) */
-  column-width: calc(100vw - 40px); /* Una columna = viewport - padding L+R (20+20) */
-  column-gap: 40px;                  /* Gap entre cols → queda oculto fuera del viewport */
-  column-fill: auto;                 /* Sin balanceo: rellena col por col */
+  column-width: calc(
+    100vw - 40px
+  ); /* Una columna = viewport - padding L+R (20+20) */
+  column-gap: 40px; /* Gap entre cols → queda oculto fuera del viewport */
+  column-fill: auto; /* Sin balanceo: rellena col por col */
 
   /* Scroll horizontal entre páginas, sin scroll vertical */
   overflow-x: auto;
@@ -733,9 +753,15 @@ input:checked + .slider:before {
   generando una página vacía al principio.
   Con ~ solo aplicamos break-before a chunks que vienen DESPUÉS de otro chunk.
 */
-.webReaderContent.pagedMode .readerChunk ~ .readerChunk {
+.webReaderContent.pagedMode .readerChunk {
   break-before: column;
   page-break-before: always;
+}
+
+/* El primer chunk no necesita break-before, pero sí aseguramos que figure esté aislado */
+.webReaderContent.pagedMode .readerChunk:first-child {
+  break-before: auto;
+  page-break-before: auto;
 }
 
 /*
@@ -748,21 +774,30 @@ input:checked + .slider:before {
   - display:flex + align/justify center → centra la imagen dentro de esa página
 */
 .webReaderContent.pagedMode figure:not(.hr) {
-  break-before: column;
-  break-after: column;
-  page-break-before: always;
-  page-break-after: always;
-  break-inside: avoid;
-  page-break-inside: avoid;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Altura = toda la página disponible para el contenido */
-  height: var(--reader-content-h, 80dvh);
-  min-height: var(--reader-content-h, 80dvh);
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  break-before: column !important;
+  break-after: column !important;
+  page-break-before: always !important;
+  page-break-after: always !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: var(--reader-content-h, 80dvh) !important;
+  min-height: var(--reader-content-h, 80dvh) !important;
+  max-height: var(--reader-content-h, 80dvh) !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  contain: layout style !important;
+}
+
+.webReaderContent.pagedMode figure:not(.hr) img,
+.webReaderContent.pagedMode figure:not(.hr) picture {
+  max-height: calc(var(--reader-content-h, 80dvh) - 24px) !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
 }
 
 /* Prevenir que títulos y bloques internos se partan entre páginas */
