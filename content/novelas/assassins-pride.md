@@ -94,8 +94,8 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: "https://drive.google.com/open?id=1AVowH8jCYY_V1xVMGRn8L3OtBruYnP_O&usp=drive_fs"
+      pdf: "https://drive.google.com/open?id=1AVowH8jCYY_V1xVMGRn8L3OtBruYnP_O&usp=drive_fs"
+      epub: ""
 
   - num: "06"
     state: "upcoming"
