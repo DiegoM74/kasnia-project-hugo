@@ -83,19 +83,19 @@ volumes:
       epub: "https://drive.google.com/file/d/131l8jrDNGHGMY1ZuVPIgrcjuAwcEqQTG/view"
 
   - num: "05"
-    state: "upcoming"
+    state: "preview"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
       pdf: ""
-      epub: ""
+      epub: "https://drive.google.com/open?id=1AVowH8jCYY_V1xVMGRn8L3OtBruYnP_O&usp=drive_fs"
 
   - num: "06"
     state: "upcoming"
