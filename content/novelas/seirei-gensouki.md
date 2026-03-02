@@ -13,7 +13,7 @@ genres:
   - "Fantasía"
   - "Romance"
 link: "seirei-gensouki"
-status: "active"
+status: "uptodate"
 synopsis: "Su vida pasada y su vida actual se cruzan, ¡pues un joven con recuerdos de dos vidas se enfrenta a su destino! Tras morir su madre asesinada cuando él era muy pequeño, el huérfano Rio tuvo que luchar por sobrevivir en los suburbios. Un día recupera los recuerdos de Haruto Amakawa, quien murió en un accidente cuando soñaba con reunirse con una amistad de la infancia, y es entonces cuando descubre que tras la reencarnación acabó en un mundo de magia y espada."
 author: "Yuri Kitayama"
 illustrator: "Riv"
@@ -70,17 +70,17 @@ volumes:
       epub: "https://drive.google.com/file/d/1LeMMGnABWPHuGhGts89siFLryryZamal/view"
   
   - num: "28"
-    state: "preview"
+    state: "published"
     credits:
       translator: "Qwen3.5 (IA)"
       corrector: "Diego"
-      editor: "-"
+      editor: "Diego"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1ie4tV9DhAv-catQ-O0kp4noMloXFuGhK/view"
-      epub: "#"
----
+      pdf: "https://drive.google.com/file/d/1hrcyOnq2K_q9vlOCG0O2hxwgE0A36ZkL/view"
+      epub: "https://drive.google.com/file/d/1kKJLiNk0zc-eHVD_Ax9GTP9cXd5vsWFO/view"
+--- 
