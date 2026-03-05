@@ -54,28 +54,28 @@ volumes:
       epub: "https://drive.google.com/file/d/1ffOMGPBY8nRBGPeXQ30r3lTWKVUNGdo6/view"
 
   - num: "03"
-    state: "preview"
+    state: "published"
     credits:
       translator: "Diego"
       corrector: "Yaf"
-      editor: "-"
+      editor: "Diego"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1103y9OacIj4GqeMy3ooyu5z99udfDny5/view"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/14u_DJ8OtOaB7L5yMMBRoX3I5MP1hdxRb/view"
+      epub: "https://drive.google.com/file/d/1xMiz_q_EnI2t3TSHo3ox1AE3JQ5lrj8Z/view"
 
   - num: "04"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
-      editor: "-"
+      translator: "Diego"
+      corrector: "Yaf"
+      editor: "Diego"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
@@ -90,7 +90,7 @@ volumes:
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
