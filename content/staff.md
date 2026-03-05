@@ -23,7 +23,7 @@ miembros:
   - staffId: "04"
     nombre: "EliasQ"
     rol: "Editor"
-    novelIds: ["01", "05"]
+    novelIds: ["01", "05", "04"]
 
   - staffId: "05"
     nombre: "JoséBR"
