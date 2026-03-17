@@ -17,7 +17,7 @@ synopsis: "La reencarnación hacía soñar a Ryo con la paz, pero en su lugar se
 author: "Tadashi Kudou"
 illustrator: "Nokito"
 illustratorNote: "Mebaru desde Vol. 3, Hana Amano desde Vol. 7"
-volumesReleased: 5
+volumesReleased: 6
 demography: "Seinen (Maduro, Adultos)"
 mangaAdaptation: true
 animeAdaptation: true
@@ -69,6 +69,21 @@ volumes:
       epub: "https://drive.google.com/file/d/1xMiz_q_EnI2t3TSHo3ox1AE3JQ5lrj8Z/view"
 
   - num: "04"
+    state: "published"
+    credits:
+      translator: "Diego"
+      corrector: "Yaf"
+      editor: "Diego"
+      pdfTypesetter: "Diego"
+      epubTypesetter: "Diego"
+    propio:
+      pdf: true
+      epub: true
+    drive:
+      pdf: "https://drive.google.com/file/d/1J72QaUjuqVGJA9Cm5gYzl7VRg1WnMjI3/view"
+      epub: "https://drive.google.com/file/d/1P1LmvHvlsLfr8TBoKsgax2M7UBsBngGL/view"
+
+  - num: "05"
     state: "upcoming"
     credits:
       translator: "Diego"
@@ -83,12 +98,12 @@ volumes:
       pdf: "#"
       epub: "#"
 
-  - num: "05"
+  - num: "06"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
-      editor: "-"
+      translator: "Diego"
+      corrector: "Yaf"
+      editor: "Diego"
       pdfTypesetter: "Diego"
       epubTypesetter: "-"
     propio:
