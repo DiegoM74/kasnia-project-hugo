@@ -87,7 +87,7 @@ function initModal() {
           <svg><use href="/img/svg/novela.svg#eyeIcon" /></svg>
           Vista previa
         </span>
-      `
+      `,
       );
     }
 
@@ -98,7 +98,7 @@ function initModal() {
           <span class="creditRole">${credit.role}</span>
           <span class="creditName">${credit.name}</span>
         </div>
-      `
+      `,
       )
       .join("");
 
@@ -110,8 +110,8 @@ function initModal() {
     const activeServer = propioHasLinks
       ? "propio"
       : driveHasLinks
-      ? "drive"
-      : "propio";
+        ? "drive"
+        : "propio";
 
     serverBtns.forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.server === activeServer);
@@ -139,7 +139,11 @@ function initModal() {
   // Event listeners - delegación para volumeCards
   document.querySelector(".volumesGrid")?.addEventListener("click", (e) => {
     const card = e.target.closest(".volumeCard");
-    if (card && !card.classList.contains("upcoming")) {
+    if (
+      card &&
+      !card.classList.contains("upcoming") &&
+      !card.classList.contains("translating")
+    ) {
       openModal(card);
     }
   });

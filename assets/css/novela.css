@@ -414,6 +414,15 @@ main {
   content: "Preview";
 }
 
+.volumeBadge.translatingBadge {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+
+.volumeBadge.translatingBadge::before {
+  content: "Proceso";
+}
+
 .volumeBadge.upcomingBadge {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
@@ -433,6 +442,18 @@ main {
 }
 
 .volumeCard.upcoming .volumeDownloadHint {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.volumeCard.translating {
+  cursor: not-allowed;
+}
+
+.volumeCard.translating:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.volumeCard.translating .volumeDownloadHint {
   color: rgba(255, 255, 255, 0.6);
 }
 

@@ -1,4 +1,4 @@
-# Kasnia Project - Website
+# Kasnia Project
 
 Este repositorio contiene la versión migrada a **[Hugo](https://gohugo.io/)** del sitio web de **Kasnia Project**. A diferencia de la versión prototipo (HTML/JS puro), este proyecto utiliza un Generador de Sitios Estáticos (SSG) para facilitar la gestión de contenido, escalabilidad y mantenimiento.
 
@@ -30,8 +30,6 @@ El sitio ha sido refactorizado para utilizar la arquitectura de Hugo:
 └── hugo.toml        # Configuración global del sitio
 ```
 
----
-
 ## 📝 Gestión de Contenido (Novelas)
 
 Esta es la sección más importante para editores y colaboradores. Toda la información de las novelas se maneja editando archivos **Markdown** dentro de la carpeta `/content/novelas/`.
@@ -55,11 +53,12 @@ Define el estado actual de la traducción o publicación en el sitio.
 
 Dentro de la lista de `volumes`, cada entrada tiene un estado que determina cómo se muestra la portada del volumen.
 
-| Valor       | Significado                                         | Comportamiento en UI                                                |
-| :---------- | :-------------------------------------------------- | :------------------------------------------------------------------ |
-| `published` | **Publicado**. El volumen está listo para descarga. | No muestra badge.                                                   |
-| `preview`   | **Vista Previa**. Solo hay una preview disponible.  | Muestra badge de "Preview".                                         |
-| `upcoming`  | **Próximamente**. Anunciado pero no disponible.     | Muestra badge de "Próximamente" y deshabilita la modal de descarga. |
+| Valor         | Significado                                                  | Comportamiento en UI                                           |
+| :------------ | :----------------------------------------------------------- | :------------------------------------------------------------- |
+| `published`   | **Publicado**. El volumen está listo para descarga.          | No muestra badge.                                              |
+| `preview`     | **Vista Previa**. Solo hay una preview disponible.           | Muestra badge de "Preview".                                    |
+| `translating` | **En Traducción**. El volumen está en proceso de traducción. | Muestra badge de "Proceso" y deshabilita la modal de descarga. |
+| `upcoming`    | **Pronto**. Anunciado pero no disponible.                    | Muestra badge de "Pronto" y deshabilita la modal de descarga.  |
 
 ### Ejemplo de Estructura (.md)
 

@@ -12,7 +12,8 @@ enableGitInfo = false
   images = ["/img/icon/og.jpg"]
   
   [params.social]
-    facebook = "https://www.facebook.com/profile.php?id=61569583498113"
+    facebook = "https://www.facebook.com/kasniaproject"
+    x = "https://x.com/kasniaproject"
   
   [params.seo]
     title_suffix = " ─ Kasnia Project"

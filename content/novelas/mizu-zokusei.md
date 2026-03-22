@@ -84,7 +84,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1P1LmvHvlsLfr8TBoKsgax2M7UBsBngGL/view"
 
   - num: "05"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "Diego"
       corrector: "Yaf"

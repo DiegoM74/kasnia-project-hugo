@@ -16,7 +16,7 @@ status: "active"
 synopsis: "Solo aquellos procedentes de linajes de familias nobles tienen la capacidad de enfrentar a los monstruos. Kufa es un noble nacido en la familia de un duque a quien envían como tutor de una joven llamada Merida. Merida no tiene talento alguno con el maná, lo que hace que en realidad la misión secreta y real de Kufa sea asesinarla."
 author: "Kei Amagi"
 illustrator: "Ninomotonino"
-volumesReleased: 13
+volumesReleased: 14
 demography: "Seinen (Maduro, Adultos)"
 mangaAdaptation: true
 animeAdaptation: true
@@ -34,7 +34,7 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1RwVFcAYmStO5h87NmNmo1DCQqT0V7d4r/view?usp=drive_link"
+      pdf: "https://drive.google.com/file/d/1RwVFcAYmStO5h87NmNmo1DCQqT0V7d4r/view"
       epub: "https://drive.google.com/file/d/1cQi5iX43FvkYgTt6SBV4JJ6ub9nrWcI5/view"
 
   - num: "02"
@@ -94,126 +94,141 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "https://drive.google.com/open?id=1AVowH8jCYY_V1xVMGRn8L3OtBruYnP_O&usp=drive_fs"
-      epub: ""
+      pdf: "https://drive.google.com/file/d/1AVowH8jCYY_V1xVMGRn8L3OtBruYnP_O/view"
+      epub: "#"
 
   - num: "06"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
 
   - num: "07"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
 
   - num: "08"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
 
   - num: "09"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
 
   - num: "10"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
 
   - num: "11"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
 
   - num: "12"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
 
   - num: "13"
     state: "upcoming"
     credits:
-      translator: "-"
-      corrector: "-"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "-"
-      pdfTypesetter: "-"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: ""
-      epub: ""
+      pdf: "#"
+      epub: "#"
+  
+  - num: "14"
+    state: "upcoming"
+    credits:
+      translator: "LughAT"
+      corrector: "LughAT"
+      editor: "-"
+      pdfTypesetter: "LughAT"
+      epubTypesetter: "-"
+    propio:
+      pdf: false
+      epub: false
+    drive:
+      pdf: "#"
+      epub: "#"
 ---

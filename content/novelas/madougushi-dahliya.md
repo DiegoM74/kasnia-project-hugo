@@ -16,7 +16,7 @@ status: "active"
 synopsis: "Luego una vida de adicción al trabajo en Japón, Dahlia reencarna como una experta en magia en un nuevo mundo, pero esta segunda oportunidad está lejos de ser perfecta. Comprometida, traicionada y huérfana, todo antes de la luna de miel, ¡eso de verdad no lo esperaba! Descubre cómo Dahlia usa canaliza su desamor para convertirse en una maestra de crear varias mágicas y disfruta de su independencia. En esta historia, la verdadera magia es el autoconocimiento, y Dahlia será la maga de su propio destino."
 author: "Hisaya Amagishi"
 illustrator: "Kei"
-volumesReleased: 9
+volumesReleased: 11
 demography: "Shoujo (Juvenil, Chicas)"
 mangaAdaptation: true
 animeAdaptation: true
@@ -68,13 +68,13 @@ volumes:
       epub: "https://drive.google.com/file/d/1kOcOhMwvZXz_4h3p_5A-6emVXBeqQSgT/view"
 
   - num: "04"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "JoséBR"
       corrector: "Hiro寛"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
@@ -89,7 +89,7 @@ volumes:
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
@@ -104,7 +104,7 @@ volumes:
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
@@ -119,7 +119,7 @@ volumes:
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
@@ -134,7 +134,7 @@ volumes:
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
@@ -149,7 +149,37 @@ volumes:
       corrector: "-"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "-"
+    propio:
+      pdf: false
+      epub: false
+    drive:
+      pdf: "#"
+      epub: "#"
+  
+  - num: "10"
+    state: "upcoming"
+    credits:
+      translator: "-"
+      corrector: "-"
+      editor: "-"
+      pdfTypesetter: "Diego"
+      epubTypesetter: "-"
+    propio:
+      pdf: false
+      epub: false
+    drive:
+      pdf: "#"
+      epub: "#"
+
+  - num: "11"
+    state: "upcoming"
+    credits:
+      translator: "-"
+      corrector: "-"
+      editor: "-"
+      pdfTypesetter: "Diego"
+      epubTypesetter: "-"
     propio:
       pdf: false
       epub: false

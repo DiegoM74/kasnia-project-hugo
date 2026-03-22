@@ -118,6 +118,7 @@
         {{ $state := .state }}
         {{ $isPublished := eq $state "published" }}
         {{ $isPreview := eq $state "preview" }}
+        {{ $isTranslating := eq $state "translating" }}
         {{ $isUpcoming := eq $state "upcoming" }}
 
         {{ $pdfPropio := false }}
@@ -145,19 +146,24 @@
 
         {{ $badgeClass := "" }}
         {{ if $isPreview }}{{ $badgeClass = "previewBadge" }}{{ end }}
+        {{ if $isTranslating }}{{ $badgeClass = "translatingBadge" }}{{ end }}
         {{ if $isUpcoming }}{{ $badgeClass = "upcomingBadge" }}{{ end }}
 
         {{ $icon := "downloadIcon" }}
         {{ $hintText := "Clic para descargar" }}
+        {{ if $isTranslating }}
+          {{ $icon = "lockIcon" }}
+          {{ $hintText = "En traducción" }}
+        {{ end }}
         {{ if $isUpcoming }}
           {{ $icon = "lockIcon" }}
           {{ $hintText = "No disponible" }}
         {{ end }}
 
         <article
-          class="volumeCard{{ if $isPreview }} preview{{ end }}{{ if $isUpcoming }} upcoming{{ end }}"
+          class="volumeCard{{ if $isPreview }} preview{{ end }}{{ if $isTranslating }} translating{{ end }}{{ if $isUpcoming }} upcoming{{ end }}"
           data-volume="{{ $num }}"
-          {{ if not $isUpcoming }}
+          {{ if not (or $isUpcoming $isTranslating) }}
             data-credits='[
               {"role":"Traductor","name":"{{ $vol.credits.translator }}"},
               {"role":"Corrector","name":"{{ $vol.credits.corrector }}"},
@@ -169,7 +175,7 @@
           {{ end }}
           >
           <div class="volumeCoverContainer">
-            {{ if or $isPreview $isUpcoming }}
+            {{ if or $isPreview $isTranslating $isUpcoming }}
               <span class="volumeBadge {{ $badgeClass }}"></span>
             {{ end }}
             <picture>
