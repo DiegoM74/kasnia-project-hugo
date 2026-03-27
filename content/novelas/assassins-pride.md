@@ -83,7 +83,7 @@ volumes:
       epub: "https://drive.google.com/file/d/131l8jrDNGHGMY1ZuVPIgrcjuAwcEqQTG/view"
 
   - num: "05"
-    state: "translating"
+    state: "preview"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
