@@ -98,7 +98,7 @@ volumes:
       epub: "#"
 
   - num: "06"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
