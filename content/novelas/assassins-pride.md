@@ -89,12 +89,12 @@ volumes:
       corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "LughAT"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/13qAh1B6pfDac-AE9tQl8L8XnNKOB0z7m/view?usp=drive_link"
+      pdf: "https://drive.google.com/file/d/13qAh1B6pfDac-AE9tQl8L8XnNKOB0z7m/view"
       epub: "https://drive.google.com/file/d/1Mora-Ra3-LY1P9pJkyTWKGOYDTljbZ9Z/view"
 
   - num: "06"
