@@ -83,7 +83,7 @@ volumes:
       epub: "https://drive.google.com/file/d/131l8jrDNGHGMY1ZuVPIgrcjuAwcEqQTG/view"
 
   - num: "05"
-    state: "translating"
+    state: "published"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -92,10 +92,10 @@ volumes:
       epubTypesetter: "-"
     propio:
       pdf: true
-      epub: false
+      epub: true
     drive:
       pdf: "https://drive.google.com/file/d/13qAh1B6pfDac-AE9tQl8L8XnNKOB0z7m/view?usp=drive_link"
-      epub: "#"
+      epub: "https://drive.google.com/open?id=1Mora-Ra3-LY1P9pJkyTWKGOYDTljbZ9Z&usp=drive_fs"
 
   - num: "06"
     state: "translating"
