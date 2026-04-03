@@ -90,7 +90,7 @@ volumes:
       corrector: "Yaf"
       editor: "Diego"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
       pdf: false
       epub: false
@@ -99,13 +99,13 @@ volumes:
       epub: "#"
 
   - num: "06"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "Diego"
       corrector: "Yaf"
       editor: "Diego"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
       pdf: false
       epub: false
