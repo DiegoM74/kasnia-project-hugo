@@ -84,7 +84,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1P1LmvHvlsLfr8TBoKsgax2M7UBsBngGL/view"
 
   - num: "05"
-    state: "translating"
+    state: "published"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -92,11 +92,11 @@ volumes:
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1iKCnkZzHTHYXpu0hA6iMNfSXZKx_QBKF/view"
+      epub: "https://drive.google.com/file/d/1fBk_zDHc5tmsAhAkQC_FusWEZM9oNa8W/view"
 
   - num: "06"
     state: "translating"
