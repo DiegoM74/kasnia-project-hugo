@@ -186,6 +186,51 @@
     <!-- Contenido de la página -->
     <main>{{ block "main" . }}{{ end }}</main>
 
+    <!-- Modal de volúmenes anteriores -->
+    {{ if .Params.previousVols }}
+    <div class="modalOverlay" id="previousVolsModal">
+      <div class="modal">
+        <div class="modalHeader">
+          <h3 class="modalTitle">Volúmenes anteriores</h3>
+          <button class="modalClose" id="closePreviousVols" aria-label="Cerrar modal">
+            <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
+          </button>
+        </div>
+        <div class="modalBody">
+          <p class="previousVolsWarning">
+            Nota: Estos volúmenes fueron trabajados por otros grupos. Se proporcionan únicamente para facilitar el acceso a la historia completa.
+          </p>
+          
+          <div class="previousGroupsList">
+            {{ range .Params.previousVols }}
+              <div class="previousGroup">
+                <div class="groupInfo">
+                  <span class="groupRange">{{ .range }}</span>
+                  <span class="groupName">{{ .group }}</span>
+                </div>
+                <div class="groupActions">
+                  <a href="{{ .links.pdf }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
+                    <div class="previousDownloadIcon pdf">
+                      <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
+                    </div>
+                    PDF
+                  </a>
+                  <a href="{{ .links.epub }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
+                    <div class="previousDownloadIcon epub">
+                      <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
+                    </div>
+                    EPUB
+                  </a>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{ end }}
+
+
     <!-- Modal de la página de descargas -->
     {{ if and (eq .Section "novelas") (eq .Kind "page") }}
     <div class="modalOverlay" id="downloadModal">

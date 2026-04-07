@@ -83,4 +83,21 @@ volumes:
     drive:
       pdf: "https://drive.google.com/file/d/1hrcyOnq2K_q9vlOCG0O2hxwgE0A36ZkL/view"
       epub: "https://drive.google.com/file/d/1kKJLiNk0zc-eHVD_Ax9GTP9cXd5vsWFO/view"
---- 
+
+previousVols:
+  - range: "Volúmenes 01 al 12"
+    group: "Every Translations"
+    links:
+      pdf: "https://drive.google.com/drive/folders/1enuh8_YDE_1YrXYIMmHOvNSvFX-Es6vR"
+      epub: "https://drive.google.com/drive/folders/1B0TW0cMVKYzWRhVmcCKvZRvF1dUpX8zg"
+  - range: "Volúmenes 13 al 20"
+    group: "True Flames Project"
+    links:
+      pdf: "https://drive.google.com/drive/folders/1FgsADaseiyN0N5UOogF9z1xD6CRhHIHS"
+      epub: "https://drive.google.com/drive/folders/1IpnvK0n4UXcSqxa17QheZOgWnoObeNxG"
+  - range: "Volúmenes 21 al 24"
+    group: "Akira Translations"
+    links:
+      pdf: "https://drive.google.com/drive/folders/1Pba7s6lrhqR8OYqQAbIt172PyyIrb4lu"
+      epub: "https://drive.google.com/drive/folders/1J77jc591Z8f_IbAWLFYUzQbpvqTfGEs4"
+---

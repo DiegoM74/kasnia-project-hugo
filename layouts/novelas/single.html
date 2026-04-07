@@ -109,6 +109,12 @@
     <div class="sectionHeader">
       <h2 class="sectionTitle">Descargas</h2>
       <p class="sectionDescription">Hace clic sobre un volumen para descargar</p>
+      {{ if .Params.previousVols }}
+        <button class="previousVolsBtn" id="openPreviousVols">
+          <svg><use href="/img/svg/novela.svg#historyIcon" /></svg>
+          Volúmenes anteriores
+        </button>
+      {{ end }}
     </div>
 
     <div class="volumesGrid">
@@ -305,7 +311,12 @@
       </div>
     </div>
   </section>
+
+    </div>
+  </section>
 {{ end }}
+
+
 
 {{ define "js" }}
   {{ $jsFile := resources.Get "js/novela.js" }}

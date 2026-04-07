@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   initSynopsisToggle();
   initModal();
+  initPreviousVolsModal();
 });
+
 
 function initSynopsisToggle() {
   const synopsisContent = document.querySelector(".synopsisContent");
@@ -177,3 +179,28 @@ function initModal() {
       triggerLinkUpdate(btn.dataset.server);
     });
 }
+
+function initPreviousVolsModal() {
+  const openBtn = document.getElementById("openPreviousVols");
+  const modal = document.getElementById("previousVolsModal");
+  if (!openBtn || !modal) return;
+
+  const closeBtn = document.getElementById("closePreviousVols");
+
+  const openModal = () => modal.classList.add("active");
+  const closeModal = () => modal.classList.remove("active");
+
+  openBtn.addEventListener("click", openModal);
+  closeBtn?.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("active")) {
+      closeModal();
+    }
+  });
+}
+

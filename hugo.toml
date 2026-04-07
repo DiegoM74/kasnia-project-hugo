@@ -25,10 +25,8 @@ enableGitInfo = false
   filename = "sitemap.xml"
   priority = 0.5
 
-# Taxonomías
+# Deshabilitar taxonomías por completo
 [taxonomies]
-  tag = "tags"
-  category = "categories"
 
 #Para minificación de archivos
 [minify]
