@@ -996,10 +996,18 @@ main {
   transition: all 0.3s ease;
 }
 
+.groupActions.single {
+  grid-template-columns: 1fr;
+}
+
 .previousDownloadBtn:hover {
   border-color: var(--accent);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transform: translateY(-3px);
+}
+
+.previousDownloadBtn.external:hover {
+  border-color: #f59e0b;
 }
 
 .previousDownloadIcon {
@@ -1020,6 +1028,11 @@ main {
 .previousDownloadIcon.epub {
   background: rgba(59, 130, 246, 0.1);
   color: #3b82f6;
+}
+
+.previousDownloadIcon.external {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
 }
 
 .previousDownloadIcon svg {

@@ -208,19 +208,28 @@
                   <span class="groupRange">{{ .range }}</span>
                   <span class="groupName">{{ .group }}</span>
                 </div>
-                <div class="groupActions">
-                  <a href="{{ .links.pdf }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
-                    <div class="previousDownloadIcon pdf">
-                      <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
-                    </div>
-                    PDF
-                  </a>
-                  <a href="{{ .links.epub }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
-                    <div class="previousDownloadIcon epub">
-                      <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
-                    </div>
-                    EPUB
-                  </a>
+                <div class="groupActions {{ if .links.external }}single{{ end }}">
+                  {{ if .links.external }}
+                    <a href="{{ .links.external }}" class="previousDownloadBtn external" target="_blank" rel="noopener noreferrer">
+                      <div class="previousDownloadIcon external">
+                        <svg><use href="/img/svg/novela.svg#externalIcon" /></svg>
+                      </div>
+                      Ver en la web del traductor
+                    </a>
+                  {{ else }}
+                    <a href="{{ .links.pdf }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
+                      <div class="previousDownloadIcon pdf">
+                        <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
+                      </div>
+                      PDF
+                    </a>
+                    <a href="{{ .links.epub }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
+                      <div class="previousDownloadIcon epub">
+                        <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
+                      </div>
+                      EPUB
+                    </a>
+                  {{ end }}
                 </div>
               </div>
             {{ end }}

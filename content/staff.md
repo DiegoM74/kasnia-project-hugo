@@ -34,4 +34,9 @@ miembros:
     nombre: "Yaf"
     rol: "Corrector"
     novelIds: ["06"]
+
+  - staffId: "07"
+    nombre: "AndresLD"
+    rol: "Corrector"
+    novelIds: ["07"]
 ---
