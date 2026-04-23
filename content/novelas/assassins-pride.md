@@ -85,7 +85,7 @@ volumes:
   - num: "05"
     state: "published"
     credits:
-      translator: "LughAT"
+      translator: "LughAT - Asistencia con IA + DeepL Translate"
       corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "LughAT"
@@ -98,9 +98,9 @@ volumes:
       epub: "https://drive.google.com/file/d/1Mora-Ra3-LY1P9pJkyTWKGOYDTljbZ9Z/view"
 
   - num: "06"
-    state: "translating"
+    state: "preview"
     credits:
-      translator: "LughAT"
+      translator: "LughAT - Asistencia con IA + DeepL Translate"
       corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "LughAT"
@@ -109,7 +109,7 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: "https://drive.google.com/file/d/1N9D9RRSdZh9SRYZDD9wZBkenCCRqRd91/view"
       epub: "#"
 
   - num: "07"
