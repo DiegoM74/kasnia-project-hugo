@@ -15,7 +15,7 @@ genres:
   - "Romance"
   - "Sobrenatural"
 link: "eighty-six"
-status: "active"
+status: "uptodate"
 synopsis: "Los “Juggernaut” son drones de combate no tripulados desarrollados por la República de San Magnolia en respuesta a los ataques de los drones autónomos del vecino Imperio de Giad, la “Legión”. Pero en realidad lo de que no son tripulados es una farse, pues lo cierto es que los pilotan los 86, aquellos que se consideran menos que humanos y a los que tratan como meras herramientas. Decidido a combatir hasta su fin, Shin, capitán de un escuadrón compuesto por los 86, lucha sin descanso en un campo de batalla en el cual lo único que le aguarda es la muerte."
 author: "Asato Asato"
 illustrator: "Shirabi"
