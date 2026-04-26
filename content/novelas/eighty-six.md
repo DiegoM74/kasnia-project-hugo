@@ -26,7 +26,7 @@ animeAdaptation: true
 
 volumes:
   - num: "14"
-    state: "translating"
+    state: "published"
     credits:
       translator: "DeepSeek (IA)"
       corrector: "AndresLD"
@@ -34,11 +34,11 @@ volumes:
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1FLcVHNMyxpn4rfaMbkSKduaP1yQb_ixP/view"
+      epub: "https://drive.google.com/file/d/1bEGVwsQElQylMC3rl7xQVgOq69olv0Ae/view"
 
 previousVols:
   - range: "Volúmenes 01 al 13"

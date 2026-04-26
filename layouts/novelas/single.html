@@ -144,10 +144,10 @@
         {{ $pdfLink := "#" }}
         {{ $epubLink := "#" }}
         {{ if $pdfPropio }}
-          {{ $pdfLink = printf "https://descargas.kasniaproject.us.kg/%s-Volumen-%s-[Kasnia-Project].pdf" (replace $novelTitle " " "-") $num }}
+          {{ $pdfLink = printf "https://descargas.kasniaproject.us.kg/%s-Volumen-%s-[Kasnia-Project].pdf" (replace (replace $novelTitle ":" "") " " "-") $num }}
         {{ end }}
         {{ if $epubPropio }}
-          {{ $epubLink = printf "https://descargas.kasniaproject.us.kg/%s-Volumen-%s-[Kasnia-Project].epub" (replace $novelTitle " " "-") $num }}
+          {{ $epubLink = printf "https://descargas.kasniaproject.us.kg/%s-Volumen-%s-[Kasnia-Project].epub" (replace (replace $novelTitle ":" "") " " "-") $num }}
         {{ end }}
 
         {{ $badgeClass := "" }}
