@@ -12,7 +12,7 @@ genres:
   - "Comedia"
   - "Fantasía"
 link: "mizu-zokusei"
-status: "active"
+status: "uptodate"
 synopsis: "La reencarnación hacía soñar a Ryo con la paz, pero en su lugar se encuentra en un desierto infestado de monstruos. Gracias a la magia del agua y a su eterna juventud, sobrevive durante 20 años a innumerables maleficios y se convierte en uno de los magos más poderosos de la historia. El destino de Ryo cambia cuando conoce a Abel, un caballero excepcional, que lo coloca en el punto de mira de la sociedad mágica. Así comienza la trepidante aventura del Mago del Agua."
 author: "Tadashi Kudou"
 illustrator: "Nokito"
@@ -99,7 +99,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1fBk_zDHc5tmsAhAkQC_FusWEZM9oNa8W/view"
 
   - num: "06"
-    state: "translating"
+    state: "published"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -107,9 +107,9 @@ volumes:
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1POUgJcY94o5fC_-k9KGRhQJ3ynUz_PTC/view"
+      epub: "https://drive.google.com/file/d/11zzf-jdcSwLg-9yUrk9gGahkvW1T29E-/view"
 ---
