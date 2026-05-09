@@ -12,7 +12,7 @@ genres:
   - "Recuentos de la vida"
   - "Romance"
 link: "madougushi-dahliya"
-status: "active"
+status: "paused"
 synopsis: "Luego una vida de adicción al trabajo en Japón, Dahlia reencarna como una experta en magia en un nuevo mundo, pero esta segunda oportunidad está lejos de ser perfecta. Comprometida, traicionada y huérfana, todo antes de la luna de miel, ¡eso de verdad no lo esperaba! Descubre cómo Dahlia usa canaliza su desamor para convertirse en una maestra de crear varias mágicas y disfruta de su independencia. En esta historia, la verdadera magia es el autoconocimiento, y Dahlia será la maga de su propio destino."
 author: "Hisaya Amagishi"
 illustrator: "Kei"
@@ -68,9 +68,9 @@ volumes:
       epub: "https://drive.google.com/file/d/1kOcOhMwvZXz_4h3p_5A-6emVXBeqQSgT/view"
 
   - num: "04"
-    state: "translating"
+    state: "upcoming"
     credits:
-      translator: "JoséBR"
+      translator: "-"
       corrector: "Hiro寛"
       editor: "-"
       pdfTypesetter: "Diego"
