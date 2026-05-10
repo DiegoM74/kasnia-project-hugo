@@ -25,10 +25,11 @@ enableGitInfo = false
   filename = "sitemap.xml"
   priority = 0.5
 
-# Taxonomías
+# Taxonomías desactivadas para evitar warnings
+disableKinds = ["taxonomy", "term"]
+
 [taxonomies]
-  tag = "tags"
-  category = "categories"
+  # Declarar la tabla vacía anula las taxonomías por defecto de Hugo
 
 #Para minificación de archivos
 [minify]

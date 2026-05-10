@@ -1,6 +1,6 @@
 ---
 title: "Donaciones"
-description: "Apoya a Kasnia Project en la adquisición de novelas originales para futuras traducciones. El 100% de las donaciones se utiliza para comprar material RAW."
+description: "Apoya a Kasnia Project en la adquisición de novelas originales para futuras traducciones. La mayor parte de las donaciones se utiliza para comprar material RAW."
 ---
 
 <section class="heroSection">
@@ -10,14 +10,14 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
 
 <div class="contentWrapper">
   <section class="infoGrid">
-    <div class="infoCard highlight">
+    <div class="infoCard">
       <div class="iconWrapper">
         <svg class="infoIcon"><use href="/img/svg/donaciones.svg#bookIcon" /></svg>
       </div>
       <h3 class="cardTitle">Material Original</h3>
       <p class="cardDescription">
-        El 100% de las donaciones se utiliza para comprar las RAWs
-        (novelas originales) que traducimos en la página.
+        La mayor parte de las donaciones se utiliza para comprar las RAWs
+        (novelas en su idioma original) que traducimos en la página.
       </p>
     </div>
     <div class="infoCard">
@@ -36,8 +36,8 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
       </div>
       <h3 class="cardTitle">Infraestructura</h3>
       <p class="cardDescription">
-        El hosting es gratuito y el dominio es muy económico. No
-        necesitamos fondos para mantener el sitio web en línea.
+        El hosting es gratuito y el dominio es económico (10$ al año).
+        Parte del dinero es usado para mantener el dominio.
       </p>
     </div>
   </section>
@@ -56,6 +56,53 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
         </a>
         <span class="paypalLinkText">paypal.me/KasniaPLD07</span>
       </div>
+    </div>
+  </section>
+  
+  <section class="historySection">
+    <div class="historyHeader">
+      <h2 class="historyTitle">Historial de Movimientos</h2>
+      <p class="historySubtitle">Transparencia sobre los ingresos y gastos del proyecto.</p>
+    </div>
+    <div class="historyList">
+      <!--C-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Registro de Dominio</h3>
+          <div class="historyMeta">
+            <time datetime="2026-05-09" class="historyDate">09 Mayo 2026</time>
+            <span class="historyDescription">Registro en Cloudflare de nuevo dominio.</span>
+          </div>
+        </div>
+        <div class="historyAmount amountSpent">
+          - $10,46
+        </div>
+      </article>
+      <!--B-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Donación Anónima</h3>
+          <div class="historyMeta">
+            <time datetime="2026-05-09" class="historyDate">09 Mayo 2026</time>
+          </div>
+        </div>
+        <div class="historyAmount amountReceived">
+          + $0,74
+        </div>
+      </article>
+      <!--A-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Donación Anónima</h3>
+          <div class="historyMeta">
+            <time datetime="2026-04-03" class="historyDate">03 Abril 2026</time>
+            <span class="historyDescription">"Gracias por su trabajo."</span>
+          </div>
+        </div>
+        <div class="historyAmount amountReceived">
+          + $9,74
+        </div>
+      </article>
     </div>
   </section>
 </div>
