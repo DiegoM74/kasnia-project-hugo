@@ -153,6 +153,14 @@
       elements.novelsGrid.style.display = "grid";
       elements.noResultsMessage.style.display = "none";
 
+      // Calcular tamaño real de columna para sizes
+      const gridWidth = elements.novelsGrid.getBoundingClientRect().width;
+      const gap = 24; // 1.5rem
+      const minColWidth = 180;
+      const cols = Math.max(1, Math.floor((gridWidth + gap) / (minColWidth + gap)));
+      const colWidth = Math.round((gridWidth - gap * (cols - 1)) / cols);
+      const coverSizes = `${colWidth}px`;
+
       // Usar DocumentFragment para mejor rendimiento
       const fragment = document.createDocumentFragment();
       const template = document.createElement("template");
@@ -162,8 +170,22 @@
           <a href="/novelas/${novel.link}" class="novelCard" style="view-transition-name: n${novel.novelId}">
             <div class="novelCoverContainer">
               <picture>
-                <source srcset="/img/cover/avif/${novel.novelId}.avif" type="image/avif" />
-                <img src="/img/cover/jpg/${novel.novelId}.jpg" alt="${novel.nameJp}" class="novelCover" loading="lazy" />
+                <source
+                  srcset="/img/cover/avif/${novel.novelId}-400.avif 400w, /img/cover/avif/${novel.novelId}-700.avif 700w, /img/cover/avif/${novel.novelId}-900.avif 900w"
+                  sizes="${coverSizes}"
+                  type="image/avif"
+                />
+                <source
+                  srcset="/img/cover/jpg/${novel.novelId}-400.jpg 400w, /img/cover/jpg/${novel.novelId}-700.jpg 700w, /img/cover/jpg/${novel.novelId}-900.jpg 900w"
+                  sizes="${coverSizes}"
+                  type="image/jpeg"
+                />
+                <img
+                  src="/img/cover/jpg/${novel.novelId}-400.jpg"
+                  alt="${novel.nameJp}"
+                  class="novelCover"
+                  loading="lazy"
+                />
               </picture>
               <div class="hoverOverlay">
                 <span>Leer Ahora</span>

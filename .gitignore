@@ -26,3 +26,9 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.log
+
+# Procesamiento de imágenes
+images/*
+!images/process_images.js
+!images/package.json
+!images/package-lock.json

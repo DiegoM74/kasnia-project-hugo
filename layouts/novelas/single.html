@@ -55,15 +55,24 @@
   <section class="novelHero">
     <div class="coverContainer" style="view-transition-name: n{{ $coverId }}">
       <span class="statusBadge {{ .Params.status }}"></span>
-      <picture>
-        <source srcset="/img/cover/avif/{{ $coverId }}.avif" type="image/avif" />
-        <img
-          class="novelCover"
-          src="/img/cover/jpg/{{ $coverId }}.jpg"
-          alt="Portada de {{ .Params.novelTitle }}"
-          loading="eager"
-        />
-      </picture>
+        <picture>
+          <source
+            srcset="/img/cover/avif/{{ $coverId }}-400.avif 400w, /img/cover/avif/{{ $coverId }}-700.avif 700w, /img/cover/avif/{{ $coverId }}-900.avif 900w"
+            sizes="(max-width: 360px) calc(100vw - 2rem), 320px"
+            type="image/avif"
+          />
+          <source
+            srcset="/img/cover/jpg/{{ $coverId }}-400.jpg 400w, /img/cover/jpg/{{ $coverId }}-700.jpg 700w, /img/cover/jpg/{{ $coverId }}-900.jpg 900w"
+            sizes="(max-width: 360px) calc(100vw - 2rem), 320px"
+            type="image/jpeg"
+          />
+          <img
+            class="novelCover"
+            src="/img/cover/jpg/{{ $coverId }}-400.jpg"
+            alt="Portada de {{ .Params.novelTitle }}"
+            loading="eager"
+          />
+        </picture>
     </div>
 
     <div class="novelInfo">
@@ -184,15 +193,24 @@
             {{ if or $isPreview $isTranslating $isUpcoming }}
               <span class="volumeBadge {{ $badgeClass }}"></span>
             {{ end }}
-            <picture>
-              <source srcset="/img/vols/{{ $coverId }}/avif/v{{ $num }}.avif" type="image/avif" />
-              <img
-                class="volumeCover"
-                src="/img/vols/{{ $coverId }}/jpg/v{{ $num }}.jpg"
-                alt="Volumen {{ $num }}"
-                loading="lazy"
-              />
-            </picture>
+              <picture>
+                <source
+                  srcset="/img/vols/{{ $coverId }}/avif/v{{ $num }}-400.avif 400w, /img/vols/{{ $coverId }}/avif/v{{ $num }}-700.avif 700w"
+                  sizes="(max-width: 380px) calc(100vw - 2rem), (max-width: 560px) calc(50vw - 2rem), (max-width: 750px) calc(33vw - 2rem), 207px"
+                  type="image/avif"
+                />
+                <source
+                  srcset="/img/vols/{{ $coverId }}/jpg/v{{ $num }}-400.jpg 400w, /img/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg 700w"
+                  sizes="(max-width: 380px) calc(100vw - 2rem), (max-width: 560px) calc(50vw - 2rem), (max-width: 750px) calc(33vw - 2rem), 207px"
+                  type="image/jpeg"
+                />
+                <img
+                  class="volumeCover"
+                  src="/img/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg"
+                  alt="Volumen {{ $num }}"
+                  loading="lazy"
+                />
+              </picture>
             <div class="volumeOverlay">
               <span class="volumeNumber">Volumen {{ $num }}</span>
               <span class="volumeDownloadHint">
