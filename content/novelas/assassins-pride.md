@@ -109,7 +109,7 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "https://drive.google.com/file/d/1N9D9RRSdZh9SRYZDD9wZBkenCCRqRd91/view"
+      pdf: "https://drive.google.com/file/d/1bWpjzm2tV63xXBWN2Fbs65sgYg7q0pxV/view"
       epub: "#"
 
   - num: "07"
