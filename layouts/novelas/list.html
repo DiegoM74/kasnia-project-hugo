@@ -56,23 +56,15 @@
     <p>Intenta con otros términos de búsqueda o filtros.</p>
   </div>
 
-  <div id="paginationBottom" class="paginationControls" style="display: none">
-    <div class="paginationLeft">
-      <select id="itemsPerPage" class="itemsPerPageSelect">
-        <option value="10">Mostrar 10</option>
-        <option value="all">Mostrar todas</option>
-      </select>
-    </div>
-    <div class="paginationRight">
-      <button id="prevPageBottom" class="paginationBtn" aria-label="Anterior">
-        <svg><use href="/img/svg/novelas.svg#arrowLeft" /></svg>
-      </button>
-      <span id="pageInfoBottom" class="pageInfo">Página 1 de 1</span>
-      <button id="nextPageBottom" class="paginationBtn" aria-label="Siguiente">
-        <svg><use href="/img/svg/novelas.svg#arrowRight" /></svg>
-      </button>
-    </div>
-  </div>
+  <nav id="paginationBottom" class="paginationControls" aria-label="Paginación" style="display: none">
+    <button id="prevPageBottom" class="paginationBtn" aria-label="Página anterior">
+      <svg aria-hidden="true"><use href="/img/svg/novelas.svg#arrowLeft" /></svg>
+    </button>
+    <span id="pageInfoBottom" class="pageInfo">Página 1 de 1</span>
+    <button id="nextPageBottom" class="paginationBtn" aria-label="Página siguiente">
+      <svg aria-hidden="true"><use href="/img/svg/novelas.svg#arrowRight" /></svg>
+    </button>
+  </nav>
 </section>
 {{ end }}
 

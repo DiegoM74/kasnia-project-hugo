@@ -2,9 +2,9 @@
 Creador: Lugh
 Administrador: Diego
 Traductores: Lugh, Diego, JoséBR
-Correctores: Hiro寛, Yaf
-Editor: EliasQ
-Sitio web: https://kasniaproject.us.kg
+Correctores: Hiro寛, Yaf, AndresLD
+Editores: EliasQ, Diego
+Sitio web: https://kasniaproject.com
 
 /* SITIO */
 Estándares: HTML5, CSS3

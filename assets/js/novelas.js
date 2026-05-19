@@ -22,7 +22,6 @@
     elements.novelsGrid = document.getElementById("novelsGrid");
     elements.noResultsMessage = document.getElementById("noResultsMessage");
     elements.paginationBottom = document.getElementById("paginationBottom");
-    elements.itemsPerPageSelect = document.getElementById("itemsPerPage");
     elements.prevPageBottom = document.getElementById("prevPageBottom");
     elements.nextPageBottom = document.getElementById("nextPageBottom");
     elements.pageInfoBottom = document.getElementById("pageInfoBottom");
@@ -57,14 +56,6 @@
         elements.filterToggle.getAttribute("aria-expanded") === "true";
       elements.filterToggle.setAttribute("aria-expanded", !isExpanded);
       elements.genreFilters.classList.toggle("is-open");
-    });
-
-    elements.itemsPerPageSelect.addEventListener("change", (e) => {
-      const val = e.target.value;
-      state.itemsPerPage = val === "all" ? state.filteredNovels.length : +val;
-      state.currentPage = 1;
-      renderNovels();
-      updatePagination();
     });
 
     elements.prevPageBottom.addEventListener("click", () => changePage(-1));

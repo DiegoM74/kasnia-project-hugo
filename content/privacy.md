@@ -81,13 +81,13 @@ description: "Política de privacidad de Kasnia Project. Información sobre cóm
     contactarnos a través de nuestro correo electrónico.
   </p>
 
-  <a href="mailto:contacto@kasniaproject.us.kg" class="contactBox">
+  <a href="mailto:contacto@kasniaproject.com" class="contactBox">
     <div class="contactIconWrapper">
       <svg><use href="/img/svg/legal.svg#iconMail" /></svg>
     </div>
     <div class="contactInfo">
       <span class="contactLabel">Correo Electrónico</span>
-      <span class="contactValue">contacto@kasniaproject.us.kg</span>
+      <span class="contactValue">contacto@kasniaproject.com</span>
     </div>
   </a>
 </section>

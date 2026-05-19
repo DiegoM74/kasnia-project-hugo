@@ -318,83 +318,22 @@ main {
 ======================================== */
 .paginationControls {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  gap: 1rem;
-  max-width: 500px;
-  margin: 2rem auto 0;
-  padding: 0.5rem;
+  gap: 1.5rem;
+  width: fit-content;
+  margin: 2.5rem auto 0;
+  padding: 0.625rem 1.25rem;
   background-color: var(--bg-secondary);
   border: 2px solid var(--border);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.paginationLeft {
-  display: flex;
-  align-items: center;
-}
-
-.itemsPerPageSelect {
-  min-width: 140px;
-  padding: 0.625rem 2.5rem 0.625rem 1rem;
-  background-color: var(--bg-primary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 1rem;
-  border: 2px solid var(--border);
-  border-radius: 0.5rem;
-  color: var(--text-primary);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-theme="light"] .itemsPerPageSelect {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-}
-
-.itemsPerPageSelect:hover {
-  background-color: var(--bg-secondary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff9ac5' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+.paginationControls:hover {
   border-color: var(--accent);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="light"] .itemsPerPageSelect:hover {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e6528b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-}
-
-.itemsPerPageSelect:focus {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ff9ac5' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(255, 154, 197, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
-  outline: none;
-}
-
-[data-theme="light"] .itemsPerPageSelect:focus {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23e6528b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  box-shadow: 0 0 0 3px rgba(230, 82, 139, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.itemsPerPageSelect option {
-  padding: 0.5rem;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-.paginationRight {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  box-shadow: var(--shadow-hover);
 }
 
 .paginationBtn {

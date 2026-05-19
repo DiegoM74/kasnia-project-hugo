@@ -82,13 +82,13 @@ description: "Política DMCA de Kasnia Project. Compromiso con la protección de
     Responderemos a la brevedad posible.
   </p>
 
-  <a href="mailto:contacto@kasniaproject.us.kg" class="contactBox">
+  <a href="mailto:contacto@kasniaproject.com" class="contactBox">
     <div class="contactIconWrapper">
       <svg><use href="/img/svg/legal.svg#iconMail" /></svg>
     </div>
     <div class="contactInfo">
       <span class="contactLabel">Correo Electrónico</span>
-      <span class="contactValue">contacto@kasniaproject.us.kg</span>
+      <span class="contactValue">contacto@kasniaproject.com</span>
     </div>
   </a>
 </section>
