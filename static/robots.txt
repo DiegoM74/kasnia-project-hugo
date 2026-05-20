@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://kasniaproject.us.kg/sitemap.xml
+Sitemap: https://kasniaproject.com/sitemap.xml
 
 # Disallow archivos y carpetas técnicas
 Disallow: /admin/
