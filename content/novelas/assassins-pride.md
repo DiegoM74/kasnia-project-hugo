@@ -98,7 +98,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1Mora-Ra3-LY1P9pJkyTWKGOYDTljbZ9Z/view"
 
   - num: "06"
-    state: "translating"
+    state: "published"
     credits:
       translator: "LughAT - Asistencia con IA + DeepL Translate"
       corrector: "LughAT"
