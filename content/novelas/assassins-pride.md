@@ -104,7 +104,7 @@ volumes:
       corrector: "LughAT"
       editor: "-"
       pdfTypesetter: "LughAT"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
       pdf: true
       epub: true
