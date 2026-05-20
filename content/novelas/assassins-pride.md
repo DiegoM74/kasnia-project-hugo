@@ -98,7 +98,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1Mora-Ra3-LY1P9pJkyTWKGOYDTljbZ9Z/view"
 
   - num: "06"
-    state: "preview"
+    state: "translating"
     credits:
       translator: "LughAT - Asistencia con IA + DeepL Translate"
       corrector: "LughAT"
@@ -106,11 +106,11 @@ volumes:
       pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1bWpjzm2tV63xXBWN2Fbs65sgYg7q0pxV/view"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1j-tqSD5XBLYMzAsBykIzPOoiz0jnnkhA/view"
+      epub: "https://drive.google.com/file/d/1hTJaj_cMOFV0Omteqs04QYqSxXgXvWOl/view"
 
   - num: "07"
     state: "upcoming"
