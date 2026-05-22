@@ -53,12 +53,12 @@
     </p>
   </div>
   <div class="novelsGrid">
-    {{ $destacadas := slice "01" "06" "07" }}
+    {{ $destacadas := slice "01" "08" "07" }}
     {{ range $destacadas }}
       {{ $novelId := . }}
       {{ range where $.Site.RegularPages "Section" "novelas" }}
         {{ if eq .Params.novelId $novelId }}
-          {{ $coverId := printf "%02d" (int .Params.novelId) }}
+          {{ $coverId := printf "%02s" .Params.novelId }}
           <a
             href="{{ .RelPermalink }}"
             class="novelCard"

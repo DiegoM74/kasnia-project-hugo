@@ -13,7 +13,7 @@ miembros:
     nombre: "Diego"
     rol: "Traductor, Web, Maquetador PDF y EPUB"
     badge: "Admin"
-    novelIds: ["01", "06", "05"]
+    novelIds: ["01", "06", "08", "05"]
 
   - staffId: "03"
     nombre: "Hiro寛"
@@ -33,7 +33,7 @@ miembros:
   - staffId: "06"
     nombre: "Yaf"
     rol: "Corrector"
-    novelIds: ["06"]
+    novelIds: ["06", "08"]
 
   - staffId: "07"
     nombre: "AndresLD"
