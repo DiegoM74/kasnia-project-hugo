@@ -81,8 +81,8 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1hrcyOnq2K_q9vlOCG0O2hxwgE0A36ZkL/view"
-      epub: "https://drive.google.com/file/d/1kKJLiNk0zc-eHVD_Ax9GTP9cXd5vsWFO/view"
+      pdf: "https://drive.google.com/file/d/14Z0E7tIJBWv0ZwtPKgPsotTiEjUhgBXK/view"
+      epub: "https://drive.google.com/file/d/1K0f94QJTnqDu3Wu2LZRa2TwvmZU_yFBv/view"
 
 previousVols:
   - range: "Volúmenes 01 al 12"
