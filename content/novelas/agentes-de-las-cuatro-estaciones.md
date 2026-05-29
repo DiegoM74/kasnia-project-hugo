@@ -22,7 +22,7 @@ animeAdaptation: true
 
 volumes:
   - num: "01"
-    state: "translating"
+    state: "preview"
     credits:
       translator: "Lugh"
       corrector: "Lugh"
@@ -33,6 +33,6 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: "https://drive.google.com/file/d/1yKvxG4rixCwqGlugjrA6eJgvGeLPwkJv/view"
       epub: "#"
 ---
