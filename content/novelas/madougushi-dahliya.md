@@ -20,6 +20,7 @@ volumesReleased: 11
 demography: "Shoujo (Juvenil, Chicas)"
 mangaAdaptation: true
 animeAdaptation: true
+novelNote: "Este proyecto está en pausa por falta de traductor."
 
 volumes:
   - num: "01"

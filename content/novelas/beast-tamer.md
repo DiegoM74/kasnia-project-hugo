@@ -25,6 +25,7 @@ volumesReleased: "12"
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
+novelNote: "Este proyecto está en pausa debido a la pausa de la traducción en inglés."
 
 volumes:
   - num: "01"

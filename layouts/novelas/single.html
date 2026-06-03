@@ -114,6 +114,15 @@
     </div>
   </section>
 
+  {{ with .Params.novelNote }}
+    <section class="novelNoteSection">
+      <div class="novelNoteBox">
+        <svg class="novelNoteIcon"><use href="/img/svg/novela.svg#noteIcon" /></svg>
+        <p class="novelNoteText">{{ . }}</p>
+      </div>
+    </section>
+  {{ end }}
+
   <section class="downloadsSection">
     <div class="sectionHeader">
       <h2 class="sectionTitle">Descargas</h2>

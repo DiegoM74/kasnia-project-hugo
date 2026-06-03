@@ -1040,3 +1040,40 @@ main {
   height: 18px;
 }
 
+/* ========================================
+   NOVEL NOTE SECTION
+======================================== */
+.novelNoteSection {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.novelNoteBox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem 1.5rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid var(--border);
+  border-left: 4px solid #f59e0b;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card);
+}
+
+.novelNoteIcon {
+  width: 24px;
+  height: 24px;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.novelNoteText {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0;
+}

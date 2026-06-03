@@ -22,16 +22,6 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
     </div>
     <div class="infoCard">
       <div class="iconWrapper">
-        <svg class="infoIcon"><use href="/img/svg/donaciones.svg#heartIcon" /></svg>
-      </div>
-      <h3 class="cardTitle">Transparencia</h3>
-      <p class="cardDescription">
-        No hay beneficios exclusivos por donar. Sin embargo, si nos apoyas
-        con un volumen, te mencionaremos en los créditos.
-      </p>
-    </div>
-    <div class="infoCard">
-      <div class="iconWrapper">
         <svg class="infoIcon"><use href="/img/svg/donaciones.svg#serverIcon" /></svg>
       </div>
       <h3 class="cardTitle">Infraestructura</h3>
@@ -65,6 +55,19 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
       <p class="historySubtitle">Transparencia sobre los ingresos y gastos del proyecto.</p>
     </div>
     <div class="historyList">
+      <!--D-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Donación</h3>
+          <div class="historyMeta">
+            <time datetime="2026-05-09" class="historyDate">01 Junio 2026</time>
+            <span class="historyDescription">"Gracias por su trabajo."</span>
+          </div>
+        </div>
+        <div class="historyAmount amountReceived">
+          + $7,47
+        </div>
+      </article>
       <!--C-->
       <article class="historyItem">
         <div class="historyInfo">
@@ -81,7 +84,7 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
       <!--B-->
       <article class="historyItem">
         <div class="historyInfo">
-          <h3 class="historyName">Donación Anónima</h3>
+          <h3 class="historyName">Donación</h3>
           <div class="historyMeta">
             <time datetime="2026-05-09" class="historyDate">09 Mayo 2026</time>
           </div>
@@ -93,7 +96,7 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
       <!--A-->
       <article class="historyItem">
         <div class="historyInfo">
-          <h3 class="historyName">Donación Anónima</h3>
+          <h3 class="historyName">Donación</h3>
           <div class="historyMeta">
             <time datetime="2026-04-03" class="historyDate">03 Abril 2026</time>
             <span class="historyDescription">"Gracias por su trabajo."</span>

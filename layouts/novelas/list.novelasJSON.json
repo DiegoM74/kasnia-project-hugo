@@ -1,5 +1,5 @@
 {{- $novelas := where .Site.RegularPages "Section" "novelas" -}}
-{{- $sorted := sort $novelas "Params.novelId" "asc" -}}
+{{- $sorted := sort $novelas "Params.nameEn" "asc" -}}
 {{- $list := slice -}}
 {{- range $sorted -}}
   {{- $item := dict

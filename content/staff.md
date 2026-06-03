@@ -11,9 +11,9 @@ miembros:
 
   - staffId: "02"
     nombre: "Diego"
-    rol: "Traductor, Editor, Web, Maquetador PDF y EPUB"
+    rol: "Traductor, Editor, Web y Maquetador PDF/EPUB"
     badge: "Admin"
-    novelIds: ["01", "06", "08", "09", "05"]
+    novelIds: ["01", "06", "08", "09"]
 
   - staffId: "03"
     nombre: "Hiro寛"
@@ -26,16 +26,11 @@ miembros:
     novelIds: ["01", "05"]
 
   - staffId: "05"
-    nombre: "JoséBR"
-    rol: "Traductor"
-    novelIds: ["05"]
-
-  - staffId: "06"
     nombre: "Yaf"
     rol: "Corrector"
     novelIds: ["06", "08"]
 
-  - staffId: "07"
+  - staffId: "06"
     nombre: "AndresLD"
     rol: "Corrector"
     novelIds: ["07"]
