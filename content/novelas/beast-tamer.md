@@ -25,7 +25,7 @@ volumesReleased: "12"
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Este proyecto está en pausa debido a la pausa de la traducción en inglés."
+novelNote: "Este proyecto está en pausa temporal mientras se avanza en otras novelas. Una vez que se complete el trabajo actual, se retomará la traducción de esta novela."
 
 volumes:
   - num: "01"
