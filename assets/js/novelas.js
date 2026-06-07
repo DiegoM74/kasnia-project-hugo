@@ -5,7 +5,7 @@
     allNovels: [],
     filteredNovels: [],
     currentPage: 1,
-    itemsPerPage: 10,
+    itemsPerPage: 15,
     selectedGenres: new Set(),
     searchQuery: "",
   };
@@ -210,7 +210,7 @@
 
   function updatePaginationVisibility() {
     elements.paginationBottom.style.display =
-      state.filteredNovels.length > 10 ? "flex" : "none";
+      state.filteredNovels.length > 15 ? "flex" : "none";
   }
 
   if (document.readyState === "loading") {
