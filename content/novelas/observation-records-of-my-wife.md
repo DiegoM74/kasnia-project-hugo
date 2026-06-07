@@ -1,10 +1,10 @@
 ---
-title: "Observation Records of My Wife: The Misadventures of a Self-Proclaimed"
+title: "Observation Records of My Wife: The Misadventures of a Self-Proclaimed Villainess"
 description: "Lee Observation Records of My Wife en español. Descarga los volúmenes traducidos de esta novela ligera de comedia, recuentos de la vida y romance. Traducción de calidad por Kasnia Project."
 novelId: "11"
-novelTitle: "Observation Records of My Wife: The Misadventures of a Self-Proclaimed"
+novelTitle: "Observation Records of My Wife: The Misadventures of a Self-Proclaimed Villainess"
 nameJp: "Jishou Akuyaku Reijou na Tsuma no Kansatsu Kiroku"
-nameEn: "Observation Records of My Wife: The Misadventures of a Self-Proclaimed"
+nameEn: "Observation Records of My Wife: The Misadventures of a Self-Proclaimed Villainess"
 nameEs: ""
 genres:
   - "Comedia"
