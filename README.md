@@ -42,12 +42,13 @@ Cada novela es un archivo `.md` (ej: `seirei-gensouki.md`). La información se d
 
 Define el estado actual de la traducción o publicación en el sitio.
 
-| Valor       | Significado                                                     | Badge Visual       |
-| :---------- | :-------------------------------------------------------------- | :----------------- |
-| `active`    | **Activa**. Se está traduciendo y publicando regularmente.      | Verde (Activa)     |
-| `uptodate`  | **Al día**. Estamos al día con la publicación japonesa/inglesa. | Azul (Al día)      |
-| `paused`    | **Pausada**. No hay actividad reciente.                         | Amarillo (Pausada) |
-| `completed` | **Finalizada**. La traducción de la novela ha concluido.        | Rojo (Finalizada)  |
+| Valor       | Significado                                                     | Badge Visual          |
+| :---------- | :-------------------------------------------------------------- | :-------------------- |
+| `active`    | **Activa**. Se está traduciendo y publicando regularmente.      | Verde (Activa)        |
+| `uptodate`  | **Al día**. Estamos al día con la publicación japonesa/inglesa. | Azul (Al día)         |
+| `paused`    | **Pausada**. No hay actividad reciente.                         | Amarillo (Pausada)    |
+| `completed` | **Finalizada**. La traducción de la novela ha concluido.        | Rojo (Finalizada)     |
+| `planned`   | **Planificada**. La traducción de la novela no ha comenzado.    | Celeste (Planificada) |
 
 #### Estados de los Volúmenes (`state`)
 
