@@ -33,7 +33,7 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "https://drive.google.com/file/d/1yKvxG4rixCwqGlugjrA6eJgvGeLPwkJv/view"
+      pdf: "https://drive.google.com/file/d/1vn7cJSYZzQZOEeMS1Jkx3PYvDFW3Ktf4/view"
       epub: "#"
 
   - num: "02"
