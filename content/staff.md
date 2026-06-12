@@ -33,5 +33,5 @@ miembros:
   - staffId: "06"
     nombre: "AndresLD"
     rol: "Corrector"
-    novelIds: ["07"]
+    novelIds: ["07", "13"]
 ---
