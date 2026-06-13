@@ -22,19 +22,19 @@ animeAdaptation: true
 
 volumes:
   - num: "01"
-    state: "preview"
+    state: "translating"
     credits:
-      translator: "Lugh"
-      corrector: "Lugh"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "Diego"
-      pdfTypesetter: "Lugh"
-      epubTypesetter: "-"
+      pdfTypesetter: "LughAT"
+      epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1vn7cJSYZzQZOEeMS1Jkx3PYvDFW3Ktf4/view"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1BZ92U2KKVz8a8lKJGjnFLYMqZplYk6tA/view"
+      epub: "https://drive.google.com/file/d/1EJm0qsuv4CnbU6Vd0K-7W_BHnpPutWxF/view"
 
   - num: "02"
     state: "upcoming"
