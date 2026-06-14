@@ -22,7 +22,7 @@ animeAdaptation: true
 
 volumes:
   - num: "01"
-    state: "translating"
+    state: "published"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
