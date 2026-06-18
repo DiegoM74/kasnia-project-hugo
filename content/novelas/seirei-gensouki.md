@@ -44,7 +44,7 @@ volumes:
     credits:
       translator: "Diego"
       corrector: "Diego"
-      editor: "-"
+      editor: "Diego"
       pdfTypesetter: "Diego"
       epubTypesetter: "Saosora"
     propio:
