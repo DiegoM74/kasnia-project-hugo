@@ -37,7 +37,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1EJm0qsuv4CnbU6Vd0K-7W_BHnpPutWxF/view"
 
   - num: "02"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "Lugh"
       corrector: "Lugh"
