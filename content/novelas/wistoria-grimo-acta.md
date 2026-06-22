@@ -20,8 +20,8 @@ author: "Fujino Omori"
 illustrator: "Yuunagi"
 volumesReleased: 2
 demography: "Shounen (Juvenil, Chicos)"
-mangaAdaptation: false
-animeAdaptation: false
+mangaAdaptation: true
+animeAdaptation: true
 novelNote: "Este proyecto es la precuela de Tsue to Tsurugi no Wistoria."
 
 volumes:

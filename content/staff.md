@@ -7,13 +7,13 @@ miembros:
     nombre: "Lugh"
     rol: "Traductor, Corrector, Admin y Maquetador PDF"
     badge: "Creator"
-    novelIds: ["02", "03", "04", "09"]
+    novelIds: ["02", "03", "04", "09",]
 
   - staffId: "02"
     nombre: "Diego"
     rol: "Traductor, Editor, Web y Maquetador PDF/EPUB"
     badge: "Admin"
-    novelIds: ["01", "06", "08", "09"]
+    novelIds: ["01", "06", "08", "14"]
 
   - staffId: "03"
     nombre: "Hiro寛"

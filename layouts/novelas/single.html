@@ -78,9 +78,9 @@
     <div class="novelInfo">
       <h1 class="novelTitle">{{ .Params.novelTitle }}</h1>
       <div class="novelSynopsis">
-        <p class="synopsisContent collapsed">
-          {{ .Params.synopsis }}
-        </p>
+        <div class="synopsisContent collapsed">
+          {{ .Params.synopsis | markdownify }}
+        </div>
         <button class="synopsisToggle">
           Ver más
           <svg><use href="/img/svg/novela.svg#chevronDown" /></svg>
