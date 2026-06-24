@@ -27,6 +27,8 @@ novelNote: "Este proyecto está en pausa temporal mientras se avanza en otras no
 volumes:
   - num: "01"
     state: "published"
+    pdfUpdateDate: "22/05/2026"
+    epubUpdateDate: "22/05/2026"
     credits:
       translator: "Diego"
       corrector: "Yaf"

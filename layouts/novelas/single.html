@@ -196,6 +196,8 @@
               {"role":"Maquetador EPUB","name":"{{ if ne $vol.credits.epubTypesetter "-" }}{{ $vol.credits.epubTypesetter }} (<a href=\"https://www.facebook.com/ZeePubs\" target=\"_blank\">ZeePubs</a>){{ else }}-{{ end }}"}
             ]'
             data-links='{"propio":{"pdf":"{{ $pdfLink }}","epub":"{{ $epubLink }}"},"drive":{"pdf":"{{ $pdfDrive }}","epub":"{{ $epubDrive }}"}}'
+            {{ with $vol.pdfUpdateDate }}data-pdf-update="{{ . }}"{{ end }}
+            {{ with $vol.epubUpdateDate }}data-epub-update="{{ . }}"{{ end }}
           {{ end }}
           >
           <div class="volumeCoverContainer">

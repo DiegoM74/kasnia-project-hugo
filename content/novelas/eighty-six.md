@@ -27,6 +27,8 @@ animeAdaptation: true
 volumes:
   - num: "14"
     state: "published"
+    pdfUpdateDate: "26/04/2026"
+    epubUpdateDate: "26/04/2026"
     credits:
       translator: "DeepSeek (IA)"
       corrector: "AndresLD"

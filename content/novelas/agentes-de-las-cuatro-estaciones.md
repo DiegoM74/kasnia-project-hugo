@@ -23,6 +23,8 @@ animeAdaptation: true
 volumes:
   - num: "01"
     state: "published"
+    pdfUpdateDate: "13/06/2026"
+    epubUpdateDate: "13/06/2026"
     credits:
       translator: "LughAT"
       corrector: "LughAT"

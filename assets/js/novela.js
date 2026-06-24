@@ -42,6 +42,7 @@ function initModal() {
   const modalTitle = document.getElementById("modalVolumeTitle");
   const modalHeader = modalOverlay.querySelector(".modalHeader");
   const creditsContainer = document.getElementById("creditsContainer");
+  const updateDateContainer = document.getElementById("updateDateContainer");
   const pdfLink = document.getElementById("pdfDownloadLink");
   const epubLink = document.getElementById("epubDownloadLink");
   const serverBtns = modalOverlay.querySelectorAll(".serverBtn");
@@ -103,6 +104,35 @@ function initModal() {
       `,
       )
       .join("");
+
+    if (updateDateContainer) {
+      const pdfUpdate = card.dataset.pdfUpdate;
+      const epubUpdate = card.dataset.epubUpdate;
+      let updateHtml = "";
+      if (pdfUpdate) {
+        updateHtml += `
+          <div class="updateDateItem">
+            <span class="updateDateLabel">PDF actualizado</span>
+            <span class="updateDateValue">${pdfUpdate}</span>
+          </div>
+        `;
+      }
+      if (epubUpdate) {
+        updateHtml += `
+          <div class="updateDateItem">
+            <span class="updateDateLabel">EPUB actualizado</span>
+            <span class="updateDateValue">${epubUpdate}</span>
+          </div>
+        `;
+      }
+      if (updateHtml) {
+        updateDateContainer.innerHTML = updateHtml;
+        updateDateContainer.style.display = "grid";
+      } else {
+        updateDateContainer.innerHTML = "";
+        updateDateContainer.style.display = "none";
+      }
+    }
 
     updateServerButtons();
 

@@ -633,6 +633,32 @@ main {
   text-decoration: underline;
 }
 
+.updateDateContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.updateDateItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.updateDateLabel {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.updateDateValue {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 /* ========================================
    SERVER TOGGLE (Modal)
 ======================================== */

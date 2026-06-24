@@ -24,6 +24,8 @@ animeAdaptation: true
 volumes:
   - num: "01"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -39,6 +41,8 @@ volumes:
 
   - num: "02"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -54,6 +58,8 @@ volumes:
 
   - num: "03"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -69,6 +75,8 @@ volumes:
 
   - num: "04"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -84,6 +92,8 @@ volumes:
 
   - num: "05"
     state: "published"
+    pdfUpdateDate: "29/03/2026"
+    epubUpdateDate: "30/03/2026"
     credits:
       translator: "LughAT - Asistencia con IA + DeepL Translate"
       corrector: "LughAT"
@@ -99,6 +109,8 @@ volumes:
 
   - num: "06"
     state: "published"
+    pdfUpdateDate: "19/05/2026"
+    epubUpdateDate: "19/05/2026"
     credits:
       translator: "LughAT - Asistencia con IA + DeepL Translate"
       corrector: "LughAT"

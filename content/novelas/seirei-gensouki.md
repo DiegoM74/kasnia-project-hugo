@@ -27,6 +27,8 @@ novelNote: "Volúmenes 25 y 26 fueron retraducidos recientemente. Volumen 27 est
 volumes:
   - num: "25"
     state: "published"
+    pdfUpdateDate: "03/06/2026"
+    epubUpdateDate: "03/06/2026"
     credits:
       translator: "Diego"
       corrector: "Diego"
@@ -42,6 +44,8 @@ volumes:
 
   - num: "26"
     state: "published"
+    pdfUpdateDate: "18/06/2026"
+    epubUpdateDate: "18/06/2026"
     credits:
       translator: "Diego"
       corrector: "Diego"
@@ -57,6 +61,8 @@ volumes:
 
   - num: "27"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "DeepSeek (IA)"
       corrector: "Diego"
@@ -72,6 +78,8 @@ volumes:
   
   - num: "28"
     state: "published"
+    pdfUpdateDate: "24/05/2026"
+    epubUpdateDate: "24/05/2026"
     credits:
       translator: "Qwen3.5 (IA)"
       corrector: "Diego"

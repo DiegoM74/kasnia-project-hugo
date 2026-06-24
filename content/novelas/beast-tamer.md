@@ -30,6 +30,8 @@ novelNote: "Este proyecto está en pausa temporal mientras se avanza en otras no
 volumes:
   - num: "01"
     state: "published"
+    pdfUpdateDate: "29/05/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -45,6 +47,8 @@ volumes:
 
   - num: "02"
     state: "published"
+    pdfUpdateDate: "29/05/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -60,6 +64,8 @@ volumes:
 
   - num: "03"
     state: "published"
+    pdfUpdateDate: "28/06/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -75,6 +81,8 @@ volumes:
 
   - num: "04"
     state: "published"
+    pdfUpdateDate: "28/06/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -90,6 +98,8 @@ volumes:
 
   - num: "05"
     state: "published"
+    pdfUpdateDate: "09/07/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -105,6 +115,8 @@ volumes:
 
   - num: "06"
     state: "published"
+    pdfUpdateDate: "29/07/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -120,6 +132,8 @@ volumes:
 
   - num: "07"
     state: "published"
+    pdfUpdateDate: "09/08/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -135,6 +149,8 @@ volumes:
 
   - num: "08"
     state: "published"
+    pdfUpdateDate: "15/10/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -150,6 +166,8 @@ volumes:
 
   - num: "09"
     state: "published"
+    pdfUpdateDate: "10/11/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"

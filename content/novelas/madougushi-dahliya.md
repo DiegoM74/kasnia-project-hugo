@@ -25,6 +25,8 @@ novelNote: "Este proyecto está en pausa por falta de traductor."
 volumes:
   - num: "01"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "Diego"
       corrector: "Diego"
@@ -40,6 +42,8 @@ volumes:
 
   - num: "02"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "Diego"
       corrector: "Hiro寛"
@@ -55,6 +59,8 @@ volumes:
 
   - num: "03"
     state: "published"
+    pdfUpdateDate: "19/02/2026"
+    epubUpdateDate: "19/02/2026"
     credits:
       translator: "JoséBR"
       corrector: "Hiro寛"

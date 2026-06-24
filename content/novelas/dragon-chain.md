@@ -26,6 +26,8 @@ animeAdaptation: false
 volumes:
   - num: "01"
     state: "published"
+    pdfUpdateDate: "12/10/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -41,6 +43,8 @@ volumes:
 
   - num: "02"
     state: "published"
+    pdfUpdateDate: "17/10/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -56,6 +60,8 @@ volumes:
 
   - num: "03"
     state: "published"
+    pdfUpdateDate: "12/01/2026"
+    epubUpdateDate: "03/02/2026"
     credits:
       translator: "LughAT & Diego"
       corrector: "LughAT"
@@ -71,6 +77,8 @@ volumes:
 
   - num: "04"
     state: "published"
+    pdfUpdateDate: "22/02/2026"
+    epubUpdateDate: "22/02/2026"
     credits:
       translator: "LughAT"
       corrector: "LughAT"

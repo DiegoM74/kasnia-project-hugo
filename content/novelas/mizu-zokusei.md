@@ -25,6 +25,8 @@ animeAdaptation: true
 volumes:
   - num: "01"
     state: "published"
+    pdfUpdateDate: "24/12/2025"
+    epubUpdateDate: "24/12/2025"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -40,6 +42,8 @@ volumes:
 
   - num: "02"
     state: "published"
+    pdfUpdateDate: "18/01/2026"
+    epubUpdateDate: "05/02/2026"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -55,6 +59,8 @@ volumes:
 
   - num: "03"
     state: "published"
+    pdfUpdateDate: "05/03/2026"
+    epubUpdateDate: "05/03/2026"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -70,6 +76,8 @@ volumes:
 
   - num: "04"
     state: "published"
+    pdfUpdateDate: "17/03/2026"
+    epubUpdateDate: "17/03/2026"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -85,6 +93,8 @@ volumes:
 
   - num: "05"
     state: "published"
+    pdfUpdateDate: "06/04/2026"
+    epubUpdateDate: "06/04/2026"
     credits:
       translator: "Diego"
       corrector: "Yaf"
@@ -100,6 +110,8 @@ volumes:
 
   - num: "06"
     state: "published"
+    pdfUpdateDate: "29/04/2026"
+    epubUpdateDate: "29/04/2026"
     credits:
       translator: "Diego"
       corrector: "Yaf"
