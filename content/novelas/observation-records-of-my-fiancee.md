@@ -21,6 +21,7 @@ volumesReleased: 2
 demography: "Shoujo (Juvenil, Chicas)"
 mangaAdaptation: true
 animeAdaptation: true
+novelNote: "La secuela de este proyecto es [Observation Records of My Wife](/novelas/observation-records-of-my-wife/)."
 
 volumes:
   - num: "01"

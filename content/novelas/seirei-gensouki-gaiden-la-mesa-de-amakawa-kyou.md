@@ -28,7 +28,7 @@ volumesReleased: 1
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Este proyecto es una historia paralela de Seirei Gensouki. En japón sale el 1 de julio."
+novelNote: "Este proyecto es una historia paralela de [Seirei Gensouki](/novelas/seirei-gensouki/). En japón sale el 1 de julio."
 
 volumes:
   - num: "01"

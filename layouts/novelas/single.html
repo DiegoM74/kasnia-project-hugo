@@ -118,7 +118,7 @@
     <section class="novelNoteSection">
       <div class="novelNoteBox">
         <svg class="novelNoteIcon"><use href="/img/svg/novela.svg#noteIcon" /></svg>
-        <p class="novelNoteText">{{ . }}</p>
+        <p class="novelNoteText">{{ . | markdownify }}</p>
       </div>
     </section>
   {{ end }}

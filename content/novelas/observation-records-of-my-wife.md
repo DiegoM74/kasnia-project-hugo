@@ -21,7 +21,7 @@ volumesReleased: 3
 demography: "Shoujo (Juvenil, Chicas)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Este proyecto es la secuela de Observation Records of My Fiancée."
+novelNote: "Este proyecto es la secuela de [Observation Records of My Fiancée](/novelas/observation-records-of-my-fiancee/)."
 
 volumes:
   - num: "01"
