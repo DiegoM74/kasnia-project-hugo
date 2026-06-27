@@ -61,14 +61,14 @@ volumes:
 
   - num: "27"
     state: "published"
-    pdfUpdateDate: "24/12/2025"
-    epubUpdateDate: "24/12/2025"
+    pdfUpdateDate: "27/06/2026"
+    epubUpdateDate: "27/06/2026"
     credits:
-      translator: "DeepSeek (IA)"
+      translator: "Diego"
       corrector: "Diego"
-      editor: "EliasQ"
+      editor: "Diego"
       pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      epubTypesetter: "Saosora"
     propio:
       pdf: true
       epub: true
