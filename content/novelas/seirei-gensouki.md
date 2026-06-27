@@ -22,7 +22,7 @@ volumesReleased: 28
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Volúmenes 25 y 26 fueron retraducidos recientemente. Volumen 27 está en proceso."
+novelNote: "Volúmenes 25, 26 y 27 fueron retraducidos recientemente. Volumen 29 sale durante 2026, sin fecha aún."
 
 volumes:
   - num: "25"
