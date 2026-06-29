@@ -25,7 +25,7 @@ novelNote: "La secuela de este proyecto es [Observation Records of My Wife](/nov
 
 volumes:
   - num: "01"
-    state: "translating"
+    state: "preview"
     credits:
       translator: "Diego"
       corrector: "Diego"
@@ -36,7 +36,7 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: "https://drive.google.com/file/d/1du3psbbHkYn2pDwEFaBFWNhDUeoyQJGR/view"
       epub: "#"
 
   - num: "02"
