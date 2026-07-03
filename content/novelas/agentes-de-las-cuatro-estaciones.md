@@ -39,10 +39,10 @@ volumes:
       epub: "https://drive.google.com/file/d/1EJm0qsuv4CnbU6Vd0K-7W_BHnpPutWxF/view"
 
   - num: "02"
-    state: "translating"
+    state: "preview"
     credits:
-      translator: "Lugh"
-      corrector: "Lugh"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "Diego"
       pdfTypesetter: "Lugh"
       epubTypesetter: "-"
@@ -50,16 +50,16 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: "https://drive.google.com/file/d/1aUOJtcWNpvbplGskflZddaPSA6nlF1OB/view"
       epub: "#"
 
   - num: "03"
     state: "upcoming"
     credits:
-      translator: "Lugh"
-      corrector: "Lugh"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "Diego"
-      pdfTypesetter: "Lugh"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -71,10 +71,10 @@ volumes:
   - num: "04"
     state: "upcoming"
     credits:
-      translator: "Lugh"
-      corrector: "Lugh"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "Diego"
-      pdfTypesetter: "Lugh"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -86,10 +86,10 @@ volumes:
   - num: "05"
     state: "upcoming"
     credits:
-      translator: "Lugh"
-      corrector: "Lugh"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "Diego"
-      pdfTypesetter: "Lugh"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -101,10 +101,10 @@ volumes:
   - num: "06"
     state: "upcoming"
     credits:
-      translator: "Lugh"
-      corrector: "Lugh"
+      translator: "LughAT"
+      corrector: "LughAT"
       editor: "Diego"
-      pdfTypesetter: "Lugh"
+      pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
       pdf: false
