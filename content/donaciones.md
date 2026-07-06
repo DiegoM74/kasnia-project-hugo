@@ -55,20 +55,58 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
       <p class="historySubtitle">Transparencia sobre los ingresos y gastos del proyecto.</p>
     </div>
     <div class="historyList">
-      <!--D-->
+      <!--7-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Compra de RAW</h3>
+          <div class="historyMeta">
+            <time datetime="2026-06-30" class="historyDate">30 Junio 2026</time>
+            <span class="historyDescription">Compra de RAW en Bookwalker (vol 2 Wistoria Grimo Acta)</span>
+          </div>
+        </div>
+        <div class="historyAmount amountSpent">
+          - $5,01
+        </div>
+      </article>
+      <!--6-->
       <article class="historyItem">
         <div class="historyInfo">
           <h3 class="historyName">Donación</h3>
           <div class="historyMeta">
-            <time datetime="2026-05-09" class="historyDate">01 Junio 2026</time>
-            <span class="historyDescription">"Gracias por su trabajo."</span>
+            <time datetime="2026-06-30" class="historyDate">30 Junio 2026</time>
+          </div>
+        </div>
+        <div class="historyAmount amountReceived">
+          + $2,06
+        </div>
+      </article>
+      <!--5-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Compra de RAW</h3>
+          <div class="historyMeta">
+            <time datetime="2026-06-30" class="historyDate">30 Junio 2026</time>
+            <span class="historyDescription">Compra de RAW en Bookwalker (Seirei Gensouki Gaiden)</span>
+          </div>
+        </div>
+        <div class="historyAmount amountSpent">
+          - $4,39
+        </div>
+      </article>
+      <!--4-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Donación</h3>
+          <div class="historyMeta">
+            <time datetime="2026-06-01" class="historyDate">01 Junio 2026</time>
+            <span class="historyDescription">"Gracias por su trabajo"</span>
           </div>
         </div>
         <div class="historyAmount amountReceived">
           + $7,47
         </div>
       </article>
-      <!--C-->
+      <!--3-->
       <article class="historyItem">
         <div class="historyInfo">
           <h3 class="historyName">Registro de Dominio</h3>
@@ -81,7 +119,7 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
           - $10,46
         </div>
       </article>
-      <!--B-->
+      <!--2-->
       <article class="historyItem">
         <div class="historyInfo">
           <h3 class="historyName">Donación</h3>
@@ -93,13 +131,13 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
           + $0,74
         </div>
       </article>
-      <!--A-->
+      <!--1-->
       <article class="historyItem">
         <div class="historyInfo">
           <h3 class="historyName">Donación</h3>
           <div class="historyMeta">
             <time datetime="2026-04-03" class="historyDate">03 Abril 2026</time>
-            <span class="historyDescription">"Gracias por su trabajo."</span>
+            <span class="historyDescription">"Gracias por su trabajo. -Noemi"</span>
           </div>
         </div>
         <div class="historyAmount amountReceived">

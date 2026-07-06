@@ -30,7 +30,7 @@ volumes:
     credits:
       translator: "Qwen3.7 (IA)"
       corrector: "AndresLD"
-      editor: "-"
+      editor: "EliasQ"
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:
@@ -41,11 +41,11 @@ volumes:
       epub: "#"
 
   - num: "02"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "Qwen3.7 (IA)"
       corrector: "AndresLD"
-      editor: "-"
+      editor: "EliasQ"
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:

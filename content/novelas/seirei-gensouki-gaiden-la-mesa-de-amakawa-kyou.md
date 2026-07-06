@@ -13,7 +13,7 @@ genres:
   - "Fantasía"
   - "Romance"
 link: "seirei-gensouki-gaiden-la-mesa-de-amakawa-kyou"
-status: "planned"
+status: "active"
 synopsis: |
   El caballero honorario del Reino de Galarc, Haruto Amakawa-kyou, ¡tiene un talento especial poco conocido! Eso es… ¡que es muy hábil en la cocina!
 
@@ -28,17 +28,17 @@ volumesReleased: 1
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Este proyecto es una historia paralela de [Seirei Gensouki](/novelas/seirei-gensouki/). En japón sale el 1 de julio."
+novelNote: "Este proyecto es una historia paralela de [Seirei Gensouki](/novelas/seirei-gensouki/)."
 
 volumes:
   - num: "01"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "Qwen3.7 (IA)"
       corrector: "Diego"
       editor: "Diego"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Saosora"
     propio:
       pdf: false
       epub: false
