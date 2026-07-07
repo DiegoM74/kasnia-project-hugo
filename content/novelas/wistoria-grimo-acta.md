@@ -26,7 +26,9 @@ novelNote: "Este proyecto es la precuela de Tsue to Tsurugi no Wistoria."
 
 volumes:
   - num: "01"
-    state: "translating"
+    state: "published"
+    pdfUpdateDate: "07/07/2026"
+    epubUpdateDate: "07/07/2026"
     credits:
       translator: "Qwen3.7 (IA)"
       corrector: "AndresLD"
@@ -34,11 +36,11 @@ volumes:
       pdfTypesetter: "Diego"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1qofrz2RygH28dvofv7uJ61Lq9CMkq5cS/view"
+      epub: "https://drive.google.com/file/d/17YyATm6FkLqH7MGx4KS-gU5qS3yuKrgS/view"
 
   - num: "02"
     state: "translating"
