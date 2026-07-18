@@ -13,7 +13,7 @@ genres:
   - "Fantasía"
   - "Romance"
 link: "seirei-gensouki-gaiden-la-mesa-de-amakawa-kyou"
-status: "active"
+status: "uptodate"
 synopsis: |
   El caballero honorario del Reino de Galarc, Haruto Amakawa-kyou, ¡tiene un talento especial poco conocido! Eso es… ¡que es muy hábil en la cocina!
 
@@ -21,7 +21,7 @@ synopsis: |
 
   A veces, se ponen a cocinar juntos, creando así días inolvidables…
 
-  ¡Disfruta de una historia paralela que recopila completamente las 12 entregas publicadas en el “Club de Fans Oficial de Seirei Gensouki”, y agrega una historia inédita que solo se puede leer aquí!
+  Disfruta de una historia paralela que recopila completamente las 12 entregas publicadas en el “Club de Fans Oficial de Seirei Gensouki”, ¡y agrega una historia inédita que solo se puede leer aquí!
 author: "Yuri Kitayama"
 illustrator: "Kyoko Yufu & Riv"
 volumesReleased: 1
@@ -32,17 +32,19 @@ novelNote: "Este proyecto es una historia paralela de [Seirei Gensouki](/novelas
 
 volumes:
   - num: "01"
-    state: "translating"
+    state: "published"
+    pdfUpdateDate: "18/07/2026"
+    epubUpdateDate: "18/07/2026"
     credits:
-      translator: "Qwen3.7 (IA)"
+      translator: "Qwen3.7 & Gemini 3.1 (IA)"
       corrector: "Diego"
       editor: "Diego"
       pdfTypesetter: "Diego"
       epubTypesetter: "Saosora"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1_XDHMyCo3JjAhzEiXO8WJR21bIc28fNj/view"
+      epub: "https://drive.google.com/file/d/1OHzCSUPg0zncVLiQsVK8ex5HpOwNDHzO/view"
 ---
