@@ -25,16 +25,18 @@ novelNote: "La secuela de este proyecto es [Observation Records of My Wife](/nov
 
 volumes:
   - num: "01"
-    state: "preview"
+    state: "published"
+    pdfUpdateDate: "24/07/2026"
+    epubUpdateDate: "24/07/2026"
     credits:
       translator: "Diego"
       corrector: "Diego"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
       pdf: "https://drive.google.com/file/d/1du3psbbHkYn2pDwEFaBFWNhDUeoyQJGR/view"
       epub: "#"
