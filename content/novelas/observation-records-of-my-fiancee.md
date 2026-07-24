@@ -27,7 +27,7 @@ volumes:
   - num: "01"
     state: "published"
     pdfUpdateDate: "24/07/2026"
-    epubUpdateDate: "18/07/2026"
+    epubUpdateDate: "24/07/2026"
     credits:
       translator: "Diego"
       corrector: "Diego"
