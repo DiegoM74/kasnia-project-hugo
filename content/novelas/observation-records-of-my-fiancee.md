@@ -27,7 +27,7 @@ volumes:
   - num: "01"
     state: "published"
     pdfUpdateDate: "24/07/2026"
-    epubUpdateDate: "24/07/2026"
+    epubUpdateDate: "18/07/2026"
     credits:
       translator: "Diego"
       corrector: "Diego"
@@ -38,8 +38,8 @@ volumes:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1du3psbbHkYn2pDwEFaBFWNhDUeoyQJGR/view"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1KAyG67VmGFHbcqy0tPWgo6Pf3in4BZsq/view"
+      epub: "https://drive.google.com/file/d/1Hl-ubbr_pcnnH0zGlpTsGQOiJlvSKqFd/view"
 
   - num: "02"
     state: "upcoming"
