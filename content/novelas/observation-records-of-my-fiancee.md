@@ -42,7 +42,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1Hl-ubbr_pcnnH0zGlpTsGQOiJlvSKqFd/view"
 
   - num: "02"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "Diego"
       corrector: "Diego"

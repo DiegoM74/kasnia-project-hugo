@@ -25,7 +25,6 @@ volumesReleased: "12"
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Este proyecto está en pausa temporal mientras se avanza en otras novelas. Una vez que se complete el trabajo actual, se retomará la traducción de esta novela."
 
 volumes:
   - num: "01"
@@ -182,11 +181,11 @@ volumes:
       epub: "https://drive.google.com/file/d/15-P4h3yUqS5Y2f-T4BRcmgBpgVKM3A87/view"
 
   - num: "10"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
-      editor: "-"
+      editor: "Diego"
       pdfTypesetter: "LughAT"
       epubTypesetter: "-"
     propio:
