@@ -42,17 +42,19 @@ volumes:
       epub: "https://drive.google.com/file/d/1Hl-ubbr_pcnnH0zGlpTsGQOiJlvSKqFd/view"
 
   - num: "02"
-    state: "translating"
+    state: "published"
+    pdfUpdateDate: "11/08/2026"
+    epubUpdateDate: "11/08/2026"
     credits:
       translator: "Diego"
       corrector: "Diego"
       editor: "-"
       pdfTypesetter: "Diego"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1PvfPuBqfpnoUDLh2mZZXF8FHzcm6eXdz/view"
+      epub: "https://drive.google.com/file/d/1LIp27I38QXQ66rLKlUEcdmFGq05mvHfT/view"
 ---
