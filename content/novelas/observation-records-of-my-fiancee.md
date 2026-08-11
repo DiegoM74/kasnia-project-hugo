@@ -13,7 +13,7 @@ genres:
   - "Recuentos de la vida"
   - "Romance"
 link: "observation-records-of-my-fiancee"
-status: "active"
+status: "completed"
 synopsis: "Debido a la extraordinaria inteligencia del príncipe Cecil, su vida le resulta monótona. Sus días transcurren sin mucha emoción, pero se compromete con Bertia, la hija de un marqués. Lo primero que ella le dice al conocerlo es desconcertante: ¡afirma ser la “villana” de su vida! Según Bertia, conserva recuerdos de una vida anterior. En un juego amoroso, interpretó el papel de villana. Su propósito en esta nueva vida es convertirse en una villana ejemplar y arruinar el compromiso del príncipe. Para lograrlo, Bertia comete una barbaridad tras otra, sembrando el caos y la confusión en su vida. ¡Una historia de amor única con un giro inesperado!"
 author: "Shiki"
 illustrator: "Wan Hachipisu"
