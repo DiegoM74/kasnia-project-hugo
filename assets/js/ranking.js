@@ -94,6 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fragment = document.createDocumentFragment();
     
+    // Calcular tamaño real de columna para sizes (como novelas.js)
+    const gridWidth = rankingList.getBoundingClientRect().width;
+    const gap = 24; // 1.5rem
+    const minColWidth = 220; // min(220px, 100%) en ranking.css
+    const cols = Math.max(1, Math.floor((gridWidth + gap) / (minColWidth + gap)));
+    const colWidth = Math.round((gridWidth - gap * (cols - 1)) / cols);
+    const coverSizes = `${colWidth}px`;
+    
     data.forEach((item, index) => {
       const novel = novelasMap[item.novelId];
       if (!novel) return;
@@ -108,8 +116,22 @@ document.addEventListener('DOMContentLoaded', () => {
       a.innerHTML = `
         <div class="rankingCoverContainer">
           <picture>
-            <source srcset="/img/cover/avif/${coverId}-400.avif" type="image/avif">
-            <img src="/img/cover/jpg/${coverId}-400.jpg" alt="Portada ${novel.title}" class="rankingCover" loading="lazy">
+            <source
+              srcset="/img/cover/avif/${coverId}-400.avif 400w, /img/cover/avif/${coverId}-700.avif 700w, /img/cover/avif/${coverId}-900.avif 900w"
+              sizes="${coverSizes}"
+              type="image/avif"
+            />
+            <source
+              srcset="/img/cover/jpg/${coverId}-400.jpg 400w, /img/cover/jpg/${coverId}-700.jpg 700w, /img/cover/jpg/${coverId}-900.jpg 900w"
+              sizes="${coverSizes}"
+              type="image/jpeg"
+            />
+            <img
+              src="/img/cover/jpg/${coverId}-400.jpg"
+              alt="Portada ${novel.title}"
+              class="rankingCover"
+              loading="lazy"
+            />
           </picture>
           <div class="rankingPosition">#${index + 1}</div>
         </div>
