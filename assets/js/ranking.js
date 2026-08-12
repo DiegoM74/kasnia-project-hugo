@@ -105,17 +105,19 @@ document.addEventListener('DOMContentLoaded', () => {
       a.className = 'rankingItem';
       
       a.innerHTML = `
-        <div class="rankingPosition">${index + 1}</div>
-        <picture>
-          <source srcset="/img/cover/avif/${coverId}-400.avif" type="image/avif">
-          <img src="/img/cover/jpg/${coverId}-400.jpg" alt="Portada ${novel.title}" class="rankingCover" loading="lazy">
-        </picture>
+        <div class="rankingCoverContainer">
+          <picture>
+            <source srcset="/img/cover/avif/${coverId}-400.avif" type="image/avif">
+            <img src="/img/cover/jpg/${coverId}-400.jpg" alt="Portada ${novel.title}" class="rankingCover" loading="lazy">
+          </picture>
+          <div class="rankingPosition">#${index + 1}</div>
+        </div>
         <div class="rankingInfo">
           <h2 class="rankingNovelTitle">${novel.title}</h2>
+          <div class="rankingPercentage">${item.percentage}%</div>
           <div class="rankingBarContainer">
             <div class="rankingBar" style="width: ${item.percentage}%"></div>
           </div>
-          <div class="rankingPercentage">${item.percentage}%</div>
         </div>
       `;
       
