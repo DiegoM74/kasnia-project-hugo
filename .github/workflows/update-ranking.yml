@@ -1,0 +1,43 @@
+name: Update Ranking Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Ejecutar todos los días a media noche UTC
+  workflow_dispatch: # Permitir ejecución manual
+
+jobs:
+  update-ranking:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run fetch script
+        env:
+          CLOUDFLARE_ANALYTICS_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: node scripts/fetch-ranking.js
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git status --porcelain
+          if [ -n "$(git status --porcelain data/ranking.json)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ranking.json
+          git commit -m "chore: update ranking data"
+          git push

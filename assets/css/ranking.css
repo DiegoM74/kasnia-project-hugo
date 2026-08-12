@@ -1,0 +1,180 @@
+main {
+  position: relative;
+  max-width: 1000px;
+  margin: 70px auto 0;
+  padding: 3rem 1.5rem;
+  z-index: 1;
+}
+
+.rankingHeader {
+  text-align: center;
+  margin: 0 auto 2rem;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pageTitle {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.pageDescription {
+  max-width: 60ch;
+  margin: 0 auto 1rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.lastUpdated {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.rankingControls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+.controlGroup {
+  display: flex;
+  gap: 0.5rem;
+  background-color: var(--bg-secondary);
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.controlBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.controlBtn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+.controlBtn.active {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+.rankingList {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1rem 4rem 1rem;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+}
+
+.rankingItem {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  gap: 1.5rem;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.rankingItem:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.rankingPosition {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  width: 45px;
+  text-align: center;
+}
+
+.rankingItem:nth-child(1) .rankingPosition {
+  color: #ffd700;
+}
+.rankingItem:nth-child(2) .rankingPosition {
+  color: #c0c0c0;
+}
+.rankingItem:nth-child(3) .rankingPosition {
+  color: #cd7f32;
+}
+
+.rankingCover {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.rankingInfo {
+  flex-grow: 1;
+}
+
+.rankingNovelTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.rankingBarContainer {
+  height: 8px;
+  background-color: var(--bg-primary);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
+}
+
+.rankingBar {
+  height: 100%;
+  background-color: var(--accent);
+  transition: width 0.5s ease;
+}
+
+.rankingPercentage {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}

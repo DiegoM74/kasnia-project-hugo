@@ -1,0 +1,60 @@
+{{ define "css" }}
+  {{ $cssFile := resources.Get "css/ranking.css" }}
+  {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $css.Permalink }}">
+{{ end }}
+
+{{ define "main" }}
+<section class="rankingHeader">
+  <h1 class="pageTitle">Ranking de Novelas</h1>
+  <p class="pageDescription">
+    Descubre cuáles son las novelas más populares.
+  </p>
+  <p class="lastUpdated" id="lastUpdated">
+    Última actualización: -
+  </p>
+</section>
+
+<section class="rankingControls">
+  <div class="controlGroup">
+    <button class="controlBtn active" data-period="days7">7 días</button>
+    <button class="controlBtn" data-period="days21">21 días</button>
+    <button class="controlBtn" data-period="days30">30 días</button>
+  </div>
+  
+  <div class="controlGroup">
+    <button class="controlBtn active" data-limit="5">Top 5</button>
+    <button class="controlBtn" data-limit="all">Todas</button>
+  </div>
+</section>
+
+<section class="rankingList" id="rankingList">
+  <!-- JavaScript inyectará las filas del ranking aquí -->
+</section>
+
+<!-- Inyectar datos de ranking compilados -->
+{{ $rankingData := "{}" }}
+{{ if fileExists "data/ranking.json" }}
+  {{ $rankingData = site.Data.ranking | jsonify }}
+{{ end }}
+<script id="rankingData" type="application/json">
+  {{ $rankingData | safeJS }}
+</script>
+
+<!-- Inyectar información básica de novelas para obtener imágenes y títulos (opcionalmente puede venir del frontmatter, pero aprovechar novelasJSON.json es más limpio si lo hacemos en JS) -->
+{{ $novelas := where .Site.RegularPages "Section" "novelas" }}
+{{ $novelasData := slice }}
+{{ range $novelas }}
+  {{ $novelasData = $novelasData | append (dict "novelId" .Params.novelId "title" .Params.novelTitle "link" .File.BaseFileName) }}
+{{ end }}
+<script id="novelasData" type="application/json">
+  {{ $novelasData | jsonify | safeJS }}
+</script>
+
+{{ end }}
+
+{{ define "js" }}
+  {{ $jsFile := resources.Get "js/ranking.js" }}
+  {{ $js := $jsFile | resources.Minify | resources.Fingerprint }}
+  <script src="{{ $js.Permalink }}"></script>
+{{ end }}

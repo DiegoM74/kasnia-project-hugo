@@ -1,6 +1,6 @@
-languageCode = "es"
+locale = "es"
 title = "Kasnia Project"
-copyright = "© 2025 Kasnia Project. Todos los derechos reservados."
+copyright = "© 2026 Kasnia Project. Todos los derechos reservados."
 enableRobotsTXT = true
 enableGitInfo = false
 
