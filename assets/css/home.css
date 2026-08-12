@@ -252,6 +252,8 @@ main {
 .viewMoreWrapper {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-top: 1rem;
 }
 
@@ -276,6 +278,31 @@ main {
 
 .btnPrimary:hover {
   transform: scale(1.03);
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.8rem;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.btnSecondary svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btnSecondary:hover {
+  transform: scale(1.03);
+  border-color: var(--accent);
 }
 
 /* ========================================

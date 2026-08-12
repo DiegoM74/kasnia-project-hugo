@@ -53,7 +53,14 @@
     </p>
   </div>
   <div class="novelsGrid">
-    {{ $destacadas := slice "01" "09" "10" }}
+    {{ $destacadas := slice }}
+    {{ if and site.Data.ranking site.Data.ranking.periods.days7 }}
+      {{ range first 3 site.Data.ranking.periods.days7 }}
+        {{ $destacadas = $destacadas | append .novelId }}
+      {{ end }}
+    {{ else }}
+      {{ $destacadas = slice "01" "09" "10" }}
+    {{ end }}
     {{ range $destacadas }}
       {{ $novelId := . }}
       {{ range where $.Site.RegularPages "Section" "novelas" }}
@@ -96,6 +103,12 @@
   <div class="viewMoreWrapper">
     <a href="/novelas" class="btnPrimary">
       Ver todas las novelas
+      <svg>
+        <use href="/img/svg/home.svg#arrowRight" />
+      </svg>
+    </a>
+    <a href="/ranking" class="btnSecondary">
+      Ver Ranking Completo
       <svg>
         <use href="/img/svg/home.svg#arrowRight" />
       </svg>
