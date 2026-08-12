@@ -89,7 +89,7 @@ function processPeriod(periodData, validNovels) {
   // Agrupar visitas por novelId (sumando si hay con y sin trailing slash)
   if (periodData && periodData.length > 0) {
     for (const item of periodData) {
-      const p = item.dimensions.clientRequestPath || item.dimensions.metric;
+      const p = item.dimensions.requestPath || item.dimensions.metric;
       if (validNovels[p]) {
         const novelId = validNovels[p].novelId;
         const visits = item.sum.visits;
@@ -149,7 +149,7 @@ async function main() {
             limit: 1000,
             orderBy: [sum_visits_DESC]
           ) {
-            dimensions { clientRequestPath }
+            dimensions { requestPath }
             sum { visits }
           }
           days21: rumPageloadEventsAdaptiveGroups(
@@ -157,7 +157,7 @@ async function main() {
             limit: 1000,
             orderBy: [sum_visits_DESC]
           ) {
-            dimensions { clientRequestPath }
+            dimensions { requestPath }
             sum { visits }
           }
           days30: rumPageloadEventsAdaptiveGroups(
@@ -165,7 +165,7 @@ async function main() {
             limit: 1000,
             orderBy: [sum_visits_DESC]
           ) {
-            dimensions { clientRequestPath }
+            dimensions { requestPath }
             sum { visits }
           }
         }
