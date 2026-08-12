@@ -12,7 +12,7 @@ genres:
   - "Fantasía"
   - "Recuentos de la vida"
   - "Romance"
-link: "observation-records-of-my-fiancee"
+link: "observation-records-of-my-wife"
 status: "planned"
 synopsis: "Tras casarse con el príncipe heredero Cecil, Bertia disfruta de una vida feliz junto a él. Sin embargo, la tranquilidad termina cuando su amiga Lysonna le pide ayuda para organizar su boda. Al viajar al Reino de Umyuve, Bertia descubre que Lysonna era en realidad una villana de la novela que leyó en su vida pasada, conocida por causar problemas por celos. Decidida a proteger el final feliz de todos, Bertia toma una insólita decisión: convertirse en la primera “villana suplente” del mundo."
 author: "Shiki"

@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const a = document.createElement('a');
       a.href = `/novelas/${novel.link}/`;
       a.className = 'rankingItem';
+      a.style.viewTransitionName = `n${novel.novelId}`;
       
       a.innerHTML = `
         <div class="rankingCoverContainer">
