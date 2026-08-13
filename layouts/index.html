@@ -54,8 +54,8 @@
   </div>
   <div class="novelsGrid">
     {{ $destacadas := slice }}
-    {{ if and hugo.Data.ranking hugo.Data.ranking.periods.days7 }}
-      {{ range first 3 hugo.Data.ranking.periods.days7 }}
+    {{ if and site.Data.ranking site.Data.ranking.periods.days7 }}
+      {{ range first 3 site.Data.ranking.periods.days7 }}
         {{ $destacadas = $destacadas | append .novelId }}
       {{ end }}
     {{ else }}

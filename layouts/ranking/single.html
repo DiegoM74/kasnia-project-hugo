@@ -34,8 +34,8 @@
 
 <!-- Inyectar datos de ranking compilados -->
 {{ $rankingData := "{}" }}
-{{ if fileExists "data/ranking.json" }}
-  {{ $rankingData = hugo.Data.ranking | jsonify }}
+{{ if site.Data.ranking }}
+  {{ $rankingData = site.Data.ranking | jsonify }}
 {{ end }}
 <script id="rankingData" type="application/json">
   {{ $rankingData | safeJS }}
