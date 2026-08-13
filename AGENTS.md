@@ -320,3 +320,42 @@ Antes de dar por terminado un cambio en el código:
   hugo --gc --minify --cleanDestinationDir
   ```
   Asegúrate de que la consola no imprima ningún warning o error de Go templates o Goldmark, y que la carpeta `/public` se genere correctamente sin archivos huérfanos.
+
+---
+
+## 8. Lector ePub Integrado (epub.js)
+
+Se ha implementado un lector en línea (en fase BETA) utilizando la librería `epub.js` (`/assets/js/lector.js` y `/assets/css/lector.css`).
+
+### 8.1 Arquitectura del Lector
+- **Acceso:** Se accede mediante un botón "Leer Online (BETA)" en el modal de descargas (`layouts/_default/baseof.html` y `novela.js`).
+- **Renderizado:** Utiliza una página base en Hugo (`/layouts/lector/single.html`).
+- **Lógica (`lector.js`):** Gestiona la instanciación de `ePub()`, controles de interfaz (TOC, Ajustes), persistencia de configuraciones en `localStorage` (fuente, tamaño, modo y tema) y navegación.
+- **Temas:** Existen 4 temas (Claro, Oscuro, Sepia y Noche), implementados usando `rendition.themes.register`.
+
+### 8.2 Desafíos Conocidos y Bugs (Para el próximo agente)
+- **FOUC (Flash of Unstyled Content):** Debido a que `epub.js` inyecta estilos de forma asíncrona dentro de un iframe nuevo en cada cambio de capítulo, el navegador suele pintar texto con estilos por defecto (fondo blanco) durante una fracción de segundo.
+  - *Intentos de solución:* Ocultar el `#viewer` principal (`opacity: 0`) durante `rendition.on("rendering")` y mostrarlo en `rendered` falló ocasionalmente. Usar `hooks.content.register` para ocultar `doc.documentElement` funcionó para el FOUC pero rompió el TOC.
+- **TOC (Índice) y Navegación por Anclas:** Los archivos ePub creados en Sigil suelen usar *fragment identifiers* (`Text/chapter.xhtml#sigil_toc_id_1`). 
+  - Si se oculta o altera geométricamente el iframe para evitar el FOUC durante la carga, `epub.js` no logra calcular la posición del ancla (el cálculo del offset falla), provocando que la navegación desde el TOC parezca no hacer nada.
+- **Scroll Continuo:** Los ePubs en `scrolled-doc` pueden sufrir de saltos inesperados debido al *Scroll Anchoring* del navegador; la solución actual emplea inyección de CSS con `overflow-anchor: none !important` en el cuerpo del iframe.
+- **Objetivo Próximo:** Lograr mitigar el FOUC por completo *sin* afectar negativamente la capacidad de `epub.js` para resolver anclas del TOC. Considerar si se puede usar inyección de CSS directo en la inicialización o cargar los temas de manera síncrona, en lugar de ocultar todo el DOM.
+
+---
+
+## 9. Sistema de Ranking Dinámico (Cloudflare Analytics)
+
+El sitio cuenta con una página de Ranking (`/ranking`) que muestra las novelas más visitadas en diferentes periodos (7, 21 y 30 días). Este sistema es completamente automatizado y no requiere base de datos, apoyándose en la infraestructura existente.
+
+### 9.1 Arquitectura del Ranking
+
+- **Fuente de Datos**: Cloudflare Web Analytics. Se utiliza su API GraphQL (dataset `rumPageloadEventsAdaptiveGroups` agrupado por la dimensión `requestPath`) para extraer métricas de visitas reales.
+- **Extracción (`scripts/fetch-ranking.js`)**: Script en Node.js que consulta la API de Cloudflare. Cruza las rutas HTTP devueltas con los archivos `.md` de `content/novelas/` para identificar el `novelId`. Luego calcula los porcentajes de visualización de cada novela y exporta los resultados ordenados en `data/ranking.json`.
+- **Automatización (GitHub Actions)**: El workflow en `.github/workflows/update-ranking.yml` ejecuta el script de extracción diariamente (vía cron) o manualmente. Si detecta cambios en las métricas, el bot realiza un commit automático de `data/ranking.json` a la rama `main`.
+- **Despliegue Cero-Config**: Al recibir el nuevo commit con el archivo JSON actualizado, Cloudflare Pages dispara automáticamente un nuevo build estático. El action de GitHub NO debe encargarse de hacer deploy; su única responsabilidad es inyectar la data más reciente al repositorio.
+
+### 9.2 Renderizado Frontend (`/ranking`)
+
+- **Procesamiento Híbrido**: Para evitar regenerar HTML repetitivo y pesados bloques lógicos en Go templates, la página base (`layouts/ranking/single.html`) simplemente inyecta `data/ranking.json` y una lista de los metadatos de las novelas en bloques de texto crudo en el DOM.
+- **Lógica Cliente (`assets/js/ranking.js`)**: Lee el JSON inyectado y renderiza el DOM utilizando Vanilla JS. Al igual que el catálogo principal, implementa la **View Transitions API** e inyecta dinámicamente un cálculo de píxeles (`sizes`) para solicitar a través de la etiqueta `<picture>` la resolución de portada exacta y óptima (`400w`, `700w` o `900w`).
+- **Integración con Home**: La sección de "Novelas Destacadas" en `layouts/index.html` es semi-dinámica. Lee la data de `site.Data.ranking.periods.days7` en tiempo de compilación para mostrar siempre las 3 novelas más populares de la última semana. Si el archivo JSON llegara a faltar, utiliza un fallback seguro de 3 IDs predefinidos para no romper el diseño.

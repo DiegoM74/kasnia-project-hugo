@@ -1,0 +1,402 @@
+/* Variables del lector */
+.readerApp {
+  --reader-bg: var(--background-color, #1a1a1a);
+  --reader-text: var(--text-color, #e0e0e0);
+  --reader-header-bg: var(--navbar-bg, #1f1f1f);
+  --reader-border: var(--border-color, #333);
+  --reader-accent: var(--accent-color, #00d2ff);
+  
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--reader-bg);
+  color: var(--reader-text);
+  font-family: 'Open Sans', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Temas del Lector */
+.readerApp[data-reader-theme="light"] {
+  --reader-bg: #fdfdfd;
+  --reader-text: #222222;
+  --reader-header-bg: #f5f5f5;
+  --reader-border: #dddddd;
+  --reader-accent: #005bb5;
+}
+.readerApp[data-reader-theme="dark"] {
+  --reader-bg: #121212;
+  --reader-text: #e0e0e0;
+  --reader-header-bg: #1e1e1e;
+  --reader-border: #333333;
+  --reader-accent: #00d2ff;
+}
+.readerApp[data-reader-theme="sepia"] {
+  --reader-bg: #f4ecd8;
+  --reader-text: #5b4636;
+  --reader-header-bg: #e8dcc4;
+  --reader-border: #d3c4a8;
+  --reader-accent: #a04000;
+}
+.readerApp[data-reader-theme="grey"] {
+  --reader-bg: #2e3440;
+  --reader-text: #eceff4;
+  --reader-header-bg: #282e3a;
+  --reader-border: #434c5e;
+  --reader-accent: #88c0d0;
+}
+
+/* Cabecera y Pie UI Inmersiva */
+.readerHeader, .readerFooter {
+  position: absolute;
+  left: 0; right: 0;
+  background-color: var(--reader-header-bg);
+  z-index: 100;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.readerHeader {
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--reader-border);
+  height: 60px;
+}
+
+.ui-hidden .readerHeader {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ui-hidden .readerFooter {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.readerHeaderLeft, .readerHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.readerTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50vw;
+}
+
+.readerBtn {
+  background: none;
+  border: none;
+  color: var(--reader-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.readerBtn:hover {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.readerBtn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+/* Área central */
+.readerContainer {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  justify-content: center; /* Centrar visor en PC */
+}
+
+/* Overlay anti-FOUC: cubre el viewer sin alterar su layout */
+.foucOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4; /* Debajo de nav buttons (5), encima del iframe */
+  background-color: var(--reader-bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+}
+
+.viewer {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  max-width: 700px; /* Límite en PC */
+  margin: 0 auto;
+  overflow: hidden; /* Importante para paginado */
+}
+
+/* Modo continuo */
+.readerApp[data-reader-mode="continuous"] .viewer,
+.epub-container, 
+.epub-view {
+  overflow-y: auto;
+  overflow-anchor: none !important; /* Prevenir saltos */
+  scroll-behavior: auto;
+}
+
+/* Scrollbar personalizada modo continuo */
+.readerApp[data-reader-mode="continuous"] .viewer,
+.readerApp[data-reader-mode="continuous"] .viewer * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--reader-border) transparent;
+}
+.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar,
+.readerApp[data-reader-mode="continuous"] .viewer *::-webkit-scrollbar {
+  width: 8px;
+}
+.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar-track,
+.readerApp[data-reader-mode="continuous"] .viewer *::-webkit-scrollbar-track {
+  background: transparent;
+}
+.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar-thumb,
+.readerApp[data-reader-mode="continuous"] .viewer *::-webkit-scrollbar-thumb {
+  background: var(--reader-border);
+  border-radius: 4px;
+}
+
+.readerApp[data-reader-mode="continuous"] .readerNavBtn {
+  display: none;
+}
+
+/* Botones de navegación laterales superpuestos */
+.readerNavBtn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 20%;
+  max-width: 80px;
+  background: transparent;
+  border: none;
+  color: transparent; /* Ocultar icono por defecto */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.readerNavBtn.prev { left: 0; }
+.readerNavBtn.next { right: 0; }
+
+/* Modales (Índice y Ajustes) */
+.readerModalOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+}
+
+.readerModal {
+  background-color: var(--reader-header-bg);
+  border: 1px solid var(--reader-border);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transform: scale(0.95);
+  animation: scaleUp 0.2s forwards;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+@keyframes scaleUp { to { transform: scale(1); } }
+
+.readerModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--reader-border);
+}
+
+.readerModalHeader h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+/* Scrollbars de los Modales (TOC y Ajustes) */
+.readerModal *::-webkit-scrollbar {
+  width: 6px;
+}
+.readerModal *::-webkit-scrollbar-track {
+  background: transparent;
+}
+.readerModal *::-webkit-scrollbar-thumb {
+  background: var(--reader-border);
+  border-radius: 4px;
+}
+
+.readerTocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.readerTocList li {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.readerTocList a {
+  display: block;
+  padding: 1rem 1.2rem;
+  color: var(--reader-text);
+  text-decoration: none;
+}
+
+.readerTocList a:hover {
+  background-color: rgba(128, 128, 128, 0.05);
+  color: var(--reader-accent);
+}
+
+.readerSettingsContent {
+  padding: 1.2rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.settingGroup {
+  margin-bottom: 1.5rem;
+}
+
+.settingGroup label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+/* Botones de opciones */
+.themeOptions, .modeOptions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.themeOptionBtn, .modeOptionBtn {
+  flex: 1;
+  min-width: 60px;
+  padding: 0.5rem;
+  border: 1px solid var(--reader-border);
+  background: transparent;
+  color: var(--reader-text);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.themeOptionBtn.active, .modeOptionBtn.active {
+  background-color: var(--reader-accent);
+  color: #fff;
+  border-color: var(--reader-accent);
+}
+
+.sizeControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(128, 128, 128, 0.1);
+  border-radius: 4px;
+  padding: 0.2rem;
+}
+
+.sizeBtn {
+  background: none;
+  border: none;
+  color: var(--reader-text);
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sizeBtn:hover {
+  color: var(--reader-accent);
+}
+
+.fontSelect {
+  width: 100%;
+  padding: 0.6rem;
+  background-color: var(--reader-bg);
+  color: var(--reader-text);
+  border: 1px solid var(--reader-border);
+  border-radius: 4px;
+  font-family: inherit;
+  outline: none;
+}
+.fontSelect option {
+  background-color: var(--reader-bg);
+  color: var(--reader-text);
+}
+
+/* Footer / Progreso */
+.readerFooter {
+  bottom: 0;
+  height: 30px;
+  border-top: 1px solid var(--reader-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Pantalla de Carga */
+.readerLoadingOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--reader-bg, #121212);
+  color: var(--reader-text, #e0e0e0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+
+.loaderSpinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--reader-border, #333);
+  border-top-color: var(--reader-accent, #00d2ff);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

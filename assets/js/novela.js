@@ -45,6 +45,8 @@ function initModal() {
   const updateDateContainer = document.getElementById("updateDateContainer");
   const pdfLink = document.getElementById("pdfDownloadLink");
   const epubLink = document.getElementById("epubDownloadLink");
+  const readerSection = document.getElementById("readerSection");
+  const readerLinkBtn = document.getElementById("readerLinkBtn");
   const serverBtns = modalOverlay.querySelectorAll(".serverBtn");
 
   const isValidLink = (link) => link && link !== "#" && link.trim() !== "";
@@ -62,6 +64,17 @@ function initModal() {
     const serverLinks = currentLinks[server] || {};
     updateDownloadLink(pdfLink, serverLinks.pdf);
     updateDownloadLink(epubLink, serverLinks.epub);
+    
+    if (server === "propio" && readerSection && readerLinkBtn) {
+      if (isValidLink(serverLinks.epub)) {
+        readerSection.style.display = "block";
+        readerLinkBtn.href = "/lector/?epub=" + encodeURIComponent(serverLinks.epub);
+      } else {
+        readerSection.style.display = "none";
+      }
+    } else if (readerSection) {
+      readerSection.style.display = "none";
+    }
   }
 
   function updateServerButtons() {

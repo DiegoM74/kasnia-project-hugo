@@ -791,6 +791,116 @@ main {
 }
 
 /* ========================================
+   READER SECTION (MODAL)
+======================================== */
+.readerSection {
+  margin-top: 0.5rem;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.readerSeparator {
+  border: 0;
+  height: 1px;
+  background: var(--border);
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.readerBtnModal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: transparent;
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.readerBtnModal:hover {
+  border-color: var(--accent);
+  background-color: var(--bg-secondary);
+}
+
+.readerBtnModal .downloadIcon {
+  color: inherit;
+}
+.readerBtnModal .downloadIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ========================================
+   READER SECTION (MODAL)
+======================================== */
+.readerSection {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.readerSeparator {
+  border: 0;
+  height: 1px;
+  background: var(--border);
+  margin: 1rem 0;
+}
+
+.readerBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / -1; /* Ocupar todo el ancho si está en un grid */
+}
+
+.readerBtnModal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.5rem;
+  background-color: transparent;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.readerBtnModal:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+}
+
+.readerBtnModal .downloadIcon.reader {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.readerBtnModal .downloadIcon.reader svg {
+  width: 20px;
+  height: 20px;
+}
+
+.readerBtnModal .downloadFormat {
+  font-size: 0.95rem;
+}
+
+/* ========================================
    INFO SECTION
 ======================================== */
 .infoSection {

@@ -1,0 +1,107 @@
+{{ define "main" }}
+<!-- Loader de Pantalla Completa -->
+<div id="readerLoadingOverlay" class="readerLoadingOverlay">
+  <div class="loaderSpinner"></div>
+  <p>Cargando libro...</p>
+</div>
+
+<div id="readerApp" class="readerApp ui-hidden">
+  
+  <!-- Barra superior (Header) -->
+  <header id="readerHeader" class="readerHeader">
+    <div class="readerHeaderLeft">
+      <button id="readerCloseBtn" class="readerBtn" aria-label="Cerrar y volver">
+        <svg><use href="/img/svg/main.svg#closeIcon" /></svg>
+      </button>
+      <h1 id="readerTitle" class="readerTitle">Cargando...</h1>
+    </div>
+    <div class="readerHeaderRight">
+      <!-- Botón de índice -->
+      <button id="readerTocBtn" class="readerBtn" aria-label="Índice">
+        <svg><use href="/img/svg/main.svg#menuIcon" /></svg>
+      </button>
+      <!-- Botón de ajustes -->
+      <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura">
+        <svg><use href="/img/svg/main.svg#settingsIcon" /></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Contenedor del Libro -->
+  <div id="readerContainer" class="readerContainer">
+    <button id="readerPrev" class="readerNavBtn prev" aria-label="Página anterior">
+      <svg><use href="/img/svg/novela.svg#chevronDown" style="transform: rotate(90deg);" /></svg>
+    </button>
+    
+    <div id="viewer" class="viewer"></div>
+    
+    <button id="readerNext" class="readerNavBtn next" aria-label="Página siguiente">
+      <svg><use href="/img/svg/novela.svg#chevronDown" style="transform: rotate(-90deg);" /></svg>
+    </button>
+  </div>
+
+  <!-- Pie / Progreso -->
+  <footer id="readerFooter" class="readerFooter" style="display: none;">
+    <span id="readerProgress"></span>
+  </footer>
+
+  <!-- Modal de Índice -->
+  <div id="readerTocPanel" class="readerModalOverlay" style="display: none;">
+    <div class="readerModal">
+      <div class="readerModalHeader">
+        <h2>Índice</h2>
+        <button class="readerBtn closePanelBtn">
+          <svg><use href="/img/svg/main.svg#closeIcon" /></svg>
+        </button>
+      </div>
+      <ul id="readerTocList" class="readerTocList"></ul>
+    </div>
+  </div>
+
+  <!-- Modal de Ajustes -->
+  <div id="readerSettingsPanel" class="readerModalOverlay" style="display: none;">
+    <div class="readerModal">
+      <div class="readerModalHeader">
+        <h2>Ajustes</h2>
+        <button class="readerBtn closePanelBtn">
+          <svg><use href="/img/svg/main.svg#closeIcon" /></svg>
+        </button>
+      </div>
+      <div class="readerSettingsContent">
+        <div class="settingGroup">
+          <label>Tema</label>
+          <div class="themeOptions">
+            <button class="themeOptionBtn active" data-theme="light">Claro</button>
+            <button class="themeOptionBtn" data-theme="dark">Oscuro</button>
+            <button class="themeOptionBtn" data-theme="sepia">Sepia</button>
+            <button class="themeOptionBtn" data-theme="grey">Gris</button>
+          </div>
+        </div>
+        <div class="settingGroup">
+          <label>Modo de lectura</label>
+          <div class="modeOptions">
+            <button class="modeOptionBtn active" data-mode="paginated">Paginado</button>
+            <button class="modeOptionBtn" data-mode="continuous">Continuo</button>
+          </div>
+        </div>
+        <div class="settingGroup">
+          <label>Tamaño de texto</label>
+          <div class="sizeControls">
+            <button id="decreaseFontBtn" class="sizeBtn">A-</button>
+            <span id="fontSizeDisplay">100%</span>
+            <button id="increaseFontBtn" class="sizeBtn">A+</button>
+          </div>
+        </div>
+        <div class="settingGroup">
+          <label>Fuente</label>
+          <select id="fontFamilySelect" class="fontSelect">
+            <option value="Open Sans, sans-serif">Open Sans (Predeterminada)</option>
+            <option value="Merriweather, serif">Merriweather (Serif)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{{ end }}
