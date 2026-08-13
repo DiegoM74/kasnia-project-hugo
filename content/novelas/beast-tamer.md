@@ -181,19 +181,19 @@ volumes:
       epub: "https://drive.google.com/file/d/15-P4h3yUqS5Y2f-T4BRcmgBpgVKM3A87/view"
 
   - num: "10"
-    state: "translating"
+    state: "published"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
       editor: "Diego"
       pdfTypesetter: "LughAT"
-      epubTypesetter: "-"
+      epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1SHuJD5wRBBn9_FHVzMycKGk8vzA4zBlH/view"
+      epub: "https://drive.google.com/file/d/1pw0yuJP22UqlskvJev-bBBKNOFZzPM4W/view"
 
   - num: "11"
     state: "upcoming"
