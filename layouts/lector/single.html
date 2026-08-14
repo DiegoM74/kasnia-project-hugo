@@ -63,20 +63,44 @@
     <div class="readerModal">
       <div class="readerModalHeader">
         <h2>Ajustes</h2>
-        <button class="readerBtn closePanelBtn">
+        <button class="readerBtn closePanelBtn" aria-label="Cerrar ajustes">
           <svg><use href="/img/svg/main.svg#closeIcon" /></svg>
         </button>
       </div>
       <div class="readerSettingsContent">
+        
+        <!-- Grupo: Tema y Colores -->
         <div class="settingGroup">
-          <label>Tema</label>
+          <label>Tema predefinido</label>
           <div class="themeOptions">
-            <button class="themeOptionBtn active" data-theme="light">Claro</button>
-            <button class="themeOptionBtn" data-theme="dark">Oscuro</button>
+            <button class="themeOptionBtn" data-theme="light">Claro</button>
+            <button class="themeOptionBtn active" data-theme="dark">Oscuro</button>
             <button class="themeOptionBtn" data-theme="sepia">Sepia</button>
             <button class="themeOptionBtn" data-theme="grey">Gris</button>
           </div>
         </div>
+
+        <div class="settingGroup">
+          <label>Colores personalizados</label>
+          <div class="colorPickerGroup">
+            <div class="colorPickerItem">
+              <span class="colorPickerLabel">Fondo</span>
+              <div class="colorPickerControl">
+                <input type="color" id="bgColorPicker" class="colorPickerInput" value="#121212" aria-label="Color de fondo" />
+                <span id="bgColorHex" class="colorHexValue">#121212</span>
+              </div>
+            </div>
+            <div class="colorPickerItem">
+              <span class="colorPickerLabel">Texto</span>
+              <div class="colorPickerControl">
+                <input type="color" id="textColorPicker" class="colorPickerInput" value="#e0e0e0" aria-label="Color de texto" />
+                <span id="textColorHex" class="colorHexValue">#e0e0e0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grupo: Modo de Lectura -->
         <div class="settingGroup">
           <label>Modo de lectura</label>
           <div class="modeOptions">
@@ -84,21 +108,134 @@
             <button class="modeOptionBtn" data-mode="continuous">Continuo</button>
           </div>
         </div>
+
+        <!-- Grupo: Fuente y Tamaño -->
         <div class="settingGroup">
-          <label>Tamaño de texto</label>
-          <div class="sizeControls">
-            <button id="decreaseFontBtn" class="sizeBtn">A-</button>
-            <span id="fontSizeDisplay">100%</span>
-            <button id="increaseFontBtn" class="sizeBtn">A+</button>
+          <div class="labelWithIndicator">
+            <label for="fontFamilySelect">Tipografía</label>
+            <span id="fontLoadingIndicator" class="fontLoadingIndicator" style="display: none;">Cargando...</span>
           </div>
-        </div>
-        <div class="settingGroup">
-          <label>Fuente</label>
           <select id="fontFamilySelect" class="fontSelect">
-            <option value="Open Sans, sans-serif">Open Sans (Predeterminada)</option>
-            <option value="Merriweather, serif">Merriweather (Serif)</option>
+            <option value="'Open Sans', sans-serif">Open Sans (Sans-serif)</option>
+            <option value="'Merriweather', serif">Merriweather (Serif)</option>
+            <option value="'Lora', serif">Lora (Serif)</option>
+            <option value="'Literata', serif">Literata (Serif Book)</option>
+            <option value="'Roboto', sans-serif">Roboto (Sans-serif)</option>
+            <option value="'Inter', sans-serif">Inter (Sans-serif)</option>
+            <option value="'JetBrains Mono', monospace">JetBrains Mono (Monospace)</option>
           </select>
         </div>
+
+        <div class="settingGroup">
+          <label>Tamaño de texto</label>
+          <div class="stepperControl">
+            <button id="decreaseFontBtn" class="stepperBtn" aria-label="Disminuir tamaño">A-</button>
+            <span id="fontSizeDisplay" class="stepperValue">1.00em</span>
+            <button id="increaseFontBtn" class="stepperBtn" aria-label="Aumentar tamaño">A+</button>
+          </div>
+        </div>
+
+        <div class="settingGroup">
+          <label>Formato de texto</label>
+          <div class="formatButtonGroup">
+            <button id="btnBold" class="formatBtn" aria-label="Negrita"><b>B</b></button>
+            <button id="btnItalic" class="formatBtn" aria-label="Cursiva"><i>I</i></button>
+            <button id="btnUnderline" class="formatBtn" aria-label="Subrayado"><u>U</u></button>
+          </div>
+        </div>
+
+        <!-- Grupo: Alineación y Guionado -->
+        <div class="settingGroup">
+          <label>Alineación</label>
+          <div class="alignButtonGroup">
+            <button id="btnAlignJustify" class="alignBtn active" data-align="justify">Justificado</button>
+            <button id="btnAlignLeft" class="alignBtn" data-align="left">Izquierda</button>
+            <button id="btnAlignCenter" class="alignBtn" data-align="center">Centro</button>
+          </div>
+        </div>
+
+        <div class="settingGroup">
+          <div class="toggleControl">
+            <span class="toggleLabel">Separación de sílabas</span>
+            <label class="switch">
+              <input type="checkbox" id="toggleHyphens" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Grupo: Espaciados -->
+        <div class="settingGroup">
+          <label>Espaciado de párrafo</label>
+          <div class="stepperControl">
+            <button id="decParaSpacingBtn" class="stepperBtn" aria-label="Disminuir espaciado de párrafo">-</button>
+            <span id="paragraphSpacingDisplay" class="stepperValue">1.00em</span>
+            <button id="incParaSpacingBtn" class="stepperBtn" aria-label="Aumentar espaciado de párrafo">+</button>
+          </div>
+        </div>
+
+        <div class="settingGroup">
+          <label>Interlineado</label>
+          <div class="stepperControl">
+            <button id="decLineHeightBtn" class="stepperBtn" aria-label="Disminuir interlineado">-</button>
+            <span id="lineHeightDisplay" class="stepperValue">1.60</span>
+            <button id="incLineHeightBtn" class="stepperBtn" aria-label="Aumentar interlineado">+</button>
+          </div>
+        </div>
+
+        <div class="settingGroup">
+          <label>Espaciado de fuente</label>
+          <div class="stepperControl">
+            <button id="decLetterSpacingBtn" class="stepperBtn" aria-label="Disminuir espaciado de letras">-</button>
+            <span id="letterSpacingDisplay" class="stepperValue">0.0px</span>
+            <button id="incLetterSpacingBtn" class="stepperBtn" aria-label="Aumentar espaciado de letras">+</button>
+          </div>
+        </div>
+
+        <!-- Grupo: Márgenes -->
+        <div class="settingGroup">
+          <label>Márgenes de página</label>
+          <div class="marginsGrid">
+            <div class="marginItem">
+              <span class="marginLabel">Superior</span>
+              <div class="stepperControl mini">
+                <button id="decMarginTopBtn" class="stepperBtn">-</button>
+                <span id="marginTopDisplay" class="stepperValue">30px</span>
+                <button id="incMarginTopBtn" class="stepperBtn">+</button>
+              </div>
+            </div>
+            <div class="marginItem">
+              <span class="marginLabel">Inferior</span>
+              <div class="stepperControl mini">
+                <button id="decMarginBottomBtn" class="stepperBtn">-</button>
+                <span id="marginBottomDisplay" class="stepperValue">30px</span>
+                <button id="incMarginBottomBtn" class="stepperBtn">+</button>
+              </div>
+            </div>
+            <div class="marginItem">
+              <span class="marginLabel">Izquierdo</span>
+              <div class="stepperControl mini">
+                <button id="decMarginLeftBtn" class="stepperBtn">-</button>
+                <span id="marginLeftDisplay" class="stepperValue">20px</span>
+                <button id="incMarginLeftBtn" class="stepperBtn">+</button>
+              </div>
+            </div>
+            <div class="marginItem">
+              <span class="marginLabel">Derecho</span>
+              <div class="stepperControl mini">
+                <button id="decMarginRightBtn" class="stepperBtn">-</button>
+                <span id="marginRightDisplay" class="stepperValue">20px</span>
+                <button id="incMarginRightBtn" class="stepperBtn">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Restablecer Ajustes -->
+        <div class="settingGroup resetGroup">
+          <button id="resetSettingsBtn" class="resetSettingsBtn">Restablecer ajustes por defecto</button>
+        </div>
+
       </div>
     </div>
   </div>

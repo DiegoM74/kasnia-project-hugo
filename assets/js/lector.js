@@ -7,55 +7,406 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Elementos UI
+  // Elementos UI principales
   const readerApp = document.getElementById("readerApp");
   const readerTitle = document.getElementById("readerTitle");
   const viewer = document.getElementById("viewer");
   const progressEl = document.getElementById("readerProgress");
-  
-  // Botones
+
+  // Botones de cabecera y navegación
   const btnPrev = document.getElementById("readerPrev");
   const btnNext = document.getElementById("readerNext");
   const btnClose = document.getElementById("readerCloseBtn");
   const btnToc = document.getElementById("readerTocBtn");
   const btnSettings = document.getElementById("readerSettingsBtn");
   const panelCloseBtns = document.querySelectorAll(".closePanelBtn");
-  
+
   // Modales y Loader
   const loadingOverlay = document.getElementById("readerLoadingOverlay");
   const tocPanel = document.getElementById("readerTocPanel");
   const tocList = document.getElementById("readerTocList");
   const settingsPanel = document.getElementById("readerSettingsPanel");
 
-  // Ajustes
-  const themeBtns = document.querySelectorAll(".themeOptionBtn");
-  const modeBtns = document.querySelectorAll(".modeOptionBtn");
-  const btnIncFont = document.getElementById("increaseFontBtn");
-  const btnDecFont = document.getElementById("decreaseFontBtn");
-  const fontDisplay = document.getElementById("fontSizeDisplay");
-  const fontSelect = document.getElementById("fontFamilySelect");
-
-  // Variables de estado
-  let book = null;
-  let rendition = null;
-  let currentFontSize = 100;
-  let currentTheme = localStorage.getItem("kasnia_reader_theme") || "dark";
-  let currentMode = localStorage.getItem("kasnia_reader_mode") || "paginated";
-  let currentFontFamily = localStorage.getItem("kasnia_reader_font") || "Open Sans, sans-serif";
-  let currentFontSizeStr = localStorage.getItem("kasnia_reader_size") || "100%";
-  
-  // Mapa de colores de texto por tema (para inyección CSS en iframe)
-  const themeTextColors = {
-    light: "#222222",
-    dark: "#e0e0e0",
-    sepia: "#5b4636",
-    grey: "#eceff4"
+  // Catálogo de Fuentes
+  const FONT_PRESETS = {
+    "'Open Sans', sans-serif": {
+      name: "Open Sans",
+      url: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    },
+    "'Merriweather', serif": {
+      name: "Merriweather",
+      url: "https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap"
+    },
+    "'Lora', serif": {
+      name: "Lora",
+      url: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+    },
+    "'Literata', serif": {
+      name: "Literata",
+      url: "https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap"
+    },
+    "'Roboto', sans-serif": {
+      name: "Roboto",
+      url: "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300..700;1,300..700&display=swap"
+    },
+    "'Inter', sans-serif": {
+      name: "Inter",
+      url: "https://fonts.googleapis.com/css2?family=Inter:wght@300..800&display=swap"
+    },
+    "'JetBrains Mono', monospace": {
+      name: "JetBrains Mono",
+      url: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap"
+    }
   };
 
-  // Control del overlay anti-FOUC
+  // Presets de temas
+  const THEME_PRESETS = {
+    light: { bg: "#fdfdfd", text: "#222222", headerBg: "#f5f5f5", border: "#dddddd", accent: "#e6528b" },
+    dark: { bg: "#121212", text: "#e0e0e0", headerBg: "#1e1e1e", border: "#333333", accent: "#ff9ac5" },
+    sepia: { bg: "#f4ecd8", text: "#5b4636", headerBg: "#e8dcc4", border: "#d3c4a8", accent: "#e6528b" },
+    grey: { bg: "#2e3440", text: "#eceff4", headerBg: "#282e3a", border: "#434c5e", accent: "#ff9ac5" }
+  };
+
+  // Ajustes predeterminados
+  const DEFAULT_SETTINGS = {
+    theme: "dark",
+    bgColor: "#121212",
+    textColor: "#e0e0e0",
+    mode: "paginated",
+    font: "'Open Sans', sans-serif",
+    fontSize: 1.0,
+    bold: false,
+    italic: false,
+    underline: false,
+    align: "justify",
+    hyphens: "auto",
+    paraSpacing: 1.0,
+    lineHeight: 1.6,
+    letterSpacing: 0.0,
+    marginTop: 30,
+    marginBottom: 30,
+    marginLeft: 20,
+    marginRight: 20
+  };
+
+  let settings = { ...DEFAULT_SETTINGS };
+
+  // Variables del lector
+  let book = null;
+  let rendition = null;
   let foucOverlay = null;
   let foucHideTimer = null;
 
+  const storageKey = `kasnia_progress_${btoa(epubUrl).replace(/=/g, "")}`;
+  const loadedFonts = new Set(["'Open Sans', sans-serif", "'Merriweather', serif"]);
+
+  // 1. Cargar Ajustes desde LocalStorage
+  loadSettings();
+
+  function loadSettings() {
+    const savedTheme = localStorage.getItem("kasnia_reader_theme");
+    if (savedTheme && (THEME_PRESETS[savedTheme] || savedTheme === "custom")) {
+      settings.theme = savedTheme;
+    }
+
+    const savedBgColor = localStorage.getItem("kasnia_reader_bg_color");
+    const savedTextColor = localStorage.getItem("kasnia_reader_text_color");
+
+    if (savedBgColor) {
+      settings.bgColor = savedBgColor;
+    } else if (THEME_PRESETS[settings.theme]) {
+      settings.bgColor = THEME_PRESETS[settings.theme].bg;
+    }
+
+    if (savedTextColor) {
+      settings.textColor = savedTextColor;
+    } else if (THEME_PRESETS[settings.theme]) {
+      settings.textColor = THEME_PRESETS[settings.theme].text;
+    }
+
+    const savedMode = localStorage.getItem("kasnia_reader_mode");
+    if (savedMode === "paginated" || savedMode === "continuous") {
+      settings.mode = savedMode;
+    }
+
+    const savedFont = localStorage.getItem("kasnia_reader_font");
+    if (savedFont && FONT_PRESETS[savedFont]) {
+      settings.font = savedFont;
+    }
+
+    const savedSize = localStorage.getItem("kasnia_reader_size_em");
+    if (savedSize) {
+      const parsed = parseFloat(savedSize);
+      if (!isNaN(parsed) && parsed >= 0.6 && parsed <= 2.5) {
+        settings.fontSize = parsed;
+      }
+    } else {
+      const oldSize = localStorage.getItem("kasnia_reader_size");
+      if (oldSize && oldSize.endsWith("%")) {
+        const pct = parseInt(oldSize.replace("%", ""));
+        if (!isNaN(pct)) {
+          settings.fontSize = Math.max(0.6, Math.min(2.5, +(pct / 100).toFixed(2)));
+        }
+      }
+    }
+
+    settings.bold = localStorage.getItem("kasnia_reader_bold") === "true";
+    settings.italic = localStorage.getItem("kasnia_reader_italic") === "true";
+    settings.underline = localStorage.getItem("kasnia_reader_underline") === "true";
+
+    const savedAlign = localStorage.getItem("kasnia_reader_align");
+    if (savedAlign && ["justify", "left", "center"].includes(savedAlign)) {
+      settings.align = savedAlign;
+    }
+
+    const savedHyphens = localStorage.getItem("kasnia_reader_hyphens");
+    if (savedHyphens && (savedHyphens === "auto" || savedHyphens === "none")) {
+      settings.hyphens = savedHyphens;
+    }
+
+    const savedPara = parseFloat(localStorage.getItem("kasnia_reader_para_spacing"));
+    if (!isNaN(savedPara)) settings.paraSpacing = Math.max(0, Math.min(3.0, savedPara));
+
+    const savedLine = parseFloat(localStorage.getItem("kasnia_reader_line_height"));
+    if (!isNaN(savedLine)) settings.lineHeight = Math.max(1.0, Math.min(2.8, savedLine));
+
+    const savedLetter = parseFloat(localStorage.getItem("kasnia_reader_letter_spacing"));
+    if (!isNaN(savedLetter)) settings.letterSpacing = Math.max(-0.5, Math.min(3.0, savedLetter));
+
+    const savedMt = parseInt(localStorage.getItem("kasnia_reader_margin_top"));
+    if (!isNaN(savedMt)) settings.marginTop = Math.max(0, Math.min(100, savedMt));
+
+    const savedMb = parseInt(localStorage.getItem("kasnia_reader_margin_bottom"));
+    if (!isNaN(savedMb)) settings.marginBottom = Math.max(0, Math.min(100, savedMb));
+
+    const savedMl = parseInt(localStorage.getItem("kasnia_reader_margin_left"));
+    if (!isNaN(savedMl)) settings.marginLeft = Math.max(0, Math.min(80, savedMl));
+
+    const savedMr = parseInt(localStorage.getItem("kasnia_reader_margin_right"));
+    if (!isNaN(savedMr)) settings.marginRight = Math.max(0, Math.min(80, savedMr));
+  }
+
+  function saveSettings() {
+    localStorage.setItem("kasnia_reader_theme", settings.theme);
+    localStorage.setItem("kasnia_reader_bg_color", settings.bgColor);
+    localStorage.setItem("kasnia_reader_text_color", settings.textColor);
+    localStorage.setItem("kasnia_reader_mode", settings.mode);
+    localStorage.setItem("kasnia_reader_font", settings.font);
+    localStorage.setItem("kasnia_reader_size_em", settings.fontSize.toFixed(2));
+    localStorage.setItem("kasnia_reader_bold", settings.bold ? "true" : "false");
+    localStorage.setItem("kasnia_reader_italic", settings.italic ? "true" : "false");
+    localStorage.setItem("kasnia_reader_underline", settings.underline ? "true" : "false");
+    localStorage.setItem("kasnia_reader_align", settings.align);
+    localStorage.setItem("kasnia_reader_hyphens", settings.hyphens);
+    localStorage.setItem("kasnia_reader_para_spacing", settings.paraSpacing.toFixed(2));
+    localStorage.setItem("kasnia_reader_line_height", settings.lineHeight.toFixed(1));
+    localStorage.setItem("kasnia_reader_letter_spacing", settings.letterSpacing.toFixed(1));
+    localStorage.setItem("kasnia_reader_margin_top", settings.marginTop);
+    localStorage.setItem("kasnia_reader_margin_bottom", settings.marginBottom);
+    localStorage.setItem("kasnia_reader_margin_left", settings.marginLeft);
+    localStorage.setItem("kasnia_reader_margin_right", settings.marginRight);
+  }
+
+  // 2. Control de fuentes dinámicas
+  function ensureFontLoaded(fontFamily, callback) {
+    const fontInfo = FONT_PRESETS[fontFamily];
+    if (!fontInfo || !fontInfo.url || loadedFonts.has(fontFamily)) {
+      if (callback) callback();
+      return;
+    }
+
+    const fontLoadingIndicator = document.getElementById("fontLoadingIndicator");
+    if (fontLoadingIndicator) fontLoadingIndicator.style.display = "inline";
+
+    let link = document.querySelector(`link[href="${fontInfo.url}"]`);
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = fontInfo.url;
+      document.head.appendChild(link);
+    }
+
+    if (rendition) {
+      const contents = rendition.getContents();
+      contents.forEach(content => {
+        const doc = content.document;
+        if (doc && !doc.querySelector(`link[href="${fontInfo.url}"]`)) {
+          const frameLink = doc.createElement("link");
+          frameLink.rel = "stylesheet";
+          frameLink.href = fontInfo.url;
+          doc.head.appendChild(frameLink);
+        }
+      });
+    }
+
+    const done = () => {
+      loadedFonts.add(fontFamily);
+      if (fontLoadingIndicator) fontLoadingIndicator.style.display = "none";
+      if (callback) callback();
+    };
+
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load(`1em ${fontFamily}`)
+        .then(() => done())
+        .catch(() => done());
+    } else {
+      setTimeout(done, 600);
+    }
+  }
+
+  // 3. Generador de CSS para el iframe (Anti-FOUC Capa 1)
+  function generateReaderIframeCSS() {
+    const hyphensVal = settings.hyphens;
+    const fontWeightVal = settings.bold ? "bold !important" : "normal !important";
+    const fontStyleVal = settings.italic ? "italic !important" : "normal !important";
+    const textDecorVal = settings.underline ? "underline !important" : "none !important";
+
+    return (
+      "html { background: transparent !important; -webkit-tap-highlight-color: transparent !important; }" +
+      "body {" +
+        "background: transparent !important;" +
+        "color: " + settings.textColor + " !important;" +
+        "font-family: " + settings.font + " !important;" +
+        "font-size: " + settings.fontSize.toFixed(2) + "em !important;" +
+        "font-weight: " + fontWeightVal + ";" +
+        "font-style: " + fontStyleVal + ";" +
+        "text-decoration: " + textDecorVal + ";" +
+        "text-align: " + settings.align + ";" +
+        "line-height: " + settings.lineHeight.toFixed(1) + " !important;" +
+        "letter-spacing: " + settings.letterSpacing.toFixed(1) + "px !important;" +
+        "hyphens: " + hyphensVal + " !important;" +
+        "-webkit-hyphens: " + hyphensVal + " !important;" +
+        "-ms-hyphens: " + hyphensVal + " !important;" +
+        "padding-top: " + settings.marginTop + "px !important;" +
+        "padding-bottom: " + settings.marginBottom + "px !important;" +
+        "padding-left: " + settings.marginLeft + "px !important;" +
+        "padding-right: " + settings.marginRight + "px !important;" +
+        "overflow-anchor: none !important;" +
+        "-webkit-tap-highlight-color: transparent !important;" +
+        "box-sizing: border-box !important;" +
+      "}" +
+      "p, div, span, li, a, h1, h2, h3, h4, h5, h6 {" +
+        "color: inherit !important;" +
+        "font-family: inherit !important;" +
+        "line-height: inherit !important;" +
+        "letter-spacing: inherit !important;" +
+      "}" +
+      "p {" +
+        "margin-top: 0 !important;" +
+        "margin-bottom: " + settings.paraSpacing.toFixed(2) + "em !important;" +
+        "hyphens: " + hyphensVal + " !important;" +
+        "-webkit-hyphens: " + hyphensVal + " !important;" +
+        "-ms-hyphens: " + hyphensVal + " !important;" +
+      "}" +
+      // Preservar y priorizar alineaciones explícitas de portadas, títulos y párrafos centrados del EPUB
+      ".centrado, .center, .text-center, [align='center'], [style*='text-align: center'], [style*='text-align:center'] { text-align: center !important; }" +
+      ".derecha, .right, .text-right, [align='right'], [style*='text-align: right'], [style*='text-align:right'] { text-align: right !important; }" +
+      ".izquierda, .left, .text-left, [align='left'], [style*='text-align: left'], [style*='text-align:left'] { text-align: left !important; }" +
+      (settings.bold ? "p, div, span, li, a, h1, h2, h3, h4, h5, h6 { font-weight: bold !important; }" : "") +
+      (settings.italic ? "p, div, span, li, a, h1, h2, h3, h4, h5, h6 { font-style: italic !important; }" : "") +
+      (settings.underline ? "p, div, span, li, a { text-decoration: underline !important; }" : "")
+    );
+  }
+
+  // Actualización en tiempo real de iframes y tema visual
+  function updateIframeStyles() {
+    const css = generateReaderIframeCSS();
+
+    readerApp.style.setProperty("--reader-bg", settings.bgColor);
+    readerApp.style.setProperty("--reader-text", settings.textColor);
+
+    if (foucOverlay) {
+      foucOverlay.style.backgroundColor = settings.bgColor;
+    }
+
+    if (rendition) {
+      const contents = rendition.getContents();
+      contents.forEach(content => {
+        const doc = content.document;
+        if (!doc) return;
+
+        const fontInfo = FONT_PRESETS[settings.font];
+        if (fontInfo && fontInfo.url && !doc.querySelector(`link[href="${fontInfo.url}"]`)) {
+          const frameLink = doc.createElement("link");
+          frameLink.rel = "stylesheet";
+          frameLink.href = fontInfo.url;
+          doc.head.appendChild(frameLink);
+        }
+
+        let preStyle = doc.getElementById("kasniaThemePreload");
+        if (!preStyle) {
+          preStyle = doc.createElement("style");
+          preStyle.id = "kasniaThemePreload";
+          doc.head.insertBefore(preStyle, doc.head.firstChild);
+        }
+        preStyle.textContent = css;
+      });
+    }
+  }
+
+  // 4. Sincronización de UI con estado
+  function updateUIFromSettings() {
+    const themeBtns = document.querySelectorAll(".themeOptionBtn");
+    themeBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.theme === settings.theme);
+    });
+
+    const bgPicker = document.getElementById("bgColorPicker");
+    const bgHex = document.getElementById("bgColorHex");
+    const textPicker = document.getElementById("textColorPicker");
+    const textHex = document.getElementById("textColorHex");
+
+    if (bgPicker) bgPicker.value = settings.bgColor;
+    if (bgHex) bgHex.textContent = settings.bgColor.toUpperCase();
+    if (textPicker) textPicker.value = settings.textColor;
+    if (textHex) textHex.textContent = settings.textColor.toUpperCase();
+
+    const modeBtns = document.querySelectorAll(".modeOptionBtn");
+    modeBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.mode === settings.mode);
+    });
+
+    const fontSelect = document.getElementById("fontFamilySelect");
+    if (fontSelect) fontSelect.value = settings.font;
+
+    const fontSizeDisplay = document.getElementById("fontSizeDisplay");
+    if (fontSizeDisplay) fontSizeDisplay.textContent = `${settings.fontSize.toFixed(2)}em`;
+
+    const btnBold = document.getElementById("btnBold");
+    const btnItalic = document.getElementById("btnItalic");
+    const btnUnderline = document.getElementById("btnUnderline");
+    if (btnBold) btnBold.classList.toggle("active", settings.bold);
+    if (btnItalic) btnItalic.classList.toggle("active", settings.italic);
+    if (btnUnderline) btnUnderline.classList.toggle("active", settings.underline);
+
+    const alignBtns = document.querySelectorAll(".alignBtn");
+    alignBtns.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.align === settings.align);
+    });
+
+    const toggleHyphens = document.getElementById("toggleHyphens");
+    if (toggleHyphens) toggleHyphens.checked = (settings.hyphens === "auto");
+
+    const paraSpacingDisplay = document.getElementById("paragraphSpacingDisplay");
+    if (paraSpacingDisplay) paraSpacingDisplay.textContent = `${settings.paraSpacing.toFixed(2)}em`;
+
+    const lineHeightDisplay = document.getElementById("lineHeightDisplay");
+    if (lineHeightDisplay) lineHeightDisplay.textContent = settings.lineHeight.toFixed(1);
+
+    const letterSpacingDisplay = document.getElementById("letterSpacingDisplay");
+    if (letterSpacingDisplay) letterSpacingDisplay.textContent = `${settings.letterSpacing.toFixed(1)}px`;
+
+    const marginTopDisplay = document.getElementById("marginTopDisplay");
+    const marginBottomDisplay = document.getElementById("marginBottomDisplay");
+    const marginLeftDisplay = document.getElementById("marginLeftDisplay");
+    const marginRightDisplay = document.getElementById("marginRightDisplay");
+    if (marginTopDisplay) marginTopDisplay.textContent = `${settings.marginTop}px`;
+    if (marginBottomDisplay) marginBottomDisplay.textContent = `${settings.marginBottom}px`;
+    if (marginLeftDisplay) marginLeftDisplay.textContent = `${settings.marginLeft}px`;
+    if (marginRightDisplay) marginRightDisplay.textContent = `${settings.marginRight}px`;
+  }
+
+  // 5. Control del overlay anti-FOUC (Capa 2)
   function showOverlay() {
     if (!foucOverlay) return;
     clearTimeout(foucHideTimer);
@@ -74,31 +425,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
   }
 
-  const storageKey = `kasnia_progress_${btoa(epubUrl).replace(/=/g, "")}`;
-
-  // Inicialización de Lector
+  // 6. Inicialización del Libro
   initBook();
 
   function initBook() {
     book = ePub(epubUrl);
-    
-    // Configuración inicial de UI
-    applyTheme(currentTheme);
-    applyMode(currentMode);
-    
-    // Obtener título del libro
+
+    if (settings.theme !== "custom") {
+      readerApp.dataset.readerTheme = settings.theme;
+    }
+    readerApp.dataset.readerMode = settings.mode;
+    readerApp.style.setProperty("--reader-bg", settings.bgColor);
+    readerApp.style.setProperty("--reader-text", settings.textColor);
+
+    ensureFontLoaded(settings.font, () => {
+      updateUIFromSettings();
+    });
+
     book.ready.then(() => {
       const metadata = book.package.metadata;
       readerTitle.textContent = metadata.title || "Lector Kasnia";
-      
-      // Ocultar Loader
+
       if (loadingOverlay) {
         loadingOverlay.style.opacity = "0";
         setTimeout(() => loadingOverlay.style.display = "none", 300);
       }
     });
 
-    // Cargar índice (TOC)
     book.loaded.navigation.then(nav => {
       const generateToc = (items) => {
         return items.map(item => `
@@ -108,34 +461,31 @@ document.addEventListener("DOMContentLoaded", () => {
           </li>
         `).join("");
       };
-      
+
       tocList.innerHTML = generateToc(nav.toc);
-      
+
       tocList.querySelectorAll("a").forEach(link => {
         link.addEventListener("click", e => {
           e.preventDefault();
           const href = e.currentTarget.dataset.href;
           if (!rendition) return;
-          
+
           showOverlay();
           tocPanel.style.display = "none";
-          
-          // Separar capítulo y fragment
+
           const hashIdx = href.indexOf('#');
           const baseHref = hashIdx !== -1 ? href.substring(0, hashIdx) : href;
           const fragment = hashIdx !== -1 ? href.substring(hashIdx + 1) : null;
-          
-          // Buscar la sección en el spine con matching flexible
-          // (el TOC puede usar rutas relativas que no coinciden con las del spine)
+
           let section = book.spine.get(baseHref);
-          
+
           if (!section) {
             const filename = baseHref.split('/').pop();
             const spineItems = book.spine.spineItems;
             for (let i = 0; i < spineItems.length; i++) {
               const itemHref = spineItems[i].href;
-              if (itemHref === baseHref || 
-                  itemHref.endsWith('/' + baseHref) || 
+              if (itemHref === baseHref ||
+                  itemHref.endsWith('/' + baseHref) ||
                   baseHref.endsWith('/' + itemHref) ||
                   itemHref.endsWith(filename)) {
                 section = spineItems[i];
@@ -143,18 +493,16 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             }
           }
-          
+
           if (!section) {
             console.warn("TOC: No section found for", baseHref);
             scheduleHideOverlay();
             return;
           }
-          
-          // Navegar usando el href canónico del spine (que epub.js sí reconoce)
+
           const displayTarget = fragment ? section.href + '#' + fragment : section.href;
-          
+
           rendition.display(displayTarget).then(() => {
-            // Verificar que el fragment scroll funcionó; si no, hacerlo manualmente
             if (fragment) {
               setTimeout(() => {
                 const contents = rendition.getContents();
@@ -168,7 +516,6 @@ document.addEventListener("DOMContentLoaded", () => {
               }, 150);
             }
           }).catch(() => {
-            // Último recurso: navegar solo al capítulo sin fragment
             rendition.display(section.href).catch(() => {
               scheduleHideOverlay();
             });
@@ -177,25 +524,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Renderizado
     renderBook();
   }
 
+  // 7. Renderizado del Libro con Rendition
   function renderBook() {
     if (rendition) {
       rendition.destroy();
     }
-    // Limpiar DOM del viewer para evitar referencias a iframes destruidos
-    // (previene el error 'packaging' al cambiar de modo)
     viewer.innerHTML = '';
 
-    const flow = currentMode === "paginated" ? "paginated" : "scrolled-doc";
-    const manager = currentMode === "paginated" ? "default" : "continuous";
-    
-    // Parse currentFontSizeStr
-    if (currentFontSizeStr.endsWith("%")) {
-      currentFontSize = parseInt(currentFontSizeStr.replace("%", ""));
-    }
+    const flow = settings.mode === "paginated" ? "paginated" : "scrolled-doc";
+    const manager = settings.mode === "paginated" ? "default" : "continuous";
 
     rendition = book.renderTo(viewer, {
       width: "100%",
@@ -207,55 +547,42 @@ document.addEventListener("DOMContentLoaded", () => {
       allowScriptedContent: true
     });
 
-    // --- Anti-FOUC Capa 2: overlay opaco sobre el viewer ---
-    // Se superpone al viewer sin alterar el layout del iframe, permitiendo
-    // que epub.js calcule posiciones de anclas normalmente.
     if (!foucOverlay) {
       foucOverlay = document.createElement("div");
       foucOverlay.id = "foucOverlay";
       foucOverlay.className = "foucOverlay";
       viewer.parentElement.appendChild(foucOverlay);
     }
-    showOverlay(); // Mostrar durante carga inicial
+    foucOverlay.style.backgroundColor = settings.bgColor;
+    showOverlay();
 
-    // Mostrar overlay cuando un nuevo capítulo comienza a renderizarse
     rendition.on("rendering", showOverlay);
 
-    // --- Anti-FOUC Capa 1: inyección de CSS del tema en el iframe ---
-    // Inyecta TODOS los estilos (color, fuente, padding) en el <head> del iframe
-    // ANTES del primer paint, eliminando el reflow que causa el "movimiento" visual.
     rendition.hooks.content.register((contents) => {
       const doc = contents.document;
       if (!doc || !doc.documentElement) return;
-      
-      // Construir CSS del tema actual
-      const textColor = themeTextColors[currentTheme] || themeTextColors.dark;
+
+      const fontInfo = FONT_PRESETS[settings.font];
+      if (fontInfo && fontInfo.url && !doc.querySelector(`link[href="${fontInfo.url}"]`)) {
+        const frameLink = doc.createElement("link");
+        frameLink.rel = "stylesheet";
+        frameLink.href = fontInfo.url;
+        doc.head.appendChild(frameLink);
+      }
+
       let preStyle = doc.getElementById("kasniaThemePreload");
       if (!preStyle) {
         preStyle = doc.createElement("style");
         preStyle.id = "kasniaThemePreload";
         doc.head.insertBefore(preStyle, doc.head.firstChild);
       }
-      preStyle.textContent =
-        "html { background: transparent !important; -webkit-tap-highlight-color: transparent !important; }" +
-        "body {" +
-          "background: transparent !important;" +
-          "color: " + textColor + " !important;" +
-          "font-family: " + currentFontFamily + " !important;" +
-          "font-size: " + currentFontSize + "% !important;" +
-          "padding-top: 60px !important;" +
-          "padding-bottom: 80px !important;" +
-          "overflow-anchor: none !important;" +
-          "-webkit-tap-highlight-color: transparent !important;" +
-        "}";
-      
-      // Overflow anchor en el contenedor del manager
+      preStyle.textContent = generateReaderIframeCSS();
+
       if (rendition && rendition.manager && rendition.manager.container) {
         rendition.manager.container.style.setProperty("overflow-anchor", "none", "important");
       }
-      
-      // Scrollbar personalizada para modo continuo
-      if (currentMode === "continuous") {
+
+      if (settings.mode === "continuous") {
         contents.addStylesheetRules({
           "::-webkit-scrollbar": { "width": "8px" },
           "::-webkit-scrollbar-track": { "background": "transparent" },
@@ -264,15 +591,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Estilos iniciales (Temas)
-    registerThemes();
-    rendition.themes.select(currentTheme);
-    rendition.themes.font(currentFontFamily);
-    rendition.themes.fontSize(`${currentFontSize}%`);
-    fontSelect.value = currentFontFamily;
-    fontDisplay.textContent = `${currentFontSize}%`;
+    Object.keys(THEME_PRESETS).forEach(key => {
+      const preset = THEME_PRESETS[key];
+      rendition.themes.register(key, {
+        body: {
+          background: "transparent !important",
+          color: `${preset.text} !important`
+        }
+      });
+    });
 
-    // Restaurar progreso
+    if (THEME_PRESETS[settings.theme]) {
+      rendition.themes.select(settings.theme);
+    }
+    rendition.themes.font(settings.font);
+    rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
+
     const savedLocation = localStorage.getItem(storageKey);
     if (savedLocation) {
       rendition.display(savedLocation);
@@ -280,23 +614,15 @@ document.addEventListener("DOMContentLoaded", () => {
       rendition.display();
     }
 
-    // Eventos de rendition
     rendition.on("relocated", location => {
-      // Anti-FOUC: fade-out debounced del overlay
-      // El debounce de 150ms asegura que si relocated se dispara múltiples
-      // veces (capítulo + fragment), solo se oculta tras el último.
       scheduleHideOverlay();
-
-      // Guardar progreso
       localStorage.setItem(storageKey, location.start.cfi);
-      
-      // Actualizar botones prev/next
-      if (currentMode === "paginated") {
+
+      if (settings.mode === "paginated") {
         btnPrev.style.visibility = location.atStart ? "hidden" : "visible";
         btnNext.style.visibility = location.atEnd ? "hidden" : "visible";
       }
 
-      // Si tenemos ubicaciones generadas, mostrar porcentaje
       if (book.locations.length > 0) {
         const percentage = Math.round(book.locations.percentageFromCfi(location.start.cfi) * 100);
         progressEl.textContent = `${percentage}%`;
@@ -305,37 +631,32 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Soporte para teclas dentro del iframe
     rendition.on("keyup", e => {
       if (e.key === "ArrowLeft") rendition.prev();
       if (e.key === "ArrowRight") rendition.next();
     });
 
-    // Registrar eventos de interacción en rendition
     rendition.on("touchstart", handleTouchStart);
     rendition.on("touchmove", handleTouchMove);
     rendition.on("touchend", handleTouchEnd);
     rendition.on("click", handleClick);
 
-    // Generar locations en background para %
     book.ready.then(() => {
       return book.locations.generate(1600);
-    }).then(locations => {
+    }).then(() => {
       const currentLocation = rendition.currentLocation();
       if (currentLocation && currentLocation.start) {
         const percentage = Math.round(book.locations.percentageFromCfi(currentLocation.start.cfi) * 100);
         progressEl.textContent = `${percentage}%`;
       }
     }).catch(() => {
-       progressEl.textContent = "";
+      progressEl.textContent = "";
     });
   }
 
-  // --- Control de Gestos Táctiles y Clics (Tap, Swipe, Menú) ---
+  // 8. Control Táctil y Gestos (Tap, Swipe, UI)
   let touchStartScreenX = 0;
   let touchStartScreenY = 0;
-  let touchStartX = 0;
-  let touchStartY = 0;
   let touchStartTime = 0;
   let isTouching = false;
   let lastTouchEndTime = 0;
@@ -344,7 +665,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function getEventPositionRatio(e) {
     const viewerEl = document.getElementById("viewer") || viewer;
     const viewerRect = viewerEl ? viewerEl.getBoundingClientRect() : { left: 0, width: window.innerWidth };
-    
+
     let clientX = e.clientX;
     if (clientX === undefined && e.changedTouches && e.changedTouches.length > 0) {
       clientX = e.changedTouches[0].clientX;
@@ -354,8 +675,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (clientX === undefined) clientX = 0;
 
     let visualX = clientX;
-    
-    // Detectar si el evento proviene de dentro de un iframe
     const targetDoc = e.target && e.target.ownerDocument;
     const iframe = targetDoc && targetDoc.defaultView && targetDoc.defaultView !== window
       ? targetDoc.defaultView.frameElement
@@ -363,8 +682,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (iframe) {
       const iframeRect = iframe.getBoundingClientRect();
-      // En modo paginado, epub.js desplaza el iframe horizontalmente (transform o scroll).
-      // iframeRect.left compensa ese desplazamiento con respecto al visor visible en pantalla.
       visualX = iframeRect.left + clientX - viewerRect.left;
     } else {
       visualX = clientX - viewerRect.left;
@@ -381,14 +698,10 @@ document.addEventListener("DOMContentLoaded", () => {
     isTouching = true;
     touchStartScreenX = touch.screenX !== undefined ? touch.screenX : touch.clientX;
     touchStartScreenY = touch.screenY !== undefined ? touch.screenY : touch.clientY;
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
     touchStartTime = Date.now();
   }
 
-  function handleTouchMove(e) {
-    // Registro pasivo de movimiento si es necesario
-  }
+  function handleTouchMove() {}
 
   function clearActiveSelection() {
     try {
@@ -419,49 +732,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
     lastTouchEndTime = Date.now();
 
-    // Ignorar toques sobre elementos interactivos (enlaces, botones, inputs)
     if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) {
       return;
     }
 
-    // 1. Gesto de Deslizar (Swipe) solo en modo paginado
-    // Requiere: desplazamiento horizontal significativo (>= 40px), predominantemente horizontal (absX > absY * 1.2) y duración razonable (< 800ms)
-    if (currentMode === "paginated" && absX >= 40 && absX > absY * 1.2 && elapsed < 800) {
-      if (e.cancelable) e.preventDefault();
+    // Swipe en modo paginado
+    if (settings.mode === "paginated" && absX >= 40 && absX > absY * 1.2 && elapsed < 800) {
       clearActiveSelection();
       lastSwipeTime = Date.now();
       if (deltaX < 0) {
-        // Deslizar hacia la izquierda -> Siguiente página
         if (rendition) rendition.next();
       } else {
-        // Deslizar hacia la derecha -> Página anterior
         if (rendition) rendition.prev();
       }
       return;
     }
 
-    // 2. Gesto de Toque (Tap): movimiento físico mínimo (< 15px) y duración corta (< 500ms)
+    // Tap en pantalla
     if (absX < 15 && absY < 15 && elapsed < 500) {
       const ratio = getEventPositionRatio(e);
 
-      if (currentMode === "paginated") {
+      if (settings.mode === "paginated") {
         if (ratio < 0.25) {
-          // Lateral izquierdo: página anterior
-          if (e.cancelable) e.preventDefault();
           clearActiveSelection();
           if (rendition) rendition.prev();
         } else if (ratio > 0.75) {
-          // Lateral derecho: página siguiente
-          if (e.cancelable) e.preventDefault();
           clearActiveSelection();
           if (rendition) rendition.next();
         } else {
-          // Centro (25% a 75%): alternar menú del lector
           clearActiveSelection();
           readerApp.classList.toggle("ui-hidden");
         }
       } else {
-        // Modo continuo: tap en la zona central (15% a 85%) para alternar menú
         if (ratio >= 0.15 && ratio <= 0.85) {
           clearActiveSelection();
           readerApp.classList.toggle("ui-hidden");
@@ -471,27 +773,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleClick(e) {
-    // Si este click proviene inmediatamente de un evento táctil (ghost/synthetic click en móvil), ignorar
-    if (Date.now() - lastTouchEndTime < 500) {
-      return;
-    }
+    if (Date.now() - lastTouchEndTime < 500) return;
+    if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) return;
 
-    // Ignorar clicks sobre elementos interactivos
-    if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) {
-      return;
-    }
-
-    // Ignorar si el usuario estaba seleccionando texto
     const targetDoc = e.target && e.target.ownerDocument;
     const targetWin = targetDoc && targetDoc.defaultView ? targetDoc.defaultView : window;
     const docSelection = targetWin.getSelection()?.toString();
-    if (docSelection && docSelection.length > 0) {
-      return;
-    }
+    if (docSelection && docSelection.length > 0) return;
 
     const ratio = getEventPositionRatio(e);
 
-    if (currentMode === "paginated") {
+    if (settings.mode === "paginated") {
       if (ratio < 0.25) {
         clearActiveSelection();
         if (rendition) rendition.prev();
@@ -510,74 +802,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Eventos táctiles y clics también en el contenedor del lector (para áreas externas al iframe)
   const readerContainer = document.getElementById("readerContainer");
   if (readerContainer) {
     readerContainer.addEventListener("touchstart", handleTouchStart, { passive: true });
     readerContainer.addEventListener("touchmove", handleTouchMove, { passive: true });
-    readerContainer.addEventListener("touchend", handleTouchEnd);
+    readerContainer.addEventListener("touchend", handleTouchEnd, { passive: true });
     readerContainer.addEventListener("click", handleClick);
   }
 
-  function registerThemes() {
-    rendition.themes.register("light", { body: { background: "transparent", color: "#222222" }});
-    rendition.themes.register("dark", { body: { background: "transparent", color: "#e0e0e0" }});
-    rendition.themes.register("sepia", { body: { background: "transparent", color: "#5b4636" }});
-    rendition.themes.register("grey", { body: { background: "transparent", color: "#eceff4" }});
-  }
-
-  function applyTheme(theme) {
-    currentTheme = theme;
-    readerApp.dataset.readerTheme = theme;
-    localStorage.setItem("kasnia_reader_theme", theme);
-    
-    themeBtns.forEach(b => b.classList.toggle("active", b.dataset.theme === theme));
-    
-    if (rendition) {
-      rendition.themes.select(theme);
-    }
-  }
-
-  function applyMode(mode) {
-    if (currentMode === mode && rendition) return; // Ya está activo
-    currentMode = mode;
-    readerApp.dataset.readerMode = mode;
-    localStorage.setItem("kasnia_reader_mode", mode);
-    
-    modeBtns.forEach(b => b.classList.toggle("active", b.dataset.mode === mode));
-    
-    // Para cambiar de modo en epub.js, generalmente es mejor volver a renderizar
-    if (rendition) {
-      renderBook();
-    }
-  }
-
-  // --- Event Listeners UI ---
-
-  // Navegación
+  // 9. Configuración de Event Listeners de UI
   btnPrev.addEventListener("click", () => {
     if (Date.now() - lastSwipeTime < 500) return;
-    if (rendition && currentMode === "paginated") rendition.prev();
+    if (rendition && settings.mode === "paginated") rendition.prev();
   });
+
   btnNext.addEventListener("click", () => {
     if (Date.now() - lastSwipeTime < 500) return;
-    if (rendition && currentMode === "paginated") rendition.next();
+    if (rendition && settings.mode === "paginated") rendition.next();
   });
-  
-  // Soporte teclado general
+
   document.addEventListener("keyup", e => {
-    if (currentMode === "paginated" && rendition) {
+    if (settings.mode === "paginated" && rendition) {
       if (e.key === "ArrowLeft") rendition.prev();
       if (e.key === "ArrowRight") rendition.next();
     }
   });
 
-  // Botón cerrar (vuelve atrás)
   btnClose.addEventListener("click", () => {
     window.history.back();
   });
 
-  // Modales
   const togglePanel = panel => {
     const isVisible = panel.style.display === "flex";
     tocPanel.style.display = "none";
@@ -594,53 +848,324 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Cerrar modales al hacer clic fuera del contenido
   [tocPanel, settingsPanel].forEach(panel => {
     panel.addEventListener("click", e => {
       if (e.target === panel) panel.style.display = "none";
     });
   });
 
-  // Ajustes - Tema
+  // Tema y Colores
+  const themeBtns = document.querySelectorAll(".themeOptionBtn");
   themeBtns.forEach(btn => {
     btn.addEventListener("click", e => {
-      applyTheme(e.currentTarget.dataset.theme);
+      const selectedTheme = e.currentTarget.dataset.theme;
+      if (THEME_PRESETS[selectedTheme]) {
+        settings.theme = selectedTheme;
+        settings.bgColor = THEME_PRESETS[selectedTheme].bg;
+        settings.textColor = THEME_PRESETS[selectedTheme].text;
+        readerApp.dataset.readerTheme = selectedTheme;
+
+        saveSettings();
+        updateUIFromSettings();
+        updateIframeStyles();
+
+        if (rendition) {
+          rendition.themes.select(selectedTheme);
+        }
+      }
     });
   });
 
-  // Ajustes - Modo
-  modeBtns.forEach(btn => {
-    btn.addEventListener("click", e => {
-      applyMode(e.currentTarget.dataset.mode);
+  const bgPicker = document.getElementById("bgColorPicker");
+  if (bgPicker) {
+    bgPicker.addEventListener("input", e => {
+      settings.bgColor = e.target.value;
+      settings.theme = "custom";
+      delete readerApp.dataset.readerTheme;
+
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
     });
-  });
-
-  // Ajustes - Fuente
-  btnIncFont.addEventListener("click", () => {
-    currentFontSize += 10;
-    updateFontSize();
-  });
-  
-  btnDecFont.addEventListener("click", () => {
-    currentFontSize = Math.max(50, currentFontSize - 10);
-    updateFontSize();
-  });
-
-  function updateFontSize() {
-    currentFontSizeStr = `${currentFontSize}%`;
-    fontDisplay.textContent = currentFontSizeStr;
-    localStorage.setItem("kasnia_reader_size", currentFontSizeStr);
-    if (rendition) {
-      rendition.themes.fontSize(currentFontSizeStr);
-    }
   }
 
-  fontSelect.addEventListener("change", e => {
-    currentFontFamily = e.target.value;
-    localStorage.setItem("kasnia_reader_font", currentFontFamily);
-    if (rendition) {
-      rendition.themes.font(currentFontFamily);
-    }
+  const textPicker = document.getElementById("textColorPicker");
+  if (textPicker) {
+    textPicker.addEventListener("input", e => {
+      settings.textColor = e.target.value;
+      settings.theme = "custom";
+      delete readerApp.dataset.readerTheme;
+
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  // Modo de lectura
+  const modeBtns = document.querySelectorAll(".modeOptionBtn");
+  modeBtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      const selectedMode = e.currentTarget.dataset.mode;
+      if (settings.mode === selectedMode && rendition) return;
+
+      settings.mode = selectedMode;
+      readerApp.dataset.readerMode = selectedMode;
+
+      saveSettings();
+      updateUIFromSettings();
+      renderBook();
+    });
   });
+
+  // Tipografía
+  const fontSelect = document.getElementById("fontFamilySelect");
+  if (fontSelect) {
+    fontSelect.addEventListener("change", e => {
+      const selectedFont = e.target.value;
+      settings.font = selectedFont;
+      saveSettings();
+
+      ensureFontLoaded(selectedFont, () => {
+        updateUIFromSettings();
+        updateIframeStyles();
+        if (rendition) rendition.themes.font(selectedFont);
+      });
+    });
+  }
+
+  // Tamaño de texto en em
+  const btnIncFont = document.getElementById("increaseFontBtn");
+  const btnDecFont = document.getElementById("decreaseFontBtn");
+
+  if (btnIncFont) {
+    btnIncFont.addEventListener("click", () => {
+      settings.fontSize = Math.min(2.5, +(settings.fontSize + 0.05).toFixed(2));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+      if (rendition) rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
+    });
+  }
+
+  if (btnDecFont) {
+    btnDecFont.addEventListener("click", () => {
+      settings.fontSize = Math.max(0.6, +(settings.fontSize - 0.05).toFixed(2));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+      if (rendition) rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
+    });
+  }
+
+  // Formato
+  const btnBold = document.getElementById("btnBold");
+  const btnItalic = document.getElementById("btnItalic");
+  const btnUnderline = document.getElementById("btnUnderline");
+
+  if (btnBold) {
+    btnBold.addEventListener("click", () => {
+      settings.bold = !settings.bold;
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  if (btnItalic) {
+    btnItalic.addEventListener("click", () => {
+      settings.italic = !settings.italic;
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  if (btnUnderline) {
+    btnUnderline.addEventListener("click", () => {
+      settings.underline = !settings.underline;
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  // Alineación
+  const alignBtns = document.querySelectorAll(".alignBtn");
+  alignBtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      settings.align = e.currentTarget.dataset.align;
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  });
+
+  // Separación de sílabas
+  const toggleHyphens = document.getElementById("toggleHyphens");
+  if (toggleHyphens) {
+    toggleHyphens.addEventListener("change", e => {
+      settings.hyphens = e.target.checked ? "auto" : "none";
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  // Espaciados
+  const incParaBtn = document.getElementById("incParaSpacingBtn");
+  const decParaBtn = document.getElementById("decParaSpacingBtn");
+  if (incParaBtn) {
+    incParaBtn.addEventListener("click", () => {
+      settings.paraSpacing = Math.min(3.0, +(settings.paraSpacing + 0.25).toFixed(2));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+  if (decParaBtn) {
+    decParaBtn.addEventListener("click", () => {
+      settings.paraSpacing = Math.max(0.0, +(settings.paraSpacing - 0.25).toFixed(2));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  const incLineBtn = document.getElementById("incLineHeightBtn");
+  const decLineBtn = document.getElementById("decLineHeightBtn");
+  if (incLineBtn) {
+    incLineBtn.addEventListener("click", () => {
+      settings.lineHeight = Math.min(2.8, +(settings.lineHeight + 0.1).toFixed(1));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+  if (decLineBtn) {
+    decLineBtn.addEventListener("click", () => {
+      settings.lineHeight = Math.max(1.0, +(settings.lineHeight - 0.1).toFixed(1));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  const incLetterBtn = document.getElementById("incLetterSpacingBtn");
+  const decLetterBtn = document.getElementById("decLetterSpacingBtn");
+  if (incLetterBtn) {
+    incLetterBtn.addEventListener("click", () => {
+      settings.letterSpacing = Math.min(3.0, +(settings.letterSpacing + 0.5).toFixed(1));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+  if (decLetterBtn) {
+    decLetterBtn.addEventListener("click", () => {
+      settings.letterSpacing = Math.max(-0.5, +(settings.letterSpacing - 0.5).toFixed(1));
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  // Márgenes
+  const incMtBtn = document.getElementById("incMarginTopBtn");
+  const decMtBtn = document.getElementById("decMarginTopBtn");
+  if (incMtBtn) {
+    incMtBtn.addEventListener("click", () => {
+      settings.marginTop = Math.min(100, settings.marginTop + 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+  if (decMtBtn) {
+    decMtBtn.addEventListener("click", () => {
+      settings.marginTop = Math.max(0, settings.marginTop - 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  const incMbBtn = document.getElementById("incMarginBottomBtn");
+  const decMbBtn = document.getElementById("decMarginBottomBtn");
+  if (incMbBtn) {
+    incMbBtn.addEventListener("click", () => {
+      settings.marginBottom = Math.min(100, settings.marginBottom + 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+  if (decMbBtn) {
+    decMbBtn.addEventListener("click", () => {
+      settings.marginBottom = Math.max(0, settings.marginBottom - 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  const incMlBtn = document.getElementById("incMarginLeftBtn");
+  const decMlBtn = document.getElementById("decMarginLeftBtn");
+  if (incMlBtn) {
+    incMlBtn.addEventListener("click", () => {
+      settings.marginLeft = Math.min(80, settings.marginLeft + 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+  if (decMlBtn) {
+    decMlBtn.addEventListener("click", () => {
+      settings.marginLeft = Math.max(0, settings.marginLeft - 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  const incMrBtn = document.getElementById("incMarginRightBtn");
+  const decMrBtn = document.getElementById("decMarginRightBtn");
+  if (incMrBtn) {
+    incMrBtn.addEventListener("click", () => {
+      settings.marginRight = Math.min(80, settings.marginRight + 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+  if (decMrBtn) {
+    decMrBtn.addEventListener("click", () => {
+      settings.marginRight = Math.max(0, settings.marginRight - 5);
+      saveSettings();
+      updateUIFromSettings();
+      updateIframeStyles();
+    });
+  }
+
+  // Restablecer Ajustes por Defecto
+  const resetBtn = document.getElementById("resetSettingsBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      settings = { ...DEFAULT_SETTINGS };
+      readerApp.dataset.readerTheme = settings.theme;
+      readerApp.dataset.readerMode = settings.mode;
+
+      saveSettings();
+      ensureFontLoaded(settings.font, () => {
+        updateUIFromSettings();
+        updateIframeStyles();
+        if (rendition) {
+          rendition.themes.select(settings.theme);
+          rendition.themes.font(settings.font);
+          rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
+        }
+      });
+    });
+  }
 
 });
