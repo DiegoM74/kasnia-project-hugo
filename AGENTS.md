@@ -372,8 +372,8 @@ Se implementó un sistema de control táctil y de clics responsivo en `assets/js
 - **Supresión de Ghost Clicks:** Se registra `lastTouchEndTime` para ignorar los eventos `click` sintéticos que emiten los navegadores móviles tras un `touchend`, evitando que el menú se cierre inmediatamente tras abrirse por doble disparo.
 - **Prevención de Selección Accidental de Texto:** Al navegar por toques rápidos (doble tap para pasar páginas rápidamente), los navegadores móviles intentan seleccionar la palabra bajo el cursor por defecto. Se implementó `e.preventDefault()` en los eventos táctiles cancelables de navegación y la función `clearActiveSelection()` que limpia rangos de selección tanto en la ventana principal como en los iframes de los capítulos, permitiendo la selección intencional de texto por pulsación prolongada (long-press) pero eliminando selecciones parásitas por toques rápidos.
 
-### 8.3 Bug Conocido de epub.js (No accionable)
-- **`injectIdentifier` TypeError:** `Cannot read properties of undefined (reading 'packaging')`. Es un bug interno de epub.js v0.3 en la función `Section.injectIdentifier`. Se dispara durante el trigger de hooks de contenido. No afecta la funcionalidad del lector. No tiene fix desde nuestro código; requeriría un patch o fork de la librería.
+### 8.3 Bugs de epub.js Resueltos
+- **`injectIdentifier` TypeError (`Cannot read properties of undefined (reading 'packaging')`):** Ocurría al alternar modos de lectura (`renderBook()`), donde la instancia anterior destruida dejaba un hook huérfano en `book.spine.hooks.content`. Resuelto en `assets/js/lector.js` limpiando los hooks del spine (`book.spine.hooks.content.clear()`) antes de recrear la rendition y aplicando un null-check defensivo en `Rendition.prototype.injectIdentifier`.
 
 ---
 

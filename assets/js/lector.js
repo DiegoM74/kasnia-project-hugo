@@ -1,4 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Evitar que epub.js aplique sandbox al iframe del lector (elimina advertencias de sandbox y bloqueos de scripts falsos)
+  const originalCreateElement = document.createElement.bind(document);
+  document.createElement = function (tagName, options) {
+    const el = originalCreateElement(tagName, options);
+    if (typeof tagName === "string" && tagName.toLowerCase() === "iframe") {
+      Object.defineProperty(el, "sandbox", {
+        get() {
+          return {
+            add() {},
+            remove() {},
+            contains() { return false; },
+            toggle() { return false; },
+            value: "",
+            toString() { return ""; },
+            valueOf() { return ""; }
+          };
+        },
+        set(_val) {},
+        configurable: true
+      });
+      const originalSetAttribute = el.setAttribute.bind(el);
+      el.setAttribute = function (name, val) {
+        if (typeof name === "string" && name.toLowerCase() === "sandbox") {
+          return;
+        }
+        return originalSetAttribute(name, val);
+      };
+    }
+    return el;
+  };
+
   const params = new URLSearchParams(window.location.search);
   const epubUrl = params.get("epub");
 
@@ -279,8 +310,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "-ms-hyphens: " + hyphensVal + " !important;" +
         "padding-top: " + settings.marginTop + "px !important;" +
         "padding-bottom: " + settings.marginBottom + "px !important;" +
-        "padding-left: " + settings.marginLeft + "px !important;" +
-        "padding-right: " + settings.marginRight + "px !important;" +
+        "padding-left: 0 !important;" +
+        "padding-right: 0 !important;" +
+        "margin: 0 !important;" +
         "overflow-anchor: none !important;" +
         "-webkit-tap-highlight-color: transparent !important;" +
         "box-sizing: border-box !important;" +
@@ -291,12 +323,32 @@ document.addEventListener("DOMContentLoaded", () => {
         "line-height: inherit !important;" +
         "letter-spacing: inherit !important;" +
       "}" +
+      "p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote, pre, table, hr {" +
+        "margin-left: " + settings.marginLeft + "px !important;" +
+        "margin-right: " + settings.marginRight + "px !important;" +
+        "width: auto !important;" +
+        "max-width: calc(100% - " + (settings.marginLeft + settings.marginRight) + "px) !important;" +
+        "box-sizing: border-box !important;" +
+      "}" +
+      "li p, blockquote p, table p {" +
+        "margin-left: 0 !important;" +
+        "margin-right: 0 !important;" +
+        "max-width: 100% !important;" +
+      "}" +
       "p {" +
         "margin-top: 0 !important;" +
         "margin-bottom: " + settings.paraSpacing.toFixed(2) + "em !important;" +
         "hyphens: " + hyphensVal + " !important;" +
         "-webkit-hyphens: " + hyphensVal + " !important;" +
         "-ms-hyphens: " + hyphensVal + " !important;" +
+      "}" +
+      "figure, .dimg {" +
+        "max-width: 100% !important;" +
+        "box-sizing: border-box !important;" +
+      "}" +
+      "img {" +
+        "max-width: 100% !important;" +
+        "box-sizing: border-box !important;" +
       "}" +
       // Preservar y priorizar alineaciones explícitas de portadas, títulos y párrafos centrados del EPUB
       ".centrado, .center, .text-center, [align='center'], [style*='text-align: center'], [style*='text-align:center'] { text-align: center !important; }" +
@@ -425,6 +477,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
   }
 
+  let isLocationsReady = false;
+
   // 6. Inicialización del Libro
   initBook();
 
@@ -449,6 +503,24 @@ document.addEventListener("DOMContentLoaded", () => {
       if (loadingOverlay) {
         loadingOverlay.style.opacity = "0";
         setTimeout(() => loadingOverlay.style.display = "none", 300);
+      }
+
+      if (!isLocationsReady) {
+        isLocationsReady = true;
+        book.locations.generate(1600).then(() => {
+          if (rendition) {
+            try {
+              const currentLocation = rendition.currentLocation();
+              if (currentLocation && currentLocation.start && currentLocation.start.cfi) {
+                const pct = book.locations.percentageFromCfi(currentLocation.start.cfi);
+                if (pct !== null && !isNaN(pct)) {
+                  const percentage = Math.max(0, Math.min(100, Math.round(pct * 100)));
+                  progressEl.textContent = `${percentage}%`;
+                }
+              }
+            } catch (_) {}
+          }
+        }).catch(() => {});
       }
     });
 
@@ -532,6 +604,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (rendition) {
       rendition.destroy();
     }
+    // Limpiar hooks huérfanos del spine para evitar que renditions destruidas disparen injectIdentifier
+    if (book && book.spine && book.spine.hooks && book.spine.hooks.content) {
+      book.spine.hooks.content.clear();
+    }
     viewer.innerHTML = '';
 
     const flow = settings.mode === "paginated" ? "paginated" : "scrolled-doc";
@@ -543,9 +619,25 @@ document.addEventListener("DOMContentLoaded", () => {
       manager: manager,
       flow: flow,
       spread: "none",
-      snap: true,
-      allowScriptedContent: true
+      snap: true
     });
+
+    // Patch defensivo en el prototipo de Rendition para proteger injectIdentifier contra referencias nulas
+    if (rendition && rendition.constructor && rendition.constructor.prototype) {
+      const proto = rendition.constructor.prototype;
+      if (!proto._kasniaPatched) {
+        proto._kasniaPatched = true;
+        const origInjectIdentifier = proto.injectIdentifier;
+        if (typeof origInjectIdentifier === "function") {
+          proto.injectIdentifier = function (doc, section) {
+            if (!this.book || !this.book.packaging || !this.book.packaging.metadata) {
+              return;
+            }
+            return origInjectIdentifier.call(this, doc, section);
+          };
+        }
+      }
+    }
 
     if (!foucOverlay) {
       foucOverlay = document.createElement("div");
@@ -616,6 +708,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     rendition.on("relocated", location => {
       scheduleHideOverlay();
+      if (!location || !location.start || !location.start.cfi) return;
+
       localStorage.setItem(storageKey, location.start.cfi);
 
       if (settings.mode === "paginated") {
@@ -623,11 +717,22 @@ document.addEventListener("DOMContentLoaded", () => {
         btnNext.style.visibility = location.atEnd ? "hidden" : "visible";
       }
 
-      if (book.locations.length > 0) {
-        const percentage = Math.round(book.locations.percentageFromCfi(location.start.cfi) * 100);
-        progressEl.textContent = `${percentage}%`;
-      } else {
-        progressEl.textContent = "...";
+      if (book.locations && (typeof book.locations.length === "function" ? book.locations.length() > 0 : (book.locations.length > 0 || book.locations.total > 0))) {
+        try {
+          const pct = book.locations.percentageFromCfi(location.start.cfi);
+          if (pct !== null && !isNaN(pct)) {
+            const percentage = Math.max(0, Math.min(100, Math.round(pct * 100)));
+            progressEl.textContent = `${percentage}%`;
+            return;
+          }
+        } catch (_) {}
+      }
+
+      if (location.start.index !== undefined && book && book.spine && book.spine.spineItems && book.spine.spineItems.length > 0) {
+        const total = book.spine.spineItems.length;
+        const current = location.start.index;
+        const pct = Math.max(0, Math.min(100, Math.round((current / total) * 100)));
+        progressEl.textContent = `${pct}%`;
       }
     });
 
@@ -640,18 +745,6 @@ document.addEventListener("DOMContentLoaded", () => {
     rendition.on("touchmove", handleTouchMove);
     rendition.on("touchend", handleTouchEnd);
     rendition.on("click", handleClick);
-
-    book.ready.then(() => {
-      return book.locations.generate(1600);
-    }).then(() => {
-      const currentLocation = rendition.currentLocation();
-      if (currentLocation && currentLocation.start) {
-        const percentage = Math.round(book.locations.percentageFromCfi(currentLocation.start.cfi) * 100);
-        progressEl.textContent = `${percentage}%`;
-      }
-    }).catch(() => {
-      progressEl.textContent = "";
-    });
   }
 
   // 8. Control Táctil y Gestos (Tap, Swipe, UI)

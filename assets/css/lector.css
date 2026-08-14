@@ -70,33 +70,24 @@
   --reader-accent: #ff9ac5;
 }
 
-/* Cabecera y Pie UI Inmersiva */
-.readerHeader, .readerFooter {
+/* Cabecera UI Inmersiva */
+.readerHeader {
   position: absolute;
+  top: 0;
   left: 0; right: 0;
   background-color: var(--reader-header-bg);
   z-index: 100;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.readerHeader {
-  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--reader-border);
   height: 60px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .ui-hidden .readerHeader {
   transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.ui-hidden .readerFooter {
-  transform: translateY(100%);
   opacity: 0;
   pointer-events: none;
 }
@@ -652,16 +643,26 @@
   color: var(--reader-accent);
 }
 
-/* Footer / Progreso */
+/* Footer / Progreso del Libro (Siempre visible y centrado) */
 .readerFooter {
-  bottom: 0;
-  height: 30px;
-  border-top: 1px solid var(--reader-border);
+  height: 14px;
+  min-height: 14px;
+  width: 100%;
+  background-color: var(--reader-bg);
+  color: var(--reader-text);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
-  opacity: 0.8;
+  font-size: 0.65rem;
+  line-height: 1;
+  font-family: inherit;
+  opacity: 0.55;
+  user-select: none;
+  pointer-events: none;
+  z-index: 10;
+  padding: 0;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Pantalla de Carga */
