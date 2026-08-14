@@ -328,7 +328,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "}" +
       "p, div, span, li, a, h1, h2, h3, h4, h5, h6 {" +
         "color: inherit !important;" +
-        "font-family: inherit !important;" +
         "line-height: inherit !important;" +
         "letter-spacing: inherit !important;" +
         "-webkit-touch-callout: none !important;" +
@@ -348,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "max-width: 100% !important;" +
       "}" +
       "p {" +
-        "margin-top: 0 !important;" +
+        "margin-top: 0;" +
         "margin-bottom: " + settings.paraSpacing.toFixed(2) + "em !important;" +
         "hyphens: " + hyphensVal + " !important;" +
         "-webkit-hyphens: " + hyphensVal + " !important;" +
@@ -489,6 +488,61 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
   }
 
+  // 5.1 Control de Transición Suave entre Páginas (Modo Paginado)
+  let isPageTurning = false;
+  let currentLocation = null;
+
+  function turnPage(direction) {
+    if (!rendition || settings.mode !== "paginated" || isPageTurning) return;
+
+    // Evitar animación innecesaria si ya estamos al inicio o al final del libro
+    const loc = (typeof rendition.currentLocation === "function" ? rendition.currentLocation() : null) || currentLocation;
+    if (loc) {
+      if (direction === "prev" && loc.atStart) return;
+      if (direction === "next" && loc.atEnd) return;
+    }
+
+    isPageTurning = true;
+    const isNext = direction === "next";
+    const outOffset = isNext ? -18 : 18;
+    const inOffset = isNext ? 18 : -18;
+
+    // Fase 1: Salida suave (desplazamiento sutil + desvanecimiento rápido)
+    viewer.style.transition = "transform 0.09s ease-out, opacity 0.09s ease-out";
+    viewer.style.transform = `translateX(${outOffset}px)`;
+    viewer.style.opacity = "0.15";
+
+    setTimeout(() => {
+      const pagePromise = isNext ? rendition.next() : rendition.prev();
+
+      Promise.resolve(pagePromise)
+        .catch(err => {
+          console.warn("Page navigation warning:", err);
+        })
+        .finally(() => {
+          // Posicionar instantáneamente en el lado opuesto para la entrada
+          viewer.style.transition = "none";
+          viewer.style.transform = `translateX(${inOffset}px)`;
+          viewer.style.opacity = "0.15";
+
+          // Forzar reflujo del navegador
+          void viewer.offsetWidth;
+
+          // Fase 2: Entrada suave a posición neutral
+          viewer.style.transition = "transform 0.13s cubic-bezier(0.2, 0.8, 0.4, 1), opacity 0.13s ease-out";
+          viewer.style.transform = "translateX(0)";
+          viewer.style.opacity = "1";
+
+          setTimeout(() => {
+            viewer.style.transition = "";
+            viewer.style.transform = "";
+            viewer.style.opacity = "";
+            isPageTurning = false;
+          }, 150);
+        });
+    }, 90);
+  }
+
   let isLocationsReady = false;
 
   // 6. Inicialización del Libro
@@ -555,7 +609,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!rendition) return;
 
           showOverlay();
-          tocPanel.style.display = "none";
+          closePanel(tocPanel, true);
 
           const hashIdx = href.indexOf('#');
           const baseHref = hashIdx !== -1 ? href.substring(0, hashIdx) : href;
@@ -708,7 +762,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (THEME_PRESETS[settings.theme]) {
       rendition.themes.select(settings.theme);
     }
-    rendition.themes.font(settings.font);
     rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
 
     const savedLocation = localStorage.getItem(storageKey);
@@ -720,6 +773,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     rendition.on("relocated", location => {
       scheduleHideOverlay();
+      currentLocation = location;
       if (!location || !location.start || !location.start.cfi) return;
 
       localStorage.setItem(storageKey, location.start.cfi);
@@ -749,8 +803,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     rendition.on("keyup", e => {
-      if (e.key === "ArrowLeft") rendition.prev();
-      if (e.key === "ArrowRight") rendition.next();
+      if (e.key === "ArrowLeft") turnPage("prev");
+      if (e.key === "ArrowRight") turnPage("next");
     });
 
     rendition.on("touchstart", handleTouchStart);
@@ -833,9 +887,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (settings.mode === "paginated" && absX >= 40 && absX > absY * 1.2 && elapsed < 800) {
       lastSwipeTime = Date.now();
       if (deltaX < 0) {
-        if (rendition) rendition.next();
+        turnPage("next");
       } else {
-        if (rendition) rendition.prev();
+        turnPage("prev");
       }
       return;
     }
@@ -846,9 +900,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (settings.mode === "paginated") {
         if (ratio < 0.25) {
-          if (rendition) rendition.prev();
+          turnPage("prev");
         } else if (ratio > 0.75) {
-          if (rendition) rendition.next();
+          turnPage("next");
         } else {
           readerApp.classList.toggle("ui-hidden");
         }
@@ -868,9 +922,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (settings.mode === "paginated") {
       if (ratio < 0.25) {
-        if (rendition) rendition.prev();
+        turnPage("prev");
       } else if (ratio > 0.75) {
-        if (rendition) rendition.next();
+        turnPage("next");
       } else {
         readerApp.classList.toggle("ui-hidden");
       }
@@ -892,18 +946,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // 9. Configuración de Event Listeners de UI
   btnPrev.addEventListener("click", () => {
     if (Date.now() - lastSwipeTime < 500) return;
-    if (rendition && settings.mode === "paginated") rendition.prev();
+    turnPage("prev");
   });
 
   btnNext.addEventListener("click", () => {
     if (Date.now() - lastSwipeTime < 500) return;
-    if (rendition && settings.mode === "paginated") rendition.next();
+    turnPage("next");
   });
 
   document.addEventListener("keyup", e => {
     if (settings.mode === "paginated" && rendition) {
-      if (e.key === "ArrowLeft") rendition.prev();
-      if (e.key === "ArrowRight") rendition.next();
+      if (e.key === "ArrowLeft") turnPage("prev");
+      if (e.key === "ArrowRight") turnPage("next");
+    }
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      if (tocPanel && tocPanel.style.display === "flex") closePanel(tocPanel);
+      if (settingsPanel && settingsPanel.style.display === "flex") closePanel(settingsPanel);
     }
   });
 
@@ -911,25 +972,65 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.back();
   });
 
-  const togglePanel = panel => {
-    const isVisible = panel.style.display === "flex";
-    tocPanel.style.display = "none";
-    settingsPanel.style.display = "none";
-    panel.style.display = isVisible ? "none" : "flex";
-  };
+  // Control de Modales (Apertura y Cierre con Animación)
+  function openPanel(panel) {
+    if (!panel) return;
+    const otherPanel = panel === tocPanel ? settingsPanel : tocPanel;
+    if (otherPanel && otherPanel.style.display === "flex") {
+      closePanel(otherPanel, true);
+    }
+    panel.classList.remove("isClosing");
+    panel.style.display = "flex";
+  }
+
+  function closePanel(panel, immediate = false) {
+    if (!panel || panel.style.display !== "flex") return;
+
+    if (immediate) {
+      panel.classList.remove("isClosing");
+      panel.style.display = "none";
+      return;
+    }
+
+    if (panel.classList.contains("isClosing")) return;
+    panel.classList.add("isClosing");
+
+    const onEnd = () => {
+      panel.removeEventListener("animationend", onEnd);
+      panel.classList.remove("isClosing");
+      panel.style.display = "none";
+    };
+
+    panel.addEventListener("animationend", onEnd, { once: true });
+    setTimeout(() => {
+      if (panel.classList.contains("isClosing")) {
+        panel.classList.remove("isClosing");
+        panel.style.display = "none";
+      }
+    }, 250);
+  }
+
+  function togglePanel(panel) {
+    if (panel.style.display === "flex" && !panel.classList.contains("isClosing")) {
+      closePanel(panel);
+    } else {
+      openPanel(panel);
+    }
+  }
 
   btnToc.addEventListener("click", () => togglePanel(tocPanel));
   btnSettings.addEventListener("click", () => togglePanel(settingsPanel));
 
   panelCloseBtns.forEach(btn => {
     btn.addEventListener("click", e => {
-      e.currentTarget.closest(".readerModalOverlay").style.display = "none";
+      const panel = e.currentTarget.closest(".readerModalOverlay");
+      if (panel) closePanel(panel);
     });
   });
 
   [tocPanel, settingsPanel].forEach(panel => {
     panel.addEventListener("click", e => {
-      if (e.target === panel) panel.style.display = "none";
+      if (e.target === panel) closePanel(panel);
     });
   });
 
@@ -1008,7 +1109,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ensureFontLoaded(selectedFont, () => {
         updateUIFromSettings();
         updateIframeStyles();
-        if (rendition) rendition.themes.font(selectedFont);
       });
     });
   }
@@ -1240,7 +1340,6 @@ document.addEventListener("DOMContentLoaded", () => {
         updateIframeStyles();
         if (rendition) {
           rendition.themes.select(settings.theme);
-          rendition.themes.font(settings.font);
           rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
         }
       });
