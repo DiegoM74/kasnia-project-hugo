@@ -201,6 +201,12 @@
 .readerNavBtn.prev { left: 0; }
 .readerNavBtn.next { right: 0; }
 
+@media (hover: none) and (pointer: coarse) {
+  .readerNavBtn {
+    pointer-events: none;
+  }
+}
+
 /* Modales (Índice y Ajustes) */
 .readerModalOverlay {
   position: fixed;

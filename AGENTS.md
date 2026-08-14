@@ -333,13 +333,46 @@ Se ha implementado un lector en línea (en fase BETA) utilizando la librería `e
 - **Lógica (`lector.js`):** Gestiona la instanciación de `ePub()`, controles de interfaz (TOC, Ajustes), persistencia de configuraciones en `localStorage` (fuente, tamaño, modo y tema) y navegación.
 - **Temas:** Existen 4 temas (Claro, Oscuro, Sepia y Noche), implementados usando `rendition.themes.register`.
 
-### 8.2 Desafíos Conocidos y Bugs (Para el próximo agente)
-- **FOUC (Flash of Unstyled Content):** Debido a que `epub.js` inyecta estilos de forma asíncrona dentro de un iframe nuevo en cada cambio de capítulo, el navegador suele pintar texto con estilos por defecto (fondo blanco) durante una fracción de segundo.
-  - *Intentos de solución:* Ocultar el `#viewer` principal (`opacity: 0`) durante `rendition.on("rendering")` y mostrarlo en `rendered` falló ocasionalmente. Usar `hooks.content.register` para ocultar `doc.documentElement` funcionó para el FOUC pero rompió el TOC.
-- **TOC (Índice) y Navegación por Anclas:** Los archivos ePub creados en Sigil suelen usar *fragment identifiers* (`Text/chapter.xhtml#sigil_toc_id_1`). 
-  - Si se oculta o altera geométricamente el iframe para evitar el FOUC durante la carga, `epub.js` no logra calcular la posición del ancla (el cálculo del offset falla), provocando que la navegación desde el TOC parezca no hacer nada.
-- **Scroll Continuo:** Los ePubs en `scrolled-doc` pueden sufrir de saltos inesperados debido al *Scroll Anchoring* del navegador; la solución actual emplea inyección de CSS con `overflow-anchor: none !important` en el cuerpo del iframe.
-- **Objetivo Próximo:** Lograr mitigar el FOUC por completo *sin* afectar negativamente la capacidad de `epub.js` para resolver anclas del TOC. Considerar si se puede usar inyección de CSS directo en la inicialización o cargar los temas de manera síncrona, en lugar de ocultar todo el DOM.
+### 8.2 Soluciones Implementadas
+
+#### Anti-FOUC (Resuelto)
+El FOUC se manifestaba como contenido "moviéndose" al cambiar de capítulo XHTML, causado por la aplicación secuencial de padding, fuente y color al iframe nuevo.
+
+**Solución en 2 capas:**
+- **Capa 1 (raíz):** `rendition.hooks.content.register` inyecta un `<style id="kasniaThemePreload">` en el `<head>` del iframe con TODOS los estilos del tema (color, fondo, fuente, tamaño, padding-top/bottom, overflow-anchor) **antes del primer paint**. Los colores del tema están mapeados en `themeTextColors`.
+- **Capa 2 (visual):** Un `<div class="foucOverlay">` dentro de `.readerContainer` (CSS: `position: absolute; inset: 0; z-index: 4; background: var(--reader-bg)`) se superpone al viewer sin alterar el layout del iframe. Se muestra en `rendering` y se oculta con debounce de 150ms tras `relocated`. Funciones: `showOverlay()` y `scheduleHideOverlay()`.
+
+**Regla:** NUNCA ocultar el `#viewer` ni el iframe con `opacity`, `visibility` o `display`. Esto rompe `getBoundingClientRect()` en epub.js para las anclas del TOC.
+
+#### TOC y Navegación por Anclas (Resuelto)
+Los hrefs del TOC de epub.js (ej. `Text/chapter.xhtml#sigil_toc_id_1`) no siempre coinciden con los hrefs del spine (ej. `chapter.xhtml`), causando `Error: No Section Found`.
+
+**Solución:** Resolución flexible de secciones:
+1. Intenta `book.spine.get(baseHref)` (directo).
+2. Si falla, itera `book.spine.spineItems` comparando por `endsWith()` (sufijo y filename).
+3. Navega con `rendition.display(section.href + '#' + fragment)` usando el href canónico del spine.
+4. Tras la navegación, verifica el scroll al fragment con `scrollIntoView()` manual a los 150ms.
+5. Si la navegación con fragment falla, fallback a `rendition.display(section.href)` sin fragment.
+6. Siempre llama `scheduleHideOverlay()` en caso de error para evitar pantalla negra.
+
+#### Scroll Continuo (Resuelto)
+Los saltos inesperados por *Scroll Anchoring* se previenen con `overflow-anchor: none !important` inyectado tanto en el `<style>` del iframe como en `rendition.manager.container`.
+
+#### Cambio de Modo (Paginado ↔ Continuo)
+`renderBook()` llama `rendition.destroy()` seguido de `viewer.innerHTML = ''` para limpiar iframes huérfanos antes de recrear la rendition.
+
+#### Interacción Táctil y Gestos (Tap, Swipe y Prevención de Menú en Scroll)
+Se implementó un sistema de control táctil y de clics responsivo en `assets/js/lector.js`:
+- **Compensación de Coordenadas del Iframe (`getEventPositionRatio`):** En modo paginado, epub.js desplaza internamente el iframe (mediante CSS transform o scroll horizontal) al cambiar de página. La función calcula `iframeRect.left + clientX - viewerRect.left` para compensar el desplazamiento del iframe, garantizando que las zonas de tap (retroceso, menú central y avance) y la detección de clics permanezcan 100% fijas e inmutables sin importar a qué página se haya navegado.
+- **Medición Física para Deslizamiento (`screenX`):** El reconocimiento de gestos de swipe y la tolerancia de movimiento en taps se calcula usando `screenX` y `screenY` físicos, evitando interferencias con transformaciones DOM internas.
+- **Toque en el Centro (Tap Toggle):** Al hacer un tap limpio (`absX < 15px`, `absY < 15px`, `elapsed < 500ms`) en la zona central de la pantalla (25% a 75% en modo paginado, 15% a 85% en modo continuo), se alterna la visibilidad de la barra superior/inferior (`.ui-hidden`).
+- **Navegación por Toque Lateral:** En modo paginado, un tap en el 25% lateral izquierdo retrocede de página (`rendition.prev()`) y en el 25% lateral derecho avanza de página (`rendition.next()`).
+- **Gesto de Deslizamiento (Swipe):** En modo paginado, un swipe horizontal rápido (`absX >= 40px`, `absX > absY * 1.2`, `elapsed < 800ms`) hacia la izquierda avanza de página y hacia la derecha retrocede de página.
+- **Aislamiento de Scroll Continuo:** En modo continuo, los eventos de arrastre/desplazamiento vertical (`absY >= 15px`) no ejecutan ninguna acción sobre el menú ni la paginación, garantizando una lectura fluida sin parpadeos ni aperturas accidentales de la interfaz.
+- **Supresión de Ghost Clicks:** Se registra `lastTouchEndTime` para ignorar los eventos `click` sintéticos que emiten los navegadores móviles tras un `touchend`, evitando que el menú se cierre inmediatamente tras abrirse por doble disparo.
+
+### 8.3 Bug Conocido de epub.js (No accionable)
+- **`injectIdentifier` TypeError:** `Cannot read properties of undefined (reading 'packaging')`. Es un bug interno de epub.js v0.3 en la función `Section.injectIdentifier`. Se dispara durante el trigger de hooks de contenido. No afecta la funcionalidad del lector. No tiene fix desde nuestro código; requeriría un patch o fork de la librería.
 
 ---
 

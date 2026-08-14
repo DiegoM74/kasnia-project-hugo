@@ -120,31 +120,57 @@ document.addEventListener("DOMContentLoaded", () => {
           showOverlay();
           tocPanel.style.display = "none";
           
+          // Separar capítulo y fragment
           const hashIdx = href.indexOf('#');
+          const baseHref = hashIdx !== -1 ? href.substring(0, hashIdx) : href;
+          const fragment = hashIdx !== -1 ? href.substring(hashIdx + 1) : null;
           
-          if (hashIdx === -1) {
-            // Sin fragment: navegación directa
-            rendition.display(href);
+          // Buscar la sección en el spine con matching flexible
+          // (el TOC puede usar rutas relativas que no coinciden con las del spine)
+          let section = book.spine.get(baseHref);
+          
+          if (!section) {
+            const filename = baseHref.split('/').pop();
+            const spineItems = book.spine.spineItems;
+            for (let i = 0; i < spineItems.length; i++) {
+              const itemHref = spineItems[i].href;
+              if (itemHref === baseHref || 
+                  itemHref.endsWith('/' + baseHref) || 
+                  baseHref.endsWith('/' + itemHref) ||
+                  itemHref.endsWith(filename)) {
+                section = spineItems[i];
+                break;
+              }
+            }
+          }
+          
+          if (!section) {
+            console.warn("TOC: No section found for", baseHref);
+            scheduleHideOverlay();
             return;
           }
           
-          // Con fragment: intentar directo, fallback manual con scrollIntoView
-          const chapterHref = href.substring(0, hashIdx);
-          const fragment = href.substring(hashIdx + 1);
+          // Navegar usando el href canónico del spine (que epub.js sí reconoce)
+          const displayTarget = fragment ? section.href + '#' + fragment : section.href;
           
-          rendition.display(href).catch(() => {
-            // Fallback: cargar capítulo y scroll manual al ancla
-            return rendition.display(chapterHref).then(() => {
-              return new Promise(resolve => setTimeout(resolve, 100));
-            }).then(() => {
-              const contents = rendition.getContents();
-              if (contents && contents.length > 0) {
-                const doc = contents[0].document;
-                const target = doc.getElementById(fragment);
-                if (target) {
-                  target.scrollIntoView({ block: "start", behavior: "instant" });
+          rendition.display(displayTarget).then(() => {
+            // Verificar que el fragment scroll funcionó; si no, hacerlo manualmente
+            if (fragment) {
+              setTimeout(() => {
+                const contents = rendition.getContents();
+                if (contents && contents.length > 0) {
+                  const doc = contents[0].document;
+                  const target = doc.getElementById(fragment);
+                  if (target) {
+                    target.scrollIntoView({ block: "start", behavior: "instant" });
+                  }
                 }
-              }
+              }, 150);
+            }
+          }).catch(() => {
+            // Último recurso: navegar solo al capítulo sin fragment
+            rendition.display(section.href).catch(() => {
+              scheduleHideOverlay();
             });
           });
         });
@@ -159,6 +185,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (rendition) {
       rendition.destroy();
     }
+    // Limpiar DOM del viewer para evitar referencias a iframes destruidos
+    // (previene el error 'packaging' al cambiar de modo)
+    viewer.innerHTML = '';
 
     const flow = currentMode === "paginated" ? "paginated" : "scrolled-doc";
     const manager = currentMode === "paginated" ? "default" : "continuous";
@@ -281,24 +310,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "ArrowRight") rendition.next();
     });
 
-    // UI Inmersiva: Mostrar/Ocultar controles al hacer tap en el centro
-    const toggleMenuHandler = (e) => {
-      const width = window.innerWidth;
-      let x = 0;
-      if (e.type.includes('touch') && e.changedTouches) {
-        x = e.changedTouches[0].clientX;
-      } else {
-        x = e.clientX;
-      }
-      
-      // Ampliar el área táctil al 80% central (0.1 a 0.9)
-      if (x > width * 0.1 && x < width * 0.9) {
-        readerApp.classList.toggle("ui-hidden");
-      }
-    };
-
-    rendition.on("click", toggleMenuHandler);
-    rendition.on("touchstart", toggleMenuHandler);
+    // Registrar eventos de interacción en rendition
+    rendition.on("touchstart", handleTouchStart);
+    rendition.on("touchmove", handleTouchMove);
+    rendition.on("touchend", handleTouchEnd);
+    rendition.on("click", handleClick);
 
     // Generar locations en background para %
     book.ready.then(() => {
@@ -312,6 +328,170 @@ document.addEventListener("DOMContentLoaded", () => {
     }).catch(() => {
        progressEl.textContent = "";
     });
+  }
+
+  // --- Control de Gestos Táctiles y Clics (Tap, Swipe, Menú) ---
+  let touchStartScreenX = 0;
+  let touchStartScreenY = 0;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+  let isTouching = false;
+  let lastTouchEndTime = 0;
+  let lastSwipeTime = 0;
+
+  function getEventPositionRatio(e) {
+    const viewerEl = document.getElementById("viewer") || viewer;
+    const viewerRect = viewerEl ? viewerEl.getBoundingClientRect() : { left: 0, width: window.innerWidth };
+    
+    let clientX = e.clientX;
+    if (clientX === undefined && e.changedTouches && e.changedTouches.length > 0) {
+      clientX = e.changedTouches[0].clientX;
+    } else if (clientX === undefined && e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+    }
+    if (clientX === undefined) clientX = 0;
+
+    let visualX = clientX;
+    
+    // Detectar si el evento proviene de dentro de un iframe
+    const targetDoc = e.target && e.target.ownerDocument;
+    const iframe = targetDoc && targetDoc.defaultView && targetDoc.defaultView !== window
+      ? targetDoc.defaultView.frameElement
+      : (viewerEl ? viewerEl.querySelector("iframe") : null);
+
+    if (iframe) {
+      const iframeRect = iframe.getBoundingClientRect();
+      // En modo paginado, epub.js desplaza el iframe horizontalmente (transform o scroll).
+      // iframeRect.left compensa ese desplazamiento con respecto al visor visible en pantalla.
+      visualX = iframeRect.left + clientX - viewerRect.left;
+    } else {
+      visualX = clientX - viewerRect.left;
+    }
+
+    const width = viewerRect.width || window.innerWidth || 1;
+    return visualX / width;
+  }
+
+  function handleTouchStart(e) {
+    const touch = e.touches ? e.touches[0] : (e.changedTouches ? e.changedTouches[0] : null);
+    if (!touch) return;
+
+    isTouching = true;
+    touchStartScreenX = touch.screenX !== undefined ? touch.screenX : touch.clientX;
+    touchStartScreenY = touch.screenY !== undefined ? touch.screenY : touch.clientY;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    touchStartTime = Date.now();
+  }
+
+  function handleTouchMove(e) {
+    // Registro pasivo de movimiento si es necesario
+  }
+
+  function handleTouchEnd(e) {
+    if (!isTouching) return;
+    isTouching = false;
+
+    const touch = e.changedTouches && e.changedTouches.length > 0 ? e.changedTouches[0] : null;
+    if (!touch) return;
+
+    const currentScreenX = touch.screenX !== undefined ? touch.screenX : touch.clientX;
+    const currentScreenY = touch.screenY !== undefined ? touch.screenY : touch.clientY;
+    const deltaX = currentScreenX - touchStartScreenX;
+    const deltaY = currentScreenY - touchStartScreenY;
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+    const elapsed = Date.now() - touchStartTime;
+
+    lastTouchEndTime = Date.now();
+
+    // Ignorar toques sobre elementos interactivos (enlaces, botones, inputs)
+    if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) {
+      return;
+    }
+
+    // 1. Gesto de Deslizar (Swipe) solo en modo paginado
+    // Requiere: desplazamiento horizontal significativo (>= 40px), predominantemente horizontal (absX > absY * 1.2) y duración razonable (< 800ms)
+    if (currentMode === "paginated" && absX >= 40 && absX > absY * 1.2 && elapsed < 800) {
+      lastSwipeTime = Date.now();
+      if (deltaX < 0) {
+        // Deslizar hacia la izquierda -> Siguiente página
+        if (rendition) rendition.next();
+      } else {
+        // Deslizar hacia la derecha -> Página anterior
+        if (rendition) rendition.prev();
+      }
+      return;
+    }
+
+    // 2. Gesto de Toque (Tap): movimiento físico mínimo (< 15px) y duración corta (< 500ms)
+    if (absX < 15 && absY < 15 && elapsed < 500) {
+      const ratio = getEventPositionRatio(e);
+
+      if (currentMode === "paginated") {
+        if (ratio < 0.25) {
+          // Lateral izquierdo: página anterior
+          if (rendition) rendition.prev();
+        } else if (ratio > 0.75) {
+          // Lateral derecho: página siguiente
+          if (rendition) rendition.next();
+        } else {
+          // Centro (25% a 75%): alternar menú del lector
+          readerApp.classList.toggle("ui-hidden");
+        }
+      } else {
+        // Modo continuo: tap en la zona central (15% a 85%) para alternar menú
+        if (ratio >= 0.15 && ratio <= 0.85) {
+          readerApp.classList.toggle("ui-hidden");
+        }
+      }
+    }
+  }
+
+  function handleClick(e) {
+    // Si este click proviene inmediatamente de un evento táctil (ghost/synthetic click en móvil), ignorar
+    if (Date.now() - lastTouchEndTime < 500) {
+      return;
+    }
+
+    // Ignorar clicks sobre elementos interactivos
+    if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) {
+      return;
+    }
+
+    // Ignorar si el usuario estaba seleccionando texto
+    const targetDoc = e.target && e.target.ownerDocument;
+    const targetWin = targetDoc && targetDoc.defaultView ? targetDoc.defaultView : window;
+    const docSelection = targetWin.getSelection()?.toString();
+    if (docSelection && docSelection.length > 0) {
+      return;
+    }
+
+    const ratio = getEventPositionRatio(e);
+
+    if (currentMode === "paginated") {
+      if (ratio < 0.25) {
+        if (rendition) rendition.prev();
+      } else if (ratio > 0.75) {
+        if (rendition) rendition.next();
+      } else {
+        readerApp.classList.toggle("ui-hidden");
+      }
+    } else {
+      if (ratio >= 0.15 && ratio <= 0.85) {
+        readerApp.classList.toggle("ui-hidden");
+      }
+    }
+  }
+
+  // Eventos táctiles y clics también en el contenedor del lector (para áreas externas al iframe)
+  const readerContainer = document.getElementById("readerContainer");
+  if (readerContainer) {
+    readerContainer.addEventListener("touchstart", handleTouchStart, { passive: true });
+    readerContainer.addEventListener("touchmove", handleTouchMove, { passive: true });
+    readerContainer.addEventListener("touchend", handleTouchEnd);
+    readerContainer.addEventListener("click", handleClick);
   }
 
   function registerThemes() {
@@ -351,9 +531,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Navegación
   btnPrev.addEventListener("click", () => {
+    if (Date.now() - lastSwipeTime < 500) return;
     if (rendition && currentMode === "paginated") rendition.prev();
   });
   btnNext.addEventListener("click", () => {
+    if (Date.now() - lastSwipeTime < 500) return;
     if (rendition && currentMode === "paginated") rendition.next();
   });
   
