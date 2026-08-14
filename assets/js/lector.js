@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
         doc.head.insertBefore(preStyle, doc.head.firstChild);
       }
       preStyle.textContent =
-        "html { background: transparent !important; }" +
+        "html { background: transparent !important; -webkit-tap-highlight-color: transparent !important; }" +
         "body {" +
           "background: transparent !important;" +
           "color: " + textColor + " !important;" +
@@ -246,6 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "padding-top: 60px !important;" +
           "padding-bottom: 80px !important;" +
           "overflow-anchor: none !important;" +
+          "-webkit-tap-highlight-color: transparent !important;" +
         "}";
       
       // Overflow anchor en el contenedor del manager
@@ -389,6 +390,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Registro pasivo de movimiento si es necesario
   }
 
+  function clearActiveSelection() {
+    try {
+      const sel = window.getSelection();
+      if (sel) sel.removeAllRanges();
+      const iframes = document.querySelectorAll("iframe");
+      iframes.forEach(iframe => {
+        const iframeSel = iframe.contentWindow?.getSelection();
+        if (iframeSel) iframeSel.removeAllRanges();
+      });
+    } catch (_) {}
+  }
+
   function handleTouchEnd(e) {
     if (!isTouching) return;
     isTouching = false;
@@ -414,6 +427,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Gesto de Deslizar (Swipe) solo en modo paginado
     // Requiere: desplazamiento horizontal significativo (>= 40px), predominantemente horizontal (absX > absY * 1.2) y duración razonable (< 800ms)
     if (currentMode === "paginated" && absX >= 40 && absX > absY * 1.2 && elapsed < 800) {
+      if (e.cancelable) e.preventDefault();
+      clearActiveSelection();
       lastSwipeTime = Date.now();
       if (deltaX < 0) {
         // Deslizar hacia la izquierda -> Siguiente página
@@ -432,17 +447,23 @@ document.addEventListener("DOMContentLoaded", () => {
       if (currentMode === "paginated") {
         if (ratio < 0.25) {
           // Lateral izquierdo: página anterior
+          if (e.cancelable) e.preventDefault();
+          clearActiveSelection();
           if (rendition) rendition.prev();
         } else if (ratio > 0.75) {
           // Lateral derecho: página siguiente
+          if (e.cancelable) e.preventDefault();
+          clearActiveSelection();
           if (rendition) rendition.next();
         } else {
           // Centro (25% a 75%): alternar menú del lector
+          clearActiveSelection();
           readerApp.classList.toggle("ui-hidden");
         }
       } else {
         // Modo continuo: tap en la zona central (15% a 85%) para alternar menú
         if (ratio >= 0.15 && ratio <= 0.85) {
+          clearActiveSelection();
           readerApp.classList.toggle("ui-hidden");
         }
       }
@@ -472,14 +493,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (currentMode === "paginated") {
       if (ratio < 0.25) {
+        clearActiveSelection();
         if (rendition) rendition.prev();
       } else if (ratio > 0.75) {
+        clearActiveSelection();
         if (rendition) rendition.next();
       } else {
+        clearActiveSelection();
         readerApp.classList.toggle("ui-hidden");
       }
     } else {
       if (ratio >= 0.15 && ratio <= 0.85) {
+        clearActiveSelection();
         readerApp.classList.toggle("ui-hidden");
       }
     }
