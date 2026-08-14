@@ -497,7 +497,7 @@ main {
   position: relative;
   width: 100%;
   max-width: 500px;
-  max-height: 90vh;
+  max-height: 90dvh;
   padding: 2rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
