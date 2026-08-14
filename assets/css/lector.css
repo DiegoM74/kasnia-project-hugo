@@ -38,6 +38,9 @@
   color: var(--reader-text);
   font-family: 'Open Sans', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* Temas del Lector */

@@ -293,7 +293,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const textDecorVal = settings.underline ? "underline !important" : "none !important";
 
     return (
-      "html { background: transparent !important; -webkit-tap-highlight-color: transparent !important; }" +
+      "html {" +
+        "background: transparent !important;" +
+        "-webkit-tap-highlight-color: transparent !important;" +
+        "-webkit-touch-callout: none !important;" +
+        "-webkit-user-select: none !important;" +
+        "user-select: none !important;" +
+      "}" +
       "body {" +
         "background: transparent !important;" +
         "color: " + settings.textColor + " !important;" +
@@ -315,6 +321,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "margin: 0 !important;" +
         "overflow-anchor: none !important;" +
         "-webkit-tap-highlight-color: transparent !important;" +
+        "-webkit-touch-callout: none !important;" +
+        "-webkit-user-select: none !important;" +
+        "user-select: none !important;" +
         "box-sizing: border-box !important;" +
       "}" +
       "p, div, span, li, a, h1, h2, h3, h4, h5, h6 {" +
@@ -322,6 +331,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "font-family: inherit !important;" +
         "line-height: inherit !important;" +
         "letter-spacing: inherit !important;" +
+        "-webkit-touch-callout: none !important;" +
+        "-webkit-user-select: none !important;" +
+        "user-select: none !important;" +
       "}" +
       "p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote, pre, table, hr {" +
         "margin-left: " + settings.marginLeft + "px !important;" +
@@ -796,18 +808,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleTouchMove() {}
 
-  function clearActiveSelection() {
-    try {
-      const sel = window.getSelection();
-      if (sel) sel.removeAllRanges();
-      const iframes = document.querySelectorAll("iframe");
-      iframes.forEach(iframe => {
-        const iframeSel = iframe.contentWindow?.getSelection();
-        if (iframeSel) iframeSel.removeAllRanges();
-      });
-    } catch (_) {}
-  }
-
   function handleTouchEnd(e) {
     if (!isTouching) return;
     isTouching = false;
@@ -831,7 +831,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Swipe en modo paginado
     if (settings.mode === "paginated" && absX >= 40 && absX > absY * 1.2 && elapsed < 800) {
-      clearActiveSelection();
       lastSwipeTime = Date.now();
       if (deltaX < 0) {
         if (rendition) rendition.next();
@@ -847,18 +846,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (settings.mode === "paginated") {
         if (ratio < 0.25) {
-          clearActiveSelection();
           if (rendition) rendition.prev();
         } else if (ratio > 0.75) {
-          clearActiveSelection();
           if (rendition) rendition.next();
         } else {
-          clearActiveSelection();
           readerApp.classList.toggle("ui-hidden");
         }
       } else {
         if (ratio >= 0.15 && ratio <= 0.85) {
-          clearActiveSelection();
           readerApp.classList.toggle("ui-hidden");
         }
       }
@@ -869,27 +864,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (Date.now() - lastTouchEndTime < 500) return;
     if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) return;
 
-    const targetDoc = e.target && e.target.ownerDocument;
-    const targetWin = targetDoc && targetDoc.defaultView ? targetDoc.defaultView : window;
-    const docSelection = targetWin.getSelection()?.toString();
-    if (docSelection && docSelection.length > 0) return;
-
     const ratio = getEventPositionRatio(e);
 
     if (settings.mode === "paginated") {
       if (ratio < 0.25) {
-        clearActiveSelection();
         if (rendition) rendition.prev();
       } else if (ratio > 0.75) {
-        clearActiveSelection();
         if (rendition) rendition.next();
       } else {
-        clearActiveSelection();
         readerApp.classList.toggle("ui-hidden");
       }
     } else {
       if (ratio >= 0.15 && ratio <= 0.85) {
-        clearActiveSelection();
         readerApp.classList.toggle("ui-hidden");
       }
     }
