@@ -819,6 +819,78 @@ document.addEventListener("DOMContentLoaded", () => {
       if (rendition && rendition.manager && rendition.manager.container) {
         rendition.manager.container.style.setProperty("overflow-anchor", "none", "important");
       }
+
+      // Interceptar clics en enlaces internos (como notas) para evitar "No Section Found" de epub.js
+      doc.addEventListener("click", e => {
+        const a = e.target.closest("a");
+        if (!a) return;
+        
+        const href = a.getAttribute("href");
+        if (!href || href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:")) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const hashIdx = href.indexOf('#');
+        const baseHref = hashIdx !== -1 ? href.substring(0, hashIdx) : href;
+        const fragment = hashIdx !== -1 ? href.substring(hashIdx + 1) : null;
+
+        let section = book.spine.get(baseHref);
+
+        if (!section && baseHref) {
+          const filename = baseHref.split('/').pop();
+          const spineItems = book.spine.spineItems;
+          for (let i = 0; i < spineItems.length; i++) {
+            const itemHref = spineItems[i].href;
+            if (itemHref === baseHref ||
+                itemHref.endsWith('/' + baseHref) ||
+                baseHref.endsWith('/' + itemHref) ||
+                itemHref.endsWith(filename)) {
+              section = spineItems[i];
+              break;
+            }
+          }
+        }
+
+        // Si es un enlace local en el mismo archivo
+        if (!baseHref && fragment) {
+          const target = doc.getElementById(fragment);
+          if (target) {
+            target.scrollIntoView({ block: "start", behavior: "smooth" });
+          }
+          return;
+        }
+
+        if (!section) {
+          console.warn("Link intercept: No section found for", baseHref);
+          return;
+        }
+
+        const displayTarget = fragment ? section.href + '#' + fragment : section.href;
+
+        if (typeof showOverlay === "function") showOverlay();
+        rendition.display(displayTarget).then(() => {
+          if (typeof scheduleHideOverlay === "function") scheduleHideOverlay();
+          if (fragment) {
+            setTimeout(() => {
+              const currentContents = rendition.getContents();
+              if (currentContents && currentContents.length > 0) {
+                const currentDoc = currentContents[0].document;
+                const target = currentDoc.getElementById(fragment);
+                if (target) {
+                  target.scrollIntoView({ block: "start", behavior: "instant" });
+                }
+              }
+            }, 150);
+          }
+        }).catch(() => {
+          rendition.display(section.href).then(() => {
+            if (typeof scheduleHideOverlay === "function") scheduleHideOverlay();
+          }).catch(() => {
+            if (typeof scheduleHideOverlay === "function") scheduleHideOverlay();
+          });
+        });
+      }, true);
     });
 
     rendition.on("rendered", () => {
