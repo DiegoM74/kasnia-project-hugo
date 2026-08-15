@@ -14,7 +14,7 @@ genres:
   - "Fantasía"
   - "Romance"
 link: "wistoria-grimo-acta"
-status: "active"
+status: "uptodate"
 synopsis: "Hace cientos de años, unos invasores descendidos del cielo devastaron la Tierra y pusieron al mundo al borde de la destrucción. Para detenerlos, cinco grandes magos levantaron una barrera en lo alto de la inmensa torre Mercedes Caulis, dando origen a la primera generación de Magia Vander. En la Academia de Magia Rigarden, donde se forman los hechiceros que heredarán ese legado, Will Serfort sueña con llegar algún día a la cima y reunirse con su amiga de la infancia, Elfaria Albis Serfort, la maga más joven en convertirse en Magia Vander. Sin embargo, Will no posee talento para la magia, y mientras avanza a base de esfuerzo, buenas calificaciones y su inigualable habilidad con la espada, descubrirá hasta dónde puede llegar un chico que desafía un mundo gobernado por la magia."
 author: "Fujino Omori"
 illustrator: "Yuunagi"
@@ -43,17 +43,19 @@ volumes:
       epub: "https://drive.google.com/file/d/17YyATm6FkLqH7MGx4KS-gU5qS3yuKrgS/view"
 
   - num: "02"
-    state: "translating"
+    state: "published"
+    pdfUpdateDate: "15/08/2026"
+    epubUpdateDate: "15/08/2026"
     credits:
-      translator: "Qwen3.7 (IA)"
+      translator: "Gemini (IA)"
       corrector: "AndresLD"
       editor: "EliasQ"
-      pdfTypesetter: "Diego"
+      pdfTypesetter: "AndresLD & Diego"
       epubTypesetter: "Diego"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: "https://drive.google.com/file/d/1MlH8Yka_H5Hwi3Ege_KJW9jEj-jZk-Gx/view"
+      epub: "https://drive.google.com/file/d/13VdYhdfslmLq2nBBhMi_MDcXKarzCvtl/view"
 ---
