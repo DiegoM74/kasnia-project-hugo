@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnClose = document.getElementById("readerCloseBtn");
   const btnToc = document.getElementById("readerTocBtn");
   const btnSettings = document.getElementById("readerSettingsBtn");
+  const btnFullscreen = document.getElementById("readerFullscreenBtn");
   const btnPrev = document.getElementById("readerPrev");
   const btnNext = document.getElementById("readerNext");
 
@@ -1261,6 +1262,79 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnToc.addEventListener("click", () => togglePanel(tocPanel));
   btnSettings.addEventListener("click", () => togglePanel(settingsPanel));
+
+  // Control de Pantalla Completa
+  function isFullscreenActive() {
+    const isDomFull = Boolean(
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    );
+    if (isDomFull) return true;
+
+    const isMediaFull = window.matchMedia && window.matchMedia("(display-mode: fullscreen)").matches;
+    const isScreenFull = Math.abs(window.innerHeight - screen.height) <= 4 || Math.abs(window.outerHeight - screen.height) <= 4;
+    return Boolean(isMediaFull || isScreenFull || window.fullScreen);
+  }
+
+  function updateFullscreenUI() {
+    if (!btnFullscreen) return;
+    const isFull = isFullscreenActive();
+    btnFullscreen.setAttribute("aria-label", isFull ? "Salir de pantalla completa" : "Pantalla completa");
+    btnFullscreen.innerHTML = `<svg><use href="/img/svg/lector.svg#${isFull ? 'fullscreenExitIcon' : 'fullscreenEnterIcon'}" /></svg>`;
+  }
+
+  if (btnFullscreen) {
+    btnFullscreen.addEventListener("click", () => {
+      const isDomFull = Boolean(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+      );
+
+      if (isDomFull) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      } else {
+        const docEl = document.documentElement;
+        if (docEl.requestFullscreen) {
+          docEl.requestFullscreen().then(() => {
+            updateFullscreenUI();
+          }).catch(() => {});
+        } else if (docEl.webkitRequestFullscreen) {
+          docEl.webkitRequestFullscreen();
+          updateFullscreenUI();
+        } else if (docEl.msRequestFullscreen) {
+          docEl.msRequestFullscreen();
+          updateFullscreenUI();
+        }
+      }
+    });
+
+    // Escuchar eventos de cambio de pantalla completa del DOM y de ventana (F11)
+    ["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "MSFullscreenChange"].forEach(evt => {
+      document.addEventListener(evt, updateFullscreenUI);
+    });
+
+    window.addEventListener("resize", updateFullscreenUI);
+    if (window.matchMedia) {
+      try {
+        const mql = window.matchMedia("(display-mode: fullscreen)");
+        if (typeof mql.addEventListener === "function") {
+          mql.addEventListener("change", updateFullscreenUI);
+        } else if (typeof mql.addListener === "function") {
+          mql.addListener(updateFullscreenUI);
+        }
+      } catch (_) {}
+    }
+  }
 
   panelCloseBtns.forEach(btn => {
     btn.addEventListener("click", e => {

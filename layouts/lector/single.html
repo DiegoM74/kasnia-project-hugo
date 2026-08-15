@@ -11,7 +11,7 @@
   <header id="readerHeader" class="readerHeader">
     <div class="readerHeaderLeft">
       <button id="readerCloseBtn" class="readerBtn" aria-label="Cerrar y volver">
-        <svg><use href="/img/svg/main.svg#closeIcon" /></svg>
+        <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
       </button>
       <h1 id="readerTitle" class="readerTitle">Cargando...</h1>
     </div>
@@ -40,11 +40,15 @@
     <div class="readerBottomBarContent">
       <!-- Botón de índice -->
       <button id="readerTocBtn" class="readerBtn" aria-label="Índice">
-        <svg><use href="/img/svg/main.svg#menuIcon" /></svg>
+        <svg><use href="/img/svg/lector.svg#menuIcon" /></svg>
       </button>
       <!-- Botón de ajustes -->
       <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura">
-        <svg><use href="/img/svg/main.svg#settingsIcon" /></svg>
+        <svg><use href="/img/svg/lector.svg#settingsIcon" /></svg>
+      </button>
+      <!-- Botón de pantalla completa -->
+      <button id="readerFullscreenBtn" class="readerBtn" aria-label="Pantalla completa">
+        <svg id="readerFullscreenIcon"><use href="/img/svg/lector.svg#fullscreenEnterIcon" /></svg>
       </button>
     </div>
   </nav>
@@ -55,7 +59,7 @@
       <div class="readerModalHeader">
         <h2>Índice</h2>
         <button class="readerBtn closePanelBtn">
-          <svg><use href="/img/svg/main.svg#closeIcon" /></svg>
+          <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
         </button>
       </div>
       <ul id="readerTocList" class="readerTocList"></ul>
@@ -68,7 +72,7 @@
       <div class="readerModalHeader">
         <h2>Ajustes</h2>
         <button class="readerBtn closePanelBtn" aria-label="Cerrar ajustes">
-          <svg><use href="/img/svg/main.svg#closeIcon" /></svg>
+          <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
         </button>
       </div>
       <div class="readerSettingsContent">
