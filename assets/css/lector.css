@@ -2,6 +2,20 @@
    VARIABLES Y BASE (Lector)
 ======================================== */
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .readerApp {
   --reader-bg: #121212;
   --reader-text: #e0e0e0;
@@ -9,11 +23,15 @@
   --reader-border: #333333;
   --reader-accent: var(--accent, #ff9ac5);
   
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100dvh;
-  width: 100vw;
+  height: 100vh;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
+  box-sizing: border-box;
   background-color: var(--reader-bg);
   color: var(--reader-text);
   font-family: 'Open Sans', sans-serif;
@@ -71,6 +89,8 @@
 /* Área central */
 .readerContainer {
   flex: 1;
+  height: 100%;
+  width: 100%;
   display: flex;
   position: relative;
   overflow: hidden;
@@ -132,11 +152,12 @@
   background-color: var(--reader-header-bg);
   z-index: 100;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--reader-border);
   height: 60px;
+  box-sizing: border-box;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -146,10 +167,12 @@
   pointer-events: none;
 }
 
-.readerHeaderLeft, .readerHeaderRight {
+.readerHeaderLeft {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .readerTitle {
@@ -159,7 +182,41 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 50vw;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Barra Inferior UI Inmersiva */
+.readerBottomBar {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  background-color: var(--reader-header-bg);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
+  border-top: 1px solid var(--reader-border);
+  height: 60px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.ui-hidden .readerBottomBar {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.readerBottomBarContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 600px;
 }
 
 .readerBtn {
@@ -186,12 +243,15 @@
   fill: currentColor;
 }
 
-/* Footer / Progreso del Libro (Siempre visible y centrado) */
+/* Footer / Progreso del Libro (Siempre visible, fijo abajo sin alterar flujo) */
 .readerFooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 14px;
   min-height: 14px;
-  width: 100%;
-  background-color: var(--reader-bg);
+  background-color: transparent;
   color: var(--reader-text);
   display: flex;
   align-items: center;
@@ -205,7 +265,8 @@
   z-index: 10;
   padding: 0;
   margin: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+  transition: color 0.3s ease;
 }
 
 /* Botones de navegación laterales superpuestos */

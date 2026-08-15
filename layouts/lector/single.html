@@ -15,16 +15,6 @@
       </button>
       <h1 id="readerTitle" class="readerTitle">Cargando...</h1>
     </div>
-    <div class="readerHeaderRight">
-      <!-- Botón de índice -->
-      <button id="readerTocBtn" class="readerBtn" aria-label="Índice">
-        <svg><use href="/img/svg/main.svg#menuIcon" /></svg>
-      </button>
-      <!-- Botón de ajustes -->
-      <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura">
-        <svg><use href="/img/svg/main.svg#settingsIcon" /></svg>
-      </button>
-    </div>
   </header>
 
   <!-- Contenedor del Libro -->
@@ -44,6 +34,20 @@
   <footer id="readerFooter" class="readerFooter">
     <span id="readerProgress"></span>
   </footer>
+
+  <!-- Barra inferior (Menú) -->
+  <nav id="readerBottomBar" class="readerBottomBar">
+    <div class="readerBottomBarContent">
+      <!-- Botón de índice -->
+      <button id="readerTocBtn" class="readerBtn" aria-label="Índice">
+        <svg><use href="/img/svg/main.svg#menuIcon" /></svg>
+      </button>
+      <!-- Botón de ajustes -->
+      <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura">
+        <svg><use href="/img/svg/main.svg#settingsIcon" /></svg>
+      </button>
+    </div>
+  </nav>
 
   <!-- Modal de Índice -->
   <div id="readerTocPanel" class="readerModalOverlay" style="display: none;">
@@ -178,7 +182,7 @@
           <label>Interlineado</label>
           <div class="stepperControl">
             <button id="decLineHeightBtn" class="stepperBtn" aria-label="Disminuir interlineado">-</button>
-            <span id="lineHeightDisplay" class="stepperValue">1.60</span>
+            <span id="lineHeightDisplay" class="stepperValue">1.50</span>
             <button id="incLineHeightBtn" class="stepperBtn" aria-label="Aumentar interlineado">+</button>
           </div>
         </div>
@@ -200,7 +204,7 @@
               <span class="marginLabel">Superior</span>
               <div class="stepperControl mini">
                 <button id="decMarginTopBtn" class="stepperBtn">-</button>
-                <span id="marginTopDisplay" class="stepperValue">30px</span>
+                <span id="marginTopDisplay" class="stepperValue">20px</span>
                 <button id="incMarginTopBtn" class="stepperBtn">+</button>
               </div>
             </div>
@@ -208,7 +212,7 @@
               <span class="marginLabel">Inferior</span>
               <div class="stepperControl mini">
                 <button id="decMarginBottomBtn" class="stepperBtn">-</button>
-                <span id="marginBottomDisplay" class="stepperValue">30px</span>
+                <span id="marginBottomDisplay" class="stepperValue">20px</span>
                 <button id="incMarginBottomBtn" class="stepperBtn">+</button>
               </div>
             </div>
@@ -216,7 +220,7 @@
               <span class="marginLabel">Izquierdo</span>
               <div class="stepperControl mini">
                 <button id="decMarginLeftBtn" class="stepperBtn">-</button>
-                <span id="marginLeftDisplay" class="stepperValue">20px</span>
+                <span id="marginLeftDisplay" class="stepperValue">10px</span>
                 <button id="incMarginLeftBtn" class="stepperBtn">+</button>
               </div>
             </div>
@@ -224,7 +228,7 @@
               <span class="marginLabel">Derecho</span>
               <div class="stepperControl mini">
                 <button id="decMarginRightBtn" class="stepperBtn">-</button>
-                <span id="marginRightDisplay" class="stepperValue">20px</span>
+                <span id="marginRightDisplay" class="stepperValue">10px</span>
                 <button id="incMarginRightBtn" class="stepperBtn">+</button>
               </div>
             </div>

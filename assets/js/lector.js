@@ -164,12 +164,12 @@ document.addEventListener("DOMContentLoaded", () => {
     align: "justify",
     hyphens: "auto",
     paraSpacing: 1.0,
-    lineHeight: 1.6,
+    lineHeight: 1.5,
     letterSpacing: 0.0,
-    marginTop: 30,
-    marginBottom: 30,
-    marginLeft: 20,
-    marginRight: 20
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 10,
+    marginRight: 10
   };
 
   let settings = { ...DEFAULT_SETTINGS };
@@ -184,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentLocation = null;
 
   const storageKey = `kasnia_progress_${btoa(epubUrl).replace(/=/g, "")}`;
+  const locationsKey = `kasnia_locations_${btoa(epubUrl).replace(/=/g, "")}`;
   const loadedFonts = new Set(["'Open Sans', sans-serif", "'Merriweather', serif"]);
 
   // 2. Persistencia y carga de ajustes
@@ -349,6 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const fontStyleVal = settings.italic ? "italic !important" : "normal !important";
     const textDecorVal = settings.underline ? "underline !important" : "none !important";
     const touchAction = settings.mode === "continuous" ? "pan-y !important" : "none !important";
+    const alignVal = settings.align || "justify";
 
     return (
       "html {" +
@@ -367,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "font-weight: " + fontWeightVal + ";" +
         "font-style: " + fontStyleVal + ";" +
         "text-decoration: " + textDecorVal + ";" +
-        "text-align: " + settings.align + ";" +
+        "text-align: " + alignVal + " !important;" +
         "line-height: " + settings.lineHeight.toFixed(1) + " !important;" +
         "letter-spacing: " + settings.letterSpacing.toFixed(1) + "px !important;" +
         "hyphens: " + hyphensVal + " !important;" +
@@ -406,6 +408,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "margin-right: 0 !important;" +
         "max-width: 100% !important;" +
       "}" +
+      "p, li, blockquote, dd, dt {" +
+        "text-align: " + alignVal + " !important;" +
+      "}" +
       "p {" +
         "margin-top: 0 !important;" +
         "margin-bottom: " + settings.paraSpacing.toFixed(2) + "em !important;" +
@@ -421,10 +426,21 @@ document.addEventListener("DOMContentLoaded", () => {
         "max-width: 100% !important;" +
         "box-sizing: border-box !important;" +
       "}" +
-      // Preservar y priorizar alineaciones explícitas de portadas, títulos y párrafos centrados del EPUB
-      ".centrado, .center, .text-center, [align='center'], [style*='text-align: center'], [style*='text-align:center'] { text-align: center !important; }" +
-      ".derecha, .right, .text-right, [align='right'], [style*='text-align: right'], [style*='text-align:right'] { text-align: right !important; }" +
-      ".izquierda, .left, .text-left, [align='left'], [style*='text-align: left'], [style*='text-align:left'] { text-align: left !important; }" +
+      // Preservar y priorizar alineaciones explícitas de portadas, títulos, firmas y párrafos especiales del EPUB
+      ".centrado, .centrado *, .centro, .centro *, .center, .center *, .text-center, .text-center *, .c, .c *, " +
+      ".titulo, .titulo *, .subtitulo, .subtitulo *, .autor, .autor *, .dedicatoria, .dedicatoria *, .epigrafe, .epigrafe *, .logo, .logo *, " +
+      "figcaption, figcaption *, caption, caption *, " +
+      "p.centrado, p.centro, p.center, p.text-center, p.c, p.titulo, p.subtitulo, p.autor, p.dedicatoria, p.epigrafe, p.logo, " +
+      "div.centrado p, div.centro p, div.center p, div.text-center p, " +
+      "[align='center'], [align='center'] *, [style*='text-align: center'], [style*='text-align: center'] *, [style*='text-align:center'], [style*='text-align:center'] * { text-align: center !important; }" +
+      ".derecha, .derecha *, .der, .der *, .right, .right *, .text-right, .text-right *, .d, .d *, .firma, .firma *, .fecha, .fecha *, " +
+      "p.derecha, p.der, p.right, p.text-right, p.d, p.firma, p.fecha, " +
+      "div.derecha p, div.der p, div.right p, " +
+      "[align='right'], [align='right'] *, [style*='text-align: right'], [style*='text-align: right'] *, [style*='text-align:right'], [style*='text-align:right'] * { text-align: right !important; }" +
+      ".izquierda, .izquierda *, .izq, .izq *, .left, .left *, .text-left, .text-left *, " +
+      "p.izquierda, p.izq, p.left, p.text-left, " +
+      "div.izquierda p, div.izq p, div.left p, " +
+      "[align='left'], [align='left'] *, [style*='text-align: left'], [style*='text-align: left'] *, [style*='text-align:left'], [style*='text-align:left'] * { text-align: left !important; }" +
       (settings.bold ? "p, div, span, li, a, h1, h2, h3, h4, h5, h6 { font-weight: bold !important; }" : "") +
       (settings.italic ? "p, div, span, li, a, h1, h2, h3, h4, h5, h6 { font-style: italic !important; }" : "") +
       (settings.underline ? "p, div, span, li, a { text-decoration: underline !important; }" : "")
@@ -537,19 +553,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
   }
 
-  // 5.1 Control de Transición Suave entre Páginas (Modo Paginado)
+  // 5.1 Detección de extremos (Primera y Última Página)
+  function isAtBeginning() {
+    if (!currentLocation) return false;
+    if (currentLocation.atStart === true) return true;
+    if (currentLocation.start && currentLocation.start.index === 0) {
+      if (currentLocation.start.displayed && currentLocation.start.displayed.page > 1) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  function isAtEnding() {
+    if (!currentLocation) return false;
+    if (currentLocation.atEnd === true) return true;
+    if (currentLocation.end && book && book.spine && book.spine.spineItems && book.spine.spineItems.length > 0) {
+      const lastIndex = book.spine.spineItems.length - 1;
+      if (currentLocation.end.index >= lastIndex) {
+        if (currentLocation.end.displayed && currentLocation.end.displayed.total && currentLocation.end.displayed.page < currentLocation.end.displayed.total) {
+          return false;
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // 5.2 Actualización y Persistencia del Progreso
+  function updateProgress(loc) {
+    if (!progressEl) return;
+    const location = loc || currentLocation || (typeof rendition?.currentLocation === "function" ? rendition.currentLocation() : null);
+    if (!location || !location.start || !location.start.cfi) return;
+
+    if (isLocationsReady && book && book.locations && book.locations.length() > 0) {
+      try {
+        const pct = book.locations.percentageFromCfi(location.start.cfi);
+        if (pct !== null && !isNaN(pct)) {
+          const percentage = Math.max(0, Math.min(100, Math.round(pct * 100)));
+          progressEl.textContent = `${percentage}%`;
+          try {
+            localStorage.setItem(`${storageKey}_pct`, percentage.toString());
+          } catch (_) {}
+          return;
+        }
+      } catch (_) {}
+    }
+
+    // Si las locations aún no están generadas, mantener el porcentaje previo de localStorage si existe
+    const savedPct = localStorage.getItem(`${storageKey}_pct`);
+    if (savedPct) {
+      progressEl.textContent = `${savedPct}%`;
+    }
+  }
+
+  // 5.3 Control de Transición Suave entre Páginas (Modo Paginado)
   function turnPage(direction) {
     if (!rendition || settings.mode !== "paginated" || isPageTurning) return;
+    const isNext = direction === "next";
+
+    // No animar ni ejecutar transición si ya se está en el extremo correspondiente
+    if (!isNext && isAtBeginning()) return;
+    if (isNext && isAtEnding()) return;
 
     isPageTurning = true;
-    const isNext = direction === "next";
-    const outOffset = isNext ? -18 : 18;
-    const inOffset = isNext ? 18 : -18;
+    const outOffset = isNext ? -14 : 14;
+    const inOffset = isNext ? 14 : -14;
 
-    // Fase 1: Salida suave (desplazamiento sutil + desvanecimiento rápido)
-    viewer.style.transition = "transform 0.09s ease-out, opacity 0.09s ease-out";
+    // Fase 1: Salida suave con desvanecimiento completo para enmascarar el repintado de epub.js
+    viewer.style.transition = "transform 0.07s ease-out, opacity 0.07s ease-out";
     viewer.style.transform = `translateX(${outOffset}px)`;
-    viewer.style.opacity = "0.15";
+    viewer.style.opacity = "0";
 
     setTimeout(() => {
       Promise.resolve()
@@ -561,24 +636,26 @@ document.addEventListener("DOMContentLoaded", () => {
           // Posicionar instantáneamente en el lado opuesto para la entrada
           viewer.style.transition = "none";
           viewer.style.transform = `translateX(${inOffset}px)`;
-          viewer.style.opacity = "0.15";
+          viewer.style.opacity = "0";
 
           // Forzar reflujo del navegador
           void viewer.offsetWidth;
 
-          // Fase 2: Entrada suave a posición neutral
-          viewer.style.transition = "transform 0.13s cubic-bezier(0.2, 0.8, 0.4, 1), opacity 0.13s ease-out";
-          viewer.style.transform = "translateX(0)";
-          viewer.style.opacity = "1";
+          requestAnimationFrame(() => {
+            // Fase 2: Entrada suave a posición neutral
+            viewer.style.transition = "transform 0.10s cubic-bezier(0.2, 0.8, 0.35, 1), opacity 0.10s ease-out";
+            viewer.style.transform = "translateX(0)";
+            viewer.style.opacity = "1";
 
-          setTimeout(() => {
-            viewer.style.transition = "";
-            viewer.style.transform = "";
-            viewer.style.opacity = "";
-            isPageTurning = false;
-          }, 150);
+            setTimeout(() => {
+              viewer.style.transition = "";
+              viewer.style.transform = "";
+              viewer.style.opacity = "";
+              isPageTurning = false;
+            }, 110);
+          });
         });
-    }, 90);
+    }, 70);
   }
 
   // 6. Inicialización del Libro
@@ -622,6 +699,23 @@ document.addEventListener("DOMContentLoaded", () => {
     readerApp.style.setProperty("--reader-bg", settings.bgColor);
     readerApp.style.setProperty("--reader-text", settings.textColor);
 
+    // Cargar locations cacheadas si existen para cálculo instantáneo y preciso desde la recarga
+    const savedLocationsData = localStorage.getItem(locationsKey);
+    if (savedLocationsData) {
+      try {
+        book.locations.load(savedLocationsData);
+        isLocationsReady = true;
+      } catch (e) {
+        console.warn("No se pudieron cargar las locations cacheadas:", e);
+      }
+    }
+
+    // Restaurar inmediatamente el último porcentaje guardado en UI
+    const savedPct = localStorage.getItem(`${storageKey}_pct`);
+    if (savedPct && progressEl) {
+      progressEl.textContent = `${savedPct}%`;
+    }
+
     ensureFontLoaded(settings.font, () => {
       updateUIFromSettings();
     });
@@ -640,20 +734,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (!isLocationsReady) {
-        isLocationsReady = true;
         book.locations.generate(1600).then(() => {
-          if (rendition) {
-            try {
-              const loc = typeof rendition.currentLocation === "function" ? rendition.currentLocation() : currentLocation;
-              if (loc && loc.start && loc.start.cfi) {
-                const pct = book.locations.percentageFromCfi(loc.start.cfi);
-                if (pct !== null && !isNaN(pct)) {
-                  const percentage = Math.max(0, Math.min(100, Math.round(pct * 100)));
-                  progressEl.textContent = `${percentage}%`;
-                }
-              }
-            } catch (_) {}
-          }
+          isLocationsReady = true;
+          try {
+            localStorage.setItem(locationsKey, book.locations.save());
+          } catch (_) {}
+          updateProgress();
         }).catch(() => {});
       }
     }).catch(err => {
@@ -713,23 +799,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
           rendition.display(displayTarget).then(() => {
             scheduleHideOverlay();
-            if (fragment) {
+            window.scrollTo(0, 0);
+            if (fragment && settings.mode === "continuous") {
               setTimeout(() => {
                 const contents = rendition.getContents();
                 if (contents && contents.length > 0) {
                   const doc = contents[0].document;
                   const target = doc.getElementById(fragment);
-                  if (target) {
-                    target.scrollIntoView({ block: "start", behavior: "instant" });
+                  if (target && doc.defaultView) {
+                    const rect = target.getBoundingClientRect();
+                    const scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+                    doc.defaultView.scrollTo({ top: scrollTop + rect.top, behavior: "instant" });
                   }
                 }
+                window.scrollTo(0, 0);
               }, 150);
             }
           }).catch(() => {
             rendition.display(section.href).then(() => {
               scheduleHideOverlay();
+              window.scrollTo(0, 0);
             }).catch(() => {
               scheduleHideOverlay();
+              window.scrollTo(0, 0);
             });
           });
         });
@@ -854,10 +946,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Si es un enlace local en el mismo archivo
         if (!baseHref && fragment) {
-          const target = doc.getElementById(fragment);
-          if (target) {
-            target.scrollIntoView({ block: "start", behavior: "smooth" });
+          if (settings.mode === "continuous") {
+            const target = doc.getElementById(fragment);
+            if (target && doc.defaultView) {
+              const rect = target.getBoundingClientRect();
+              const scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+              doc.defaultView.scrollTo({ top: scrollTop + rect.top, behavior: "smooth" });
+            }
+          } else if (rendition) {
+            rendition.display(fragment);
           }
+          window.scrollTo(0, 0);
           return;
         }
 
@@ -871,23 +970,29 @@ document.addEventListener("DOMContentLoaded", () => {
         if (typeof showOverlay === "function") showOverlay();
         rendition.display(displayTarget).then(() => {
           if (typeof scheduleHideOverlay === "function") scheduleHideOverlay();
-          if (fragment) {
+          window.scrollTo(0, 0);
+          if (fragment && settings.mode === "continuous") {
             setTimeout(() => {
               const currentContents = rendition.getContents();
               if (currentContents && currentContents.length > 0) {
                 const currentDoc = currentContents[0].document;
                 const target = currentDoc.getElementById(fragment);
-                if (target) {
-                  target.scrollIntoView({ block: "start", behavior: "instant" });
+                if (target && currentDoc.defaultView) {
+                  const rect = target.getBoundingClientRect();
+                  const scrollTop = currentDoc.documentElement.scrollTop || currentDoc.body.scrollTop || 0;
+                  currentDoc.defaultView.scrollTo({ top: scrollTop + rect.top, behavior: "instant" });
                 }
               }
+              window.scrollTo(0, 0);
             }, 150);
           }
         }).catch(() => {
           rendition.display(section.href).then(() => {
             if (typeof scheduleHideOverlay === "function") scheduleHideOverlay();
+            window.scrollTo(0, 0);
           }).catch(() => {
             if (typeof scheduleHideOverlay === "function") scheduleHideOverlay();
+            window.scrollTo(0, 0);
           });
         });
       }, true);
@@ -933,30 +1038,16 @@ document.addEventListener("DOMContentLoaded", () => {
       currentLocation = location;
       if (!location || !location.start || !location.start.cfi) return;
 
-      localStorage.setItem(storageKey, location.start.cfi);
+      try {
+        localStorage.setItem(storageKey, location.start.cfi);
+      } catch (_) {}
 
       if (settings.mode === "paginated") {
-        btnPrev.style.visibility = location.atStart ? "hidden" : "visible";
-        btnNext.style.visibility = location.atEnd ? "hidden" : "visible";
+        btnPrev.style.visibility = isAtBeginning() ? "hidden" : "visible";
+        btnNext.style.visibility = isAtEnding() ? "hidden" : "visible";
       }
 
-      if (isLocationsReady && book.locations) {
-        try {
-          const pct = book.locations.percentageFromCfi(location.start.cfi);
-          if (pct !== null && !isNaN(pct)) {
-            const percentage = Math.max(0, Math.min(100, Math.round(pct * 100)));
-            progressEl.textContent = `${percentage}%`;
-            return;
-          }
-        } catch (_) {}
-      }
-
-      if (location.start.index !== undefined && book && book.spine && book.spine.spineItems && book.spine.spineItems.length > 0) {
-        const total = book.spine.spineItems.length;
-        const current = location.start.index;
-        const pct = Math.max(0, Math.min(100, Math.round((current / total) * 100)));
-        progressEl.textContent = `${pct}%`;
-      }
+      updateProgress(location);
     });
 
     rendition.on("keyup", e => {
@@ -1034,7 +1125,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     lastTouchEndTime = Date.now();
 
-    if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) {
+    function isInteractiveTarget(target) {
+      if (!target) return false;
+      const el = target.nodeType === 3 ? target.parentElement : target;
+      return Boolean(el && typeof el.closest === "function" && el.closest("a, button, input, select, textarea, [role='button']"));
+    }
+
+    if (isInteractiveTarget(e.target)) {
       return;
     }
 
@@ -1073,7 +1170,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleClick(e) {
     if (Date.now() - lastTouchEndTime < 500) return;
-    if (e.target && e.target.closest && e.target.closest("a, button, input, select, textarea")) return;
+    const el = e.target && e.target.nodeType === 3 ? e.target.parentElement : e.target;
+    if (el && typeof el.closest === "function" && el.closest("a, button, input, select, textarea, [role='button']")) return;
 
     handleZoneInteraction(getEventPositionRatio(e));
   }
