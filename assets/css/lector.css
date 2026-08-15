@@ -1,27 +1,7 @@
 /* ========================================
-   CSS VARIABLES (Lector)
+   VARIABLES Y BASE (Lector)
 ======================================== */
-:root {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --text-primary: #e5e5e5;
-  --text-secondary: #a0a0a0;
-  --accent: #ff9ac5;
-  --navbar-bg: rgba(15, 15, 15, 0.7);
-  --border: rgba(255, 255, 255, 0.1);
-}
 
-[data-theme="light"] {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  --accent: #e6528b;
-  --navbar-bg: rgba(255, 255, 255, 0.7);
-  --border: rgba(0, 0, 0, 0.1);
-}
-
-/* Variables del lector */
 .readerApp {
   --reader-bg: #121212;
   --reader-text: #e0e0e0;
@@ -38,41 +18,112 @@
   color: var(--reader-text);
   font-family: 'Open Sans', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
-  -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  touch-action: none !important;
 }
 
-/* Temas del Lector */
-.readerApp[data-reader-theme="light"] {
-  --reader-bg: #fdfdfd;
-  --reader-text: #222222;
-  --reader-header-bg: #f5f5f5;
-  --reader-border: #dddddd;
-  --reader-accent: #e6528b;
-}
-.readerApp[data-reader-theme="dark"] {
-  --reader-bg: #121212;
-  --reader-text: #e0e0e0;
-  --reader-header-bg: #1e1e1e;
-  --reader-border: #333333;
-  --reader-accent: #ff9ac5;
-}
-.readerApp[data-reader-theme="sepia"] {
-  --reader-bg: #f4ecd8;
-  --reader-text: #5b4636;
-  --reader-header-bg: #e8dcc4;
-  --reader-border: #d3c4a8;
-  --reader-accent: #e6528b;
-}
-.readerApp[data-reader-theme="grey"] {
-  --reader-bg: #2e3440;
-  --reader-text: #eceff4;
-  --reader-header-bg: #282e3a;
-  --reader-border: #434c5e;
-  --reader-accent: #ff9ac5;
+.readerApp[data-reader-mode="continuous"] {
+  touch-action: pan-y !important;
 }
 
+/* Modo continuo */
+.readerApp[data-reader-mode="continuous"] .viewer,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-container,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-view {
+  overflow-y: auto;
+  overflow-anchor: none !important;
+  scroll-behavior: auto;
+}
+
+/* Scrollbar personalizada modo continuo */
+.readerApp[data-reader-mode="continuous"] .viewer,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-container,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-view,
+.readerApp[data-reader-mode="continuous"] .viewer iframe {
+  scrollbar-width: thin;
+  scrollbar-color: var(--reader-border) transparent;
+}
+.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-container::-webkit-scrollbar,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-view::-webkit-scrollbar,
+.readerApp[data-reader-mode="continuous"] .viewer iframe::-webkit-scrollbar {
+  width: 8px;
+}
+.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar-track,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-container::-webkit-scrollbar-track,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-view::-webkit-scrollbar-track,
+.readerApp[data-reader-mode="continuous"] .viewer iframe::-webkit-scrollbar-track {
+  background: transparent;
+}
+.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar-thumb,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-container::-webkit-scrollbar-thumb,
+.readerApp[data-reader-mode="continuous"] .viewer .epub-view::-webkit-scrollbar-thumb,
+.readerApp[data-reader-mode="continuous"] .viewer iframe::-webkit-scrollbar-thumb {
+  background: var(--reader-border);
+  border-radius: 4px;
+}
+
+.readerApp[data-reader-mode="continuous"] .readerNavBtn {
+  display: none;
+}
+
+/* Área central */
+.readerContainer {
+  flex: 1;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+}
+
+/* Overlay anti-FOUC */
+.foucOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background-color: var(--reader-bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-out;
+}
+
+.viewer {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+/* Pantalla de Carga */
+.readerLoadingOverlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--reader-bg, #121212);
+  color: var(--reader-text, #e0e0e0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+
+.loaderSpinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--reader-border, #333);
+  border-top-color: var(--reader-accent, #ff9ac5);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 /* Cabecera UI Inmersiva */
 .readerHeader {
   position: absolute;
@@ -135,67 +186,26 @@
   fill: currentColor;
 }
 
-/* Área central */
-.readerContainer {
-  flex: 1;
-  display: flex;
-  position: relative;
-  overflow: hidden;
-  justify-content: center;
-}
-
-/* Overlay anti-FOUC */
-.foucOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  background-color: var(--reader-bg);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease-out;
-}
-
-.viewer {
-  flex: 1;
-  height: 100%;
+/* Footer / Progreso del Libro (Siempre visible y centrado) */
+.readerFooter {
+  height: 14px;
+  min-height: 14px;
   width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  overflow: hidden;
-  will-change: transform, opacity;
-}
-
-/* Modo continuo */
-.readerApp[data-reader-mode="continuous"] .viewer,
-.epub-container, 
-.epub-view {
-  overflow-y: auto;
-  overflow-anchor: none !important;
-  scroll-behavior: auto;
-}
-
-/* Scrollbar personalizada modo continuo */
-.readerApp[data-reader-mode="continuous"] .viewer,
-.readerApp[data-reader-mode="continuous"] .viewer * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--reader-border) transparent;
-}
-.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar,
-.readerApp[data-reader-mode="continuous"] .viewer *::-webkit-scrollbar {
-  width: 8px;
-}
-.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar-track,
-.readerApp[data-reader-mode="continuous"] .viewer *::-webkit-scrollbar-track {
-  background: transparent;
-}
-.readerApp[data-reader-mode="continuous"] .viewer::-webkit-scrollbar-thumb,
-.readerApp[data-reader-mode="continuous"] .viewer *::-webkit-scrollbar-thumb {
-  background: var(--reader-border);
-  border-radius: 4px;
-}
-
-.readerApp[data-reader-mode="continuous"] .readerNavBtn {
-  display: none;
+  background-color: var(--reader-bg);
+  color: var(--reader-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  line-height: 1;
+  font-family: inherit;
+  opacity: 0.55;
+  user-select: none;
+  pointer-events: none;
+  z-index: 10;
+  padding: 0;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Botones de navegación laterales superpuestos */
@@ -229,11 +239,11 @@
 .readerModalOverlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
   animation: fadeIn 0.22s ease-out forwards;
 }
@@ -244,14 +254,14 @@
 }
 
 .readerModal {
-  background-color: var(--reader-header-bg);
-  border: 1px solid var(--reader-border);
-  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
   width: 90%;
   max-width: 420px;
   max-height: 85dvh;
-  display: flex;
-  flex-direction: column;
+  background-color: var(--reader-header-bg);
+  border: 1px solid var(--reader-border);
+  border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   transform: scale(0.95);
   animation: scaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -302,27 +312,30 @@
 }
 
 .readerModalHeader h2 {
-  font-size: 1.2rem;
   margin: 0;
+  font-size: 1.2rem;
 }
 
-.readerModal *::-webkit-scrollbar {
+.readerTocList::-webkit-scrollbar,
+.readerSettingsContent::-webkit-scrollbar {
   width: 6px;
 }
-.readerModal *::-webkit-scrollbar-track {
+.readerTocList::-webkit-scrollbar-track,
+.readerSettingsContent::-webkit-scrollbar-track {
   background: transparent;
 }
-.readerModal *::-webkit-scrollbar-thumb {
+.readerTocList::-webkit-scrollbar-thumb,
+.readerSettingsContent::-webkit-scrollbar-thumb {
   background: var(--reader-border);
   border-radius: 4px;
 }
 
 .readerTocList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  overflow-y: auto;
   flex: 1;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
 }
 
 .readerTocList li {
@@ -353,9 +366,9 @@
 
 .settingGroup label {
   display: block;
+  margin-bottom: 0.45rem;
   font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: 0.45rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   opacity: 0.85;
@@ -372,12 +385,12 @@
   flex: 1;
   min-width: 60px;
   padding: 0.5rem;
-  border: 1px solid var(--reader-border);
   background: transparent;
-  color: var(--reader-text);
+  border: 1px solid var(--reader-border);
   border-radius: 4px;
-  cursor: pointer;
+  color: var(--reader-text);
   font-size: 0.9rem;
+  cursor: pointer;
   transition: all 0.2s;
 }
 
@@ -685,51 +698,32 @@
   color: var(--reader-accent);
 }
 
-/* Footer / Progreso del Libro (Siempre visible y centrado) */
-.readerFooter {
-  height: 14px;
-  min-height: 14px;
-  width: 100%;
-  background-color: var(--reader-bg);
-  color: var(--reader-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.65rem;
-  line-height: 1;
-  font-family: inherit;
-  opacity: 0.55;
-  user-select: none;
-  pointer-events: none;
-  z-index: 10;
-  padding: 0;
-  margin: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Temas del Lector */
+.readerApp[data-reader-theme="light"] {
+  --reader-bg: #fdfdfd;
+  --reader-text: #222222;
+  --reader-header-bg: #f5f5f5;
+  --reader-border: #dddddd;
+  --reader-accent: #e6528b;
 }
-
-/* Pantalla de Carga */
-.readerLoadingOverlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: var(--reader-bg, #121212);
-  color: var(--reader-text, #e0e0e0);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.3s ease;
+.readerApp[data-reader-theme="dark"] {
+  --reader-bg: #121212;
+  --reader-text: #e0e0e0;
+  --reader-header-bg: #1e1e1e;
+  --reader-border: #333333;
+  --reader-accent: #ff9ac5;
 }
-
-.loaderSpinner {
-  width: 40px; height: 40px;
-  border: 3px solid var(--reader-border, #333);
-  border-top-color: var(--reader-accent, #ff9ac5);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+.readerApp[data-reader-theme="sepia"] {
+  --reader-bg: #f4ecd8;
+  --reader-text: #5b4636;
+  --reader-header-bg: #e8dcc4;
+  --reader-border: #d3c4a8;
+  --reader-accent: #e6528b;
 }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.readerApp[data-reader-theme="grey"] {
+  --reader-bg: #2e3440;
+  --reader-text: #eceff4;
+  --reader-header-bg: #282e3a;
+  --reader-border: #434c5e;
+  --reader-accent: #ff9ac5;
 }
