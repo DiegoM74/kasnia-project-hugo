@@ -22,7 +22,7 @@ volumesReleased: 28
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Volúmenes 25, 26 y 27 fueron retraducidos recientemente. Volumen 29 sale durante 2026, sin fecha aún."
+novelNote: "Este proyecto tiene una historia paralela titulada [Seirei Gensouki Gaiden](/novelas/seirei-gensouki-gaiden/). Volumen 29 de la serie principal sin fecha de salida por el momento."
 
 volumes:
   - num: "25"
