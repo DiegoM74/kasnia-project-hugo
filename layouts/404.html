@@ -1,11 +1,11 @@
-<!-- Bloque para CSS específicos -->
+{{/* Bloque para CSS específicos */}}
 {{ define "css" }}
   {{ $cssFile := resources.Get "css/404.css" }}
   {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
   <link rel="stylesheet" href="{{ $css.Permalink }}">
 {{ end }}
 
-<!-- Contenido de la página -->
+{{/* Contenido de la página */}}
 {{ define "main" }}
 <div class="errorContainer">
   <div class="ghostShadow">
