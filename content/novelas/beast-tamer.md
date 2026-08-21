@@ -182,6 +182,8 @@ volumes:
 
   - num: "10"
     state: "published"
+    pdfUpdateDate: "11/08/2026"
+    epubUpdateDate: "12/08/2026"
     credits:
       translator: "LughAT"
       corrector: "LughAT"

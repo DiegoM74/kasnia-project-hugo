@@ -40,6 +40,8 @@ volumes:
 
   - num: "02"
     state: "published"
+    pdfUpdateDate: "22/07/2026"
+    epubUpdateDate: "26/07/2026"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
@@ -54,7 +56,7 @@ volumes:
       epub: "https://drive.google.com/file/d/1Rc1P_fhG4rTPQ0hokD5AH9gdHcZCxEHP/view"
 
   - num: "03"
-    state: "upcoming"
+    state: "translating"
     credits:
       translator: "LughAT"
       corrector: "LughAT"
