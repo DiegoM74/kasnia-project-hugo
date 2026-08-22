@@ -18,7 +18,7 @@ status: "uptodate"
 synopsis: "La Academia Solminati es un lugar de encuentro para jóvenes con sueños, esperanzas, ambiciones y diversas inquietudes. Entre ellos había un chico que ingresó a la escuela con el único propósito de apoyar el sueño de su amada. Sin embargo, la habilidad del chico, que hasta entonces solo existía en su imaginación, no mostraba mejoras. Fue objeto de burlas por parte de quienes lo rodeaban, no tenía amigos, se separó de su amada y sus pasos se detuvieron. No obstante, un día conoció a una anciana, y ese encuentro marcó el inicio de un cambio gradual en él. Esta es la historia de un chico que comienza a descubrir su verdadera fuerza."
 author: "cadet"
 illustrator: "sime"
-volumesReleased: "4"
+volumesReleased: 4
 demography: "Seinen (Maduro, Adultos)"
 mangaAdaptation: true
 animeAdaptation: false

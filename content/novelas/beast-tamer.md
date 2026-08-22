@@ -21,7 +21,7 @@ synopsis: "¡Esta historia de fantasía transmite el vínculo entre un domador d
 author: "Suzu Miyama"
 illustrator: "Hotosoka"
 illustratorNote: "Nozomi desde Vol. 9"
-volumesReleased: "12"
+volumesReleased: 12
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
