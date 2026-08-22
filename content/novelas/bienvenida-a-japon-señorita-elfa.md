@@ -26,29 +26,28 @@ novelNote: "Este proyecto está en pausa temporal mientras se avanza en otras no
 
 volumes:
   - num: "01"
-    state: "published"
-    pdfUpdateDate: "22/05/2026"
-    epubUpdateDate: "22/05/2026"
+    state: published
+    pdfUpdateDate: 22/05/2026
+    epubUpdateDate: 22/05/2026
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      translator: Diego
+      corrector: Yaf
+      editor: Diego
+      pdfTypesetter: Diego
+      epubTypesetter: Diego
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1H1ctGr7bLUDsQ2X7mRoLe6kjxzKoQkok/view"
-      epub: "https://drive.google.com/file/d/1T9KYBNg86Og3mFr6ZRL4ZYe21KbhKgqH/view"
-  
+      pdf: https://drive.google.com/file/d/1H1ctGr7bLUDsQ2X7mRoLe6kjxzKoQkok/view
+      epub: https://drive.google.com/file/d/1T9KYBNg86Og3mFr6ZRL4ZYe21KbhKgqH/view
   - num: "02"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -56,14 +55,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "03"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -71,14 +69,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "04"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -86,14 +83,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "05"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -101,14 +97,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "06"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -116,14 +111,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "07"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -131,14 +125,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "08"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -146,14 +139,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "09"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -161,14 +153,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "10"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Yaf"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
+      translator: "-"
+      corrector: Yaf
+      editor: "-"
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
