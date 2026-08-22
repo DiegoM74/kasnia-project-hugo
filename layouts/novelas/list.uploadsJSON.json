@@ -1,0 +1,29 @@
+{{- $novelas := where .Site.RegularPages "Section" "novelas" -}}
+{{- $dict := dict -}}
+{{- range $novelas -}}
+  {{- $novelTitle := .Params.novelTitle -}}
+  {{- $cleanTitle := replace (replace (replace (replace $novelTitle ":" "") "," "") "!" "") " " "-" -}}
+  {{- $slug := .File.BaseFileName -}}
+  {{- $vols := slice -}}
+  {{- range .Params.volumes -}}
+    {{- $num := .num -}}
+    {{- $pdfFileName := printf "%s-Volumen-%s-[Kasnia-Project].pdf" $cleanTitle $num -}}
+    {{- $epubFileName := printf "%s-Volumen-%s-[Kasnia-Project].epub" $cleanTitle $num -}}
+    {{- $vols = $vols | append (dict
+      "num" $num
+      "state" .state
+      "pdfFileName" $pdfFileName
+      "epubFileName" $epubFileName
+      "pdfUrl" (printf "https://descargas.kasniaproject.com/%s" $pdfFileName)
+      "epubUrl" (printf "https://descargas.kasniaproject.com/%s" $epubFileName)
+    ) -}}
+  {{- end -}}
+  {{- $dict = merge $dict (dict $slug (dict
+    "novelId" .Params.novelId
+    "novelTitle" $novelTitle
+    "cleanTitle" $cleanTitle
+    "slug" $slug
+    "volumes" $vols
+  )) -}}
+{{- end -}}
+{{- $dict | jsonify -}}

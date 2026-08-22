@@ -50,4 +50,11 @@ disableKinds = ["taxonomy", "term"]
   baseName = "novelas"
   isPlainText = true
   notAlternative = true
+
+[outputFormats.uploadsJSON]
+  mediaType = "application/json"
+  baseName = "uploads"
+  isPlainText = true
+  notAlternative = true
+
   

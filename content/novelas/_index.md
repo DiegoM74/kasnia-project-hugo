@@ -4,4 +4,6 @@ description: "Explora nuestro catálogo completo de novelas ligeras japonesas tr
 outputs:
   - html
   - novelasJSON
+  - uploadsJSON
 ---
+
