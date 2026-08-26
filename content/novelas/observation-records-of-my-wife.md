@@ -26,7 +26,7 @@ novelNote: "Este proyecto es la secuela de [Observation Records of My Fiancée](
 volumes:
   - num: "01"
     state: preview
-    pdfUpdateDate: 2026/08/24
+    pdfUpdateDate: 24/08/2026
     credits:
       translator: Diego
       corrector: Diego
