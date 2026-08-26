@@ -25,36 +25,35 @@ novelNote: "La secuela de este proyecto es [Observation Records of My Wife](/nov
 
 volumes:
   - num: "01"
-    state: "published"
-    pdfUpdateDate: "24/07/2026"
-    epubUpdateDate: "24/07/2026"
+    state: published
+    pdfUpdateDate: 24/07/2026
+    epubUpdateDate: 24/07/2026
     credits:
-      translator: "Diego"
-      corrector: "Diego"
+      translator: Diego
+      corrector: Diego
       editor: "-"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      pdfTypesetter: Diego
+      epubTypesetter: Diego
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1KAyG67VmGFHbcqy0tPWgo6Pf3in4BZsq/view"
-      epub: "https://drive.google.com/file/d/1Hl-ubbr_pcnnH0zGlpTsGQOiJlvSKqFd/view"
-
+      pdf: https://drive.google.com/file/d/1KAyG67VmGFHbcqy0tPWgo6Pf3in4BZsq/view
+      epub: https://drive.google.com/file/d/1Hl-ubbr_pcnnH0zGlpTsGQOiJlvSKqFd/view
   - num: "02"
-    state: "published"
-    pdfUpdateDate: "11/08/2026"
-    epubUpdateDate: "11/08/2026"
+    state: published
+    pdfUpdateDate: 11/08/2026
+    epubUpdateDate: 2026/08/26
     credits:
-      translator: "Diego"
-      corrector: "Diego"
+      translator: Diego
+      corrector: Diego
       editor: "-"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      pdfTypesetter: Diego
+      epubTypesetter: Diego
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1PvfPuBqfpnoUDLh2mZZXF8FHzcm6eXdz/view"
-      epub: "https://drive.google.com/file/d/1LIp27I38QXQ66rLKlUEcdmFGq05mvHfT/view"
+      pdf: https://drive.google.com/file/d/1PvfPuBqfpnoUDLh2mZZXF8FHzcm6eXdz/view
+      epub: https://drive.google.com/file/d/1LIp27I38QXQ66rLKlUEcdmFGq05mvHfT/view
 ---
