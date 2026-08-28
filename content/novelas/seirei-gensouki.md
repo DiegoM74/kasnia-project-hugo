@@ -26,72 +26,69 @@ novelNote: "Este proyecto tiene una historia paralela titulada [Seirei Gensouki 
 
 volumes:
   - num: "25"
-    state: "published"
-    pdfUpdateDate: "03/06/2026"
-    epubUpdateDate: "03/06/2026"
+    state: published
+    pdfUpdateDate: 03/06/2026
+    epubUpdateDate: 03/06/2026
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Saosora"
+      translator: Diego
+      corrector: Diego
+      editor: Diego
+      pdfTypesetter: Diego
+      epubTypesetter: Saosora
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1j4PxLEf_cj-u0HrLAA2RuEVcHncEG4hZ/view"
-      epub: "https://drive.google.com/file/d/1IuHNyiopy69MXI-7lgZ6xHAlnqbgtBUV/view"
-
+      pdf: https://drive.google.com/file/d/1j4PxLEf_cj-u0HrLAA2RuEVcHncEG4hZ/view
+      epub: https://drive.google.com/file/d/1IuHNyiopy69MXI-7lgZ6xHAlnqbgtBUV/view
   - num: "26"
-    state: "published"
-    pdfUpdateDate: "18/06/2026"
-    epubUpdateDate: "18/06/2026"
+    state: published
+    pdfUpdateDate: 18/06/2026
+    epubUpdateDate: 18/06/2026
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Saosora"
+      translator: Diego
+      corrector: Diego
+      editor: Diego
+      pdfTypesetter: Diego
+      epubTypesetter: Saosora
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1922CbakIRc-lJ-JiLT3IhVvle2QW5-_0/view"
-      epub: "https://drive.google.com/file/d/1kVNKkPJQgAuKafMXnxNQSoFuSmr5x1X0/view"
-
+      pdf: https://drive.google.com/file/d/1922CbakIRc-lJ-JiLT3IhVvle2QW5-_0/view
+      epub: https://drive.google.com/file/d/1kVNKkPJQgAuKafMXnxNQSoFuSmr5x1X0/view
   - num: "27"
-    state: "published"
-    pdfUpdateDate: "27/06/2026"
-    epubUpdateDate: "27/06/2026"
+    state: published
+    pdfUpdateDate: 27/06/2026
+    epubUpdateDate: 27/06/2026
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Saosora"
+      translator: Diego
+      corrector: Diego
+      editor: Diego
+      pdfTypesetter: Diego
+      epubTypesetter: Saosora
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1G20RBBcwn1wjSgL52jpy15R-0jFsHm_t/view"
-      epub: "https://drive.google.com/file/d/1LeMMGnABWPHuGhGts89siFLryryZamal/view"
-  
+      pdf: https://drive.google.com/file/d/1G20RBBcwn1wjSgL52jpy15R-0jFsHm_t/view
+      epub: https://drive.google.com/file/d/1LeMMGnABWPHuGhGts89siFLryryZamal/view
   - num: "28"
-    state: "published"
-    pdfUpdateDate: "24/05/2026"
-    epubUpdateDate: "24/05/2026"
+    state: published
+    pdfUpdateDate: 28/08/2026
+    epubUpdateDate: 28/08/2026
     credits:
-      translator: "Qwen3.5 (IA)"
-      corrector: "Diego"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      translator: Gemini (IA)
+      corrector: Diego
+      editor: Diego
+      pdfTypesetter: Diego
+      epubTypesetter: Saosora
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/14Z0E7tIJBWv0ZwtPKgPsotTiEjUhgBXK/view"
-      epub: "https://drive.google.com/file/d/1K0f94QJTnqDu3Wu2LZRa2TwvmZU_yFBv/view"
+      pdf: https://drive.google.com/file/d/14Z0E7tIJBWv0ZwtPKgPsotTiEjUhgBXK/view
+      epub: https://drive.google.com/file/d/1K0f94QJTnqDu3Wu2LZRa2TwvmZU_yFBv/view
 
 previousVols:
   - range: "Volúmenes 01 al 12"
