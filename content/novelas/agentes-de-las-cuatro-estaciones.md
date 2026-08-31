@@ -22,61 +22,58 @@ animeAdaptation: true
 
 volumes:
   - num: "01"
-    state: "published"
-    pdfUpdateDate: "13/06/2026"
-    epubUpdateDate: "13/06/2026"
+    state: published
+    pdfUpdateDate: 13/06/2026
+    epubUpdateDate: 13/06/2026
     credits:
-      translator: "LughAT"
-      corrector: "LughAT"
-      editor: "Diego"
-      pdfTypesetter: "LughAT"
-      epubTypesetter: "Diego"
+      translator: LughAT
+      corrector: LughAT
+      editor: Diego
+      pdfTypesetter: LughAT
+      epubTypesetter: Diego
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1BZ92U2KKVz8a8lKJGjnFLYMqZplYk6tA/view"
-      epub: "https://drive.google.com/file/d/1EJm0qsuv4CnbU6Vd0K-7W_BHnpPutWxF/view"
-
+      pdf: https://drive.google.com/file/d/1BZ92U2KKVz8a8lKJGjnFLYMqZplYk6tA/view
+      epub: https://drive.google.com/file/d/1EJm0qsuv4CnbU6Vd0K-7W_BHnpPutWxF/view
   - num: "02"
-    state: "published"
-    pdfUpdateDate: "22/07/2026"
-    epubUpdateDate: "26/07/2026"
+    state: published
+    pdfUpdateDate: 22/07/2026
+    epubUpdateDate: 26/07/2026
     credits:
-      translator: "LughAT"
-      corrector: "LughAT"
-      editor: "Diego"
-      pdfTypesetter: "LughAT"
-      epubTypesetter: "Diego"
+      translator: LughAT
+      corrector: LughAT
+      editor: Diego
+      pdfTypesetter: LughAT
+      epubTypesetter: Diego
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/163oBGavvTtifFzhfS6QoTG6MRlZYE4wl/view"
-      epub: "https://drive.google.com/file/d/1Rc1P_fhG4rTPQ0hokD5AH9gdHcZCxEHP/view"
-
+      pdf: https://drive.google.com/file/d/163oBGavvTtifFzhfS6QoTG6MRlZYE4wl/view
+      epub: https://drive.google.com/file/d/1Rc1P_fhG4rTPQ0hokD5AH9gdHcZCxEHP/view
   - num: "03"
-    state: "translating"
+    state: preview
     credits:
-      translator: "LughAT"
-      corrector: "LughAT"
-      editor: "Diego"
-      pdfTypesetter: "LughAT"
+      translator: LughAT
+      corrector: LughAT
+      editor: Diego
+      pdfTypesetter: LughAT
       epubTypesetter: "-"
     propio:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: https://drive.google.com/file/d/1ZGBq1Rf8JcHO9OrPALVOjbP0wBCLtvMS/view
       epub: "#"
-
   - num: "04"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "LughAT"
-      corrector: "LughAT"
-      editor: "Diego"
-      pdfTypesetter: "LughAT"
+      translator: LughAT
+      corrector: LughAT
+      editor: Diego
+      pdfTypesetter: LughAT
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -84,14 +81,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "05"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "LughAT"
-      corrector: "LughAT"
-      editor: "Diego"
-      pdfTypesetter: "LughAT"
+      translator: LughAT
+      corrector: LughAT
+      editor: Diego
+      pdfTypesetter: LughAT
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -99,14 +95,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "06"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "LughAT"
-      corrector: "LughAT"
-      editor: "Diego"
-      pdfTypesetter: "LughAT"
+      translator: LughAT
+      corrector: LughAT
+      editor: Diego
+      pdfTypesetter: LughAT
       epubTypesetter: "-"
     propio:
       pdf: false
