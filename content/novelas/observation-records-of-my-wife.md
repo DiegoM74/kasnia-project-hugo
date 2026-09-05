@@ -25,20 +25,21 @@ novelNote: "Este proyecto es la secuela de [Observation Records of My Fiancée](
 
 volumes:
   - num: "01"
-    state: preview
-    pdfUpdateDate: 24/08/2026
+    state: published
+    pdfUpdateDate: 05/09/2026
+    epubUpdateDate: 05/09/2026
     credits:
       translator: Diego
       corrector: Diego
-      editor: "-"
+      editor: SLN
       pdfTypesetter: Diego
-      epubTypesetter: "-"
+      epubTypesetter: Diego
     propio:
       pdf: true
-      epub: false
+      epub: true
     drive:
       pdf: https://drive.google.com/file/d/1B896vD97DkFZbFvhxM4ylq7hbW2_eRpT/view
-      epub: "#"
+      epub: https://drive.google.com/file/d/14eDJtJTD9n6_PBJv7-6E-16IORqyjm8i/view
   - num: "02"
     state: upcoming
     credits:
