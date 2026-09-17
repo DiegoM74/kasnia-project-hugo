@@ -43,5 +43,5 @@ miembros:
   - staffId: "08"
     nombre: "SLN"
     rol: "Editor"
-    novelIds: []
+    novelIds: ["11"]
 ---

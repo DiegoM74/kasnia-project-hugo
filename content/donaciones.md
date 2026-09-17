@@ -55,6 +55,19 @@ description: "Apoya a Kasnia Project en la adquisición de novelas originales pa
       <p class="historySubtitle">Transparencia sobre los ingresos y gastos del proyecto.</p>
     </div>
     <div class="historyList">
+      <!--8-->
+      <article class="historyItem">
+        <div class="historyInfo">
+          <h3 class="historyName">Donación</h3>
+          <div class="historyMeta">
+            <time datetime="2026-09-17" class="historyDate">17 Septiembre 2026</time>
+            <span class="historyDescription">"Gracias por su trabajo"</span>
+          </div>
+        </div>
+        <div class="historyAmount amountReceived">
+          + $7,65
+        </div>
+      </article>
       <!--7-->
       <article class="historyItem">
         <div class="historyInfo">
