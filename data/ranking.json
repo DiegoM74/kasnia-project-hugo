@@ -1,18 +1,18 @@
 {
-  "updatedAt": "2026-09-22T04:14:38.601Z",
+  "updatedAt": "2026-09-23T04:11:34.818Z",
   "periods": {
     "days7": [
       {
         "novelId": "06",
-        "percentage": 75
+        "percentage": 76.7
       },
       {
         "novelId": "01",
-        "percentage": 10.5
+        "percentage": 11.3
       },
       {
         "novelId": "09",
-        "percentage": 6.6
+        "percentage": 5.3
       },
       {
         "novelId": "04",
@@ -39,15 +39,11 @@
         "percentage": 0.7
       },
       {
-        "novelId": "03",
-        "percentage": 0.7
-      },
-      {
-        "novelId": "14",
-        "percentage": 0.7
-      },
-      {
         "novelId": "08",
+        "percentage": 0
+      },
+      {
+        "novelId": "03",
         "percentage": 0
       },
       {
@@ -56,44 +52,60 @@
       },
       {
         "novelId": "05",
+        "percentage": 0
+      },
+      {
+        "novelId": "14",
         "percentage": 0
       }
     ],
     "days21": [
       {
         "novelId": "06",
-        "percentage": 52.2
-      },
-      {
-        "novelId": "09",
-        "percentage": 17.4
-      },
-      {
-        "novelId": "11",
-        "percentage": 17.4
+        "percentage": 47.8
       },
       {
         "novelId": "01",
-        "percentage": 8.7
+        "percentage": 21.6
       },
       {
-        "novelId": "04",
-        "percentage": 4.3
+        "novelId": "11",
+        "percentage": 12.2
+      },
+      {
+        "novelId": "09",
+        "percentage": 9.4
+      },
+      {
+        "novelId": "13",
+        "percentage": 2.7
       },
       {
         "novelId": "07",
-        "percentage": 0
+        "percentage": 1.6
+      },
+      {
+        "novelId": "10",
+        "percentage": 1.6
+      },
+      {
+        "novelId": "04",
+        "percentage": 1.2
       },
       {
         "novelId": "02",
-        "percentage": 0
-      },
-      {
-        "novelId": "08",
-        "percentage": 0
+        "percentage": 1.2
       },
       {
         "novelId": "03",
+        "percentage": 0.4
+      },
+      {
+        "novelId": "14",
+        "percentage": 0.4
+      },
+      {
+        "novelId": "08",
         "percentage": 0
       },
       {
@@ -102,56 +114,56 @@
       },
       {
         "novelId": "05",
-        "percentage": 0
-      },
-      {
-        "novelId": "10",
-        "percentage": 0
-      },
-      {
-        "novelId": "14",
-        "percentage": 0
-      },
-      {
-        "novelId": "13",
         "percentage": 0
       }
     ],
     "days30": [
       {
         "novelId": "06",
-        "percentage": 50
+        "percentage": 36.8
+      },
+      {
+        "novelId": "01",
+        "percentage": 24.6
       },
       {
         "novelId": "11",
-        "percentage": 25
-      },
-      {
-        "novelId": "13",
-        "percentage": 25
-      },
-      {
-        "novelId": "07",
-        "percentage": 0
+        "percentage": 13.7
       },
       {
         "novelId": "09",
-        "percentage": 0
+        "percentage": 12.6
+      },
+      {
+        "novelId": "13",
+        "percentage": 4.1
+      },
+      {
+        "novelId": "07",
+        "percentage": 3.2
+      },
+      {
+        "novelId": "10",
+        "percentage": 1.8
       },
       {
         "novelId": "04",
-        "percentage": 0
+        "percentage": 1.2
       },
       {
         "novelId": "02",
-        "percentage": 0
+        "percentage": 1.2
       },
       {
-        "novelId": "08",
-        "percentage": 0
+        "novelId": "14",
+        "percentage": 0.6
       },
       {
         "novelId": "03",
+        "percentage": 0.3
+      },
+      {
+        "novelId": "08",
         "percentage": 0
       },
       {
@@ -160,18 +172,6 @@
       },
       {
         "novelId": "05",
-        "percentage": 0
-      },
-      {
-        "novelId": "10",
-        "percentage": 0
-      },
-      {
-        "novelId": "01",
-        "percentage": 0
-      },
-      {
-        "novelId": "14",
         "percentage": 0
       }
     ]
