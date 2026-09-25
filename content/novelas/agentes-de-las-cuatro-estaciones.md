@@ -54,19 +54,21 @@ volumes:
       pdf: https://drive.google.com/file/d/163oBGavvTtifFzhfS6QoTG6MRlZYE4wl/view
       epub: https://drive.google.com/file/d/1Rc1P_fhG4rTPQ0hokD5AH9gdHcZCxEHP/view
   - num: "03"
-    state: preview
+    state: published
+    pdfUpdateDate: 25/09/2026
+    epubUpdateDate: 25/09/2026
     credits:
       translator: LughAT
       corrector: LughAT
       editor: Diego
       pdfTypesetter: LughAT
-      epubTypesetter: "-"
+      epubTypesetter: Diego
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: https://drive.google.com/file/d/1ZGBq1Rf8JcHO9OrPALVOjbP0wBCLtvMS/view
-      epub: "#"
+      pdf: https://drive.google.com/file/d/1I-bl8jbGxexn2ym76FwiBfiY7P7Pb_j1/view
+      epub: https://drive.google.com/file/d/1GuR-WmVSugT94bKxL6LKU1kNd9A5cqr0/view
   - num: "04"
     state: upcoming
     credits:
