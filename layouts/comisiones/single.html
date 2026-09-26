@@ -1,0 +1,531 @@
+{{ define "css" }}
+  {{ $cssFile := resources.Get "css/comisiones.css" }}
+  {{ if $cssFile }}
+    {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $css.Permalink }}">
+  {{ end }}
+{{ end }}
+
+{{ define "main" }}
+<!-- ========================================
+     1. HERO SECTION
+======================================== -->
+<section class="heroSection">
+  <div class="heroBadge">
+    <svg class="badgeIcon"><use href="/img/svg/comisiones.svg#tagIcon" /></svg>
+    <span>Oferta del Primer Mes (hasta XX/XX): $4 / 100 págs</span>
+  </div>
+
+  <h1 class="pageTitle">{{ .Title }}</h1>
+
+  <p class="heroSubtitle">
+    ¿Quieres leer el siguiente volumen de tu novela ligera favorita en español sin esperar meses?
+    En Kasnia Project ofrecemos comisiones de traducción dedicadas de inglés a español, con traducción literaria cuidada, corrección de estilo y maquetación profesional en PDF y EPUB.
+  </p>
+
+  <div class="heroActions">
+    <a href="https://www.facebook.com/kasniaproject" target="_blank" rel="noopener noreferrer" class="ctaButtonPrimary">
+      <svg class="ctaButtonIcon"><use href="/img/svg/comisiones.svg#facebookIcon" /></svg>
+      <span>Solicitar cotización por Facebook</span>
+    </a>
+  </div>
+</section>
+
+<!-- ========================================
+     2. PROCESS SECTION (STEP BY STEP)
+======================================== -->
+<section class="processSection" id="proceso">
+  <div class="sectionHeader">
+    <h2 class="sectionTitle">El Proceso de la Comisión</h2>
+    <p class="sectionSubtitle">Flujo paso a paso, transparente y estructurado de principio a fin.</p>
+  </div>
+
+  <div class="processGrid">
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">01</span>
+        <h3 class="stepTitle">Contacto Inicial</h3>
+      </div>
+      <p class="stepDescription">
+        Envíanos un mensaje privado a través de Messenger en nuestra página de <a href="https://www.facebook.com/kasniaproject" target="_blank" rel="noopener noreferrer">Facebook</a>.
+      </p>
+    </article>
+
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">02</span>
+        <h3 class="stepTitle">Datos de la Novela</h3>
+      </div>
+      <p class="stepDescription">
+        Indícanos el nombre de la novela (en inglés o japonés) y el número de volumen. Si tienes el archivo o enlace del EPUB puedes compartirlo, aunque no es obligatorio.
+      </p>
+    </article>
+
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">03</span>
+        <h3 class="stepTitle">Cotización Exacta</h3>
+      </div>
+      <p class="stepDescription">
+        Analizamos el contenido con nuestra herramienta interna para calcular el presupuesto exacto y estimar el tiempo de entrega.
+      </p>
+    </article>
+
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">04</span>
+        <h3 class="stepTitle">Confirmación y Pago 50%</h3>
+      </div>
+      <p class="stepDescription">
+        Una vez aprobada la cotización, se realiza el pago del 50% de anticipo por PayPal para reservar el turno de trabajo.
+      </p>
+    </article>
+
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">05</span>
+        <h3 class="stepTitle">Traducción</h3>
+      </div>
+      <p class="stepDescription">
+        Traducción de inglés a español por un traductor con experiencia en traducción literaria. Se prioriza la fidelidad al sentido, contexto y tono de la obra por encima de una traducción palabra por palabra.
+      </p>
+    </article>
+
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">06</span>
+        <h3 class="stepTitle">Corrección</h3>
+      </div>
+      <p class="stepDescription">
+        Corrección ortotipográfica y de estilo. Los errores atribuibles a la traducción o corrección se corrigen sin costo adicional. Cambios por preferencia personal podrán considerarse modificaciones adicionales.
+      </p>
+    </article>
+
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">07</span>
+        <h3 class="stepTitle">Edición de Imágenes</h3>
+      </div>
+      <p class="stepDescription">
+        Limpieza y edición de ilustraciones al español, sujeta a evaluación técnica previa y disponibilidad del editor.
+      </p>
+    </article>
+
+    <article class="stepCard">
+      <div class="stepCardHeader">
+        <span class="stepNumber">08</span>
+        <h3 class="stepTitle">Maquetación</h3>
+      </div>
+      <p class="stepDescription">
+        Maquetación limpia en PDF y EPUB. El archivo EPUB se genera bajo los estándares oficiales EPUB3 de W3C, sin conversores automáticos.
+      </p>
+    </article>
+
+    <article class="stepCard stepCardHighlight">
+      <div class="stepCardHeader">
+        <span class="stepNumber">09</span>
+        <h3 class="stepTitle">Entrega Final</h3>
+      </div>
+      <p class="stepDescription">
+        Se abona el 50% restante y se hace entrega inmediata de los archivos terminados (PDF, EPUB y carpeta con imágenes en alta resolución).
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ========================================
+     3. BOARD SECTION (IN PROGRESS COMMISSIONS)
+======================================== -->
+<section class="boardSection" id="tablero">
+  <div class="sectionHeader">
+    <div class="boardTitleGroup">
+      <svg class="boardHeaderIcon"><use href="/img/svg/comisiones.svg#boardIcon" /></svg>
+      <h2 class="sectionTitle">Comisiones en Proceso</h2>
+    </div>
+    <p class="sectionSubtitle">
+      Consulta el estado de los proyectos activos actualmente en desarrollo por el equipo.
+    </p>
+  </div>
+
+  {{ if .Params.comisiones }}
+    <div class="boardGrid">
+      {{ range .Params.comisiones }}
+        <article class="boardCard">
+          <div class="boardCardTop">
+            <div class="boardNovelHeader">
+              <svg class="boardNovelIcon"><use href="/img/svg/comisiones.svg#bookIcon" /></svg>
+              <h3 class="boardNovelName">{{ .novela }}</h3>
+            </div>
+            <span class="boardStageBadge">{{ .etapa }}</span>
+          </div>
+
+          <div class="boardCardMeta">
+            <div class="boardMetaRow">
+              <span class="boardMetaLabel">Estado:</span>
+              <span class="boardStatusBadge boardStatus{{ if eq .estado "completed" }}Completed{{ else if eq .estado "paused" }}Paused{{ else }}InProgress{{ end }}">
+                {{ if eq .estado "completed" }}Completado{{ else if eq .estado "paused" }}En Pausa{{ else }}En Progreso{{ end }}
+              </span>
+            </div>
+            {{ if .nota }}
+              <p class="boardNote">{{ .nota }}</p>
+            {{ end }}
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  {{ else }}
+    <div class="boardEmpty">
+      <h3 class="boardEmptyTitle">No hay comisiones en cola en este momento</h3>
+      <p class="boardEmptyText">
+        ¡Tenemos ranuras disponibles! Puedes ponerte en contacto con nosotros hoy mismo para iniciar tu proyecto.
+      </p>
+    </div>
+  {{ end }}
+</section>
+
+<!-- ========================================
+     4. PRICING SECTION
+======================================== -->
+<section class="pricingSection" id="precios">
+  <div class="sectionHeader">
+    <h2 class="sectionTitle">Tarifas y Formas de Pago</h2>
+    <p class="sectionSubtitle">Precios claros y cotizaciones personalizadas según el volumen de palabras.</p>
+  </div>
+
+  <div class="pricingGrid">
+    <!-- Standard Pricing Card -->
+    <article class="pricingCard">
+      <span class="pricingTag">Tarifa Estándar</span>
+      <div class="pricingAmountWrapper">
+        <span class="pricingCurrency">$</span>
+        <span class="pricingValue">5</span>
+        <span class="pricingUnit">USD</span>
+      </div>
+      <p class="pricingBasis">Por cada 25.000 palabras aprox.</p>
+      <p class="pricingEquivalent">(Equivalente a 100 páginas de 250 palabras)</p>
+
+      <ul class="pricingFeatures">
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Traducción literaria inglés a español</span>
+        </li>
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Corrección ortotipográfica y de estilo</span>
+        </li>
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Maquetación en PDF y EPUB3 oficial</span>
+        </li>
+        <!--<li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Incluye carpeta de ilustraciones en alta resolución</span>
+        </li>-->
+      </ul>
+    </article>
+
+    <!-- Promotional Pricing Card -->
+    <article class="pricingCard pricingCardPromo">
+      <span class="pricingTagPromo">¡Oferta Primer Mes!</span>
+      <div class="pricingAmountWrapper">
+        <span class="pricingCurrency">$</span>
+        <span class="pricingValue">4</span>
+        <span class="pricingUnit">USD</span>
+      </div>
+      <p class="pricingBasis">Por cada 25.000 palabras aprox.</p>
+      <p class="pricingEquivalent">(Equivalente a 100 páginas de 250 palabras)</p>
+
+      <ul class="pricingFeatures">
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Misma calidad y entrega profesional</span>
+        </li>
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Disponible durante el primer mes de servicio</span>
+        </li>
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Incluye carpeta de ilustraciones en alta resolución</span>
+        </li>
+      </ul>
+    </article>
+  </div>
+
+  <!-- Payment Notes -->
+  <div class="paymentGrid">
+    <div class="paymentCard">
+      <div class="paymentCardHeader">
+        <svg class="paymentIcon"><use href="/img/svg/comisiones.svg#infoIcon" /></svg>
+        <h3 class="paymentTitle">Cotización por Conteo Exacto</h3>
+      </div>
+      <p class="paymentDescription">
+        El precio final es variable y se calcula con exactitud según la cantidad de palabras del volumen mediante nuestra herramienta interna. Contáctanos por mensaje para recibir el presupuesto detallado de tu obra.
+      </p>
+    </div>
+
+    <div class="paymentCard">
+      <div class="paymentCardHeader">
+        <svg class="paymentIcon paypalColor"><use href="/img/svg/comisiones.svg#paypalIcon" /></svg>
+        <h3 class="paymentTitle">Pago Vía PayPal (50% / 50%)</h3>
+      </div>
+      <p class="paymentDescription">
+        PayPal es la única opción de pago. Se abona el <strong>50% por adelantado</strong> para iniciar el trabajo y el <strong>50% restante</strong> contra entrega para recibir el volumen terminado.
+      </p>
+    </div>
+
+    <div class="paymentCard">
+      <div class="paymentCardHeader">
+        <svg class="paymentIcon"><use href="/img/svg/comisiones.svg#shieldIcon" /></svg>
+        <h3 class="paymentTitle">Beneficio para Clientes en Ecuador</h3>
+      </div>
+      <p class="paymentDescription">
+        Si resides en Ecuador, el pago se realiza igualmente por PayPal, pero al tratarse de una transacción nacional interna para PayPal, la plataforma cobra una comisión menor, lo que se traduce en una tarifa final más económica.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     5. SCOPE SECTION (INCLUDES VS EXCLUDES)
+======================================== -->
+<section class="scopeSection" id="incluye">
+  <div class="sectionHeader">
+    <h2 class="sectionTitle">Alcance del Servicio</h2>
+    <p class="sectionSubtitle">Claridad absoluta sobre lo que incluye y no incluye cada comisión.</p>
+  </div>
+
+  <div class="scopeGrid">
+    <!-- What's Included Card -->
+    <article class="scopeCard scopeCardInclude">
+      <div class="scopeCardHeader">
+        <div class="scopeIconWrapper include">
+          <svg class="scopeHeaderIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+        </div>
+        <h3 class="scopeTitle">Lo que sí incluye</h3>
+      </div>
+
+      <ul class="scopeList">
+        <li>
+          <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <div>
+            <strong>Traducción Inglés → Español</strong>
+            <p>Realizada por un traductor con experiencia en traducción literaria, priorizando sentido, tono y contexto.</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <div>
+            <strong>1 Corrección Ortotipografía y de Estilo</strong>
+            <p>Revisión minuciosa de ortografía, puntuación, fluidez en español y coherencia terminológica.</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <div>
+            <strong>Maquetación PDF y EPUB (Norma W3C EPUB3)</strong>
+            <p>Archivos limpios y estructurados a mano, sin conversores automáticos.</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <div>
+            <strong>Edición de Imágenes</strong>
+            <p>Limpieza y edición de ilustraciones sujeta a evaluación técnica previa y disponibilidad del editor.</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <div>
+            <strong>Carpeta de Ilustraciones en Alta Calidad</strong>
+            <p>Todas las imágenes del volumen organizadas en alta resolución.</p>
+          </div>
+        </li>
+      </ul>
+    </article>
+
+    <!-- What's Excluded Card -->
+    <article class="scopeCard scopeCardExclude">
+      <div class="scopeCardHeader">
+        <div class="scopeIconWrapper exclude">
+          <svg class="scopeHeaderIcon"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
+        </div>
+        <h3 class="scopeTitle">Lo que no incluye / No se realiza</h3>
+      </div>
+
+      <ul class="scopeList">
+        <li>
+          <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
+          <div>
+            <strong>Otros idiomas de origen</strong>
+            <p>No se traduce directamente de japonés, coreano o chino; el material de origen debe estar en idioma inglés.</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
+          <div>
+            <strong>Contenido +18</strong>
+            <p>No se aceptan novelas con contenido exclusivamente para adultos (+18).</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
+          <div>
+            <strong>Otros formatos ajenos a Novelas Ligeras</strong>
+            <p>El servicio es exclusivo para novelas ligeras (no se traduce novelas web, manga ni manhwa).</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
+          <div>
+            <strong>Rondas de corrección adicionales</strong>
+            <p>Se incluye 1 ronda de corrección. Modificaciones por mera preferencia subjetiva del cliente se cotizan como extras.</p>
+          </div>
+        </li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ========================================
+     6. DELIVERY SECTION
+======================================== -->
+<section class="deliverySection" id="tiempos">
+  <div class="sectionHeader">
+    <h2 class="sectionTitle">Tiempos Estimados y Seguimiento</h2>
+    <p class="sectionSubtitle">Planificación responsable con comunicación continua durante el avance.</p>
+  </div>
+
+  <div class="deliveryGrid">
+    <div class="deliveryCard">
+      <div class="deliveryCardHeader">
+        <svg class="deliveryIcon"><use href="/img/svg/comisiones.svg#clockIcon" /></svg>
+        <h3 class="deliveryTitle">Plazo de Entrega: 1 a 4 Semanas</h3>
+      </div>
+      <p class="deliveryDescription">
+        El tiempo depende de la extensión de la obra (número de palabras del volumen) y de la carga de trabajo en curso. Al cotizar te brindaremos una estimación puntual.
+      </p>
+    </div>
+
+    <div class="deliveryCard">
+      <div class="deliveryCardHeader">
+        <svg class="deliveryIcon"><use href="/img/svg/comisiones.svg#documentIcon" /></svg>
+        <h3 class="deliveryTitle">Seguimiento y Muestras en PDF</h3>
+      </div>
+      <p class="deliveryDescription">
+        La transparencia es primordial: puedes consultar el estado de avance en cualquier momento por mensaje privado, así como solicitar vistas previas parciales en PDF.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     7. ORDER SECTION & REQUIREMENTS
+======================================== -->
+<section class="orderSection" id="solicitar">
+  <div class="sectionHeader">
+    <h2 class="sectionTitle">Cómo Solicitar tu Comisión</h2>
+    <p class="sectionSubtitle">Solo necesitas tener a mano los datos básicos de la obra que deseas encargar.</p>
+  </div>
+
+  <div class="orderGrid">
+    <div class="requirementsCard">
+      <h3 class="requirementsTitle">Requisitos para la solicitud</h3>
+      <ul class="requirementsList">
+        <li class="requirementsItem">
+          <svg class="requirementsIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span><strong>Novela Ligera en Inglés:</strong> El texto base a traducir debe estar en inglés.</span>
+        </li>
+        <li class="requirementsItem">
+          <svg class="requirementsIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span><strong>Sin restricción de otros grupos:</strong> No importa si otro grupo de traducción tiene el proyecto activo; trabajaremos el volumen que tú encargues.</span>
+        </li>
+        <li class="requirementsItem">
+          <svg class="requirementsIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span><strong>No contenido +18:</strong> No se aceptan obras con contenido para adultos.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="orderGuideCard">
+      <h3 class="orderGuideTitle">Datos a enviar por Messenger</h3>
+      <ol class="orderGuideList">
+        <li class="orderGuideItem">
+          <span class="orderStepNumber">1</span>
+          <div>
+            <strong>Nombre de la novela ligera:</strong> En inglés o en japonés (romaji).
+          </div>
+        </li>
+        <li class="orderGuideItem">
+          <span class="orderStepNumber">2</span>
+          <div>
+            <strong>Número de volumen:</strong> El volumen exacto que deseas traducir (ej. "Volumen 03").
+          </div>
+        </li>
+        <li class="orderGuideItem">
+          <span class="orderStepNumber">3</span>
+          <div>
+            <strong>Enlace o archivo EPUB (opcional):</strong> Si lo tienes a mano agilizará el cálculo exacto de palabras; si no, nosotros mismos lo buscamos.
+          </div>
+        </li>
+      </ol>
+
+      <a href="https://www.facebook.com/kasniaproject" target="_blank" rel="noopener noreferrer" class="orderCtaButton">
+        <svg class="orderCtaIcon"><use href="/img/svg/comisiones.svg#facebookIcon" /></svg>
+        <span>Enviar mensaje a Facebook Messenger</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     8. TERMS SECTION
+======================================== -->
+<section class="termsSection" id="condiciones">
+  <div class="sectionHeader">
+    <h2 class="sectionTitle">Condiciones del Servicio</h2>
+    <p class="sectionSubtitle">Términos claros para garantizar una colaboración ordenada y profesional.</p>
+  </div>
+
+  <div class="termsCard">
+    <ul class="termsList">
+      <li class="termsItem">
+        <span class="termsBullet"></span>
+        <span>El precio final se establece mediante cotización previa según el conteo real de palabras del volumen proporcionado o localizado.</span>
+      </li>
+      <li class="termsItem">
+        <span class="termsBullet"></span>
+        <span>El trabajo de traducción inicia formalmente una vez aprobada la cotización y confirmado el pago del 50% de anticipo.</span>
+      </li>
+      <li class="termsItem">
+        <span class="termsBullet"></span>
+        <span>La disponibilidad y plazos de entrega estimados varían según la carga de trabajo y volumen en cola del traductor al momento de contratar.</span>
+      </li>
+      <li class="termsItem">
+        <span class="termsBullet"></span>
+        <span>Kasnia Project se reserva el derecho de rechazar solicitudes debido a contenido inapropiado, longitud desmedida o excesiva complejidad técnica.</span>
+      </li>
+      <li class="termsItem">
+        <span class="termsBullet"></span>
+        <span>La entrega final de los archivos (PDF, EPUB y carpeta de imágenes) se efectúa tras recibir el 50% restante del pago acordado.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========================================
+     9. FINAL CALL TO ACTION (CTA)
+======================================== -->
+<section class="ctaSection">
+  <div class="ctaCard">
+    <h2 class="ctaTitle">¿Listo para encargar tu novela ligera?</h2>
+    <p class="ctaDescription">
+      Escríbenos directamente a nuestra página de Facebook para cotizar tu volumen sin compromiso.
+    </p>
+    <a href="https://www.facebook.com/kasniaproject" target="_blank" rel="noopener noreferrer" class="ctaButton">
+      <svg class="ctaIcon"><use href="/img/svg/comisiones.svg#facebookIcon" /></svg>
+      <span>Solicitar Cotización en Facebook</span>
+    </a>
+  </div>
+</section>
+{{ end }}
