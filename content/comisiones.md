@@ -20,13 +20,13 @@ type: "comisiones"
 # un mensaje indicando que todas las ranuras de comisión están disponibles.
 # ==============================================================================
 comisiones:
-  - novela: "Ejemplo: Isekai Walking - V02"
+  - novela: "Isekai Walking - V02"
     etapa: "Edición de Imágenes"
     estado: "inProgress"
-  - novela: "Ejemplo: Observation Records of My Wife - V02"
+  - novela: "Observation Records of My Wife - V02"
     etapa: "Traducción"
     estado: "inProgress"
-  - novela: "Ejemplo: Mizu Zokusei no Mahoutsukai - V07"
+  - novela: "Mizu Zokusei no Mahoutsukai - V07"
     etapa: "Corrección"
     estado: "inProgress"
 ---
