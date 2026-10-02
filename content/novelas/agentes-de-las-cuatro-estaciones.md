@@ -56,7 +56,7 @@ volumes:
   - num: "03"
     state: published
     pdfUpdateDate: 25/09/2026
-    epubUpdateDate: 25/09/2026
+    epubUpdateDate: 01/10/2026
     credits:
       translator: LughAT
       corrector: LughAT
