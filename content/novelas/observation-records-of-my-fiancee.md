@@ -43,7 +43,7 @@ volumes:
   - num: "02"
     state: published
     pdfUpdateDate: 11/08/2026
-    epubUpdateDate: 26/08/2026
+    epubUpdateDate: 01/10/2026
     credits:
       translator: Diego
       corrector: Diego
