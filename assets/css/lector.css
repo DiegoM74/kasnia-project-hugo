@@ -758,6 +758,188 @@ html, body {
   color: var(--reader-accent);
 }
 
+/* ========================================
+   MODAL DE INFORMACIÓN DEL LIBRO
+======================================== */
+
+.readerInfoModal {
+  max-width: 420px;
+  width: 90%;
+  max-height: 85dvh;
+}
+
+.readerInfoContent {
+  padding: 1.1rem 1.25rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.readerInfoContent::-webkit-scrollbar {
+  width: 6px;
+}
+.readerInfoContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+.readerInfoContent::-webkit-scrollbar-thumb {
+  background: var(--reader-border);
+  border-radius: 4px;
+}
+
+/* Cabecera / Hero */
+.infoHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.8rem;
+  padding-bottom: 0.2rem;
+}
+
+.infoCover {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.infoCoverImg {
+  max-height: 200px;
+  width: auto;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--reader-border);
+}
+
+.infoMetaHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.infoTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0;
+  color: var(--reader-text);
+  word-break: break-word;
+}
+
+.infoRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffb703;
+  background: rgba(255, 183, 3, 0.12);
+  border: 1px solid rgba(255, 183, 3, 0.28);
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  line-height: 1.2;
+}
+
+/* Secciones */
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border-top: 1px solid var(--reader-border);
+  padding-top: 0.9rem;
+}
+
+.infoSectionTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--reader-accent);
+  margin: 0;
+}
+
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.infoLabel {
+  opacity: 0.75;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--reader-text);
+}
+
+.infoValue {
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word;
+  color: var(--reader-text);
+}
+
+/* Badges de Géneros discretos */
+.infoTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.infoTag {
+  font-size: 0.74rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background: rgba(128, 128, 128, 0.08);
+  color: var(--reader-text);
+  border: 1px solid var(--reader-border);
+  opacity: 0.9;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.infoTag:hover {
+  border-color: var(--reader-accent);
+  color: var(--reader-accent);
+}
+
+/* Sinopsis */
+.infoSynopsis {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--reader-text);
+  opacity: 0.9;
+  margin: 0;
+}
+
+.infoSynopsis p {
+  margin: 0 0 0.8rem 0;
+}
+
+.infoSynopsis p:last-child {
+  margin-bottom: 0;
+}
+
+/* Estados de Carga y Vacío */
+.infoLoadingState,
+.infoEmptyState {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  opacity: 0.7;
+  font-size: 0.9rem;
+  color: var(--reader-text);
+}
+
 /* Temas del Lector */
 .readerApp[data-reader-theme="light"] {
   --reader-bg: #fdfdfd;

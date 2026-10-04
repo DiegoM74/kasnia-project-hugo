@@ -46,6 +46,10 @@
       <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura">
         <svg><use href="/img/svg/lector.svg#settingsIcon" /></svg>
       </button>
+      <!-- Botón de información -->
+      <button id="readerInfoBtn" class="readerBtn" aria-label="Información del libro">
+        <svg><use href="/img/svg/lector.svg#infoIcon" /></svg>
+      </button>
       <!-- Botón de pantalla completa -->
       <button id="readerFullscreenBtn" class="readerBtn" aria-label="Pantalla completa">
         <svg id="readerFullscreenIcon"><use href="/img/svg/lector.svg#fullscreenEnterIcon" /></svg>
@@ -244,6 +248,21 @@
           <button id="resetSettingsBtn" class="resetSettingsBtn">Restablecer ajustes por defecto</button>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Información -->
+  <div id="readerInfoPanel" class="readerModalOverlay" style="display: none;">
+    <div class="readerModal readerInfoModal">
+      <div class="readerModalHeader">
+        <h2>Información del libro</h2>
+        <button class="readerBtn closePanelBtn" aria-label="Cerrar información">
+          <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
+        </button>
+      </div>
+      <div id="readerInfoContent" class="readerInfoContent">
+        <div class="infoLoadingState">Cargando información...</div>
       </div>
     </div>
   </div>

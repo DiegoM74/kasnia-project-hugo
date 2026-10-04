@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnClose = document.getElementById("readerCloseBtn");
   const btnToc = document.getElementById("readerTocBtn");
   const btnSettings = document.getElementById("readerSettingsBtn");
+  const btnInfo = document.getElementById("readerInfoBtn");
   const btnFullscreen = document.getElementById("readerFullscreenBtn");
   const btnPrev = document.getElementById("readerPrev");
   const btnNext = document.getElementById("readerNext");
@@ -56,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Modales y Loader
   const tocPanel = document.getElementById("readerTocPanel");
   const settingsPanel = document.getElementById("readerSettingsPanel");
+  const infoPanel = document.getElementById("readerInfoPanel");
+  const infoContent = document.getElementById("readerInfoContent");
   const tocList = document.getElementById("readerTocList");
   const panelCloseBtns = document.querySelectorAll(".closePanelBtn");
   const loadingOverlay = document.getElementById("readerLoadingOverlay");
@@ -183,6 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let isPageTurning = false;
   let isLocationsReady = false;
   let currentLocation = null;
+  let isInfoLoaded = false;
+  let isInfoLoading = false;
 
   const storageKey = `kasnia_progress_${btoa(epubUrl).replace(/=/g, "")}`;
   const locationsKey = `kasnia_locations_${btoa(epubUrl).replace(/=/g, "")}`;
@@ -726,6 +731,8 @@ document.addEventListener("DOMContentLoaded", () => {
       readerTitle.textContent = metadata.title || "Lector Kasnia";
       document.title = `${metadata.title || "Lector"} - Kasnia Project`;
 
+      loadBookInfo();
+
       if (loadingOverlay) {
         loadingOverlay.style.opacity = "0";
         setTimeout(() => {
@@ -832,6 +839,353 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     renderBook();
+  }
+
+  // 6.1 Extracción y renderizado de información del libro desde el OPF
+  function formatOpfDate(rawDate) {
+    if (!rawDate) return "";
+    const trimmed = rawDate.trim();
+    const match = trimmed.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (match) {
+      const [, year, month, day] = match;
+      return `${day}-${month}-${year}`;
+    }
+    const d = new Date(trimmed);
+    if (!isNaN(d.getTime())) {
+      const day = String(d.getUTCDate()).padStart(2, "0");
+      const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+      const year = d.getUTCFullYear();
+      return `${day}-${month}-${year}`;
+    }
+    return trimmed;
+  }
+
+  function formatIsbn(raw) {
+    if (!raw) return "";
+    const clean = raw.replace(/^urn:isbn:/i, "").replace(/[^0-9xX]/g, "").toUpperCase();
+    if (!clean || /^0+$/.test(clean)) return "";
+
+    // Formato ISBN-13
+    if (clean.length === 13) {
+      const prefix = clean.slice(0, 3);
+      const group = clean[3];
+      const rest = clean.slice(4, 12);
+      const check = clean[12];
+
+      if (group === "4") {
+        const two = parseInt(rest.slice(0, 2), 10);
+        let pubLen = 4;
+        if (two <= 19) pubLen = 2;
+        else if (two <= 69) pubLen = 3;
+        else if (two <= 84) pubLen = 4;
+        else if (two <= 89) pubLen = 5;
+        else if (two <= 94) pubLen = 6;
+        else pubLen = 7;
+
+        const pub = rest.slice(0, pubLen);
+        const title = rest.slice(pubLen);
+        return `${prefix}-${group}-${pub}-${title}-${check}`;
+      }
+      return `${prefix}-${clean.slice(3, 5)}-${clean.slice(5, 9)}-${clean.slice(9, 12)}-${check}`;
+    }
+
+    // Formato ISBN-10
+    if (clean.length === 10) {
+      const group = clean[0];
+      const rest = clean.slice(1, 9);
+      const check = clean[9];
+
+      if (group === "4") {
+        const two = parseInt(rest.slice(0, 2), 10);
+        let pubLen = 4;
+        if (two <= 19) pubLen = 2;
+        else if (two <= 69) pubLen = 3;
+        else if (two <= 84) pubLen = 4;
+        else if (two <= 89) pubLen = 5;
+        else if (two <= 94) pubLen = 6;
+        else pubLen = 7;
+
+        const pub = rest.slice(0, pubLen);
+        const title = rest.slice(pubLen);
+        return `${group}-${pub}-${title}-${check}`;
+      }
+      return `${clean.slice(0, 2)}-${clean.slice(2, 6)}-${clean.slice(6, 9)}-${check}`;
+    }
+
+    return raw.replace(/^urn:isbn:/i, "").trim();
+  }
+
+  function escapeOpfText(str) {
+    if (!str) return "";
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function formatSynopsis(rawText) {
+    if (!rawText) return "";
+    const normalized = rawText
+      .replace(/&lt;br\s*\/?&gt;/gi, "\n")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/\r\n/g, "\n");
+
+    const paragraphs = normalized.split(/\n+/).map(p => p.trim()).filter(Boolean);
+    if (paragraphs.length === 0) return "";
+
+    return paragraphs.map(p => `<p>${escapeOpfText(p)}</p>`).join("");
+  }
+
+  function renderInfoRow(label, value) {
+    if (!value) return "";
+    return `
+      <div class="infoRow">
+        <span class="infoLabel">${label}</span>
+        <span class="infoValue">${escapeOpfText(value)}</span>
+      </div>
+    `;
+  }
+
+  function renderInfoSection(title, rowsHtml) {
+    if (!rowsHtml || !rowsHtml.trim()) return "";
+    return `
+      <div class="infoSection">
+        ${title ? `<h3 class="infoSectionTitle">${title}</h3>` : ""}
+        <div class="infoGrid">
+          ${rowsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  async function loadBookInfo() {
+    if (!infoContent || isInfoLoaded || isInfoLoading || !book) return;
+    isInfoLoading = true;
+
+    try {
+      let opfDoc = null;
+      if (book.container && book.container.packagePath) {
+        try {
+          const res = await book.load(book.container.packagePath);
+          if (res && typeof res === "object" && res.nodeType) {
+            opfDoc = res;
+          } else if (typeof res === "string") {
+            opfDoc = new DOMParser().parseFromString(res, "application/xml");
+          }
+        } catch (e) {
+          console.warn("No se pudo cargar el OPF mediante book.load:", e);
+        }
+      }
+
+      if (!opfDoc && book.archive && book.archive.zip) {
+        try {
+          const opfKey = Object.keys(book.archive.zip.files).find(name => name.endsWith(".opf"));
+          if (opfKey) {
+            const text = await book.archive.zip.files[opfKey].async("string");
+            opfDoc = new DOMParser().parseFromString(text, "application/xml");
+          }
+        } catch (e) {
+          console.warn("No se pudo extraer el OPF desde el zip del EPUB:", e);
+        }
+      }
+
+      if (!opfDoc) {
+        infoContent.innerHTML = `<div class="infoEmptyState">No se encontró información del libro en el EPUB.</div>`;
+        isInfoLoaded = true;
+        isInfoLoading = false;
+        return;
+      }
+
+      // Obtener URL de portada si está disponible
+      let coverUrl = null;
+      try {
+        if (typeof book.coverUrl === "function") {
+          coverUrl = await book.coverUrl();
+        }
+      } catch (_) {}
+
+      if (!coverUrl && book.loaded && book.loaded.cover) {
+        try {
+          coverUrl = await book.loaded.cover;
+        } catch (_) {}
+      }
+
+      if (!coverUrl && book.archive && typeof book.archive.createUrl === "function") {
+        try {
+          const coverItem = opfDoc.querySelector('item[properties~="cover-image"]') ||
+            opfDoc.querySelector('item[id="cover.jpg"]') ||
+            opfDoc.querySelector('item[id="cover"]');
+          if (coverItem) {
+            const href = coverItem.getAttribute("href");
+            if (href) {
+              coverUrl = await book.archive.createUrl(book.resolve(href));
+            }
+          }
+        } catch (_) {}
+      }
+
+      // Parsear campos del OPF
+      // 1. Serie y número de volumen
+      const serieMeta = opfDoc.querySelector('meta[id="serie"]') ||
+        opfDoc.querySelector('meta[property="belongs-to-collection"]') ||
+        opfDoc.querySelector('meta[name="calibre:series"]');
+      const serie = serieMeta ? (serieMeta.textContent || serieMeta.getAttribute("content") || "").trim() : "";
+
+      const volMeta = opfDoc.querySelector('meta[property="group-position"]') ||
+        opfDoc.querySelector('meta[name="calibre:series_index"]');
+      const volNum = volMeta ? (volMeta.textContent || volMeta.getAttribute("content") || "").trim() : "";
+
+      let displayTitle = "";
+      if (serie && volNum) {
+        displayTitle = `${serie} — Vol. ${volNum}`;
+      } else if (serie) {
+        displayTitle = serie;
+      } else if (volNum) {
+        displayTitle = `Vol. ${volNum}`;
+      } else {
+        const titleEl = opfDoc.getElementsByTagNameNS("*", "title")[0] ||
+          opfDoc.getElementsByTagName("dc:title")[0] ||
+          opfDoc.querySelector("title");
+        displayTitle = titleEl ? (titleEl.textContent || "").trim() : (book.package?.metadata?.title || "");
+      }
+
+      // 2. Valoración
+      const ratingMeta = opfDoc.querySelector('meta[name="calibre:rating"]');
+      const rating = ratingMeta ? (ratingMeta.getAttribute("content") || ratingMeta.textContent || "").trim() : "";
+
+      // 3. Ficha Técnica
+      const authorEl = opfDoc.querySelector('[id="creator01"]') ||
+        Array.from(opfDoc.getElementsByTagNameNS("*", "creator")).find(el => el.getAttribute("id") === "creator01") ||
+        Array.from(opfDoc.getElementsByTagName("dc:creator")).find(el => el.getAttribute("id") === "creator01");
+      const author = authorEl ? (authorEl.textContent || "").trim() : "";
+
+      const illEl = opfDoc.querySelector('[id="creator02"]') ||
+        Array.from(opfDoc.getElementsByTagNameNS("*", "creator")).find(el => el.getAttribute("id") === "creator02") ||
+        Array.from(opfDoc.getElementsByTagName("dc:creator")).find(el => el.getAttribute("id") === "creator02");
+      const illustrator = illEl ? (illEl.textContent || "").trim() : "";
+
+      const dateEl = opfDoc.getElementsByTagNameNS("*", "date")[0] ||
+        opfDoc.getElementsByTagName("dc:date")[0] ||
+        opfDoc.querySelector("date");
+      const rawDate = dateEl ? (dateEl.textContent || "").trim() : "";
+      const releaseDate = formatOpfDate(rawDate);
+
+      const modMeta = opfDoc.querySelector('meta[property="dcterms:modified"]');
+      const rawModified = modMeta ? (modMeta.textContent || modMeta.getAttribute("content") || "").trim() : "";
+      const modifiedDate = formatOpfDate(rawModified);
+
+      const asinEl = opfDoc.querySelector('[id="amazon-id"]');
+      const rawAsin = asinEl ? (asinEl.textContent || "").trim() : "";
+      const asin = rawAsin.replace(/^urn:amazon:/i, "").trim();
+
+      const isbn13El = opfDoc.querySelector('[id="isbn13"]');
+      const rawIsbn13 = isbn13El ? (isbn13El.textContent || "").trim() : "";
+      const isbn13 = formatIsbn(rawIsbn13);
+
+      const isbn10El = opfDoc.querySelector('[id="isbn10"]');
+      const rawIsbn10 = isbn10El ? (isbn10El.textContent || "").trim() : "";
+      const isbn10 = formatIsbn(rawIsbn10);
+
+      // 4. Equipo de Traducción
+      const trlEl = opfDoc.querySelector('[id="contrib1"]') ||
+        Array.from(opfDoc.getElementsByTagNameNS("*", "contributor")).find(el => el.getAttribute("id") === "contrib1") ||
+        Array.from(opfDoc.getElementsByTagName("dc:contributor")).find(el => el.getAttribute("id") === "contrib1");
+      const translator = trlEl ? (trlEl.textContent || "").trim() : "";
+
+      const mrkEl = opfDoc.querySelector('[id="contrib2"]') ||
+        Array.from(opfDoc.getElementsByTagNameNS("*", "contributor")).find(el => el.getAttribute("id") === "contrib2") ||
+        Array.from(opfDoc.getElementsByTagName("dc:contributor")).find(el => el.getAttribute("id") === "contrib2");
+      const typesetter = mrkEl ? (mrkEl.textContent || "").trim() : "";
+
+      const pubEl = opfDoc.getElementsByTagNameNS("*", "publisher")[0] ||
+        opfDoc.getElementsByTagName("dc:publisher")[0] ||
+        opfDoc.querySelector("publisher") ||
+        opfDoc.querySelector('[id="contrib3"]');
+      const translatorGroup = pubEl ? (pubEl.textContent || "").trim() : "";
+
+      // 5. Géneros / Demografía
+      let subjectEls = Array.from(opfDoc.getElementsByTagNameNS("*", "subject"));
+      if (!subjectEls.length) subjectEls = Array.from(opfDoc.getElementsByTagName("dc:subject"));
+      if (!subjectEls.length) subjectEls = Array.from(opfDoc.querySelectorAll("subject"));
+      const subjects = subjectEls.map(el => (el.textContent || "").trim()).filter(Boolean);
+
+      // 6. Sinopsis
+      const descEl = opfDoc.getElementsByTagNameNS("*", "description")[0] ||
+        opfDoc.getElementsByTagName("dc:description")[0] ||
+        opfDoc.querySelector("description");
+      const rawDesc = descEl ? (descEl.textContent || "").trim() : "";
+      const synopsisHtml = formatSynopsis(rawDesc);
+
+      // Renderizado
+      let heroHtml = '<div class="infoHero">';
+      if (coverUrl) {
+        heroHtml += `
+          <div class="infoCover">
+            <img src="${coverUrl}" alt="Portada del volumen" class="infoCoverImg" />
+          </div>
+        `;
+      }
+      heroHtml += '<div class="infoMetaHeader">';
+      if (displayTitle) {
+        heroHtml += `<h3 class="infoTitle">${escapeOpfText(displayTitle)}</h3>`;
+      }
+      if (rating) {
+        heroHtml += `<span class="infoRating">★ ${escapeOpfText(rating)} / 10</span>`;
+      }
+      heroHtml += '</div></div>';
+
+      let techRows = "";
+      techRows += renderInfoRow("Autor", author);
+      techRows += renderInfoRow("Ilustrador", illustrator);
+      techRows += renderInfoRow("Fecha de salida", releaseDate);
+      techRows += renderInfoRow("Última edición", modifiedDate);
+      techRows += renderInfoRow("ASIN", asin);
+      techRows += renderInfoRow("ISBN-13", isbn13);
+      techRows += renderInfoRow("ISBN-10", isbn10);
+      const techSectionHtml = renderInfoSection("Ficha Técnica", techRows);
+
+      let staffRows = "";
+      staffRows += renderInfoRow("Traductor", translator);
+      staffRows += renderInfoRow("Maquetador", typesetter);
+      staffRows += renderInfoRow("Grupo Traductor", translatorGroup);
+      const staffSectionHtml = renderInfoSection("Equipo de Traducción", staffRows);
+
+      let genresSectionHtml = "";
+      if (subjects.length > 0) {
+        const tagsHtml = subjects.map(s => `<span class="infoTag">${escapeOpfText(s)}</span>`).join("");
+        genresSectionHtml = `
+          <div class="infoSection">
+            <h3 class="infoSectionTitle">Géneros</h3>
+            <div class="infoTags">
+              ${tagsHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      let synopsisSectionHtml = "";
+      if (synopsisHtml) {
+        synopsisSectionHtml = `
+          <div class="infoSection">
+            <h3 class="infoSectionTitle">Sinopsis</h3>
+            <div class="infoSynopsis">
+              ${synopsisHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      const finalHtml = heroHtml + techSectionHtml + staffSectionHtml + genresSectionHtml + synopsisSectionHtml;
+      infoContent.innerHTML = finalHtml || '<div class="infoEmptyState">No hay información disponible para este libro.</div>';
+      isInfoLoaded = true;
+    } catch (err) {
+      console.error("Error al renderizar información del OPF:", err);
+      infoContent.innerHTML = `<div class="infoEmptyState">Error al leer la información del libro.</div>`;
+    } finally {
+      isInfoLoading = false;
+    }
   }
 
   // 7. Renderizado del Libro con Rendition
@@ -1216,10 +1570,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Control de Modales (Apertura y Cierre con Animación)
   function openPanel(panel) {
-    const otherPanel = panel === tocPanel ? settingsPanel : tocPanel;
-    if (otherPanel && otherPanel.style.display === "flex") {
-      closePanel(otherPanel, true);
-    }
+    [tocPanel, settingsPanel, infoPanel].forEach(other => {
+      if (other && other !== panel && other.style.display === "flex") {
+        closePanel(other, true);
+      }
+    });
     panel.classList.remove("isClosing");
     panel.style.display = "flex";
   }
@@ -1262,6 +1617,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnToc.addEventListener("click", () => togglePanel(tocPanel));
   btnSettings.addEventListener("click", () => togglePanel(settingsPanel));
+  if (btnInfo) {
+    btnInfo.addEventListener("click", () => {
+      togglePanel(infoPanel);
+      if (!isInfoLoaded) {
+        loadBookInfo();
+      }
+    });
+  }
 
   // Control de Pantalla Completa
   function isFullscreenActive() {
@@ -1343,7 +1706,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  [tocPanel, settingsPanel].forEach(panel => {
+  [tocPanel, settingsPanel, infoPanel].forEach(panel => {
     if (panel) {
       panel.addEventListener("click", e => {
         if (e.target === panel) closePanel(panel);
