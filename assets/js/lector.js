@@ -357,6 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const textDecorVal = settings.underline ? "underline !important" : "none !important";
     const touchAction = settings.mode === "continuous" ? "pan-y !important" : "none !important";
     const alignVal = settings.align || "justify";
+    const accentVal = (settings.theme === "light" || settings.theme === "sepia") ? "#e6528b" : "#ff9ac5";
 
     return (
       "html {" +
@@ -394,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "touch-action: " + touchAction + ";" +
         "box-sizing: border-box !important;" +
       "}" +
-      "p, div, span, li, a, h1, h2, h3, h4, h5, h6 {" +
+      "p, div, span, li, h1, h2, h3, h4, h5, h6 {" +
         "color: inherit !important;" +
         "line-height: inherit !important;" +
         "letter-spacing: inherit !important;" +
@@ -402,18 +403,42 @@ document.addEventListener("DOMContentLoaded", () => {
         "-webkit-user-select: none !important;" +
         "user-select: none !important;" +
       "}" +
-      "p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote, pre, table, hr {" +
+      // Enlaces dentro del EPUB con color de acento
+      "a, a:link, a:visited {" +
+        "color: " + accentVal + " !important;" +
+        "-webkit-text-fill-color: " + accentVal + " !important;" +
+        "text-decoration: underline !important;" +
+        "line-height: inherit !important;" +
+        "letter-spacing: inherit !important;" +
+        "transition: opacity 0.2s ease;" +
+      "}" +
+      "a:hover, a:active {" +
+        "opacity: 0.8 !important;" +
+      "}" +
+      ".nota a {" +
+        "text-decoration: none !important;" +
+      "}" +
+      "a sup, sup {" +
+        "font-weight: bold;" +
+      "}" +
+      // Márgenes laterales de lectura e integración de contenedores
+      "p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote, pre, table {" +
         "margin-left: " + settings.marginLeft + "px !important;" +
         "margin-right: " + settings.marginRight + "px !important;" +
         "width: auto !important;" +
         "max-width: calc(100% - " + (settings.marginLeft + settings.marginRight) + "px) !important;" +
         "box-sizing: border-box !important;" +
       "}" +
-      "li p, blockquote p, table p {" +
+      "div {" +
+        "max-width: 100% !important;" +
+        "box-sizing: border-box !important;" +
+      "}" +
+      "li p, blockquote p, table p, div p, div ul, div ol, div li {" +
         "margin-left: 0 !important;" +
         "margin-right: 0 !important;" +
         "max-width: 100% !important;" +
       "}" +
+      // Separación de párrafos: narrativo vs agrupados dentro de div (créditos, notas, etc.)
       "p, li, blockquote, dd, dt {" +
         "text-align: " + alignVal + " !important;" +
       "}" +
@@ -424,14 +449,194 @@ document.addEventListener("DOMContentLoaded", () => {
         "-webkit-hyphens: " + hyphensVal + " !important;" +
         "-ms-hyphens: " + hyphensVal + " !important;" +
       "}" +
-      "figure, .dimg {" +
-        "max-width: 100% !important;" +
+      "div > p, div > ul, div > ol, div li {" +
+        "margin-top: 0 !important;" +
+        "margin-bottom: 0 !important;" +
+      "}" +
+      // Prioridad a clases específicas de saltos y espaciados del EPUB
+      ".salto0, p.salto0, figure.salto0, img.salto0, div.salto0 { margin-top: 0.5em !important; }" +
+      ".salto1, p.salto1, figure.salto1, img.salto1, div.salto1 { margin-top: 1.5em !important; }" +
+      ".salto2, p.salto2, figure.salto2, img.salto2, div.salto2 { margin-top: 2.0em !important; }" +
+      ".salto3, p.salto3, figure.salto3, img.salto3, div.salto3 { margin-top: 3.0em !important; }" +
+      ".sinmargen, p.sinmargen, div.sinmargen, figure.sinmargen { margin: 0 !important; }" +
+      // Títulos y subtítulos específicos (página de título y capítulos)
+      "h1.titulo { margin-top: 1.5em !important; margin-bottom: 0.25em !important; font-family: inherit !important; }" +
+      "h2.subtitulo { margin-top: 0.5em !important; margin-bottom: 1.2em !important; font-family: inherit !important; }" +
+      "h1 small, h2 small { font-size: 0.75em !important; font-weight: inherit !important; display: inline-block; margin-top: 0.25em; }" +
+      // Soporte y proporciones para Ruby y Furigana
+      "ruby { ruby-align: center; font-style: normal; }" +
+      "rt { font-size: 0.52em !important; line-height: 1 !important; text-transform: full-size-kana; }" +
+      "rp { display: none !important; }" +
+      // Cuadros de advertencia destacados
+      "blockquote.aviso {" +
+        "border: 2px solid #ff4d4d !important;" +
+        "border-radius: 6px !important;" +
+        "margin: 1.5em auto !important;" +
+        "padding: 0.8em 1em !important;" +
+        "max-width: 92% !important;" +
         "box-sizing: border-box !important;" +
+      "}" +
+      "blockquote.aviso, blockquote.aviso *, blockquote.aviso p {" +
+        "color: #ff4d4d !important;" +
+      "}" +
+      "blockquote.aviso p {" +
+        "margin-top: 0.4em !important;" +
+        "margin-bottom: 0.4em !important;" +
+        "margin-left: 0 !important;" +
+        "margin-right: 0 !important;" +
+        "max-width: 100% !important;" +
+      "}" +
+      // Separadores horizontales y cortes de contexto centrados
+      "hr:not(.amplio):not(.sigil_split_marker) {" +
+        "width: 25% !important;" +
+        "margin-left: auto !important;" +
+        "margin-right: auto !important;" +
+        "margin-top: 1.8em !important;" +
+        "margin-bottom: 1.8em !important;" +
+        "height: 0 !important;" +
+        "border: none !important;" +
+        "border-top: 1.5px solid currentColor !important;" +
+        "opacity: 0.45 !important;" +
+      "}" +
+      "hr.amplio {" +
+        "width: 100% !important;" +
+        "height: 2em !important;" +
+        "border: none !important;" +
+        "background: transparent !important;" +
+        "margin: 0 !important;" +
+      "}" +
+      ".oculto, .sigil_split_marker, [hidden] {" +
+        "display: none !important;" +
+        "visibility: hidden !important;" +
+      "}" +
+      "span.separador {" +
+        "display: block !important;" +
+        "height: 1.5em !important;" +
+        "margin: 1em 0 !important;" +
+      "}" +
+      // Ilustraciones de página completa y figuras
+      "figure {" +
+        "max-width: 100% !important;" +
+        "margin-left: auto !important;" +
+        "margin-right: auto !important;" +
+        "box-sizing: border-box !important;" +
+      "}" +
+      "figure.dimg {" +
+        "display: flex !important;" +
+        "justify-content: center !important;" +
+        "align-items: center !important;" +
+        "width: 100% !important;" +
+        "margin: 0 auto !important;" +
+        "padding: 0 !important;" +
+        "line-height: 0 !important;" +
+      "}" +
+      "figure.dimg img {" +
+        "max-width: 100% !important;" +
+        "max-height: calc(100vh - " + (settings.marginTop + settings.marginBottom + 40) + "px) !important;" +
+        "width: auto !important;" +
+        "height: auto !important;" +
+        "object-fit: contain !important;" +
+        "margin: 0 auto !important;" +
+        "display: block !important;" +
+      "}" +
+      "figure.logo {" +
+        "margin: 2em auto !important;" +
+        "text-align: center !important;" +
+      "}" +
+      "figure.logo img {" +
+        "max-width: min(54%, 280px) !important;" +
+        "height: auto !important;" +
+        "margin: 0 auto !important;" +
+        "display: block !important;" +
+      "}" +
+      "figure.hr {" +
+        "margin: 1.5em auto !important;" +
+        "text-align: center !important;" +
+      "}" +
+      "figure.hr img {" +
+        "height: 1.2em !important;" +
+        "width: auto !important;" +
+        "display: inline-block !important;" +
+      "}" +
+      "figure.separador {" +
+        "display: flex !important;" +
+        "justify-content: center !important;" +
+        "align-items: center !important;" +
+        "width: auto !important;" +
+        "height: 2.5em !important;" +
+        "max-height: 2.5em !important;" +
+        "margin-top: 1.5em !important;" +
+        "margin-bottom: 1.5em !important;" +
+        "margin-left: auto !important;" +
+        "margin-right: auto !important;" +
+        "text-align: center !important;" +
+        "box-sizing: border-box !important;" +
+        "clear: both !important;" +
+      "}" +
+      "figure.separador img, figure.separador svg {" +
+        "height: 2.5em !important;" +
+        "max-height: 100% !important;" +
+        "width: auto !important;" +
+        "max-width: 100% !important;" +
+        "object-fit: contain !important;" +
+        "display: block !important;" +
+        "margin: 0 auto !important;" +
+        "vertical-align: middle !important;" +
+      "}" +
+      "figure.banner img {" +
+        "width: 100% !important;" +
+        "height: auto !important;" +
+      "}" +
+      "img.entexto {" +
+        "height: 1.2em !important;" +
+        "width: auto !important;" +
+        "margin: 0 0.35em !important;" +
+        "vertical-align: middle !important;" +
+        "display: inline-block !important;" +
       "}" +
       "img {" +
         "max-width: 100% !important;" +
         "box-sizing: border-box !important;" +
       "}" +
+      // Tablas adaptadas
+      "table {" +
+        "display: table !important;" +
+        "margin: 1.5em auto !important;" +
+        "border-collapse: collapse !important;" +
+        "border-spacing: 0 !important;" +
+        "max-width: 100% !important;" +
+        "box-sizing: border-box !important;" +
+      "}" +
+      "caption {" +
+        "font-weight: bold !important;" +
+        "text-align: center !important;" +
+        "margin-bottom: 0.6em !important;" +
+      "}" +
+      "th, td {" +
+        "border: 1px solid currentColor !important;" +
+        "padding: 0.4em 0.7em !important;" +
+        "font-size: 0.95em !important;" +
+      "}" +
+      "th { font-weight: bold !important; }" +
+      ".tabla-fija { table-layout: fixed !important; }" +
+      // Listas, sangrías y utilidades tipográficas
+      "ul, ol {" +
+        "margin-top: 1em !important;" +
+        "margin-bottom: 1em !important;" +
+        "padding-left: 2em !important;" +
+      "}" +
+      "li { margin-bottom: 0.4em !important; }" +
+      "li p { margin-top: 0 !important; margin-bottom: 0.4em !important; }" +
+      "p.listar, .listar { padding-left: 2em !important; }" +
+      ".identar, .identar p, p.identar { text-indent: 1.5em !important; }" +
+      ".noidentar, .noidentar p, p.noidentar { text-indent: 0 !important; }" +
+      ".idt-ln { text-indent: -1.5em !important; margin-left: 1.5em !important; }" +
+      ".no-list { list-style-type: none !important; }" +
+      ".grande, big { font-size: 1.2em !important; }" +
+      "small, .versalita { font-size: 0.833em !important; font-weight: inherit !important; }" +
+      "small b, small strong, b small, strong small { font-weight: bold !important; }" +
+      ".nota { margin: 0.8em 0 !important; padding-top: 0.4em !important; }" +
+      ".nota p { text-indent: 0 !important; margin: 0 !important; }" +
       // Preservar y priorizar alineaciones explícitas de portadas, títulos, firmas y párrafos especiales del EPUB
       ".centrado, .centrado *, .centro, .centro *, .center, .center *, .text-center, .text-center *, .c, .c *, " +
       ".titulo, .titulo *, .subtitulo, .subtitulo *, .autor, .autor *, .dedicatoria, .dedicatoria *, .epigrafe, .epigrafe *, .logo, .logo *, " +
@@ -1273,7 +1478,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!a) return;
         
         const href = a.getAttribute("href");
-        if (!href || href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:")) return;
+        if (!href) return;
+
+        // Abrir enlaces externos en una nueva pestaña para evitar que el iframe intente cargarlos y falle por X-Frame-Options
+        if (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:")) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open(href, "_blank", "noopener,noreferrer");
+          return;
+        }
 
         e.preventDefault();
         e.stopPropagation();
