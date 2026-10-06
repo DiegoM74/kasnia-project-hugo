@@ -41,11 +41,11 @@ volumes:
       pdf: https://drive.google.com/file/d/1B896vD97DkFZbFvhxM4ylq7hbW2_eRpT/view
       epub: https://drive.google.com/file/d/14eDJtJTD9n6_PBJv7-6E-16IORqyjm8i/view
   - num: "02"
-    state: upcoming
+    state: translating
     credits:
       translator: Diego
       corrector: Diego
-      editor: "-"
+      editor: SLN
       pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
