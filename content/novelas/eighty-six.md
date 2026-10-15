@@ -18,7 +18,7 @@ link: "eighty-six"
 status: "uptodate"
 synopsis: "Los “Juggernaut” son drones de combate no tripulados desarrollados por la República de San Magnolia en respuesta a los ataques de los drones autónomos del vecino Imperio de Giad, la “Legión”. Pero en realidad lo de que no son tripulados es una farse, pues lo cierto es que los pilotan los 86, aquellos que se consideran menos que humanos y a los que tratan como meras herramientas. Decidido a combatir hasta su fin, Shin, capitán de un escuadrón compuesto por los 86, lucha sin descanso en un campo de batalla en el cual lo único que le aguarda es la muerte."
 author: "Asato Asato"
-illustrator: "Shirabi"
+illustrator: "Shirabii"
 volumesReleased: 14
 demography: "Seinen (Maduro, Adultos)"
 mangaAdaptation: true
@@ -26,21 +26,21 @@ animeAdaptation: true
 
 volumes:
   - num: "14"
-    state: "published"
-    pdfUpdateDate: "26/04/2026"
-    epubUpdateDate: "26/04/2026"
+    state: published
+    pdfUpdateDate: 15/10/2026
+    epubUpdateDate: 15/10/2026
     credits:
-      translator: "DeepSeek (IA)"
-      corrector: "AndresLD"
-      editor: "Diego"
-      pdfTypesetter: "Diego"
-      epubTypesetter: "Diego"
+      translator: Gemini (IA)
+      corrector: AndrésLD
+      editor: Diego
+      pdfTypesetter: AndrésLD & Diego
+      epubTypesetter: Diego
     propio:
       pdf: true
       epub: true
     drive:
-      pdf: "https://drive.google.com/file/d/1FLcVHNMyxpn4rfaMbkSKduaP1yQb_ixP/view"
-      epub: "https://drive.google.com/file/d/1bEGVwsQElQylMC3rl7xQVgOq69olv0Ae/view"
+      pdf: https://drive.google.com/file/d/1FLcVHNMyxpn4rfaMbkSKduaP1yQb_ixP/view
+      epub: https://drive.google.com/file/d/1bEGVwsQElQylMC3rl7xQVgOq69olv0Ae/view
 
 previousVols:
   - range: "Volúmenes 01 al 13"
