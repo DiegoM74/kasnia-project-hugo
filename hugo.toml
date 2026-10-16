@@ -10,6 +10,7 @@ enableGitInfo = false
   author = "Kasnia Project"
   keywords = "novelas ligeras, light novels, traducción español, novelas japonesas, novelas web, traducción novelas, Kasnia Project"
   images = ["/img/icon/og.jpg"]
+  cdnImages = "https://img.kasniaproject.com"
   
   [params.social]
     facebook = "https://www.facebook.com/kasniaproject"

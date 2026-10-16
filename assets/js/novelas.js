@@ -1,6 +1,8 @@
 (function () {
   "use strict";
 
+  const CDN_IMG = "https://img.kasniaproject.com";
+
   const state = {
     allNovels: [],
     filteredNovels: [],
@@ -162,17 +164,17 @@
             <div class="novelCoverContainer">
               <picture>
                 <source
-                  srcset="/img/cover/avif/${novel.novelId}-400.avif 400w, /img/cover/avif/${novel.novelId}-700.avif 700w, /img/cover/avif/${novel.novelId}-900.avif 900w"
+                  srcset="${CDN_IMG}/cover/avif/${novel.novelId}-400.avif 400w, ${CDN_IMG}/cover/avif/${novel.novelId}-700.avif 700w, ${CDN_IMG}/cover/avif/${novel.novelId}-900.avif 900w"
                   sizes="${coverSizes}"
                   type="image/avif"
                 />
                 <source
-                  srcset="/img/cover/jpg/${novel.novelId}-400.jpg 400w, /img/cover/jpg/${novel.novelId}-700.jpg 700w, /img/cover/jpg/${novel.novelId}-900.jpg 900w"
+                  srcset="${CDN_IMG}/cover/jpg/${novel.novelId}-400.jpg 400w, ${CDN_IMG}/cover/jpg/${novel.novelId}-700.jpg 700w, ${CDN_IMG}/cover/jpg/${novel.novelId}-900.jpg 900w"
                   sizes="${coverSizes}"
                   type="image/jpeg"
                 />
                 <img
-                  src="/img/cover/jpg/${novel.novelId}-400.jpg"
+                  src="${CDN_IMG}/cover/jpg/${novel.novelId}-400.jpg"
                   alt="${novel.nameJp}"
                   class="novelCover"
                   loading="lazy"

@@ -37,7 +37,7 @@
       "reviewCount": "100"
     },
     "url": "{{ .Permalink }}",
-    "image": "{{ .Site.BaseURL }}img/cover/jpg/{{ printf "%02s" .Params.novelId }}.jpg",
+    "image": "{{ site.Params.cdnImages }}/cover/jpg/{{ printf "%02s" .Params.novelId }}-700.jpg",
     "translationOfWork": {
       "@type": "Book",
       "name": "{{ .Params.nameJp }}",
@@ -57,18 +57,18 @@
       <span class="statusBadge {{ .Params.status }}"></span>
         <picture>
           <source
-            srcset="/img/cover/avif/{{ $coverId }}-400.avif 400w, /img/cover/avif/{{ $coverId }}-700.avif 700w, /img/cover/avif/{{ $coverId }}-900.avif 900w"
+            srcset="{{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-400.avif 400w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-700.avif 700w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-900.avif 900w"
             sizes="(max-width: 360px) calc(100vw - 2rem), 320px"
             type="image/avif"
           />
           <source
-            srcset="/img/cover/jpg/{{ $coverId }}-400.jpg 400w, /img/cover/jpg/{{ $coverId }}-700.jpg 700w, /img/cover/jpg/{{ $coverId }}-900.jpg 900w"
+            srcset="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg 400w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-700.jpg 700w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-900.jpg 900w"
             sizes="(max-width: 360px) calc(100vw - 2rem), 320px"
             type="image/jpeg"
           />
           <img
             class="novelCover"
-            src="/img/cover/jpg/{{ $coverId }}-400.jpg"
+            src="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg"
             alt="Portada de {{ .Params.novelTitle }}"
             loading="eager"
           />
@@ -206,18 +206,18 @@
             {{ end }}
               <picture>
                 <source
-                  srcset="/img/vols/{{ $coverId }}/avif/v{{ $num }}-400.avif 400w, /img/vols/{{ $coverId }}/avif/v{{ $num }}-700.avif 700w"
+                  srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $num }}-400.avif 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $num }}-700.avif 700w"
                   sizes="(max-width: 380px) calc(100vw - 2rem), (max-width: 560px) calc(50vw - 2rem), (max-width: 750px) calc(33vw - 2rem), 207px"
                   type="image/avif"
                 />
                 <source
-                  srcset="/img/vols/{{ $coverId }}/jpg/v{{ $num }}-400.jpg 400w, /img/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg 700w"
+                  srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-400.jpg 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg 700w"
                   sizes="(max-width: 380px) calc(100vw - 2rem), (max-width: 560px) calc(50vw - 2rem), (max-width: 750px) calc(33vw - 2rem), 207px"
                   type="image/jpeg"
                 />
                 <img
                   class="volumeCover"
-                  src="/img/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg"
+                  src="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg"
                   alt="Volumen {{ $num }}"
                   loading="lazy"
                 />

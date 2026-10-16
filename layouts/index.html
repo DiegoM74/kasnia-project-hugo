@@ -74,17 +74,17 @@
             <div class="novelCoverContainer">
               <picture>
                 <source
-                  srcset="/img/cover/avif/{{ $coverId }}-400.avif 400w, /img/cover/avif/{{ $coverId }}-700.avif 700w, /img/cover/avif/{{ $coverId }}-900.avif 900w"
+                  srcset="{{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-400.avif 400w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-700.avif 700w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-900.avif 900w"
                   sizes="(max-width: 500px) calc(100vw - 2rem), (max-width: 756px) 434px, 279px"
                   type="image/avif"
                 />
                 <source
-                  srcset="/img/cover/jpg/{{ $coverId }}-400.jpg 400w, /img/cover/jpg/{{ $coverId }}-700.jpg 700w, /img/cover/jpg/{{ $coverId }}-900.jpg 900w"
+                  srcset="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg 400w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-700.jpg 700w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-900.jpg 900w"
                   sizes=" (max-width: 500px) calc(100vw - 2rem), (max-width: 756px) 434px, 279px"
                   type="image/jpeg"
                 />
                 <img
-                  src="/img/cover/jpg/{{ $coverId }}-400.jpg"
+                  src="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg"
                   alt="Portada {{ .Params.novelTitle }}"
                   class="novelCover"
                   loading="lazy"

@@ -208,21 +208,15 @@ previousVols:
 1.  Crear el archivo `mi-novela.md` en `/content/novelas/`.
 2.  Definir un frontmatter completo con un `novelId` secuencial y no utilizado (ej. `"15"`).
 3.  Establecer el `link` con el valor `"mi-novela"` (debe coincidir con el nombre del archivo).
-4.  Crear la carpeta `/images/15/` en el proyecto de procesamiento de imágenes.
-5.  Depositar la imagen de portada y los volúmenes en formato JPG (`v01.jpg`, `v02.jpg`, etc.) dentro de `/images/15/`.
-6.  Ejecutar el procesador de imágenes (`node process_images.js` en `/images`) para generar y distribuir automáticamente todas las imágenes necesarias a `/static/img/`.
-7.  Asegurar que los estados de los volúmenes y del proyecto en general estén actualizados en el frontmatter.
+4.  Subir la imagen de la portada / volúmenes a través de **kasnia-admin** (o mediante el workflow `process-images.yml` en GitHub Actions). La imagen se almacena en Cloudflare R2 (`img.kasniaproject.com`) y se procesa automáticamente en variantes AVIF y JPG.
+5.  Asegurar que los estados de los volúmenes y del proyecto en general estén actualizados en el frontmatter.
 
 #### Paso 2: Añadir un Nuevo Volumen
 
-1.  Subir el archivo de la portada del volumen en formato JPG a `/images/[novelId]/v[num].jpg` (ej: `/images/07/v15.jpg` para el volumen 15 de Eighty-Six).
-2.  Navegar a la carpeta `/images` en tu terminal y ejecutar el comando:
-    ```bash
-    node process_images.js
-    ```
-    _(Nota: El script detectará la nueva imagen, la convertirá y la redimensionará en formatos AVIF y JPG a sus respectivas ubicaciones en `/static/img/vols/` y actualizará las portadas si corresponde)._
-3.  Editar el archivo `.md` de la novela en `/content/novelas/[slug].md`.
-4.  En la sección `volumes`, añadir el objeto correspondiente al volumen estructurando adecuadamente los créditos, fechas, estado y enlaces.
+1.  Subir el archivo de la portada del volumen desde **kasnia-admin** en la sección de la novela o el gestor de imágenes.
+    _(Nota: kasnia-admin redimensionará la imagen original con Lanczos3 a máx. 1.000px y la subirá a `raw/[novelId]/v[num].jpg` en R2, disparando el workflow de GitHub Actions para generar las variantes AVIF y JPG en `https://img.kasniaproject.com`)._
+2.  Editar el archivo `.md` de la novela en `/content/novelas/[slug].md`.
+3.  En la sección `volumes`, añadir el objeto correspondiente al volumen estructurando adecuadamente los créditos, fechas, estado y enlaces.
 
 ---
 

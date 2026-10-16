@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const CDN_IMG = 'https://img.kasniaproject.com';
   const rankingDataEl = document.getElementById('rankingData');
   const novelasDataEl = document.getElementById('novelasData');
   const rankingList = document.getElementById('rankingList');
@@ -117,17 +118,17 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="rankingCoverContainer">
           <picture>
             <source
-              srcset="/img/cover/avif/${coverId}-400.avif 400w, /img/cover/avif/${coverId}-700.avif 700w, /img/cover/avif/${coverId}-900.avif 900w"
+              srcset="${CDN_IMG}/cover/avif/${coverId}-400.avif 400w, ${CDN_IMG}/cover/avif/${coverId}-700.avif 700w, ${CDN_IMG}/cover/avif/${coverId}-900.avif 900w"
               sizes="${coverSizes}"
               type="image/avif"
             />
             <source
-              srcset="/img/cover/jpg/${coverId}-400.jpg 400w, /img/cover/jpg/${coverId}-700.jpg 700w, /img/cover/jpg/${coverId}-900.jpg 900w"
+              srcset="${CDN_IMG}/cover/jpg/${coverId}-400.jpg 400w, ${CDN_IMG}/cover/jpg/${coverId}-700.jpg 700w, ${CDN_IMG}/cover/jpg/${coverId}-900.jpg 900w"
               sizes="${coverSizes}"
               type="image/jpeg"
             />
             <img
-              src="/img/cover/jpg/${coverId}-400.jpg"
+              src="${CDN_IMG}/cover/jpg/${coverId}-400.jpg"
               alt="Portada ${novel.title}"
               class="rankingCover"
               loading="lazy"
