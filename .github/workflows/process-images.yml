@@ -1,0 +1,55 @@
+name: Process Images (R2)
+
+on:
+  workflow_dispatch:
+    inputs:
+      novelId:
+        description: 'ID de la novela (ej: 01, 07)'
+        required: false
+        type: string
+        default: ''
+      volNum:
+        description: 'Número de volumen (ej: 01, 15)'
+        required: false
+        type: string
+        default: ''
+      isCover:
+        description: '¿Es la portada principal de la novela?'
+        required: false
+        type: string
+        default: 'false'
+      forceAll:
+        description: '¿Procesar todas las imágenes en raw/? (true/false)'
+        required: false
+        type: string
+        default: 'false'
+
+jobs:
+  process-images:
+    name: Process & Optimize Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: 'scripts/package-lock.json'
+
+      - name: Install dependencies
+        run: npm --prefix scripts ci
+
+      - name: Process Images with Sharp
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME || 'img' }}
+          INPUT_NOVEL_ID: ${{ inputs.novelId }}
+          INPUT_VOL_NUM: ${{ inputs.volNum }}
+          INPUT_IS_COVER: ${{ inputs.isCover }}
+          INPUT_FORCE_ALL: ${{ inputs.forceAll }}
+        run: node scripts/process-images-r2.js

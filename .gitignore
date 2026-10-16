@@ -27,8 +27,13 @@ Thumbs.db
 *.tmp
 *.log
 
-# Procesamiento de imágenes
+# Dependencies
+node_modules/
+scripts/node_modules/
+
+# Procesamiento de imágenes (legacy)
 images/*
 !images/process_images.js
 !images/package.json
 !images/package-lock.json
+
