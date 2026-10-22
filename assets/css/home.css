@@ -108,56 +108,164 @@ main {
 }
 
 /* ========================================
-   RECRUITMENT BANNER
+   LATEST RELEASE BANNER (MOBILE-FIRST)
 ======================================== */
-.recruitmentBanner {
+.latestReleaseSection {
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
+  max-width: 760px;
+  margin: -3.2rem auto -2.2rem;
+}
+
+.latestReleaseBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  padding: 0.85rem 1rem;
   background: linear-gradient(
     135deg,
-    rgba(255, 154, 197, 0.03) 0%,
+    rgba(255, 154, 197, 0.04) 0%,
     var(--bg-secondary) 100%
   );
   border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
+  border-left: 3px solid var(--accent);
   border-radius: 12px;
-  box-shadow: var(--shadow-card);
-  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.bannerTitle {
-  margin-bottom: 0.5rem;
+[data-theme="light"] .latestReleaseBanner {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.latestReleaseBanner:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.bannerMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 999 1 280px;
+  min-width: 0;
+}
+
+.bannerBadges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.bannerTag {
   color: var(--accent);
-  font-size: 1.3rem;
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.bannerText {
-  color: var(--text-primary);
-  font-size: 1rem;
-}
-
-.highlightLink {
+.releaseBadge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  color: var(--text-primary);
+  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 1px solid var(--accent);
-  transition: color 0.2s ease;
+  border-radius: 50px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
-.highlightLink:hover {
+.releaseBadge.statePublished {
+  background: rgba(34, 197, 94, 0.14);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.releaseBadge.statePreview {
+  background: rgba(245, 158, 11, 0.14);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="light"] .releaseBadge.statePublished {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+  border-color: rgba(22, 163, 74, 0.25);
+}
+
+[data-theme="light"] .releaseBadge.statePreview {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border-color: rgba(217, 119, 6, 0.25);
+}
+
+.bannerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bannerNovelTitle {
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.bannerMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.bannerVolume {
   color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
 }
 
-.iconExternal {
-  width: 14px;
-  height: 14px;
+.bannerSeparator {
+  opacity: 0.4;
+  font-size: 0.7rem;
+}
+
+.bannerDate {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+}
+
+.metaIcon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.bannerAction {
+  display: flex;
+  align-items: center;
+  flex: 1 1 140px;
+}
+
+.releaseActionBtn {
+  width: 100%;
+  padding: 0.48rem 1rem;
+  font-size: 0.82rem;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.releaseActionBtn svg {
+  width: 13px;
+  height: 13px;
 }
 
 /* ========================================

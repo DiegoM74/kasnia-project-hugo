@@ -24,26 +24,127 @@
   </div>
 </section>
 
-<!--<section class="recruitmentBanner">
-  <div class="bannerContent">
-    <h2 class="bannerTitle">Aviso Importante</h2>
-    <p class="bannerText">
-      Estamos reclutando traductores (ing-esp) y editores (nivel medio o avanzado)
-      que quiera ayudar al grupo. Si estás interesado, contáctanos en
-      <a
-        href="https://www.facebook.com/kasniaproject"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="highlightLink"
-      >
-        nuestro Facebook
-        <svg class="iconExternal">
-          <use href="/img/svg/home.svg#iconExternal" />
-        </svg> </a
-      >.
-    </p>
-  </div>
-</section>-->
+{{/* ========================================
+   ÚLTIMO LANZAMIENTO (AUTOMÁTICO)
+======================================== */}}
+{{ $latestVolume := dict }}
+{{ $maxSortKey := 0 }}
+
+{{ range where site.RegularPages "Section" "novelas" }}
+  {{ $novel := . }}
+  {{ $novelTitle := $novel.Params.novelTitle | default $novel.Title }}
+  {{ $novelLink := $novel.RelPermalink }}
+
+  {{ range $novel.Params.volumes }}
+    {{ $state := .state }}
+    {{ if in (slice "published" "preview") $state }}
+      {{ $num := .num }}
+
+      {{/* Extraer fecha de PDF */}}
+      {{ $pdfSortKey := 0 }}
+      {{ $pdfDateStr := "" }}
+      {{ with .pdfUpdateDate }}
+        {{ $pdfDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
+        {{ $parts := split $pdfDateStr "/" }}
+        {{ if eq (len $parts) 3 }}
+          {{ $d := strings.Trim (index $parts 0) " " }}
+          {{ if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end }}
+          {{ $m := strings.Trim (index $parts 1) " " }}
+          {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
+          {{ $y := strings.Trim (index $parts 2) " " }}
+          {{ $pdfSortKey = int (printf "%s%s%s" $y $m $d) }}
+        {{ end }}
+      {{ end }}
+
+      {{/* Extraer fecha de EPUB */}}
+      {{ $epubSortKey := 0 }}
+      {{ $epubDateStr := "" }}
+      {{ with .epubUpdateDate }}
+        {{ $epubDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
+        {{ $parts := split $epubDateStr "/" }}
+        {{ if eq (len $parts) 3 }}
+          {{ $d := strings.Trim (index $parts 0) " " }}
+          {{ if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end }}
+          {{ $m := strings.Trim (index $parts 1) " " }}
+          {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
+          {{ $y := strings.Trim (index $parts 2) " " }}
+          {{ $epubSortKey = int (printf "%s%s%s" $y $m $d) }}
+        {{ end }}
+      {{ end }}
+
+      {{/* Tomar la fecha más reciente entre PDF y EPUB */}}
+      {{ $volSortKey := $pdfSortKey }}
+      {{ $displayDate := $pdfDateStr }}
+      {{ if gt $epubSortKey $volSortKey }}
+        {{ $volSortKey = $epubSortKey }}
+        {{ $displayDate = $epubDateStr }}
+      {{ end }}
+
+      {{ if gt $volSortKey $maxSortKey }}
+        {{ $maxSortKey = $volSortKey }}
+        {{ $latestVolume = dict
+          "novelTitle" $novelTitle
+          "novelLink" $novelLink
+          "volNum" $num
+          "state" $state
+          "date" $displayDate
+        }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if gt $maxSortKey 0 }}
+  {{ with $latestVolume }}
+    {{ $stateText := "" }}
+    {{ $stateClass := "" }}
+    {{ if eq .state "published" }}
+      {{ $stateText = "Publicado" }}
+      {{ $stateClass = "statePublished" }}
+    {{ else if eq .state "preview" }}
+      {{ $stateText = "Vista Previa" }}
+      {{ $stateClass = "statePreview" }}
+    {{ end }}
+
+    <section class="latestReleaseSection">
+      <div class="latestReleaseBanner">
+        <div class="bannerMain">
+          <div class="bannerBadges">
+            <span class="bannerTag">Último Lanzamiento</span>
+            {{ with $stateText }}
+              <span class="releaseBadge {{ $stateClass }}">{{ . }}</span>
+            {{ end }}
+          </div>
+
+          <div class="bannerContent">
+            <span class="bannerNovelTitle">{{ .novelTitle }}</span>
+            <div class="bannerMeta">
+              <span class="bannerVolume">Volumen {{ .volNum }}</span>
+              {{ with .date }}
+                <span class="bannerSeparator">•</span>
+                <span class="bannerDate">
+                  <svg class="metaIcon">
+                    <use href="/img/svg/home.svg#iconCalendar" />
+                  </svg>
+                  Actualizado el {{ . }}
+                </span>
+              {{ end }}
+            </div>
+          </div>
+        </div>
+
+        <div class="bannerAction">
+          <a href="{{ .novelLink }}" class="btnPrimary releaseActionBtn">
+            <span>Ir a descargar</span>
+            <svg>
+              <use href="/img/svg/home.svg#arrowRight" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  {{ end }}
+{{ end }}
 
 <section class="featuredSection">
   <div class="sectionHeader">
