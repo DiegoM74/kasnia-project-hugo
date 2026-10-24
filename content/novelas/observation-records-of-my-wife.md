@@ -57,7 +57,7 @@ volumes:
       pdf: https://drive.google.com/file/d/1tqYg3zii3yPkv8MEcrbx7RPAYvJC53C-/view
       epub: https://drive.google.com/file/d/1Jp9OhhfKIjznrymFLPR8XgsveowrmTxL/view
   - num: "03"
-    state: upcoming
+    state: translating
     credits:
       translator: Diego
       corrector: Diego
