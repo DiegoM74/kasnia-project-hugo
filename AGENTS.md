@@ -344,6 +344,8 @@ Antes de dar por terminado un cambio en el código:
   ```
   Asegúrate de que la consola no imprima ningún warning o error de Go templates o Goldmark, y que la carpeta `/public` se genere correctamente sin archivos huérfanos.
 
+Las reglas de la sección 7 tienen prioridad absoluta sobre cualquier skill. Si una skill sugiere Tailwind, librerías JS, kebab-case o BEM, ignora esa parte.
+
 ---
 
 ## 8. Lector ePub Integrado (epub.js)
