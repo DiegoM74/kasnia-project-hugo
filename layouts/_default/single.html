@@ -1,19 +1,8 @@
 {{ define "css" }}
-  {{ $pageCSS := "" }}
-  {{ if eq .File.BaseFileName "dmca" }}
-    {{ $pageCSS = "legal.css" }}
-  {{ else if eq .File.BaseFileName "privacy" }}
-    {{ $pageCSS = "legal.css" }}
-  {{ else }}
-    {{ $pageCSS = printf "%s.css" .File.BaseFileName }}
-  {{ end }}
-
-  {{ if $pageCSS }}
-    {{ $cssFile := resources.Get (printf "css/%s" $pageCSS) }}
-    {{ if $cssFile }}
-      {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
-      <link rel="stylesheet" href="{{ $css.Permalink }}">
-    {{ end }}
+  {{ $cssFile := resources.Get (printf "css/%s.css" .File.BaseFileName) }}
+  {{ if $cssFile }}
+    {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $css.Permalink }}">
   {{ end }}
 {{ end }}
 

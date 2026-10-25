@@ -32,9 +32,15 @@ c:\Users\Diego\Documents\kasnia-project-hugo\
 │   ├── novelas/             # Archivos de contenido de cada novela (.md)
 │   └── *.md                 # Páginas estáticas individuales (staff, donaciones, dmca, privacy)
 ├── layouts/                 # Plantillas HTML (Go templates) que definen la estructura visual
-│   ├── _default/            # Plantilla base (baseof.html) y plantilla genérica (single.html)
+│   ├── _default/            # Plantilla base (baseof.html) y fallback genérico (single.html)
 │   ├── novelas/             # Layouts para fichas de novela y catálogo (HTML y JSON)
-│   └── staff/               # Layout para la lista de miembros del staff
+│   ├── comisiones/          # Tarifas y solicitud de comisiones
+│   ├── dmca/                # Política DMCA
+│   ├── donaciones/          # Información de donaciones e historial dinámico
+│   ├── lector/              # Lector ePub online
+│   ├── privacy/             # Política de privacidad
+│   ├── ranking/             # Ranking de popularidad
+│   └── staff/               # Lista de miembros del equipo
 ├── static/                  # Archivos estáticos crudos que se copian tal cual al build final
 │   └── img/                 # Directorio de imágenes organizadas (cover, vols, svg, icon, staff)
 ├── images/                  # Utilidad para optimizar imágenes y portadas (Sharp + Node.js)
@@ -177,27 +183,44 @@ previousVols:
 
 ---
 
-### 5.2 Páginas Especiales y Estáticas
+### 5.2 Páginas Estáticas e Institucionales (`content/*.md`)
 
-- **DMCA (`dmca.md`) y Privacidad (`privacy.md`)**:
-  Contienen texto legal estructurado con secciones HTML. Cargan automáticamente el archivo CSS `legal.css`.
+Todas las páginas individuales del sitio en `/content/*.md` se definen exclusivamente mediante Frontmatter YAML. No contienen código HTML en su cuerpo; todo el maquetado y los estilos residen en sus plantillas correspondientes en `/layouts/`.
+
 - **Donaciones (`donaciones.md`)**:
-  Contiene la descripción, enlaces de PayPal y el historial de transacciones. Utiliza código HTML crudo estructurado por `<article class="historyItem">` con clases de importe `amountSpent` (para gastos en rojo) y `amountReceived` (para ingresos en verde). Carga automáticamente `donaciones.css`.
+  Define metadatos (`type: "donaciones"`, `layout: "single"`) y el historial de transacciones en la colección `historial`:
+  ```yaml
+  historial:
+    - nombre: "Donación"
+      fecha: "2026-09-17"
+      fechaTexto: "17 Septiembre 2026"
+      descripcion: '"Gracias por su trabajo"' # Opcional
+      monto: "+ $7,65"
+      tipo: "received" # "received" (ingreso) | "spent" (gasto)
+  ```
+  La plantilla `layouts/donaciones/single.html` renderiza la vista y clasifica automáticamente cada movimiento con `amountReceived` (verde) o `amountSpent` (rojo). Carga `donaciones.css`.
+
 - **Staff (`staff.md`)**:
-  Define a los miembros activos en el frontmatter:
+  Define a los miembros activos del equipo en la colección `miembros`:
   ```yaml
   layout: list
   miembros:
     - staffId: "01"
       nombre: "Lugh"
       rol: "Traductor, Corrector, Admin y Maquetador PDF"
-      badge: "Creator"
+      badge: "Creator" # Opcional
       novelIds: ["02", "03", "04", "09"]
   ```
+  La plantilla `layouts/staff/list.html` itera sobre los miembros, enlaza avatares (`/img/staff/`) y resuelve dinámicamente los enlaces a sus proyectos. Carga `staff.css`.
 
-  - `staffId`: ID numérico que enlaza al avatar correspondiente en `static/img/staff/jpg/` y `avif/`.
-  - `badge` (Opcional): Permite destacar al miembro en el grid (ej. `"Creator"`, `"Admin"`).
-  - `novelIds`: Lista de strings correspondientes a los `novelId` de las novelas en las que el miembro colabora. El layout resolverá automáticamente los títulos y enlaces dinámicamente.
+- **Comisiones (`comisiones.md`)**:
+  Define metadatos de página (`type: "comisiones"`, `layout: "single"`). Su contenido, tarifas y condiciones residen en su plantilla `layouts/comisiones/single.html` con `comisiones.css`.
+
+- **DMCA (`dmca.md`) y Privacidad (`privacy.md`)**:
+  Definen metadatos de página (`type: "dmca"` / `type: "privacy"`, `layout: "single"`). Sus plantillas en `layouts/dmca/single.html` y `layouts/privacy/single.html` contienen el marcado legal y cargan `legal.css`.
+
+- **Ranking (`ranking.md`) y Lector (`lector.md`)**:
+  Definen metadatos de página (`type: "ranking"` / `type: "lector"`, `layout: "single"`). Su estructura y lógica residen en `layouts/ranking/single.html` y `layouts/lector/single.html`.
 
 ---
 
@@ -238,19 +261,26 @@ Las plantillas HTML procesan los metadatos de los archivos markdown para generar
   ```go
   {{ $destacadas := slice "01" "09" "07" }}
   ```
-- **`_default/single.html` (Páginas Estáticas Genéricas)**:
-  Se utiliza para renderizar páginas estáticas individuales como `donaciones.md`, `dmca.md` o `privacy.md`. Carga dinámicamente el estilo CSS basado en el nombre del archivo de origen:
-  - `dmca.md` y `privacy.md` cargan `legal.css`.
-  - Cualquier otra página estática carga automáticamente `css/[File.BaseFileName].css`.
-    Renderiza el contenido compilado mediante `{{ .Content }}`.
+- **`_default/single.html` (Fallback Genérico)**:
+  Plantilla de respaldo para páginas individuales que rendericen contenido Markdown directo (`{{ .Content }}`). Carga dinámicamente `css/[File.BaseFileName].css` si el archivo existe.
 - **`novelas/list.html` (Catálogo)**:
-  Define el layout del catálogo de novelas. **No genera elementos HTML de novelas en tiempo de compilación**. En su lugar, prepara el esqueleto de búsqueda, los filtros de género vacíos, el contenedor del grid (`<div id="novelsGrid" class="novelsGrid"></div>`) y el sistema de paginación. Carga `novelas.css` y `novelas.js` para renderizar el contenido dinámicamente en el lado del cliente.
+  Define el layout del catálogo de novelas. Prepara el esqueleto de búsqueda, filtros de género, grid dinámico y paginación en cliente. Carga `novelas.css` y `novelas.js`.
 - **`novelas/single.html` (Ficha de Novela)**:
-  Define el layout detallado de cada novela. Muestra la información técnica (sinopsis, autor, ilustrador, badges de adaptaciones a manga o anime) y genera las tarjetas de cada volumen (`volumeCard`). Los datos de descarga, créditos y actualización se inyectan como atributos de datos HTML (`data-volume`, `data-credits`, `data-links`, `data-pdf-update`, `data-epub-update`) formateados en JSON para ser consumidos por el cliente.
-- **`novelas/list.novelasJSON.json` (Generación de Catálogo JSON)**:
-  Layout alternativo para la sección `/novelas/` que genera el archivo estático `/novelas/novelas.json` en tiempo de compilación. Recopila información básica de todas las novelas en la carpeta `/novelas/` y las exporta como un arreglo JSON ordenado alfabéticamente por título en inglés.
-- **`staff/list.html` (Miembros)**:
-  Itera sobre la lista de miembros de `content/staff.md`. Muestra sus avatares (con fallback HTML/CSS si no existen) y busca dinámicamente en las páginas del sitio de tipo novela cuáles coinciden con los `novelIds` del miembro para crear sus enlaces correspondientes.
+  Define el layout detallado de cada novela: metadatos técnicos, sinopsis colapsable y tarjetas de volúmenes con data attributes consumidos por los modales de descarga. Carga `novela.css` y `novela.js`.
+- **`novelas/list.novelasJSON.json` (Catálogo JSON)**:
+  Genera el archivo estático `/novelas/novelas.json` en tiempo de compilación con la lista ordenada de novelas para el catálogo interactivo.
+- **`staff/list.html` (Equipo)**:
+  Itera sobre la lista de miembros de `content/staff.md`, renderiza avatares y genera enlaces dinámicos a sus novelas asociadas. Carga `staff.css`.
+- **`donaciones/single.html` (Donaciones)**:
+  Define la estructura de héroe, información, botón de PayPal e itera dinámicamente sobre la colección `historial` de `content/donaciones.md`. Carga `donaciones.css`.
+- **`comisiones/single.html` (Comisiones)**:
+  Define el tarifario, requisitos, plazos de entrega y condiciones del servicio. Carga `comisiones.css`.
+- **`ranking/single.html` (Ranking)**:
+  Estructura del ranking de popularidad de novelas. Carga `ranking.css` y `ranking.js`.
+- **`lector/single.html` (Lector Online)**:
+  Visor en línea para archivos EPUB basado en epub.js. Carga `lector.css` y `lector.js`.
+- **`dmca/single.html` y `privacy/single.html` (Legales)**:
+  Maquetado completo de las políticas de DMCA y Privacidad respectivamente. Cargan `legal.css`.
 
 ### 6.2 Assets y Procesamiento (`/assets`)
 
@@ -274,12 +304,12 @@ _(Nota: El script inyecta la URL del asset procesado y añade el hash único en 
 - **Scripts JS ES6+**:
   - `theme.js`: Cargado al principio de `<head>`. Inicializa el tema (`dark`/`light`) desde `localStorage` para evitar parpadeos visuales. Controla el toggle del tema implementando la API de View Transitions si el navegador la soporta.
   - `main.js`: Lógica global del menú móvil (`mobileMenu`) y throttle por `requestAnimationFrame` del botón flotante "Volver arriba".
-  - `novelas.js`: Realiza un `fetch` asíncrono hacia `/novelas/novelas.json`. Implementa los filtros de género (controlados por un `Set`), búsqueda de texto con debounce de 300ms, generación de marcado para las tarjetas del grid con `DocumentFragment` y paginación cliente limitada a 15 elementos por página.
+  - `novelas.js`: Realiza un `fetch` asíncrono hacia `/novelas/novelas.json`. Implementa los filtros de género (controlados por un `Set`), búsqueda de texto con debounce de 300ms, generación de marcado para las tarjetas del grid con `DocumentFragment`
   - `novela.js`: Lógica del colapso dinámico de la sinopsis e inicialización de los modales. Al hacer click en una tarjeta de volumen, lee sus atributos `data-*`, los analiza como JSON y rellena el modal de descarga con los créditos correspondientes, activando o desactivando los botones de descarga de PDF/EPUB según el servidor seleccionado (Servidor Propio vs Google Drive).
 
-### 6.3 Shortcodes
+### 6.3 Separación Estricta de Contenido y Maquetado
 
-**El proyecto no utiliza shortcodes personalizados**. Para incluir elementos interactivos o tablas personalizadas en las páginas markdown (como el historial de movimientos de `donaciones.md`), se utiliza HTML crudo directamente en el Markdown, lo cual es permitido por la directiva `unsafe = true` en el renderizador Goldmark en `hugo.toml`.
+**El proyecto no utiliza shortcodes ni código HTML dentro de Markdown**. Toda la estructura visual, marcado semántico y estilos residen exclusivamente en plantillas dentro de `/layouts/`. Los archivos Markdown en `/content/` se limitan estrictamente a metadatos y colecciones de datos en su frontmatter YAML (como el historial en `donaciones.md`, los integrantes en `staff.md` o los proyectos en `comisiones.md`).
 
 ---
 
@@ -291,8 +321,7 @@ Para mantener la consistencia del proyecto y evitar errores de compilación o vi
 
 - **NO usar frameworks CSS**: Está prohibido añadir TailwindCSS, Bootstrap o cualquier otro framework CSS. Todos los estilos deben ser Vanilla CSS.
 - **NO añadir dependencias JS externas**: No añadas React, Vue, Svelte u otras librerías pesadas al frontend. La interactividad debe implementarse usando Vanilla JS (ES6+) nativo.
-- **NO romper el sistema de paginación**: El catálogo dinámico está programado en cliente mediante `novelas.js` consumiendo `novelas.json`. No intentes cambiarlo por la paginación interna de Hugo. El límite de visualización es de 15 novelas por página.
-- **NO usar shortcodes personalizados**: La inclusión de elementos especiales en Markdown (como el historial de movimientos de `donaciones.md`) se hace mediante HTML crudo nativo directamente en el archivo `.md`. No crees plantillas de shortcode en layouts.
+- **NO escribir código HTML en Markdown ni usar shortcodes**: Todo el maquetado visual debe residir en plantillas dentro de `/layouts`. El contenido en `/content` se compone únicamente de metadatos o colecciones estructuradas en YAML.
 - **NO usar kebab-case o BEM en clases CSS**: Este proyecto utiliza **camelCase** para nombrar clases de CSS (ej: `.navbarContainer`, `.volumeCard`, `.statusBadge`) y variables/funciones en JavaScript. No utilices guiones o guiones bajos para separar nombres de clases.
 - **NO alterar los estados predefinidos**:
   - **Novelas (`status`)**: Solo usar `active`, `uptodate`, `paused`, `completed`, `planned`.

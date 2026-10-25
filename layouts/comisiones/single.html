@@ -11,16 +11,11 @@
      1. HERO SECTION
 ======================================== -->
 <section class="heroSection">
-  <div class="heroBadge">
-    <svg class="badgeIcon"><use href="/img/svg/comisiones.svg#tagIcon" /></svg>
-    <span>Oferta Primer Mes (hasta XX/XX): $4 / 100 págs</span>
-  </div>
-
   <h1 class="pageTitle">{{ .Title }}</h1>
 
   <p class="heroSubtitle">
-    ¿Quieres leer el siguiente volumen de tu novela ligera favorita en español sin esperar meses?
-    En Kasnia Project ofrecemos comisiones de traducción de inglés a español, con traducción literaria cuidada, corrección de estilo y maquetación profesional en PDF y EPUB.
+    ¿Quieres leer el siguiente volumen de tu novela ligera favorita sin esperar meses?
+    Traducimos de inglés a español con estilo cuidado, corrección minuciosa y maquetación en PDF y EPUB.
   </p>
 
   <div class="heroActions">
@@ -47,7 +42,7 @@
         <h3 class="stepTitle">Solicitud y Cotización</h3>
       </div>
       <p class="stepDescription">
-        Envíanos un mensaje por <a href="https://www.facebook.com/kasniaproject" target="_blank" rel="noopener noreferrer">Facebook Messenger</a> con el nombre de la obra y el volumen. Calculamos el presupuesto exacto por conteo de palabras y estimamos el tiempo de entrega.
+        Escríbenos por <a href="https://www.facebook.com/kasniaproject" target="_blank" rel="noopener noreferrer">Facebook Messenger</a> con la obra, volumen y tarifa deseada. Calculamos el presupuesto según el conteo de palabras y plazo estimado.
       </p>
     </article>
 
@@ -57,7 +52,7 @@
         <h3 class="stepTitle">Reserva y Pago</h3>
       </div>
       <p class="stepDescription">
-        Aprobada la cotización, se realiza el pago vía PayPal. Se abona como mínimo un 50% de anticipo para iniciar el trabajo (o el 100% en un solo pago si lo prefieres).
+        Aprobada la cotización, se abona vía PayPal un anticipo mínimo del 50% (o 100%) para dar inicio al proyecto.
       </p>
     </article>
 
@@ -67,71 +62,24 @@
         <h3 class="stepTitle">Producción Integral</h3>
       </div>
       <p class="stepDescription">
-        Realizamos la traducción literaria respetando el tono, corrección ortotipográfica y de estilo, limpieza o edición de ilustraciones y maquetación en PDF y EPUB3 oficial.
+        Traducción literaria, corrección y maquetación en PDF y EPUB. La edición de imágenes depende de evaluación previa y disponibilidad de editores (no está asegurada).
       </p>
     </article>
 
     <article class="stepCard stepCardHighlight">
       <div class="stepCardHeader">
         <span class="stepNumber">04</span>
-        <h3 class="stepTitle">Entrega Final</h3>
+        <h3 class="stepTitle">Entrega y Liberación</h3>
       </div>
       <p class="stepDescription">
-        Si abonaste el 50% inicial, se cubre el 50% restante contra entrega. Recibes de inmediato los archivos terminados (PDF, EPUB y carpeta de ilustraciones en alta resolución).
+        Tras liquidar el saldo, recibes los archivos finales. La publicación en la web se realiza en el plazo acordado previamente (desde inmediato hasta un máximo de 1 mes).
       </p>
     </article>
   </div>
 </section>
 
 <!-- ========================================
-     3. BOARD SECTION (IN PROGRESS COMMISSIONS)
-======================================== -->
-<section class="boardSection" id="tablero">
-  <div class="sectionHeader">
-    <h2 class="sectionTitle">Comisiones en Proceso</h2>
-    <p class="sectionSubtitle">
-      Consulta el estado en tiempo real de los proyectos activos en desarrollo.
-    </p>
-  </div>
-
-  {{ if .Params.comisiones }}
-    <div class="boardGrid">
-      {{ range .Params.comisiones }}
-        <article class="boardCard">
-          <div class="boardCardTop">
-            <div class="boardNovelHeader">
-              <svg class="boardNovelIcon"><use href="/img/svg/comisiones.svg#bookIcon" /></svg>
-              <h3 class="boardNovelName">{{ .novela }}</h3>
-            </div>
-            <span class="boardStageBadge">{{ .etapa }}</span>
-          </div>
-
-          <div class="boardCardMeta">
-            <div class="boardMetaRow">
-              <span class="boardMetaLabel">Estado:</span>
-              <span class="boardStatusBadge boardStatus{{ if eq .estado "completed" }}Completed{{ else if eq .estado "paused" }}Paused{{ else }}InProgress{{ end }}">
-                {{ if eq .estado "completed" }}Completado{{ else if eq .estado "paused" }}En Pausa{{ else }}En Progreso{{ end }}
-              </span>
-            </div>
-            {{ if .nota }}
-              <p class="boardNote">{{ .nota }}</p>
-            {{ end }}
-          </div>
-        </article>
-      {{ end }}
-    </div>
-  {{ else }}
-    <div class="boardEmpty">
-      <h3 class="boardEmptyTitle">No hay comisiones en cola en este momento</h3>
-      <p class="boardEmptyText">
-        ¡Tenemos ranuras disponibles! Puedes ponerte en contacto con nosotros hoy mismo para iniciar tu proyecto.
-      </p>
-    </div>
-  {{ end }}
-</section>
-
-<!-- ========================================
-     4. PRICING SECTION
+     3. PRICING SECTION
 ======================================== -->
 <section class="pricingSection" id="precios">
   <div class="sectionHeader">
@@ -140,18 +88,15 @@
   </div>
 
   <div class="pricingGrid">
-    <!-- Single Promotional Pricing Card -->
-    <article class="pricingCard pricingCardPromo">
-      <span class="pricingTagPromo">¡Oferta Primer Mes!</span>
+    <article class="pricingCard">
+      <h3 class="pricingPlanTitle">Estándar</h3>
       <div class="pricingAmountWrapper">
-        <span class="pricingOldPrice">$5</span>
         <span class="pricingCurrency">$</span>
-        <span class="pricingValue">4</span>
+        <span class="pricingValue">5</span>
         <span class="pricingUnit">USD</span>
       </div>
       <p class="pricingBasis">Por cada 25.000 palabras aprox.</p>
       <p class="pricingEquivalent">(Equivalente a 100 páginas de 250 palabras)</p>
-      <span class="pricingPromoNotice">Tarifa promocional por primer mes</span>
 
       <ul class="pricingFeatures">
         <li>
@@ -164,11 +109,37 @@
         </li>
         <li>
           <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Edición de imágenes (según evaluación y disponibilidad)</span>
+        </li>
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
           <span>Maquetación profesional en PDF y EPUB3 oficial</span>
         </li>
         <li>
           <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
           <span>Incluye carpeta de ilustraciones en alta resolución</span>
+        </li>
+      </ul>
+    </article>
+
+    <article class="pricingCard pricingCardFeatured">
+      <h3 class="pricingPlanTitle">Prioritaria</h3>
+      <div class="pricingAmountWrapper">
+        <span class="pricingCurrency">$</span>
+        <span class="pricingValue">10</span>
+        <span class="pricingUnit">USD</span>
+      </div>
+      <p class="pricingBasis">Por cada 25.000 palabras aprox.</p>
+      <p class="pricingEquivalent">(Equivalente a 100 páginas de 250 palabras)</p>
+
+      <ul class="pricingFeatures">
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span>Incluye todo lo contemplado en la tarifa Estándar</span>
+        </li>
+        <li>
+          <svg class="featureCheck"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <span><strong>Prioridad absoluta:</strong> se pausan los demás proyectos para dedicación exclusiva al tuyo</span>
         </li>
       </ul>
     </article>
@@ -182,7 +153,7 @@
         <h3 class="paymentTitle">Cotización por Conteo Exacto</h3>
       </div>
       <p class="paymentDescription">
-        El precio final se calcula con exactitud según la cantidad de palabras del volumen mediante nuestra herramienta interna. Escríbenos para recibir tu presupuesto detallado.
+        Calculamos el costo exacto según las palabras reales del volumen. Escríbenos para recibir tu presupuesto detallado.
       </p>
     </div>
 
@@ -192,7 +163,7 @@
         <h3 class="paymentTitle">Pago Vía PayPal</h3>
       </div>
       <p class="paymentDescription">
-        Se abona como <strong>mínimo el 50% de anticipo</strong> para comenzar a trabajar, aunque puedes depositar el <strong>100% de una sola vez</strong> si lo prefieres. Si abonaste el 50%, el saldo restante se liquida contra entrega.
+        Se abona un <strong>50% de anticipo</strong> para iniciar (o el 100% si prefieres). El saldo restante se liquida contra entrega de los archivos.
       </p>
     </div>
 
@@ -202,14 +173,14 @@
         <h3 class="paymentTitle">Beneficio para Clientes en Ecuador</h3>
       </div>
       <p class="paymentDescription">
-        Si resides en Ecuador, el pago se realiza igualmente por PayPal pero con una comisión interna reducida de la plataforma, traduciéndose en una tarifa final más económica.
+        Si resides en Ecuador, el pago vía PayPal cuenta con una comisión de plataforma reducida, obteniendo una tarifa más económica.
       </p>
     </div>
   </div>
 </section>
 
 <!-- ========================================
-     5. SCOPE SECTION (INCLUDES VS EXCLUDES)
+     4. SCOPE SECTION (INCLUDES VS EXCLUDES)
 ======================================== -->
 <section class="scopeSection" id="incluye">
   <div class="sectionHeader">
@@ -232,28 +203,28 @@
           <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
           <div>
             <strong>Traducción Inglés → Español</strong>
-            <p>Traducción literaria cuidada, priorizando sentido, tono y contexto de la obra.</p>
+            <p>Traducción literaria cuidada, fiel al tono y contexto original.</p>
           </div>
         </li>
         <li>
           <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
           <div>
             <strong>Corrección Ortotipográfica y de Estilo</strong>
-            <p>Revisión minuciosa de ortografía, puntuación, fluidez y coherencia terminológica.</p>
+            <p>Revisión minuciosa de ortografía, puntuación, fluidez y coherencia.</p>
           </div>
         </li>
         <li>
           <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
           <div>
-            <strong>Maquetación PDF y EPUB (Norma W3C EPUB3)</strong>
+            <strong>Ilustraciones en HD (Edición no asegurada)</strong>
+            <p>Incluye todo el arte en alta resolución. La limpieza y edición depende de evaluación previa y disponibilidad (no se garantiza).</p>
+          </div>
+        </li>
+        <li>
+          <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
+          <div>
+            <strong>Maquetación PDF y EPUB (Norma EPUB3)</strong>
             <p>Archivos limpios y maquetados profesionalmente, sin conversores automáticos.</p>
-          </div>
-        </li>
-        <li>
-          <svg class="scopeItemIcon"><use href="/img/svg/comisiones.svg#checkIcon" /></svg>
-          <div>
-            <strong>Edición e Ilustraciones en Alta Resolución</strong>
-            <p>Limpieza de ilustraciones (sujeta a evaluación técnica previa) y carpeta con todo el arte en HD.</p>
           </div>
         </li>
       </ul>
@@ -273,28 +244,28 @@
           <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
           <div>
             <strong>Otros idiomas de origen</strong>
-            <p>El material de origen debe estar en inglés (no se traduce de japonés, coreano ni chino).</p>
+            <p>El material debe estar en inglés (no traducimos de japonés, coreano ni chino).</p>
           </div>
         </li>
         <li>
           <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
           <div>
             <strong>Contenido +18</strong>
-            <p>No se aceptan obras con contenido exclusivamente para adultos (+18).</p>
+            <p>No se aceptan obras con contenido exclusivamente para adultos.</p>
           </div>
         </li>
         <li>
           <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
           <div>
             <strong>Formatos ajenos a Novelas Ligeras</strong>
-            <p>Servicio exclusivo para novelas ligeras (no se traducen novelas web crudas, manga ni manhwa).</p>
+            <p>Servicio exclusivo para novelas ligeras (no novelas web, manga ni manhwa).</p>
           </div>
         </li>
         <li>
           <svg class="scopeItemIcon cross"><use href="/img/svg/comisiones.svg#crossIcon" /></svg>
           <div>
             <strong>Rondas de corrección adicionales por preferencia</strong>
-            <p>Se corrigen errores sin costo; modificaciones por mera preferencia subjetiva se cotizan como extras.</p>
+            <p>Se corrigen errores sin costo. Cambios por preferencia subjetiva se cotizan como extras.</p>
           </div>
         </li>
       </ul>
@@ -303,7 +274,7 @@
 </section>
 
 <!-- ========================================
-     6. DELIVERY SECTION
+     5. DELIVERY SECTION
 ======================================== -->
 <section class="deliverySection" id="tiempos">
   <div class="sectionHeader">
@@ -315,10 +286,12 @@
     <div class="deliveryCard">
       <div class="deliveryCardHeader">
         <svg class="deliveryIcon"><use href="/img/svg/comisiones.svg#clockIcon" /></svg>
-        <h3 class="deliveryTitle">Plazo de Entrega: 1 a 4 Semanas</h3>
+        <h3 class="deliveryTitle">Plazos de Entrega</h3>
       </div>
       <p class="deliveryDescription">
-        El tiempo depende de la extensión de palabras del volumen y de la carga de trabajo en cola. Al cotizar te brindamos una estimación puntual.
+        <strong>Tarifa Prioritaria:</strong> 1 a 2 semanas.<br>
+        <strong>Tarifa Estándar:</strong> 2 a 4 semanas.<br>
+        El plazo exacto dependerá del conteo de palabras del volumen.
       </p>
     </div>
 
@@ -328,14 +301,24 @@
         <h3 class="deliveryTitle">Seguimiento y Muestras en PDF</h3>
       </div>
       <p class="deliveryDescription">
-        La transparencia es primordial: puedes consultar el avance en cualquier momento por mensaje privado y solicitar vistas previas parciales en PDF.
+        Puedes consultar el avance en cualquier momento por mensaje privado y solicitar vistas previas en PDF.
+      </p>
+    </div>
+
+    <div class="deliveryCard">
+      <div class="deliveryCardHeader">
+        <svg class="deliveryIcon"><use href="/img/svg/comisiones.svg#globeIcon" /></svg>
+        <h3 class="deliveryTitle">Publicación Web Abierta</h3>
+      </div>
+      <p class="deliveryDescription">
+        La fecha de liberación en la web se acuerda contigo previamente: puede ser inmediata o en semanas, con un plazo límite de 1 mes.
       </p>
     </div>
   </div>
 </section>
 
 <!-- ========================================
-     7. ORDER SECTION & REQUIREMENTS
+     6. ORDER SECTION & REQUIREMENTS
 ======================================== -->
 <section class="orderSection" id="solicitar">
   <div class="sectionHeader">
@@ -380,7 +363,13 @@
         <li class="orderGuideItem">
           <span class="orderStepNumber">3</span>
           <div>
-            <strong>Enlace o archivo EPUB (opcional):</strong> Si lo tienes a mano agilizará el cálculo de palabras; si no, nosotros lo buscamos.
+            <strong>Tarifa deseada:</strong> Indícanos si prefieres tarifa Estándar ($5) o Prioritaria ($10).
+          </div>
+        </li>
+        <li class="orderGuideItem">
+          <span class="orderStepNumber">4</span>
+          <div>
+            <strong>Enlace o archivo EPUB (opcional):</strong> Si lo tienes a mano agilizará el cálculo de palabras.
           </div>
         </li>
       </ol>
@@ -394,7 +383,7 @@
 </section>
 
 <!-- ========================================
-     8. TERMS SECTION
+     7. TERMS SECTION
 ======================================== -->
 <section class="termsSection" id="condiciones">
   <div class="sectionHeader">
@@ -406,26 +395,34 @@
     <ul class="termsList">
       <li class="termsItem">
         <span class="termsBullet"></span>
-        <span>El precio final se establece mediante cotización previa según el conteo real de palabras del volumen proporcionado o localizado.</span>
+        <span><strong>Cotización:</strong> Se calcula con exactitud según el conteo real de palabras del volumen.</span>
       </li>
       <li class="termsItem">
         <span class="termsBullet"></span>
-        <span>El trabajo inicia formalmente una vez aprobada la cotización y confirmado el pago del 100% o el anticipo mínimo del 50%.</span>
+        <span><strong>Pagos y entrega:</strong> Inicia con el 50% de anticipo (o 100%). Los archivos finales se envían tras liquidar el saldo.</span>
       </li>
       <li class="termsItem">
         <span class="termsBullet"></span>
-        <span>La disponibilidad y plazos de entrega estimados varían según la carga de trabajo y el volumen en cola al momento de contratar.</span>
+        <span><strong>Tarifa prioritaria:</strong> Pausa las demás traducciones en cola para dedicación exclusiva al proyecto (entrega en 1 a 2 semanas aprox).</span>
       </li>
       <li class="termsItem">
         <span class="termsBullet"></span>
-        <span>En caso de haber abonado el 50% de anticipo, la entrega final de los archivos (PDF, EPUB y carpeta de imágenes) se efectúa tras recibir el 50% restante acordado.</span>
+        <span><strong>Plazos en tarifa estándar:</strong> La fecha de entrega es una estimación y no está garantizada, ya que queda sujeta a pausas si ingresa un encargo prioritario.</span>
+      </li>
+      <li class="termsItem">
+        <span class="termsBullet"></span>
+        <span><strong>Edición de imágenes:</strong> Sujeta a evaluación previa y disponibilidad de los editores (no garantizada). Siempre se incluye el arte original en HD.</span>
+      </li>
+      <li class="termsItem">
+        <span class="termsBullet"></span>
+        <span><strong>Publicación en la web:</strong> La obra se liberará públicamente en el plazo acordado previamente con el cliente (desde inmediato hasta un máximo de 1 mes tras la entrega).</span>
       </li>
     </ul>
   </div>
 </section>
 
 <!-- ========================================
-     9. FINAL CALL TO ACTION (CTA)
+     8. FINAL CALL TO ACTION (CTA)
 ======================================== -->
 <section class="ctaSection">
   <div class="ctaCard">

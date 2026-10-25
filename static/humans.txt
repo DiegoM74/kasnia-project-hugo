@@ -1,9 +1,9 @@
 /* EQUIPO */
 Creador: Lugh
 Administrador: Diego
-Traductores: Lugh, Diego, JoséBR
-Correctores: Hiro寛, Yaf, AndresLD
-Editores: EliasQ, Diego
+Traductores: Lugh, Diego, Pupu
+Correctores: Hiro寛, Yaf, AndrésLD
+Editores: EliasQ, Diego, SLN
 Sitio web: https://kasniaproject.com
 
 /* SITIO */
