@@ -351,11 +351,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 3. Generador de CSS para el iframe (Anti-FOUC Capa 1)
   function generateReaderIframeCSS() {
+    const isContinuous = settings.mode === "continuous";
     const hyphensVal = settings.hyphens;
     const fontWeightVal = settings.bold ? "bold !important" : "normal !important";
     const fontStyleVal = settings.italic ? "italic !important" : "normal !important";
     const textDecorVal = settings.underline ? "underline !important" : "none !important";
-    const touchAction = settings.mode === "continuous" ? "pan-y !important" : "none !important";
+    const touchAction = isContinuous ? "pan-y !important" : "none !important";
     const alignVal = settings.align || "justify";
     const accentVal = (settings.theme === "light" || settings.theme === "sepia") ? "#e6528b" : "#ff9ac5";
 
@@ -367,6 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "-webkit-user-select: none !important;" +
         "user-select: none !important;" +
         "touch-action: " + touchAction + ";" +
+        (isContinuous ? "height: auto !important; min-height: 0 !important;" : "") +
       "}" +
       "body {" +
         "background: transparent !important;" +
@@ -394,6 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "user-select: none !important;" +
         "touch-action: " + touchAction + ";" +
         "box-sizing: border-box !important;" +
+        (isContinuous ? "height: auto !important; min-height: 0 !important;" : "") +
       "}" +
       "p, div, span, li, h1, h2, h3, h4, h5, h6 {" +
         "color: inherit !important;" +
@@ -521,24 +524,59 @@ document.addEventListener("DOMContentLoaded", () => {
         "margin-right: auto !important;" +
         "box-sizing: border-box !important;" +
       "}" +
-      "figure.dimg {" +
-        "display: flex !important;" +
-        "justify-content: center !important;" +
-        "align-items: center !important;" +
-        "width: 100% !important;" +
-        "margin: 0 auto !important;" +
-        "padding: 0 !important;" +
-        "line-height: 0 !important;" +
-      "}" +
-      "figure.dimg img {" +
-        "max-width: 100% !important;" +
-        "max-height: calc(100vh - " + (settings.marginTop + settings.marginBottom + 40) + "px) !important;" +
-        "width: auto !important;" +
-        "height: auto !important;" +
-        "object-fit: contain !important;" +
-        "margin: 0 auto !important;" +
-        "display: block !important;" +
-      "}" +
+      (isContinuous
+        ? "figure.dimg, div.dimg, .dimg, .ilust {" +
+            "display: block !important;" +
+            "text-align: center !important;" +
+            "width: 100% !important;" +
+            "height: auto !important;" +
+            "margin: 1.5em auto !important;" +
+            "padding: 0 !important;" +
+            "line-height: normal !important;" +
+          "}" +
+          "figure.dimg img, div.dimg img, .dimg img, .ilust img {" +
+            "max-width: 100% !important;" +
+            "max-height: none !important;" +
+            "width: auto !important;" +
+            "height: auto !important;" +
+            "object-fit: contain !important;" +
+            "margin: 0 auto !important;" +
+            "display: block !important;" +
+          "}" +
+          "figure.dimg svg, div.dimg svg, .dimg svg, .ilust svg {" +
+            "max-width: 100% !important;" +
+            "max-height: none !important;" +
+            "width: 100% !important;" +
+            "height: auto !important;" +
+            "margin: 0 auto !important;" +
+            "display: block !important;" +
+          "}"
+        : "figure.dimg, div.dimg, .dimg, .ilust {" +
+            "display: flex !important;" +
+            "justify-content: center !important;" +
+            "align-items: center !important;" +
+            "width: 100% !important;" +
+            "margin: 0 auto !important;" +
+            "padding: 0 !important;" +
+            "line-height: 0 !important;" +
+          "}" +
+          "figure.dimg img, div.dimg img, .dimg img, .ilust img {" +
+            "max-width: 100% !important;" +
+            "max-height: calc(100vh - " + (settings.marginTop + settings.marginBottom + 40) + "px) !important;" +
+            "width: auto !important;" +
+            "height: auto !important;" +
+            "object-fit: contain !important;" +
+            "margin: 0 auto !important;" +
+            "display: block !important;" +
+          "}" +
+          "figure.dimg svg, div.dimg svg, .dimg svg, .ilust svg {" +
+            "max-width: 100% !important;" +
+            "max-height: calc(100vh - " + (settings.marginTop + settings.marginBottom + 40) + "px) !important;" +
+            "width: auto !important;" +
+            "height: auto !important;" +
+            "margin: 0 auto !important;" +
+            "display: block !important;" +
+          "}") +
       "figure.logo {" +
         "margin: 2em auto !important;" +
         "text-align: center !important;" +
@@ -596,7 +634,13 @@ document.addEventListener("DOMContentLoaded", () => {
       "}" +
       "img {" +
         "max-width: 100% !important;" +
+        "height: auto !important;" +
+        (isContinuous ? "max-height: none !important;" : "") +
         "box-sizing: border-box !important;" +
+      "}" +
+      "svg:not(.icon):not(.separadorSvg) {" +
+        "max-width: 100% !important;" +
+        (isContinuous ? "height: auto !important; max-height: none !important;" : "") +
       "}" +
       // Tablas adaptadas
       "table {" +
@@ -1171,9 +1215,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       let opfDoc = null;
-      if (book.container && book.container.packagePath) {
+
+      // 1. Intentar obtener el archivo OPF directamente desde el archivo zip en memoria
+      if (book.archive && book.archive.zip) {
         try {
-          const res = await book.load(book.container.packagePath);
+          const packagePath = book.container?.packagePath;
+          let opfEntry = null;
+          if (packagePath && book.archive.zip.files[packagePath]) {
+            opfEntry = book.archive.zip.files[packagePath];
+          } else {
+            const opfKey = Object.keys(book.archive.zip.files).find(name => name.endsWith(".opf"));
+            if (opfKey) opfEntry = book.archive.zip.files[opfKey];
+          }
+          if (opfEntry) {
+            const text = await opfEntry.async("string");
+            opfDoc = new DOMParser().parseFromString(text, "application/xml");
+          }
+        } catch (e) {
+          console.warn("No se pudo extraer el OPF desde el zip del EPUB:", e);
+        }
+      }
+
+      // 2. Si no es un zip archivado (ej: directorio remoto sin comprimir), cargar mediante book.load normalizando la ruta
+      if (!opfDoc && book.container && book.container.packagePath) {
+        try {
+          let reqPath = book.container.packagePath;
+          const basePath = (book.path && typeof book.path.directory === "string") ? book.path.directory : "";
+          if (basePath && reqPath.startsWith(basePath)) {
+            reqPath = reqPath.slice(basePath.length);
+          }
+          const res = await book.load(reqPath);
           if (res && typeof res === "object" && res.nodeType) {
             opfDoc = res;
           } else if (typeof res === "string") {
@@ -1181,18 +1252,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         } catch (e) {
           console.warn("No se pudo cargar el OPF mediante book.load:", e);
-        }
-      }
-
-      if (!opfDoc && book.archive && book.archive.zip) {
-        try {
-          const opfKey = Object.keys(book.archive.zip.files).find(name => name.endsWith(".opf"));
-          if (opfKey) {
-            const text = await book.archive.zip.files[opfKey].async("string");
-            opfDoc = new DOMParser().parseFromString(text, "application/xml");
-          }
-        } catch (e) {
-          console.warn("No se pudo extraer el OPF desde el zip del EPUB:", e);
         }
       }
 
