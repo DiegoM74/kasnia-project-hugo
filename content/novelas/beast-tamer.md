@@ -188,9 +188,9 @@ volumes:
       pdf: https://drive.google.com/file/d/1SHuJD5wRBBn9_FHVzMycKGk8vzA4zBlH/view
       epub: https://drive.google.com/file/d/1pw0yuJP22UqlskvJev-bBBKNOFZzPM4W/view
   - num: "11"
-    state: preview
-    pdfUpdateDate: 10/10/2026
-    epubUpdateDate: 10/10/2026
+    state: published
+    pdfUpdateDate: 27/10/2026
+    epubUpdateDate: 27/10/2026
     credits:
       translator: LughAT
       corrector: LughAT
@@ -198,11 +198,11 @@ volumes:
       pdfTypesetter: LughAT
       epubTypesetter: "-"
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: https://drive.google.com/file/d/1fKaHlH6xzZ_RP9m-qIiVrG1255P37wzS/view
-      epub: "#"
+      pdf: https://drive.google.com/file/d/1v3-b5bGG4FU7wAjUo_WL140bUz0P-JIf/view
+      epub: https://drive.google.com/file/d/1nYg1F3GRceLlKYBQg1ZuAOsVFyM0UyaE/view
   - num: "12"
     state: upcoming
     credits:
