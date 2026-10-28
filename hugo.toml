@@ -1,3 +1,4 @@
+baseURL = "https://kasniaproject.com/"
 locale = "es"
 title = "Kasnia Project"
 copyright = "© 2026 Kasnia Project. Todos los derechos reservados."
