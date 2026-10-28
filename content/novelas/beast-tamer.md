@@ -196,7 +196,7 @@ volumes:
       corrector: LughAT
       editor: Diego
       pdfTypesetter: LughAT
-      epubTypesetter: "-"
+      epubTypesetter: Diego
     propio:
       pdf: true
       epub: true
