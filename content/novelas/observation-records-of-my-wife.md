@@ -57,7 +57,8 @@ volumes:
       pdf: https://drive.google.com/file/d/1tqYg3zii3yPkv8MEcrbx7RPAYvJC53C-/view
       epub: https://drive.google.com/file/d/1Jp9OhhfKIjznrymFLPR8XgsveowrmTxL/view
   - num: "03"
-    state: translating
+    state: preview
+    pdfUpdateDate: 30/10/2026
     credits:
       translator: Diego
       corrector: Diego
@@ -65,7 +66,7 @@ volumes:
       pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
-      pdf: false
+      pdf: true
       epub: false
     drive:
       pdf: "#"
