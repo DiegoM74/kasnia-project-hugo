@@ -70,7 +70,9 @@ volumes:
       pdf: https://drive.google.com/file/d/1I-bl8jbGxexn2ym76FwiBfiY7P7Pb_j1/view
       epub: https://drive.google.com/file/d/1GuR-WmVSugT94bKxL6LKU1kNd9A5cqr0/view
   - num: "04"
-    state: upcoming
+    state: translating
+    pdfUpdateDate: 02/11/2026
+    epubUpdateDate: 02/11/2026
     credits:
       translator: LughAT
       corrector: LughAT
