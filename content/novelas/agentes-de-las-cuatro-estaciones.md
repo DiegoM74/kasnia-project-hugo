@@ -113,4 +113,18 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
+  - num: "07"
+    state: upcoming
+    credits:
+      translator: LughAT
+      corrector: LughAT
+      editor: Diego
+      pdfTypesetter: LughAT
+      epubTypesetter: "-"
+    propio:
+      pdf: false
+      epub: false
+    drive:
+      pdf: "#"
+      epub: "#"
 ---
