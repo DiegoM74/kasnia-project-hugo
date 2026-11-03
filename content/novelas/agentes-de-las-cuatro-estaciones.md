@@ -70,7 +70,7 @@ volumes:
       pdf: https://drive.google.com/file/d/1I-bl8jbGxexn2ym76FwiBfiY7P7Pb_j1/view
       epub: https://drive.google.com/file/d/1GuR-WmVSugT94bKxL6LKU1kNd9A5cqr0/view
   - num: "04"
-    state: translating
+    state: preview
     pdfUpdateDate: 02/11/2026
     epubUpdateDate: 02/11/2026
     credits:
@@ -83,7 +83,7 @@ volumes:
       pdf: false
       epub: false
     drive:
-      pdf: "#"
+      pdf: https://drive.google.com/file/d/1UZcXkYA5lirXdPqyzfCWIaAL5869cnM6/view
       epub: "#"
   - num: "05"
     state: upcoming
