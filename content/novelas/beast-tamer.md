@@ -189,8 +189,8 @@ volumes:
       epub: https://drive.google.com/file/d/1pw0yuJP22UqlskvJev-bBBKNOFZzPM4W/view
   - num: "11"
     state: published
-    pdfUpdateDate: 27/10/2026
-    epubUpdateDate: 27/10/2026
+    pdfUpdateDate: 04/11/2026
+    epubUpdateDate: 04/11/2026
     credits:
       translator: LughAT
       corrector: LughAT
