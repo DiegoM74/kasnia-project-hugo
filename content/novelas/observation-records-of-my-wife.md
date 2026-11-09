@@ -57,18 +57,19 @@ volumes:
       pdf: https://drive.google.com/file/d/1tqYg3zii3yPkv8MEcrbx7RPAYvJC53C-/view
       epub: https://drive.google.com/file/d/1Jp9OhhfKIjznrymFLPR8XgsveowrmTxL/view
   - num: "03"
-    state: preview
-    pdfUpdateDate: 30/10/2026
+    state: published
+    pdfUpdateDate: 09/11/2026
+    epubUpdateDate: 09/11/2026
     credits:
       translator: Diego
       corrector: Diego
-      editor: "-"
+      editor: SLN
       pdfTypesetter: Diego
-      epubTypesetter: "-"
+      epubTypesetter: Diego
     propio:
       pdf: true
-      epub: false
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: https://drive.google.com/file/d/1iNC0OaHzNymZqQFEb6iLeiqqs4jWGexn/view
+      epub: https://drive.google.com/file/d/1MLB0Jrdsi_uTRUVZkWeYbYLvwHHaE2Rv/view
 ---
