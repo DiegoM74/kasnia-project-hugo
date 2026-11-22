@@ -16,6 +16,15 @@
       rel="stylesheet"
     />
 
+    <!-- Fuente Inter autoalojada con preload de archivo principal -->
+    <link
+      rel="preload"
+      href="/fonts/InterVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
     <!-- CSS común -->
     {{ $mainCSS := resources.Get "css/main.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $mainCSS.Permalink }}" />

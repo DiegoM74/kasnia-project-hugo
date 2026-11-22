@@ -1,74 +1,112 @@
 {{ define "css" }}
   {{ $cssFile := resources.Get "css/staff.css" }}
-  {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $css.Permalink }}">
+  {{ if $cssFile }}
+    {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $css.Permalink }}">
+  {{ end }}
 {{ end }}
 
 {{ define "main" }}
-<section class="staffHeader">
-  <h1 class="staffTitle">{{ .Title }}</h1>
-  <p class="staffSubtitle">Conoce a las personas que hacen posible Kasnia Project.</p>
-</section>
+<div class="staffContainer">
+  <!-- ========================================
+       1. HERO & INTRO
+  ======================================== -->
+  <section class="staffIntroSection">
+    <span class="staffEyebrow">Equipo de Kasnia</span>
+    <h1 class="pageTitle">{{ .Title }}</h1>
+    <p class="pageDescription">
+      Conoce a las personas dedicadas a traerte traducciones cuidadas, corrección minuciosa y maquetación de calidad.
+    </p>
+  </section>
 
-<section class="staffGrid">
-  {{ range .Params.miembros }}
-    {{ $staffId := .staffId }}
-    {{ $nombre := .nombre }}
-    {{ $rol := .rol }}
-    {{ $badge := .badge }}
-    {{ $novelIds := .novelIds }}
+  <!-- ========================================
+       2. STAFF GRID
+  ======================================== -->
+  <section class="staffGridSection">
+    {{ if .Params.miembros }}
+      <div class="staffGrid">
+        {{ range .Params.miembros }}
+          {{ $staffId := .staffId }}
+          {{ $nombre := .nombre }}
+          {{ $rol := .rol }}
+          {{ $badge := .badge }}
+          {{ $novelIds := .novelIds }}
+          {{ $hasAvatar := fileExists (printf "static/img/staff/jpg/%s.jpg" $staffId) }}
 
-    <article class="staffCard{{ if $badge }} staffCard{{ $badge }}{{ end }}">
-      <div class="staffCardHeader">
-        <div class="staffAvatarContainer">
-          <picture>
-            <source srcset="/img/staff/avif/{{ $staffId }}.avif" type="image/avif" />
-            <img
-              src="/img/staff/jpg/{{ $staffId }}.jpg"
-              alt="{{ $nombre }}"
-              class="staffAvatar"
-              loading="lazy"
-              onerror="this.parentElement.style.display='none'; this.parentElement.nextElementSibling.style.display='flex';"
-            />
-          </picture>
-          <div class="staffAvatarPlaceholder">{{ substr $nombre 0 1 }}</div>
-        </div>
-        <div class="staffIdentity">
-          {{ if $badge }}
-            <div class="staffNameWrapper">
-              <h2 class="staffName">{{ $nombre }}</h2>
-              <span class="staffBadge staffBadge{{ $badge }}">
-                {{ if eq $badge "Creator" }}Creador{{ else }}{{ $badge }}{{ end }}
-              </span>
+          <article class="staffCard{{ if $badge }} staffCard{{ $badge }}{{ end }}">
+            <div class="staffCardHeader">
+              <div class="staffAvatarContainer">
+                {{ if $hasAvatar }}
+                  <picture class="staffAvatarPicture">
+                    <source srcset="/img/staff/avif/{{ $staffId }}.avif" type="image/avif" />
+                    <img
+                      src="/img/staff/jpg/{{ $staffId }}.jpg"
+                      alt="{{ $nombre }}"
+                      class="staffAvatar"
+                      width="72"
+                      height="72"
+                      loading="lazy"
+                    />
+                  </picture>
+                {{ else }}
+                  <div class="staffAvatarPlaceholder" aria-hidden="true">
+                    {{ substr $nombre 0 1 }}
+                  </div>
+                {{ end }}
+              </div>
 
+              <div class="staffIdentity">
+                <div class="staffNameWrapper">
+                  <h2 class="staffName">{{ $nombre }}</h2>
+                  {{ if $badge }}
+                    <span class="staffBadge staffBadge{{ $badge }}">
+                      {{ if eq $badge "Creator" }}Creador{{ else }}{{ $badge }}{{ end }}
+                    </span>
+                  {{ end }}
+                </div>
+                <p class="staffRole">{{ $rol }}</p>
+              </div>
             </div>
-          {{ else }}
-            <h2 class="staffName">{{ $nombre }}</h2>
-          {{ end }}
-          <p class="staffRole">{{ $rol }}</p>
+
+            <div class="staffBody">
+              <h3 class="staffProjectsLabel">
+                <svg class="staffIcon" aria-hidden="true">
+                  <use href="/img/svg/staff.svg#book" />
+                </svg>
+                <span>Proyectos</span>
+              </h3>
+
+              <div class="staffProjectsWrapper">
+                {{ if $novelIds }}
+                  <div class="staffProjectsChips">
+                    {{ range $novelIds }}
+                      {{ $novelId := . }}
+                      {{ range where $.Site.Pages "Section" "novelas" }}
+                        {{ if eq .Params.novelId $novelId }}
+                          <a href="{{ .RelPermalink }}" class="staffProjectChip" title="{{ .Title }}">
+                            <span class="chipNovelTitle">{{ .Title }}</span>
+                          </a>
+                        {{ end }}
+                      {{ end }}
+                    {{ end }}
+                  </div>
+                {{ else }}
+                  <span class="staffNoProjects">Próximamente</span>
+                {{ end }}
+              </div>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    {{ else }}
+      <div class="staffEmptyState">
+        <div class="emptyIconWrapper">
+          <svg class="emptyIcon" aria-hidden="true"><use href="/img/svg/staff.svg#emptyIcon" /></svg>
         </div>
+        <h3 class="emptyTitle">Sin miembros disponibles</h3>
+        <p class="emptyDescription">Actualmente no hay información del equipo disponible.</p>
       </div>
-      <div class="staffBody">
-        <h3 class="staffProjectsLabel">
-          <svg class="staffIcon">
-            <use href="/img/svg/staff.svg#book" />
-          </svg>
-          Proyectos
-        </h3>
-        <ul class="staffProjectsList">
-          {{ range $novelIds }}
-            {{ $novelId := . }}
-            {{ range where $.Site.Pages "Section" "novelas" }}
-              {{ if eq .Params.novelId $novelId }}
-                <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-              {{ end }}
-            {{ end }}
-          {{ else }}
-            Próximamente
-          {{ end }}
-        </ul>
-      </div>
-    </article>
-  {{ end }}
-</section>
+    {{ end }}
+  </section>
+</div>
 {{ end }}

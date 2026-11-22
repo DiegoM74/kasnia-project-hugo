@@ -7,92 +7,210 @@
 {{ end }}
 
 {{ define "main" }}
-<section class="legalHero">
-  <h1 class="legalTitle">Política de Privacidad</h1>
-  <p class="legalSubtitle">
-    Cómo recopilamos, usamos y protegemos tu información.
-  </p>
-</section>
+<div class="legalContainer">
+  <!-- ========================================
+       1. HERO & INTRO
+  ======================================== -->
+  <section class="legalIntroSection">
+    <span class="legalEyebrow">Transparencia y Seguridad</span>
+    <h1 class="pageTitle">{{ .Title }}</h1>
+    <p class="pageDescription">
+      Detalle transparente sobre cómo tratamos los datos de navegación, el almacenamiento local y los servicios técnicos del sitio.
+    </p>
 
-<section class="legalSection">
-  <h2 class="sectionTitle">Información que Recopilamos</h2>
-  <p class="legalText">
-    En Kasnia Project, valoramos tu privacidad. Este sitio web no recopila
-    información personal identificable de forma directa. Sin embargo, como
-    la mayoría de los sitios web, utilizamos servicios de terceros que
-    pueden recopilar cierta información automáticamente.
-  </p>
-  <p class="legalText">
-    La información que puede ser recopilada automáticamente incluye:
-    dirección IP, tipo de navegador, sistema operativo, páginas visitadas
-    y tiempo de permanencia en el sitio. Esta información se utiliza
-    únicamente con fines estadísticos y para mejorar la experiencia del
-    usuario.
-  </p>
-</section>
+    <!-- Barra de navegación rápida en píldoras -->
+    <nav class="quickNav" aria-label="Secciones de la política de privacidad">
+      <a href="#datos" class="quickNavLink">Datos técnicos</a>
+      <a href="#comentarios" class="quickNavLink">Comentarios</a>
+      <a href="#almacenamiento" class="quickNavLink">Almacenamiento local</a>
+      <a href="#servicios" class="quickNavLink">Servicios externos</a>
+      <a href="#enlaces" class="quickNavLink">Enlaces salientes</a>
+      <a href="#contacto" class="quickNavLink">Contacto</a>
+    </nav>
+  </section>
 
-<section class="legalSection">
-  <h2 class="sectionTitle">Uso de Cookies</h2>
-  <p class="legalText">
-    Utilizamos cookies para almacenar tus preferencias, como el tema
-    visual seleccionado (claro u oscuro). Estas cookies son esenciales
-    para el funcionamiento del sitio y mejoran tu experiencia de
-    navegación.
-  </p>
-  <p class="legalText">
-    Puedes configurar tu navegador para rechazar cookies, aunque esto
-    podría afectar algunas funcionalidades del sitio.
-  </p>
-</section>
+  <!-- ========================================
+       2. CONTENIDO EDITORIAL
+  ======================================== -->
+  <div class="legalContentWrapper">
+    <!-- Información Técnica y Analítica -->
+    <section class="legalSection" id="datos">
+      <h2 class="sectionTitle">Información Técnica y Analítica</h2>
+      <p class="legalText">
+        En <strong>Kasnia Project</strong> respetamos tu privacidad. No solicitamos ni recopilamos datos personales de identificación directa (como nombres completos, números de teléfono o domicilios) para navegar por el sitio, consultar las fichas de novelas o descargar volúmenes.
+      </p>
+      <p class="legalText">
+        Para garantizar la estabilidad y rendimiento del sitio, la infraestructura de red utiliza <strong>Cloudflare Web Analytics</strong>. Este sistema mide métricas técnicas de tráfico y rendimiento de carga de forma anónima y agregada (como tipo de navegador, páginas consultadas y tiempos de respuesta). No utiliza cookies de rastreo publicitario, no almacena información personal identificable ni realiza seguimiento de usuarios a través de otros sitios de internet. Estos datos agregados se emplean exclusivamente para optimizar la plataforma y calcular el ranking público de popularidad.
+      </p>
+    </section>
 
-<section class="legalSection">
-  <h2 class="sectionTitle">Servicios de Terceros</h2>
-  <p class="legalText">
-    Nuestro sitio puede utilizar servicios de terceros para análisis web o
-    alojamiento de contenido. Estos servicios tienen sus propias políticas
-    de privacidad y pueden recopilar información según sus términos.
-  </p>
-  <p class="legalText">
-    Recomendamos revisar las políticas de privacidad de cualquier servicio
-    de terceros que pueda interactuar con nuestro sitio.
-  </p>
-</section>
+    <!-- Comentarios y Participación de la Comunidad -->
+    <section class="legalSection" id="comentarios">
+      <h2 class="sectionTitle">Comentarios y Participación de la Comunidad</h2>
+      <p class="legalText">
+        En las fichas de novelas disponemos de un espacio nativo de discusión donde los lectores pueden compartir opiniones sobre las obras. La participación es completamente voluntaria y no requiere la creación de cuentas de usuario ni el registro de contraseñas.
+      </p>
 
-<section class="legalSection">
-  <h2 class="sectionTitle">Enlaces Externos</h2>
-  <p class="legalText">
-    Este sitio puede contener enlaces a sitios web externos sobre los
-    cuales no tenemos control. No somos responsables de las prácticas de
-    privacidad de otros sitios. Te recomendamos leer la política de
-    privacidad de cada sitio que visites.
-  </p>
-</section>
+      <ul class="requirementsList">
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Nombre o seudónimo (Público)</h3>
+            <p class="requirementDesc">El nombre o apodo que proporcionas al comentar se muestra públicamente junto a tu mensaje. Te recomendamos utilizar un seudónimo y evitar colocar tu nombre y apellidos reales.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Contenido del comentario (Público)</h3>
+            <p class="requirementDesc">El texto, formato y marcas de spoiler que envíes son visibles de forma pública y permanente para cualquier visitante del sitio.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Correo electrónico (Estrictamente privado y opcional)</h3>
+            <p class="requirementDesc">El campo de correo electrónico es totalmente opcional. Si decides proporcionarlo, permanece estrictamente confidencial: nunca se publica en la web ni se expone a través de nuestra API pública. Se almacena en nuestra base de datos relacional (Cloudflare D1) con la única finalidad de enviarte una alerta por correo electrónico cuando otro lector o un miembro del equipo responda directamente a tu comentario. No enviamos boletines, publicidad ni compartimos tu dirección con terceros.</p>
+          </div>
+        </li>
+      </ul>
 
-<section class="legalSection">
-  <h2 class="sectionTitle">Cambios en esta Política</h2>
-  <p class="legalText">
-    Nos reservamos el derecho de actualizar esta política de privacidad en
-    cualquier momento. Los cambios serán efectivos inmediatamente después
-    de su publicación en esta página.
-  </p>
-  <p class="legalText lastUpdate">Última actualización: Diciembre 2025</p>
-</section>
+      <p class="legalText">
+        <strong>Moderación en tiempo real:</strong> Para proteger a la comunidad contra spam, enlaces fraudulentos o conductas inapropiadas, los comentarios se notifican a un canal privado de moderación del equipo en Telegram, permitiendo revisar y retirar inmediatamente cualquier publicación indebida.
+      </p>
+      <p class="legalText">
+        <strong>Derecho de rectificación o eliminación:</strong> Puedes solicitar en cualquier momento la eliminación de un comentario publicado o la supresión de tu dirección de correo electrónico asociada escribiéndonos a <a href="mailto:contacto@kasniaproject.com">contacto@kasniaproject.com</a> con el enlace o detalle de la novela correspondiente.
+      </p>
+    </section>
 
-<section class="legalSection contactSection">
-  <h2 class="sectionTitle">Contacto</h2>
-  <p class="legalText">
-    Si tienes preguntas sobre esta política de privacidad, puedes
-    contactarnos a través de nuestro correo electrónico.
-  </p>
+    <!-- Almacenamiento Local y Cookies -->
+    <section class="legalSection" id="almacenamiento">
+      <h2 class="sectionTitle">Almacenamiento Local y Preferencias</h2>
+      <p class="legalText">
+        Nuestro sitio web no utiliza cookies de seguimiento publicitario ni perfiles de usuario. Para ofrecer una experiencia de lectura cómoda y consistente, recurrimos a la tecnología de <strong>almacenamiento local del navegador (Local Storage)</strong>, que guarda información exclusivamente en tu propio dispositivo:
+      </p>
 
-  <a href="mailto:contacto@kasniaproject.com" class="contactBox">
-    <div class="contactIconWrapper">
-      <svg><use href="/img/svg/legal.svg#iconMail" /></svg>
+      <ul class="requirementsList">
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Preferencia de tema visual</h3>
+            <p class="requirementDesc">Almacena la elección de modo oscuro o modo claro para evitar parpadeos visuales al navegar entre páginas.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Ajustes del lector en línea</h3>
+            <p class="requirementDesc">Guarda las preferencias personalizadas de lectura (tipografía, tamaño de letra, espaciado de párrafos, márgenes y tema de lectura).</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Progreso y posición de lectura</h3>
+            <p class="requirementDesc">Recuerda el punto exacto de la novela donde te quedaste para permitir retomar la lectura en cualquier momento.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Datos de autor en comentarios</h3>
+            <p class="requirementDesc">Almacena en tu navegador el nombre y correo utilizados previamente para autocompletar el formulario y evitar que tengas que reescribirlos cada vez que participes.</p>
+          </div>
+        </li>
+      </ul>
+
+      <p class="legalText">
+        Estos datos permanecen confinados en tu navegador y nunca son transmitidos ni almacenados en nuestros servidores. Puedes restablecerlos o eliminarlos en cualquier momento borrando los datos del sitio en las opciones de tu navegador.
+      </p>
+    </section>
+
+    <!-- Servicios Técnicos de Terceros -->
+    <section class="legalSection" id="servicios">
+      <h2 class="sectionTitle">Servicios Técnicos de Terceros</h2>
+      <p class="legalText">
+        Para entregar contenido multimedia y optimizar la experiencia de uso, el sitio interactúa con determinados servicios técnicos:
+      </p>
+      <p class="legalText">
+        <strong>Red de entrega de imágenes (CDN):</strong> Las portadas y recursos gráficos se distribuyen a través del subdominio <code>img.kasniaproject.com</code> alojado en Cloudflare R2, sirviendo imágenes comprimidas en formatos modernos (.avif y .jpg) para reducir los tiempos de carga y el consumo de datos móviles.
+      </p>
+      <p class="legalText">
+        <strong>Gestión de comentarios y base de datos:</strong> La infraestructura de Cloudflare Pages Functions y la base de datos distribuida Cloudflare D1 procesan y almacenan de forma segura los comentarios del sitio en servidores perimetrales protegidos contra ataques y denegación de servicio.
+      </p>
+      <p class="legalText">
+        <strong>Notificaciones transaccionales por correo:</strong> Para la entrega de alertas por correo electrónico cuando recibes una respuesta en un comentario, nos apoyamos en la plataforma de correo transaccional Resend, transfiriendo de forma cifrada únicamente la dirección de destino y el contenido de la respuesta.
+      </p>
+      <p class="legalText">
+        <strong>Tipografías en el lector web:</strong> El lector en línea puede cargar fuentes tipográficas web libres desde Google Fonts (como Merriweather, Lora o Roboto) al seleccionarlas en los controles de lectura. La navegación general del sitio utiliza tipografía Inter autoalojada localmente en nuestros servidores.
+      </p>
+    </section>
+
+    <!-- Enlaces Salientes y Plataformas Externas -->
+    <section class="legalSection" id="enlaces">
+      <h2 class="sectionTitle">Enlaces Salientes y Plataformas Externas</h2>
+      <p class="legalText">
+        Nuestro sitio incluye enlaces externos que facilitan el acceso a recursos complementarios:
+      </p>
+      <p class="legalText">
+        <strong>Descarga de volúmenes:</strong> Algunos archivos se encuentran almacenados en servicios externos en la nube como Google Drive, identificados claramente en los botones de descarga.
+      </p>
+      <p class="legalText">
+        <strong>Donaciones voluntarias:</strong> Los enlaces de aportes económicos dirigen externamente a PayPal (<code>paypal.com</code> y <code>paypal.me</code>). Toda la gestión de pago se realiza íntegramente en los servidores seguros de dicha entidad financiera.
+      </p>
+      <p class="legalText">
+        <strong>Redes sociales y comunidad:</strong> Los enlaces a Facebook y X (Twitter) son vínculos salientes tradicionales. No incorporamos píxeles de rastreo ni complementos sociales embebidos en nuestras páginas.
+      </p>
+      <p class="legalText">
+        Al hacer uso de estos enlaces, quedas sujeto a las políticas de privacidad y términos propios de cada plataforma externa.
+      </p>
+    </section>
+
+    <!-- Modificaciones a la Política -->
+    <section class="legalSection" id="cambios">
+      <h2 class="sectionTitle">Actualizaciones de esta Política</h2>
+      <p class="legalText">
+        Nos reservamos la facultad de revisar y actualizar esta política para reflejar cambios en nuestras prácticas técnicas o responder a exigencias legales. Toda modificación entrará en vigencia inmediatamente tras su publicación en esta dirección.
+      </p>
+    </section>
+
+    <!-- Contacto Oficial -->
+    <section class="legalSection contactSection" id="contacto">
+      <h2 class="sectionTitle">Dudas y Contacto de Privacidad</h2>
+      <p class="legalText">
+        Si tienes preguntas, sugerencias o comentarios acerca de esta política de privacidad o sobre el tratamiento técnico de datos, no dudes en escribirnos.
+      </p>
+
+      <a href="mailto:contacto@kasniaproject.com" class="contactCard" aria-label="Enviar correo a contacto@kasniaproject.com">
+        <div class="contactIconWrapper" aria-hidden="true">
+          <svg><use href="/img/svg/legal.svg#iconMail" /></svg>
+        </div>
+        <div class="contactInfo">
+          <span class="contactLabel">Correo de Contacto</span>
+          <span class="contactValue">contacto@kasniaproject.com</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- Pie de actualización -->
+    <div class="legalFooterMeta">
+      <span>Última revisión:</span>
+      <time datetime="2026-10-29">29 de octubre de 2026</time>
     </div>
-    <div class="contactInfo">
-      <span class="contactLabel">Correo Electrónico</span>
-      <span class="contactValue">contacto@kasniaproject.com</span>
-    </div>
-  </a>
-</section>
+  </div>
+</div>
 {{ end }}

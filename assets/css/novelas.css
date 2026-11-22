@@ -1,247 +1,841 @@
-/* ========================================
-   CSS VARIABLES
-======================================== */
-:root {
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.7);
-}
+/* ==========================================================================
+   CATÁLOGO DE NOVELAS (Fase 3 Rediseño - Estilo Apple Books / App Store)
+   Kasnia Project - 100% Vanilla CSS con tokens camelCase
+   ========================================================================== */
 
-[data-theme="light"] {
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-/* ========================================
-   MAIN CONTAINER
-======================================== */
-main {
+/* ==========================================================================
+   1. CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.novelsContainer {
   position: relative;
-  max-width: 1000px;
-  margin: 70px auto 0;
-  padding: 3rem 1.5rem;
-  z-index: 1;
-}
-
-/* ========================================
-   NOVELS PAGE HEADER
-======================================== */
-.novelsPageHeader {
+  width: 100%;
+  max-width: var(--containerMaxWidth);
   margin: 0 auto;
-  text-align: center;
-  animation: fadeInUp 0.6s ease-out;
+  padding: calc(var(--navbarHeight) + var(--space2xl)) var(--spaceLg) var(--space4xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space2xl);
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
+@media (max-width: 640px) {
+  .novelsContainer {
+    padding: calc(var(--navbarHeight) + var(--spaceLg)) var(--spaceMd) var(--space3xl);
+    gap: var(--spaceXl);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+}
+
+/* ==========================================================================
+   2. INTRODUCCIÓN DEL CATÁLOGO
+   ========================================================================== */
+.novelsIntroSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.novelsEyebrow {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accentColor);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+  margin-bottom: var(--spaceSm);
 }
 
 .pageTitle {
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2.2rem, 5.5vw, 3.2rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.1;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin-bottom: var(--spaceSm);
+  text-wrap: balance;
 }
 
 .pageDescription {
-  max-width: 60ch;
-  margin: 0 auto;
-  color: var(--text-secondary);
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.08rem);
+  color: var(--textSecondary);
+  line-height: 1.55;
+  max-width: 56ch;
+  text-wrap: pretty;
 }
 
-/* ========================================
-   SEARCH SECTION
-======================================== */
-.searchSection {
-  max-width: 800px;
-  margin: 1rem auto 0;
-  padding: 0 1.5rem 2rem;
-  animation: fadeInUp 0.6s ease-out 0.1s backwards;
-}
-
-.searchContainer {
+/* ==========================================================================
+   3. SECCIÓN DE CONTROLES (BÚSQUEDA Y FILTROS)
+   ========================================================================== */
+.controlsSection {
   display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: 1rem;
+  flex-direction: column;
+  gap: var(--spaceMd);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
+.controlsBar {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceSm);
+  width: 100%;
+}
+
+/* Input de búsqueda estilo Apple */
 .searchInputWrapper {
   position: relative;
-  display: flex;
   flex: 1;
+  display: flex;
   align-items: center;
-  min-width: 250px;
+  min-width: 0;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  box-shadow: var(--shadowSubtle);
+  transition: border-color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    background-color var(--durationFast) var(--easeOutStrong);
+}
+
+.searchInputWrapper:focus-within {
+  border-color: var(--accentColor);
+  background-color: var(--surfaceCard);
+  box-shadow: 0 0 0 3px rgba(255, 154, 197, 0.15), var(--shadowSubtle);
+}
+
+[data-theme="light"] .searchInputWrapper:focus-within {
+  box-shadow: 0 0 0 3px rgba(230, 82, 139, 0.15), var(--shadowSubtle);
 }
 
 .searchIcon {
   position: absolute;
-  left: 1rem;
-  width: 1.25rem;
-  height: 1.25rem;
+  left: var(--spaceMd);
+  width: 18px;
+  height: 18px;
+  color: var(--textMuted);
   pointer-events: none;
-  transition: color 0.3s ease;
+  flex-shrink: 0;
+  transition: color var(--durationFast) var(--easeOutStrong);
+}
+
+.searchInputWrapper:focus-within .searchIcon {
+  color: var(--accentColor);
 }
 
 .searchInput {
   width: 100%;
-  padding: 0.875rem 2.75rem 0.875rem 3rem;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 0.5rem;
-  color: var(--text-primary);
-  font-size: 1rem;
+  height: 48px;
+  padding: 0 var(--space2xl) 0 calc(var(--spaceMd) + 26px);
+  background: transparent;
+  border: none;
+  color: var(--textPrimary);
+  font-family: inherit;
+  font-size: 0.96rem;
   outline: none;
-  transition: border-color 0.3s ease;
 }
 
 .searchInput::placeholder {
-  color: var(--text-secondary);
+  color: var(--textMuted);
 }
 
-.searchInput:focus {
-  border-color: var(--accent);
-}
-
-.filterToggleBtn {
-  display: flex;
+/* Botón limpiar input de búsqueda (×) */
+.searchClearBtn {
+  position: absolute;
+  right: var(--spaceSm);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.875rem 1.5rem;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 0.5rem;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.filterToggleBtn:hover {
-  background: var(--accent);
-  color: #fff;
-}
-
-.filterToggleBtn svg {
-  width: 1rem;
-  height: 1rem;
-  transition: transform 0.3s ease;
-}
-
-/* ========================================
-   GENRE FILTERS
-======================================== */
-.genreFiltersContainer {
-  max-height: 0;
-  margin-top: 0;
+  width: 28px;
+  height: 28px;
   padding: 0;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 0.5rem;
+  background-color: var(--borderSubtle);
+  border: none;
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  cursor: pointer;
+  transition: background-color var(--durationFast) var(--easeOutStrong),
+    color var(--durationFast) var(--easeOutStrong),
+    transform var(--durationInstant) var(--easeOutStrong);
+}
+
+.searchClearBtn svg {
+  width: 14px;
+  height: 14px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .searchClearBtn:hover {
+    background-color: var(--borderStrong);
+    color: var(--textPrimary);
+  }
+}
+
+.searchClearBtn:active {
+  transform: scale(0.92);
+}
+
+/* Botón toggle de filtros */
+.filterToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceXs);
+  height: 48px;
+  padding: 0 var(--spaceLg);
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  color: var(--textSecondary);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadowSubtle);
+  flex-shrink: 0;
+  transition: background-color var(--durationFast) var(--easeOutStrong),
+    border-color var(--durationFast) var(--easeOutStrong),
+    color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    transform var(--durationInstant) var(--easeOutStrong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .filterToggleBtn:hover {
+    background-color: var(--surfaceCard);
+    border-color: var(--borderStrong);
+    color: var(--textPrimary);
+  }
+}
+
+.filterToggleBtn:active {
+  transform: scale(0.97);
+}
+
+.filterToggleBtn[aria-expanded="true"] {
+  background-color: var(--surfaceCard);
+  border-color: var(--accentColor);
+  color: var(--textPrimary);
+}
+
+.filterIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.chevronIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform var(--durationFast) var(--easeOutStrong);
+}
+
+.filterToggleBtn[aria-expanded="true"] .chevronIcon {
+  transform: rotate(180deg);
+}
+
+/* Badge de filtros activos en botón */
+.filterActiveBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background-color: var(--accentColor);
+  color: var(--accentContrastText);
+  border-radius: var(--radiusFull);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+@media (max-width: 520px) {
+  .filterToggleBtn {
+    padding: 0 var(--spaceMd);
+  }
+
+  .filterToggleLabel {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   4. PANEL COLAPSABLE DE GÉNEROS
+   ========================================================================== */
+.genreFiltersContainer {
+  display: grid;
+  grid-template-rows: 0fr;
+  background-color: var(--surfaceCard);
+  border: 1px solid transparent;
+  border-radius: var(--radiusLarge);
   overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease,
-    margin 0.3s ease;
+  transition: grid-template-rows var(--durationNormal) var(--easeDrawer),
+    border-color var(--durationNormal) var(--easeOutStrong),
+    box-shadow var(--durationNormal) var(--easeOutStrong),
+    margin var(--durationNormal) var(--easeOutStrong);
 }
 
 .genreFiltersContainer.is-open {
-  max-height: 500px;
-  margin-top: 1rem;
-  padding: 1.25rem;
-  border-color: var(--border);
+  grid-template-rows: 1fr;
+  border-color: var(--borderSubtle);
+  box-shadow: var(--shadowMedium);
+}
+
+.genreFiltersInner {
+  min-height: 0;
+  padding: 0 var(--spaceLg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceMd);
+  opacity: 0;
+  transition: opacity var(--durationFast) var(--easeOutStrong),
+    padding var(--durationNormal) var(--easeDrawer);
+}
+
+.genreFiltersContainer.is-open .genreFiltersInner {
+  padding: var(--spaceLg);
   opacity: 1;
 }
 
-.genreFiltersWrapper {
+.genreFiltersHeader {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spaceMd);
+  padding-bottom: var(--spaceXs);
 }
 
+.genreFiltersTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--textMuted);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+}
+
+.clearGenresLink {
+  background: none;
+  border: none;
+  color: var(--accentColor);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  padding: var(--space2xs) var(--spaceXs);
+  border-radius: var(--radiusSmall);
+  transition: opacity var(--durationFast) var(--easeOutStrong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .clearGenresLink:hover {
+    text-decoration: underline;
+    opacity: 0.85;
+  }
+}
+
+/* Grupos de filtros dentro del drawer */
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
+}
+
+.filterGroup + .filterGroup {
+  padding-top: var(--spaceMd);
+  border-top: 1px solid var(--borderSubtle);
+}
+
+.filterGroupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spaceMd);
+}
+
+.filterGroupTitle {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--textMuted);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+}
+
+.filterChipsList,
 .genreList {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.625rem;
+  gap: var(--spaceXs);
 }
 
-.genreTag {
-  padding: 0.5rem 1rem;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 2rem;
-  color: var(--text-secondary);
-  font-size: 0.875rem;
+/* Chips de filtros estilo Apple */
+.genreTag,
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: var(--spaceXs) var(--spaceMd);
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  font-family: inherit;
+  font-size: 0.84rem;
   font-weight: 500;
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    color 0.3s ease;
+  white-space: nowrap;
+  transition: background-color var(--durationFast) var(--easeOutStrong),
+    border-color var(--durationFast) var(--easeOutStrong),
+    color var(--durationFast) var(--easeOutStrong),
+    transform var(--durationInstant) var(--easeOutStrong);
 }
 
-.genreTag:hover {
-  background-color: var(--bg-primary);
-  border-color: var(--accent);
-  color: var(--text-primary);
+@media (hover: hover) and (pointer: fine) {
+  .genreTag:hover,
+  .filterChip:hover {
+    background-color: var(--surfaceElevated);
+    border-color: var(--borderStrong);
+    color: var(--textPrimary);
+  }
 }
 
-.genreTag.active {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+.genreTag:active,
+.filterChip:active {
+  transform: scale(0.96);
 }
 
-/* ========================================
-   NOVELS DISPLAY SECTION
-======================================== */
+.genreTag.active,
+.filterChip.active {
+  background-color: var(--accentColor);
+  border-color: var(--accentColor);
+  color: var(--accentContrastText);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   5. BARRA DE ESTADO Y ACCIONES (CONTEO, ORDENACIÓN Y RESTABLECER)
+   ========================================================================== */
+.catalogMetaBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spaceSm);
+  padding: var(--space2xs) var(--space2xs);
+}
+
+.resultsCount {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--textSecondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.catalogActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaceSm);
+  flex-wrap: wrap;
+}
+
+/* Botón de restablecer (ubicado a la izquierda del selector para no desplazarlo) */
+.resetFiltersBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 10px;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--durationFast) ease-out,
+    border-color var(--durationFast) ease-out,
+    color var(--durationFast) ease-out,
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.resetIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .resetFiltersBtn:hover {
+    background-color: var(--surfaceCard);
+    border-color: var(--accentColor);
+    color: var(--accentColor);
+  }
+}
+
+.resetFiltersBtn:active {
+  transform: scale(0.97);
+}
+
+/* Wrapper del selector de ordenación */
+.sortSelectWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaceXs);
+  margin-left: auto;
+}
+
+.sortLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--textMuted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortIcon {
+  width: 13px;
+  height: 13px;
+  color: var(--textMuted);
+  flex-shrink: 0;
+}
+
+.sortSelectContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+   CUSTOMIZABLE SELECT (appearance: base-select y ::picker(select))
+   Inspirado en la filosofía de Emil Kowalski y Apple Books
+   ========================================================================== */
+
+/* Opt-in nativo para el nuevo modelo personalizable */
+select,
+::picker(select) {
+  appearance: base-select; /* Activa el nuevo modelo personalizable nativo */
+}
+
+/* Trigger del select */
+.sortSelect {
+  height: 32px;
+  padding: 0 10px 0 12px;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textPrimary);
+  font-family: inherit;
+  font-size: 0.80rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadowSubtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  user-select: none;
+  transition: background-color var(--durationFast) ease-out,
+    border-color var(--durationFast) ease-out,
+    color var(--durationFast) ease-out,
+    box-shadow var(--durationFast) ease-out,
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sortSelect:hover {
+    background-color: var(--surfaceCard);
+    border-color: var(--borderStrong);
+  }
+}
+
+.sortSelect:active {
+  transform: scale(0.97);
+}
+
+.sortSelect:focus-visible {
+  outline: none;
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 3px rgba(255, 154, 197, 0.2);
+}
+
+[data-theme="light"] .sortSelect:focus-visible {
+  box-shadow: 0 0 0 3px rgba(230, 82, 139, 0.2);
+}
+
+/* Icono del picker en base-select */
+.sortSelect::picker-icon {
+  color: var(--textMuted);
+  margin-left: 4px;
+  font-size: 0.68rem;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    color var(--durationFast) ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sortSelect:hover::picker-icon {
+    color: var(--textPrimary);
+  }
+}
+
+.sortSelect:open::picker-icon {
+  transform: rotate(180deg);
+  color: var(--accentColor);
+}
+
+/* Menú flotante desplegable (Picker Popover) */
+::picker(select) {
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 4px;
+  margin-top: 4px;
+  width: max-content;
+  min-width: 144px;
+  color: var(--textPrimary);
+  font-family: inherit;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  transform-origin: top right;
+
+  /* Estado cerrado / saliente (exit transition con allow-discrete) */
+  opacity: 0;
+  transform: scale(0.96) translateY(-4px);
+  transition: 
+    opacity 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    display 160ms allow-discrete,
+    overlay 160ms allow-discrete;
+}
+
+/* Estado abierto / entrando */
+:open::picker(select) {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Estado inicial para transición de entrada suave (sin parpadeos ni saltos) */
+@starting-style {
+  :open::picker(select) {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+}
+
+[data-theme="light"] ::picker(select) {
+  background-color: rgba(255, 255, 255, 0.96);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] ::picker(select) {
+  background-color: rgba(24, 25, 32, 0.95);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Opciones estilizadas del select */
+.sortSelect option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px 6px 10px;
+  border-radius: 8px;
+  color: var(--textSecondary);
+  font-family: inherit;
+  font-size: 0.80rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 120ms ease-out,
+    color 120ms ease-out;
+}
+
+.sortSelect option:hover,
+.sortSelect option:focus-visible {
+  background-color: var(--surfaceSecondary);
+  color: var(--textPrimary);
+}
+
+.sortSelect option:checked {
+  background-color: rgba(255, 154, 197, 0.12);
+  color: var(--accentColor);
+  font-weight: 600;
+}
+
+[data-theme="light"] .sortSelect option:checked {
+  background-color: rgba(230, 82, 139, 0.08);
+  color: var(--accentColor);
+}
+
+.sortSelect option::checkmark {
+  color: var(--accentColor);
+  font-size: 0.78rem;
+  margin-left: 8px;
+}
+
+/* Fallback para navegadores que aún no soportan appearance: base-select */
+@supports not (appearance: base-select) {
+  .sortSelect {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 28px;
+  }
+}
+
+@supports (appearance: base-select) {
+  .sortChevronIcon {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::picker(select) {
+    transition: opacity 120ms ease !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 580px) {
+  .catalogMetaBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spaceSm);
+  }
+
+  .catalogActions {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .sortSelectWrapper {
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-end;
+  }
+
+  .sortSelectContainer {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sortSelect {
+    width: 100%;
+  }
+
+  .sortLabelText {
+    display: none;
+  }
+
+  ::picker(select) {
+    transform-origin: top center;
+  }
+}
+
+/* ==========================================================================
+   6. GRID DEL CATÁLOGO (MÁXIMO 4 COLUMNAS)
+   ========================================================================== */
 .novelsDisplaySection {
-  max-width: 900px;
-  margin: 0 auto;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
+  width: 100%;
 }
 
-/* ========================================
-   NOVELS GRID
-======================================== */
 .novelsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(180px, 45%), 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spaceLg);
   width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+}
+
+@media (max-width: 920px) {
+  .novelsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spaceMd);
+  }
+}
+
+@media (max-width: 640px) {
+  .novelsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spaceMd);
+  }
+}
+
+/* ==========================================================================
+   7. TARJETA DE NOVELA REUTILIZABLE (NOVEL CARD)
+   ========================================================================== */
+.novelCardWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .novelCard {
-  position: relative;
-  display: block;
-  aspect-ratio: 1 / 1.43;
-  background: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   text-decoration: none;
-  overflow: hidden;
-  z-index: 1;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  color: inherit;
+  border-radius: var(--radiusMedium);
+  outline-offset: 4px;
 }
 
-.novelCard:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: var(--shadow-hover);
+.novelCard:focus-visible {
+  outline: 2px solid var(--accentColor);
 }
 
+/* Contenedor de portada con lomo físico */
 .novelCoverContainer {
   position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1.43;
+  border-radius: var(--radiusMedium);
+  overflow: hidden;
+  background-color: var(--surfaceSecondary);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6),
+    0 2px 8px -2px rgba(0, 0, 0, 0.4);
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+[data-theme="light"] .novelCoverContainer {
+  box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.12),
+    0 4px 12px -2px rgba(0, 0, 0, 0.06);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .novelCard:hover .novelCoverContainer {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.75),
+      0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  }
+
+  [data-theme="light"] .novelCard:hover .novelCoverContainer {
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.18),
+      0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  }
+
+  .novelCard:hover .novelCardTitle {
+    color: var(--accentColor);
+  }
+}
+
+.novelCard:active .novelCoverContainer {
+  transform: scale(0.98);
 }
 
 .novelCover {
@@ -249,134 +843,250 @@ main {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: opacity var(--durationFast) var(--easeOutStrong);
 }
 
-.hoverOverlay {
+/* Lomo físico de libro (Inspiración Apple Books) */
+.coverSpine {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.05) 2.5%,
+    rgba(0, 0, 0, 0.15) 3.5%,
+    transparent 7%
+  );
+  box-shadow: inset 0 0 0 1px var(--borderSubtle);
+}
+
+[data-theme="light"] .coverSpine {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.12) 2.5%,
+    rgba(0, 0, 0, 0.08) 3.5%,
+    transparent 7%
+  );
+}
+
+/* Contenido editorial inferior */
+.novelCardContent {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: var(--spaceMd);
 }
 
-.novelCard:hover .hoverOverlay {
-  opacity: 1;
-}
-
-.hoverOverlay span {
-  padding: 0.4rem 1.2rem;
-  border: 2px solid #fff;
-  border-radius: 50px;
-  color: #fff;
+.novelCardTitle {
+  font-size: 1.02rem;
   font-weight: 700;
+  color: var(--textPrimary);
+  line-height: 1.32;
+  letter-spacing: var(--trackingTight);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-wrap: balance;
+  transition: color var(--durationFast) var(--easeOutStrong);
 }
 
-/* ========================================
-   NO RESULTS MESSAGE
-======================================== */
-.noResultsMessage {
-  padding: 2rem;
-  text-align: center;
-  animation: fadeIn 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.noResultsIcon {
-  width: 5rem;
-  height: 5rem;
-  margin-bottom: 1rem;
-  color: var(--accent);
-  opacity: 0.8;
-}
-
-.noResultsMessage h2 {
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-  font-size: 1.5rem;
-}
-
-.noResultsMessage p {
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-/* ========================================
-   PAGINATION CONTROLS
-======================================== */
-.paginationControls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  width: fit-content;
-  margin: 2.5rem auto 0;
-  padding: 0.625rem 1.25rem;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow-card);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.paginationControls:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow-hover);
-}
-
-.paginationBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: var(--bg-primary);
-  border: 2px solid var(--border);
-  border-radius: 0.375rem;
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    color 0.3s ease;
-}
-
-.paginationBtn svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--text-primary);
-  transition: color 0.3s ease;
-}
-
-.paginationBtn:hover:not(:disabled) {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-
-.paginationBtn:hover:not(:disabled) svg {
-  color: #fff;
-}
-
-.paginationBtn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.pageInfo {
-  min-width: 100px;
-  color: var(--text-primary);
-  font-size: 0.875rem;
+.novelCardAuthor {
+  font-size: 0.85rem;
+  color: var(--textSecondary);
   font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.novelCardMeta {
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.novelCardVolumes {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--textMuted);
+  letter-spacing: var(--trackingWide);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   8. SKELETON LOADERS (ESTADO DE CARGA)
+   ========================================================================== */
+.novelCardSkeleton {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.skeletonCover {
+  width: 100%;
+  aspect-ratio: 1 / 1.43;
+  border-radius: var(--radiusMedium);
+  background-color: var(--surfaceSecondary);
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+
+.skeletonContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: var(--spaceMd);
+}
+
+.skeletonLine {
+  height: 14px;
+  border-radius: var(--radiusSmall);
+  background-color: var(--surfaceSecondary);
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+
+.skeletonLineTitle {
+  width: 85%;
+  height: 18px;
+}
+
+.skeletonLineAuthor {
+  width: 55%;
+}
+
+.skeletonLineMeta {
+  width: 35%;
+  height: 11px;
+}
+
+@keyframes skeletonPulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+/* ==========================================================================
+   9. ESTADOS VACÍO Y ERROR (STATE MESSAGES)
+   ========================================================================== */
+.stateMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  padding: var(--space3xl) var(--spaceLg);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.stateIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radiusFull);
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  color: var(--accentColor);
+  margin-bottom: var(--spaceLg);
+}
+
+.errorIconWrapper {
+  color: #f87171;
+}
+
+.stateIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.stateTitle {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin-bottom: var(--spaceXs);
+}
+
+.stateDescription {
+  font-size: 0.95rem;
+  color: var(--textSecondary);
+  line-height: 1.5;
+  margin-bottom: var(--spaceLg);
+  text-wrap: balance;
+}
+
+/* Botón táctil para estados */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceXs);
+  padding: 0.75rem 1.6rem;
+  background-color: var(--accentColor);
+  color: var(--accentContrastText);
+  border: 1px solid var(--accentColor);
+  border-radius: var(--radiusFull);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadowSubtle);
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    opacity var(--durationFast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btnPrimary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadowMedium);
+    opacity: 0.95;
+  }
+}
+
+.btnPrimary:active {
+  transform: scale(0.97);
+}
+
+.btnIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   10. PREFERENCIAS DE ACCESIBILIDAD
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .novelCoverContainer,
+  .genreFiltersContainer,
+  .genreTag,
+  .filterToggleBtn,
+  .btnPrimary,
+  .resetFiltersBtn,
+  .searchClearBtn {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .skeletonCover,
+  .skeletonLine {
+    animation: none !important;
+    opacity: 0.6;
+  }
 }

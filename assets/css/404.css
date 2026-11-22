@@ -1,120 +1,307 @@
-/* ========================================
-   MAIN CONTAINER
-======================================== */
-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 80dvh;
-  margin-top: 70px;
-  padding: 2rem 1rem;
-}
+/* ==========================================================================
+   PÁGINA 404 - ERROR (Fase 7 Rediseño - Estilo Apple Books / App Store)
+   Kasnia Project - 100% Vanilla CSS con tokens camelCase
+   ========================================================================== */
 
-/* ========================================
-   ERROR CONTAINER
-======================================== */
+/* ==========================================================================
+   1. CONTENEDOR PRINCIPAL
+   ========================================================================== */
 .errorContainer {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  width: 100%;
-  max-width: 600px;
   text-align: center;
-}
-
-/* ========================================
-   GHOST ANIMATION
-======================================== */
-.ghostShadow {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
   width: 100%;
-  pointer-events: none;
+  max-width: 640px;
+  min-height: calc(100dvh - var(--navbarHeight) - 180px);
+  margin: 0 auto;
+  padding: calc(var(--navbarHeight) + var(--space2xl)) var(--spaceLg) var(--space3xl);
 }
 
-.shadowIcon {
-  width: 15rem;
-  height: auto;
-}
-
-.ghostWrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  animation: floatGhost 3s ease-in-out infinite;
-}
-
-@keyframes floatGhost {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
+@media (max-width: 640px) {
+  .errorContainer {
+    padding: calc(var(--navbarHeight) + var(--spaceLg)) var(--spaceMd) var(--space2xl);
+    min-height: calc(100dvh - var(--navbarHeight) - 220px);
   }
 }
 
-.ghostIcon {
-  width: 15rem;
-  height: auto;
-  overflow: visible;
-  filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
-}
-
-/* ========================================
-   CONTENT
-======================================== */
-.contentWrapper {
+/* ==========================================================================
+   2. ILUSTRACIÓN (La Página Perdida con Sombra Desacoplada y Física Realista)
+   ========================================================================== */
+.errorIllustrationContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  width: 240px;
+  max-width: 80vw;
+  margin-bottom: var(--spaceLg);
 }
 
-.errorCode {
-  font-size: clamp(4rem, 10vw, 6rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -2px;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(45deg, var(--text-primary), var(--accent));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Resplandor ambiental de lectura detrás del libro */
+.errorBookGlow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 210px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accentColor) 0%, transparent 72%);
+  opacity: 0.12;
+  pointer-events: none;
+  filter: blur(28px);
 }
 
-.errorHeading {
-  color: var(--text-primary);
-  font-size: clamp(2rem, 5vw, 3rem);
+[data-theme="light"] .errorBookGlow {
+  opacity: 0.16;
+  filter: blur(24px);
+}
+
+/* Envoltorio del libro: se desplaza verticalmente en el aire con curva sinusoidal armónica */
+.errorBookWrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  color: var(--textSecondary);
+  animation: errorBookFloat 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+.errorBookSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+}
+
+[data-theme="light"] .errorBookSvg {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+}
+
+/* Envoltorio de la sombra en el suelo: anclada físicamente bajo el libro con blur óptico */
+.errorShadowWrapper {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  height: auto;
+  margin-top: -22px;
+  color: #ffffff;
+  filter: blur(2px);
+  transform-origin: center center;
+  animation: errorShadowPhysics 3.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform, opacity;
+}
+
+/* En modo claro la sombra es oscura (negra) */
+[data-theme="light"] .errorShadowWrapper {
+  color: #000000;
+}
+
+.errorShadowSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   FÍSICA DE MOVIMIENTO INVERSO ESTRICTAMENTE SINCRONIZADA
+   Misma duración (3.6s) y curva sinusoidal armónica cubic-bezier(0.45, 0.05, 0.55, 0.95)
+   ========================================================================== */
+/* Cuando el libro sube a su cúspide (-14px), la sombra se contrae y atenúa */
+/* Cuando el libro desciende al reposo (0px), la sombra se expande y concentra */
+@keyframes errorBookFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes errorShadowPhysics {
+  0%, 100% {
+    transform: scale(1, 1);
+    opacity: 0.42;
+  }
+  50% {
+    transform: scale(0.72, 0.56);
+    opacity: 0.14;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .errorBookWrapper,
+  .errorShadowWrapper {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   3. CONTENIDO Y TIPOGRAFÍA
+   ========================================================================== */
+.errorContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.errorBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
   font-weight: 700;
+  color: var(--accentColor);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+  background: rgba(255, 154, 197, 0.12);
+  border: 1px solid rgba(255, 154, 197, 0.28);
+  border-radius: var(--radiusFull);
+  padding: 4px 14px;
+  margin-bottom: var(--spaceSm);
+}
+
+[data-theme="light"] .errorBadge {
+  background: rgba(230, 82, 139, 0.08);
+  border-color: rgba(230, 82, 139, 0.22);
+}
+
+.errorTitle {
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin-bottom: var(--spaceSm);
+  text-wrap: balance;
 }
 
 .errorDescription {
-  max-width: 40ch;
-  color: var(--text-secondary);
-  font-size: clamp(1rem, 2vw, 1.1rem);
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  color: var(--textSecondary);
   line-height: 1.6;
+  max-width: 48ch;
+  text-wrap: pretty;
+  margin-bottom: var(--spaceXl);
 }
 
-.homeButton {
-  margin-top: 1rem;
-  padding: 0.7rem 2rem;
-  background-color: var(--accent);
-  border-radius: 50px;
-  color: #fff;
+/* ==========================================================================
+   4. ACCIONES (BOTONES DUALES)
+   ========================================================================== */
+.errorActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spaceMd);
+  width: 100%;
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceSm);
+  min-height: 48px;
+  min-width: 44px;
+  padding: 0 var(--spaceLg);
+  border-radius: var(--radiusFull);
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  transition: transform 0.2s ease;
+  cursor: pointer;
+  outline: none;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+              box-shadow var(--durationFast) var(--easeOutStrong),
+              background-color var(--durationFast),
+              border-color var(--durationFast);
 }
 
-.homeButton:hover {
-  transform: scale(1.03);
+.btnPrimary {
+  background-color: var(--accentColor);
+  color: var(--accentContrastText);
+  border: 1px solid transparent;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+.btnPrimary:active {
+  transform: scale(0.97);
+}
+
+.btnPrimary:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 3px;
+}
+
+.btnSecondary {
+  background-color: var(--surfaceCard);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderSubtle);
+  box-shadow: var(--shadowSubtle);
+}
+
+.btnSecondary:hover {
+  transform: translateY(-2px);
+  background-color: var(--surfaceElevated);
+  border-color: var(--borderStrong);
+  box-shadow: var(--shadowMedium);
+}
+
+.btnSecondary:active {
+  transform: scale(0.97);
+}
+
+.btnSecondary:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 3px;
+}
+
+.btnIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   5. RESPONSIVIDAD Y PANTALLAS BAJAS
+   ========================================================================== */
+@media (max-width: 480px) {
+  .errorActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    width: 100%;
+  }
+}
+
+@media (max-height: 640px) {
+  .errorContainer {
+    padding-top: calc(var(--navbarHeight) + var(--spaceSm));
+    padding-bottom: var(--spaceLg);
+    min-height: auto;
+  }
+
+  .errorIllustrationContainer {
+    width: 170px;
+    margin-bottom: var(--spaceSm);
+  }
+
+  .errorDescription {
+    margin-bottom: var(--spaceLg);
+  }
 }

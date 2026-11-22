@@ -1,71 +1,198 @@
-{{ define "css" }} {{ $cssFile := resources.Get "css/novelas.css" }}
-{{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
-<link rel="stylesheet" href="{{ $css.Permalink }}" />
+{{ define "css" }}
+  {{ $cssFile := resources.Get "css/novelas.css" }}
+  {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $css.Permalink }}" />
 {{ end }}
 
 {{ define "main" }}
-<section class="novelsPageHeader">
-  <h1 class="pageTitle">Catálogo de Novelas</h1>
-  <p class="pageDescription">
-    Explora nuestro catálogo completo de novelas ligeras traducidas al español.
-  </p>
-</section>
+<div class="novelsContainer">
+  {{/* ========================================
+     INTRODUCCIÓN DEL CATÁLOGO
+     ======================================== */}}
+  <section class="novelsIntroSection" aria-labelledby="catalogTitle">
+    <div class="novelsEyebrow">Colección de Novelas</div>
+    <h1 id="catalogTitle" class="pageTitle">Catálogo de Novelas</h1>
+    <p class="pageDescription">
+      Explora nuestra colección de novelas ligeras traducidas al español. Portadas cuidadas, maquetación editorial y descarga en PDF y EPUB.
+    </p>
+  </section>
 
-<section class="searchSection">
-  <div class="searchContainer">
-    <div class="searchInputWrapper">
-      <svg class="searchIcon">
-        <use href="/img/svg/novelas.svg#searchIcon" />
-      </svg>
-      <input
-        type="text"
-        id="searchInput"
-        class="searchInput"
-        placeholder="Buscar por título..."
-        aria-label="Buscar novelas por título"
-      />
+  {{/* ========================================
+     BARRA DE CONTROLES (BÚSQUEDA Y FILTROS)
+     ======================================== */}}
+  <section class="controlsSection" aria-label="Controles de búsqueda y filtros">
+    <div class="controlsBar">
+      <div class="searchInputWrapper">
+        <svg class="searchIcon" aria-hidden="true">
+          <use href="/img/svg/novelas.svg#searchIcon" />
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          class="searchInput"
+          placeholder="Buscar por título en japonés, inglés o español..."
+          aria-label="Buscar novelas por título"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button
+          type="button"
+          id="searchClearBtn"
+          class="searchClearBtn"
+          aria-label="Limpiar búsqueda"
+          style="display: none;"
+        >
+          <svg aria-hidden="true">
+            <use href="/img/svg/novelas.svg#clearIcon" />
+          </svg>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        id="filterToggle"
+        class="filterToggleBtn"
+        aria-label="Filtros del catálogo"
+        aria-expanded="false"
+      >
+        <svg class="filterIcon" aria-hidden="true">
+          <use href="/img/svg/novelas.svg#filterIcon" />
+        </svg>
+        <span class="filterToggleLabel">Filtros</span>
+        <span id="filterActiveBadge" class="filterActiveBadge" style="display: none;">0</span>
+        <svg class="chevronIcon" aria-hidden="true">
+          <use href="/img/svg/novelas.svg#chevronDown" />
+        </svg>
+      </button>
     </div>
 
-    <button
-      id="filterToggle"
-      class="filterToggleBtn"
-      aria-label="Abrir filtros de género"
-      aria-expanded="false"
-    >
-      <svg>
-        <use href="/img/svg/novelas.svg#filterIcon" />
-      </svg>
-    </button>
-  </div>
+    {{/* Panel desplegable de filtros */}}
+    <div id="genreFilters" class="genreFiltersContainer">
+      <div class="genreFiltersInner">
+        <div class="genreFiltersHeader">
+          <span class="genreFiltersTitle">Filtros del catálogo</span>
+          <button type="button" id="clearGenresBtn" class="clearGenresLink" style="display: none;">
+            Limpiar selección
+          </button>
+        </div>
 
-  <div id="genreFilters" class="genreFiltersContainer">
-    <div class="genreFiltersWrapper">
-      <div id="genreList" class="genreList"></div>
+        {{/* Grupo 1: Estado */}}
+        <div class="filterGroup">
+          <div class="filterGroupHeader">
+            <span class="filterGroupTitle">Estado</span>
+          </div>
+          <div id="statusList" class="filterChipsList" role="group" aria-label="Filtro por estado">
+            <button type="button" class="genreTag filterChip" data-status="uptodate" role="checkbox" aria-checked="false">Al día</button>
+            <button type="button" class="genreTag filterChip" data-status="active" role="checkbox" aria-checked="false">Activa</button>
+            <button type="button" class="genreTag filterChip" data-status="completed" role="checkbox" aria-checked="false">Finalizada</button>
+            <button type="button" class="genreTag filterChip" data-status="paused" role="checkbox" aria-checked="false">Pausada</button>
+            <button type="button" class="genreTag filterChip" data-status="planned" role="checkbox" aria-checked="false">Planificada</button>
+          </div>
+        </div>
+
+        {{/* Grupo 2: Demografía */}}
+        <div class="filterGroup">
+          <div class="filterGroupHeader">
+            <span class="filterGroupTitle">Demografía</span>
+          </div>
+          <div id="demographyList" class="filterChipsList" role="group" aria-label="Filtro por demografía">
+            <button type="button" class="genreTag filterChip" data-demography="Seinen" role="checkbox" aria-checked="false">Seinen</button>
+            <button type="button" class="genreTag filterChip" data-demography="Shounen" role="checkbox" aria-checked="false">Shounen</button>
+            <button type="button" class="genreTag filterChip" data-demography="Shoujo" role="checkbox" aria-checked="false">Shoujo</button>
+          </div>
+        </div>
+
+        {{/* Grupo 3: Géneros */}}
+        <div class="filterGroup">
+          <div class="filterGroupHeader">
+            <span class="filterGroupTitle">Géneros</span>
+          </div>
+          <div id="genreList" class="genreList filterChipsList" role="group" aria-label="Filtros por género"></div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
 
-<section class="novelsDisplaySection">
-  <div id="novelsGrid" class="novelsGrid"></div>
+    {{/* Barra de estado, ordenación y conteo de resultados */}}
+    <div class="catalogMetaBar">
+      <div id="resultsCount" class="resultsCount" aria-live="polite">
+        Cargando novelas...
+      </div>
+      <div class="catalogActions">
+        <button type="button" id="resetFiltersBtn" class="resetFiltersBtn" style="display: none;">
+          <svg class="resetIcon" aria-hidden="true">
+            <use href="/img/svg/novelas.svg#resetIcon" />
+          </svg>
+          <span>Restablecer</span>
+        </button>
+        <div class="sortSelectWrapper">
+          <label for="sortSelect" class="sortLabel">
+            <svg class="sortIcon" aria-hidden="true">
+              <use href="/img/svg/novelas.svg#sortIcon" />
+            </svg>
+            <span class="sortLabelText">Ordenar por:</span>
+          </label>
+          <div class="sortSelectContainer">
+            <select id="sortSelect" class="sortSelect" aria-label="Ordenar novelas">
+              <option value="nameAsc">Nombre (A - Z)</option>
+              <option value="nameDesc">Nombre (Z - A)</option>
+              <option value="popular">Más populares</option>
+              <option value="recent">Más recientes</option>
+              <option value="volumes">Más volúmenes</option>
+            </select>
+            <svg class="sortChevronIcon" aria-hidden="true">
+              <use href="/img/svg/novelas.svg#chevronDown" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div id="noResultsMessage" class="noResultsMessage" style="display: none">
-    <svg class="noResultsIcon">
-      <use href="/img/svg/novelas.svg#noResultsIcon" />
-    </svg>
-    <h2>No se encontraron novelas</h2>
-    <p>Intenta con otros términos de búsqueda o filtros.</p>
-  </div>
+  {{/* ========================================
+     SECCIÓN DEL GRID Y ESTADOS
+     ======================================== */}}
+  <section class="novelsDisplaySection" aria-label="Listado de novelas">
+    <div id="novelsGrid" class="novelsGrid" aria-busy="true"></div>
 
-  <nav id="paginationBottom" class="paginationControls" aria-label="Paginación" style="display: none">
-    <button id="prevPageBottom" class="paginationBtn" aria-label="Página anterior">
-      <svg aria-hidden="true"><use href="/img/svg/novelas.svg#arrowLeft" /></svg>
-    </button>
-    <span id="pageInfoBottom" class="pageInfo">Página 1 de 1</span>
-    <button id="nextPageBottom" class="paginationBtn" aria-label="Página siguiente">
-      <svg aria-hidden="true"><use href="/img/svg/novelas.svg#arrowRight" /></svg>
-    </button>
-  </nav>
-</section>
+    {{/* Estado sin resultados */}}
+    <div id="noResultsMessage" class="stateMessage noResultsMessage" style="display: none;">
+      <div class="stateIconWrapper" aria-hidden="true">
+        <svg class="stateIcon">
+          <use href="/img/svg/novelas.svg#noResultsIcon" />
+        </svg>
+      </div>
+      <h2 class="stateTitle">No se encontraron novelas</h2>
+      <p class="stateDescription">
+        No hay obras que coincidan con los términos de búsqueda o filtros seleccionados.
+      </p>
+      <button type="button" id="emptyStateResetBtn" class="btnPrimary emptyStateResetBtn">
+        <svg class="btnIcon" aria-hidden="true">
+          <use href="/img/svg/novelas.svg#resetIcon" />
+        </svg>
+        <span>Restablecer filtros</span>
+      </button>
+    </div>
+
+    {{/* Estado de error de red */}}
+    <div id="errorMessage" class="stateMessage errorMessage" style="display: none;">
+      <div class="stateIconWrapper errorIconWrapper" aria-hidden="true">
+        <svg class="stateIcon">
+          <use href="/img/svg/novelas.svg#errorIcon" />
+        </svg>
+      </div>
+      <h2 class="stateTitle">No pudimos cargar el catálogo</h2>
+      <p class="stateDescription">
+        Ocurrió un error al obtener la biblioteca de novelas. Revisa tu conexión a internet e inténtalo nuevamente.
+      </p>
+      <button type="button" id="retryBtn" class="btnPrimary retryBtn">
+        <svg class="btnIcon" aria-hidden="true">
+          <use href="/img/svg/novelas.svg#resetIcon" />
+        </svg>
+        <span>Reintentar</span>
+      </button>
+    </div>
+  </section>
+</div>
 {{ end }}
 
 {{ define "js" }}

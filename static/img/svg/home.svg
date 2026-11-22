@@ -21,5 +21,11 @@
       <line x1="8" x2="8" y1="2" y2="6"/>
       <line x1="3" x2="21" y1="10" y2="10"/>
     </symbol>
+    <symbol id="tagSparkle" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M8 0L9.7 5.3L15 7L9.7 8.7L8 14L6.3 8.7L1 7L6.3 5.3L8 0Z"/>
+    </symbol>
+    <symbol id="checkIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6 9 17l-5-5"/>
+    </symbol>
   </defs>
 </svg>

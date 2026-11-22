@@ -7,76 +7,159 @@
 {{ end }}
 
 {{ define "main" }}
-<section class="heroSection">
-  <h1 class="pageTitle">Apoya el Proyecto</h1>
-  <p class="heroSubtitle">Ayúdanos a adquirir el material para futuras traducciones.</p>
-</section>
-
-<div class="contentWrapper">
-  <section class="infoGrid">
-    <div class="infoCard">
-      <div class="iconWrapper">
-        <svg class="infoIcon"><use href="/img/svg/donaciones.svg#bookIcon" /></svg>
-      </div>
-      <h3 class="cardTitle">Material Original</h3>
-      <p class="cardDescription">
-        La mayor parte de las donaciones se utiliza para comprar las RAWs
-        (novelas en su idioma original) que traducimos en la página.
-      </p>
-    </div>
-    <div class="infoCard">
-      <div class="iconWrapper">
-        <svg class="infoIcon"><use href="/img/svg/donaciones.svg#serverIcon" /></svg>
-      </div>
-      <h3 class="cardTitle">Infraestructura</h3>
-      <p class="cardDescription">
-        El hosting es gratuito y el dominio es económico (10$ al año).
-        Parte del dinero es usado para mantener el dominio.
-      </p>
-    </div>
+<div class="donationsContainer">
+  <!-- ========================================
+       1. HERO & INTRO
+  ======================================== -->
+  <section class="donationsIntroSection">
+    <span class="donationsEyebrow">Comunidad y Apoyo</span>
+    <h1 class="pageTitle">Apoya el Proyecto</h1>
+    <p class="pageDescription">
+      Ayúdanos a adquirir el material para futuras traducciones. Tu aporte permite mantener viva la biblioteca de novelas ligeras.
+    </p>
   </section>
 
-  <section class="donationCta">
-    <div class="ctaCard">
-      <div class="ctaContent">
+  <!-- ========================================
+       2. DONATION CTA (PROTAGONISTA)
+  ======================================== -->
+  <section class="donationCtaSection">
+    <div class="donationCtaCard">
+      <div class="donationCtaContent">
+        <span class="donationBadge">Donación Segura</span>
         <h2 class="ctaTitle">Haz tu donación</h2>
         <p class="ctaText">
-          Todo el proceso es seguro a través de PayPal. Tu apoyo hace
-          posible que continuemos.
+          Todo el proceso es seguro a través de PayPal. Tu apoyo hace posible que continuemos adquiriendo y traduciendo nuevas obras.
         </p>
+
         <a href="https://paypal.me/KasniaPLD07" target="_blank" rel="noopener noreferrer" class="paypalButton">
-          <svg class="paypalSvg"><use href="/img/svg/donaciones.svg#paypalIcon" /></svg>
+          <svg class="paypalSvg" aria-hidden="true"><use href="/img/svg/donaciones.svg#paypalIcon" /></svg>
           <span>Donar con PayPal</span>
         </a>
+
         <span class="paypalLinkText">paypal.me/KasniaPLD07</span>
       </div>
     </div>
   </section>
 
-  <section class="historySection">
-    <div class="historyHeader">
-      <h2 class="historyTitle">Historial de Movimientos</h2>
-      <p class="historySubtitle">Transparencia sobre los ingresos y gastos del proyecto.</p>
+  <!-- ========================================
+       3. TRANSPARENCY / INFO GRID
+  ======================================== -->
+  <section class="infoSection">
+    <div class="sectionHeader">
+      <h2 class="sectionTitle">En qué se utiliza tu apoyo</h2>
+      <p class="sectionSubtitle">Transparencia absoluta sobre el destino de cada contribución a la comunidad.</p>
     </div>
-    <div class="historyList">
-      {{ range .Params.historial }}
-        {{ $isReceived := or (eq .tipo "received") (eq .tipo "ingreso") (hasPrefix .monto "+") }}
-        <article class="historyItem">
-          <div class="historyInfo">
-            <h3 class="historyName">{{ .nombre }}</h3>
-            <div class="historyMeta">
-              <time datetime="{{ .fecha }}" class="historyDate">{{ or .fechaTexto .fecha }}</time>
-              {{ with .descripcion }}
-                <span class="historyDescription">{{ . }}</span>
-              {{ end }}
-            </div>
-          </div>
-          <div class="historyAmount {{ if $isReceived }}amountReceived{{ else }}amountSpent{{ end }}">
-            {{ .monto }}
-          </div>
-        </article>
-      {{ end }}
+
+    <div class="infoGrid">
+      <article class="infoCard">
+        <div class="infoIconWrapper">
+          <svg class="infoIcon" aria-hidden="true"><use href="/img/svg/donaciones.svg#bookIcon" /></svg>
+        </div>
+        <div class="infoCardBody">
+          <h3 class="cardTitle">Material Original</h3>
+          <p class="cardDescription">
+            La mayor parte de las donaciones se utiliza para comprar las RAWs
+            (novelas en su idioma original) que traducimos en la página.
+          </p>
+        </div>
+      </article>
+
+      <article class="infoCard">
+        <div class="infoIconWrapper">
+          <svg class="infoIcon" aria-hidden="true"><use href="/img/svg/donaciones.svg#serverIcon" /></svg>
+        </div>
+        <div class="infoCardBody">
+          <h3 class="cardTitle">Infraestructura</h3>
+          <p class="cardDescription">
+            El hosting es gratuito y el dominio es económico (10$ al año).
+            Parte del dinero es usado para mantener el dominio.
+          </p>
+        </div>
+      </article>
     </div>
   </section>
+
+  <!-- ========================================
+       4. MOVEMENTS HISTORY
+  ======================================== -->
+  <section class="historySection">
+    <div class="sectionHeader">
+      <h2 class="sectionTitle">Historial de Movimientos</h2>
+      <p class="sectionSubtitle">Transparencia sobre los ingresos y gastos del proyecto.</p>
+    </div>
+
+    {{ if .Params.historial }}
+      <!-- Filtros Segmented Control (Todos / Donaciones / Gastos) -->
+      <div class="historyFiltersWrapper">
+        <div class="historyFilters" role="tablist" aria-label="Filtrar movimientos">
+          <button type="button" class="historyFilterBtn isActive" data-filter="all" role="tab" aria-selected="true">
+            Todos
+          </button>
+          <button type="button" class="historyFilterBtn" data-filter="income" role="tab" aria-selected="false">
+            Donaciones
+          </button>
+          <button type="button" class="historyFilterBtn" data-filter="expense" role="tab" aria-selected="false">
+            Gastos
+          </button>
+        </div>
+      </div>
+
+      <div class="historyList">
+        {{ range .Params.historial }}
+          {{ $isReceived := or (eq .tipo "received") (eq .tipo "ingreso") (hasPrefix .monto "+") }}
+          <article class="historyItem {{ if $isReceived }}isIncome{{ else }}isExpense{{ end }}">
+            <div class="historyTypeIconWrapper {{ if $isReceived }}incomeIcon{{ else }}expenseIcon{{ end }}">
+              <svg class="historyTypeIcon" aria-hidden="true">
+                <use href="/img/svg/donaciones.svg#{{ if $isReceived }}arrowDownLeft{{ else }}arrowUpRight{{ end }}" />
+              </svg>
+            </div>
+
+            <div class="historyInfo">
+              <div class="historyTopRow">
+                <h3 class="historyName">{{ .nombre }}</h3>
+                <span class="historyTypeBadge {{ if $isReceived }}incomeBadge{{ else }}expenseBadge{{ end }}">
+                  {{ if $isReceived }}Ingreso{{ else }}Gasto{{ end }}
+                </span>
+              </div>
+              <div class="historyMeta">
+                <time datetime="{{ .fecha }}" class="historyDate">{{ or .fechaTexto .fecha }}</time>
+                {{ with .descripcion }}
+                  <span class="historyDescription">{{ . }}</span>
+                {{ end }}
+              </div>
+            </div>
+
+            <div class="historyAmount {{ if $isReceived }}amountReceived{{ else }}amountSpent{{ end }}">
+              {{ .monto }}
+            </div>
+          </article>
+        {{ end }}
+      </div>
+
+      <!-- Botón para desplegar / replegar historial -->
+      <div class="historyToggleWrapper" id="historyToggleWrapper">
+        <button type="button" class="btnSecondary historyToggleBtn" id="historyToggleBtn" aria-expanded="false">
+          <span class="toggleBtnText">Ver todos los movimientos</span>
+          <svg class="toggleBtnIcon" aria-hidden="true"><use href="/img/svg/donaciones.svg#chevronDown" /></svg>
+        </button>
+      </div>
+    {{ else }}
+      <div class="historyEmptyState">
+        <div class="emptyIconWrapper">
+          <svg class="emptyIcon" aria-hidden="true"><use href="/img/svg/donaciones.svg#emptyIcon" /></svg>
+        </div>
+        <h3 class="emptyTitle">Sin movimientos registrados</h3>
+        <p class="emptyDescription">Actualmente no hay movimientos registrados en el historial.</p>
+      </div>
+    {{ end }}
+  </section>
 </div>
+{{ end }}
+
+{{ define "js" }}
+  {{ $jsFile := resources.Get "js/donaciones.js" }}
+  {{ if $jsFile }}
+    {{ $js := $jsFile | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $js.Permalink }}" defer></script>
+  {{ end }}
 {{ end }}

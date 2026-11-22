@@ -11,7 +11,7 @@
 
     <!-- Título dinámico -->
     {{ $title := .Title }} {{ $description := .Site.Params.description }} {{ if
-    eq .Kind "home" }} {{ $title = "Kasnia Project" }} {{ else }} {{ $title =
+    eq .Kind "home" }} {{ $title = "Kasnia Project" }} {{ else if eq .Kind "404" }} {{ $title = "Página no encontrada ─ Kasnia Project" }} {{ else }} {{ $title =
     printf "%s ─ Kasnia Project" .Title }} {{ if .Description }} {{ $description
     = .Description }} {{ else if .Summary }} {{ $description = .Summary }} {{
     end }} {{ end }}
@@ -114,12 +114,13 @@
       href="/img/icon/favicon-16.png"
     />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fuente Inter autoalojada con preload de archivo principal -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/InterVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <!-- CSS común -->
@@ -148,6 +149,7 @@
             <ul class="navbarLinks">
               <li><a href="/novelas">Novelas</a></li>
               <li><a href="/ranking">Ranking</a></li>
+              <!--<li><a href="/comisiones">Comisiones</a></li>-->
               <li><a href="/staff">Staff</a></li>
               <li><a href="/donaciones">Donaciones</a></li>
             </ul>
@@ -187,6 +189,7 @@
         <ul class="mobileMenuLinks">
           <li><a href="/novelas">Novelas</a></li>
           <li><a href="/ranking">Ranking</a></li>
+          <li><a href="/comisiones">Comisiones</a></li>
           <li><a href="/staff">Staff</a></li>
           <li><a href="/donaciones">Donaciones</a></li>
         </ul>
@@ -198,18 +201,25 @@
 
     <!-- Modal de volúmenes anteriores -->
     {{ if .Params.previousVols }}
-    <div class="modalOverlay" id="previousVolsModal">
-      <div class="modal">
-        <div class="modalHeader">
-          <h3 class="modalTitle">Volúmenes anteriores</h3>
-          <button class="modalClose" id="closePreviousVols" aria-label="Cerrar modal">
-            <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
-          </button>
+    <dialog class="modalDialog" id="previousVolsModal" aria-labelledby="previousVolsModalTitle">
+      <div class="modalContainer">
+        <div class="modalTopBar">
+          <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
+          <div class="modalHeader">
+            <div class="modalHeaderInfo">
+              <h3 class="modalTitle" id="previousVolsModalTitle">Volúmenes anteriores</h3>
+              <span class="modalSubtitle">Traducciones realizadas por otros grupos</span>
+            </div>
+            <button class="modalClose" id="closePreviousVols" aria-label="Cerrar modal">
+              <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
+            </button>
+          </div>
         </div>
         <div class="modalBody">
-          <p class="previousVolsWarning">
-            Nota: Estos volúmenes fueron trabajados por otros grupos. Se proporcionan únicamente para facilitar el acceso a la historia completa.
-          </p>
+          <div class="previousVolsWarning">
+            <svg class="warningIcon" aria-hidden="true"><use href="/img/svg/novela.svg#noteIcon" /></svg>
+            <p>Estos volúmenes fueron traducidos por otros grupos de la comunidad. Se proporcionan únicamente para facilitar la lectura continua de la obra completa.</p>
+          </div>
           
           <div class="previousGroupsList">
             {{ range .Params.previousVols }}
@@ -224,21 +234,25 @@
                       <div class="previousDownloadIcon external">
                         <svg><use href="/img/svg/novela.svg#externalIcon" /></svg>
                       </div>
-                      Ver en la web del traductor
+                      <span>Ver en la web del traductor</span>
                     </a>
                   {{ else }}
-                    <a href="{{ .links.pdf }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
-                      <div class="previousDownloadIcon pdf">
-                        <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
-                      </div>
-                      PDF
-                    </a>
-                    <a href="{{ .links.epub }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
-                      <div class="previousDownloadIcon epub">
-                        <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
-                      </div>
-                      EPUB
-                    </a>
+                    {{ if .links.pdf }}
+                      <a href="{{ .links.pdf }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
+                        <div class="previousDownloadIcon pdf">
+                          <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
+                        </div>
+                        <span>PDF</span>
+                      </a>
+                    {{ end }}
+                    {{ if .links.epub }}
+                      <a href="{{ .links.epub }}" class="previousDownloadBtn" target="_blank" rel="noopener noreferrer">
+                        <div class="previousDownloadIcon epub">
+                          <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
+                        </div>
+                        <span>EPUB</span>
+                      </a>
+                    {{ end }}
                   {{ end }}
                 </div>
               </div>
@@ -246,74 +260,98 @@
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
     {{ end }}
 
 
     <!-- Modal de la página de descargas -->
     {{ if and (eq .Section "novelas") (eq .Kind "page") }}
-    <div class="modalOverlay" id="downloadModal">
-      <div class="modal">
-        <div class="modalHeader">
-          <h3 class="modalTitle" id="modalVolumeTitle">Volumen</h3>
-          <button class="modalClose" aria-label="Cerrar modal">
-            <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
-          </button>
-        </div>
-        <div class="creditsSection">
-          <h4 class="creditsSectionTitle">Créditos</h4>
-          <div class="creditsList" id="creditsContainer"></div>
-          <div class="updateDateContainer" id="updateDateContainer" style="display: none;"></div>
-        </div>
-        <div class="serverToggle">
-          <button class="serverBtn active" data-server="propio">
-            Servidor Propio
-          </button>
-          <button class="serverBtn" data-server="drive">Google Drive</button>
-        </div>
-        <div class="downloadLinks">
-          <a
-            href="#"
-            class="downloadLink"
-            id="pdfDownloadLink"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div class="downloadIcon pdf">
-              <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
+    <dialog class="modalDialog" id="downloadModal" aria-labelledby="modalVolumeTitle">
+      <div class="modalContainer">
+        <div class="modalTopBar">
+          <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
+          <div class="modalHeader">
+            <div class="modalHeaderInfo">
+              <h3 class="modalTitle" id="modalVolumeTitle">Volumen</h3>
             </div>
-            <div class="downloadFormat">PDF</div>
-          </a>
-          <a
-            href="#"
-            class="downloadLink"
-            id="epubDownloadLink"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div class="downloadIcon epub">
-              <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
-            </div>
-            <div class="downloadFormat">EPUB</div>
-          </a>
+            <button class="modalClose" aria-label="Cerrar modal">
+              <svg><use href="/img/svg/novela.svg#closeIconModal" /></svg>
+            </button>
+          </div>
         </div>
-        <div class="readerSection" id="readerSection" style="display: none;">
-          <hr class="readerSeparator" />
-          <div class="downloadLinks readerBtnContainer">
-            <a
-              href="#"
-              class="readerBtnModal"
-              id="readerLinkBtn"
-            >
-              <div class="downloadIcon reader">
-                <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
-              </div>
-              <div class="downloadFormat">Leer Online</div>
+
+        <div class="modalBody">
+          <!-- Acción Principal: Leer Online -->
+          <div class="readerSection" id="readerSection" style="display: none;">
+            <a href="#" class="readerBtnPrimary" id="readerLinkBtn">
+              <svg class="readerBtnIcon"><use href="/img/svg/novela.svg#openBookIcon" /></svg>
+              <span>Leer Online</span>
             </a>
+          </div>
+
+          <!-- Bloque de Descargas -->
+          <div class="downloadsBlock">
+            <div class="downloadsBlockHeader">
+              <span class="blockLabel">Descargar archivo</span>
+            </div>
+
+            <!-- Selector de Servidor estilo Segmented Control iOS -->
+            <div class="serverToggle" role="tablist" aria-label="Servidor de descarga">
+              <button class="serverBtn active" data-server="propio" role="tab" aria-selected="true">
+                Servidor Propio
+              </button>
+              <button class="serverBtn" data-server="drive" role="tab" aria-selected="false">
+                Google Drive
+              </button>
+            </div>
+
+            <!-- Enlaces de descarga PDF y EPUB -->
+            <div class="downloadLinks">
+              <a
+                href="#"
+                class="downloadLink"
+                id="pdfDownloadLink"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div class="downloadIcon pdf">
+                  <svg><use href="/img/svg/novela.svg#pdfIcon" /></svg>
+                </div>
+                <div class="downloadFormat">
+                  <span class="formatName">PDF</span>
+                  <span class="formatHint">Archivo .pdf</span>
+                </div>
+              </a>
+              <a
+                href="#"
+                class="downloadLink"
+                id="epubDownloadLink"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div class="downloadIcon epub">
+                  <svg><use href="/img/svg/novela.svg#epubIcon" /></svg>
+                </div>
+                <div class="downloadFormat">
+                  <span class="formatName">EPUB</span>
+                  <span class="formatHint">Archivo .epub</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Créditos del volumen -->
+          <div class="creditsSection">
+            <h4 class="creditsSectionTitle">
+              <svg class="creditsIcon"><use href="/img/svg/novela.svg#usersIcon" /></svg>
+              Créditos de traducción
+            </h4>
+            <div class="creditsList" id="creditsContainer"></div>
+            <div class="updateDateContainer" id="updateDateContainer" style="display: none;"></div>
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
     {{ end }}
 
     <!-- Footer común -->
@@ -346,6 +384,7 @@
               <ul class="footerList">
                 <li><a href="/novelas" class="footerLink">Novelas</a></li>
                 <li><a href="/ranking" class="footerLink">Ranking</a></li>
+                <!--<li><a href="/comisiones" class="footerLink">Comisiones</a></li>-->
                 <li><a href="/staff" class="footerLink">Staff</a></li>
                 <li><a href="/donaciones" class="footerLink">Donaciones</a></li>
               </ul>

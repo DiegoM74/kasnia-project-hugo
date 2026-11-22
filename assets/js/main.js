@@ -6,6 +6,7 @@ if (menuToggle && mobileMenu) {
     const isActive = !forceClose && !mobileMenu.classList.contains("active");
     mobileMenu.classList.toggle("active", isActive);
     menuToggle.classList.toggle("active", isActive);
+    menuToggle.setAttribute("aria-expanded", String(isActive));
     document.body.classList.toggle("menuOpen", isActive);
   };
 
@@ -19,6 +20,13 @@ if (menuToggle && mobileMenu) {
   // Cerrar al hacer click fuera del menú
   mobileMenu.addEventListener("click", (e) => {
     if (e.target === mobileMenu) toggleMenu(true);
+  });
+
+  // Cerrar al presionar la tecla Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+      toggleMenu(true);
+    }
   });
 }
 

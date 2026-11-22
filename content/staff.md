@@ -13,7 +13,7 @@ miembros:
     nombre: "Diego"
     rol: "Traductor, Editor, Web y Maquetador PDF/EPUB"
     badge: "Admin"
-    novelIds: ["01", "06", "11"]
+    novelIds: ["01", "06", "10", "11", "12", "14"]
 
   - staffId: "03"
     nombre: "Hiro寛"
@@ -38,10 +38,10 @@ miembros:
   - staffId: "07"
     nombre: "Pupu"
     rol: "Traductora"
-    novelIds: []
+    novelIds: ["08"]
 
   - staffId: "08"
     nombre: "SLN"
     rol: "Editor"
-    novelIds: ["11"]
+    novelIds: ["11", "12"]
 ---

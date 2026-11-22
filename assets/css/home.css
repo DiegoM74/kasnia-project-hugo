@@ -1,194 +1,362 @@
-/* ========================================
-   CSS VARIABLES
-======================================== */
-:root {
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.7);
+/* ==========================================================================
+   HOME PAGE STYLES (Fase 2 Rediseño - Apple Books / App Store Style)
+   Kasnia Project - 100% Vanilla CSS con tokens camelCase
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.homeContainer {
+  position: relative;
+  width: 100%;
+  max-width: var(--containerMaxWidth);
+  margin: 0 auto;
+  padding: calc(var(--navbarHeight) + var(--space2xl)) var(--spaceLg) var(--space4xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space4xl);
 }
 
-[data-theme="light"] {
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+@media (max-width: 640px) {
+  .homeContainer {
+    padding: calc(var(--navbarHeight) + var(--spaceLg)) var(--spaceMd) var(--space3xl);
+    gap: var(--space3xl);
+  }
 }
 
-/* ========================================
-   MAIN CONTAINER
-======================================== */
-main {
+/* ==========================================================================
+   2. HERO SECTION
+   ========================================================================== */
+.heroSection {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 6rem;
-  max-width: 1000px;
-  margin: 70px auto 0;
-  padding: 3rem 1.5rem;
-  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spaceXl) 0 var(--spaceSm);
 }
 
-/* ========================================
-   HERO SECTION
-======================================== */
-.heroSection {
+.heroAmbientGlow {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(840px, 94vw);
+  height: 400px;
+  background: radial-gradient(
+    ellipse 65% 55% at 50% 25%,
+    rgba(255, 154, 197, 0.1) 0%,
+    rgba(255, 154, 197, 0.03) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="light"] .heroAmbientGlow {
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 25%,
+    rgba(230, 82, 139, 0.16) 0%,
+    rgba(230, 82, 139, 0.06) 45%,
+    transparent 72%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  animation: fadeIn 0.8s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaceXs);
+  padding: var(--space2xs) var(--spaceSm);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--textSecondary);
+  letter-spacing: var(--trackingWide);
+  text-transform: uppercase;
+  margin-bottom: var(--spaceLg);
+}
+
+.heroBadgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accentColor);
+  box-shadow: 0 0 8px var(--accentColor);
 }
 
 .heroTitle {
-  margin-bottom: 1rem;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2.5rem, 6.5vw, 4rem);
   font-weight: 800;
-  line-height: 1.1;
-  background: linear-gradient(45deg, var(--text-primary), var(--accent));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  line-height: 1.05;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin-bottom: var(--spaceMd);
+  text-wrap: balance;
 }
 
 .heroSubtitle {
-  max-width: 60ch;
-  margin-bottom: 3rem;
-  color: var(--text-secondary);
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  color: var(--textSecondary);
+  line-height: 1.55;
+  max-width: 58ch;
+  margin-bottom: var(--space2xl);
+  text-wrap: pretty;
 }
 
 .heroStats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spaceXl);
+  padding: var(--spaceSm) var(--spaceXl);
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  box-shadow: var(--shadowSubtle);
 }
 
 .statCard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 180px;
-  padding: 1.5rem 2.5rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.statCard:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent);
+  text-align: center;
 }
 
 .statNumber {
-  margin-bottom: 0.5rem;
-  color: var(--accent);
-  font-size: 2.2rem;
+  font-size: 1.65rem;
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.1;
+  color: var(--accentColor);
+  font-variant-numeric: tabular-nums;
 }
 
 .statLabel {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  text-align: center;
+  color: var(--textMuted);
+  letter-spacing: var(--trackingWide);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  margin-top: 2px;
 }
 
-/* ========================================
-   LATEST RELEASE BANNER (MOBILE-FIRST)
-======================================== */
-.latestReleaseSection {
+.statDivider {
+  width: 1px;
+  height: 32px;
+  background: var(--borderSubtle);
+}
+
+@media (max-width: 540px) {
+  .heroStats {
+    width: 100%;
+    max-width: 360px;
+    justify-content: space-around;
+    gap: var(--spaceMd);
+    padding: var(--spaceSm) var(--spaceLg);
+  }
+
+  .statNumber {
+    font-size: 1.45rem;
+  }
+
+  .statLabel {
+    font-size: 0.7rem;
+  }
+}
+
+/* ==========================================================================
+   3. ÚLTIMOS LANZAMIENTOS (GRID DE 2 NOVEDADES)
+   ========================================================================== */
+.latestReleasesSection {
   width: 100%;
-  max-width: 760px;
-  margin: -3.2rem auto -2.2rem;
-}
-
-.latestReleaseBanner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1.25rem;
-  padding: 0.85rem 1rem;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 154, 197, 0.04) 0%,
-    var(--bg-secondary) 100%
-  );
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-[data-theme="light"] .latestReleaseBanner {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.latestReleaseBanner:hover {
-  transform: translateY(-1px);
-  border-color: var(--accent);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-}
-
-.bannerMain {
+  max-width: var(--containerMaxWidth);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
-  flex: 999 1 280px;
-  min-width: 0;
+  gap: var(--spaceXl);
 }
 
-.bannerBadges {
+.latestReleasesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.latestReleaseCardWrapper {
+  display: flex;
+  width: 100%;
+}
+
+.latestReleaseCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  width: 100%;
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+  box-shadow: var(--shadowSubtle);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    transform var(--durationFast) var(--easeOutStrong),
+    background-color var(--durationFast) var(--easeOutStrong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .latestReleaseCard:hover {
+    border-color: var(--borderStrong);
+    background-color: var(--surfaceElevated);
+    box-shadow: var(--shadowMedium);
+    transform: translateY(-2px);
+  }
+
+  .latestReleaseCard:hover .latestReleaseArrow {
+    transform: translateX(4px);
+    color: var(--accentColor);
+    background-color: var(--surfaceCard);
+  }
+
+  .latestReleaseCard:hover .latestReleaseTitle {
+    color: var(--accentColor);
+  }
+}
+
+.latestReleaseCard:active {
+  transform: scale(0.98);
+}
+
+.latestReleaseCoverContainer {
+  position: relative;
+  width: 68px;
+  min-width: 68px;
+  aspect-ratio: 1 / 1.43;
+  border-radius: var(--radiusMedium);
+  overflow: hidden;
+  background: var(--surfaceSecondary);
+  box-shadow: 0 6px 14px -2px rgba(0, 0, 0, 0.32),
+    0 2px 4px -1px rgba(0, 0, 0, 0.18);
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .latestReleaseCoverContainer {
+  box-shadow: 0 6px 14px -2px rgba(0, 0, 0, 0.08),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04);
+}
+
+.latestReleaseCover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Brillo táctil y lomo de libro (Efecto físico Apple Books) */
+.coverSpine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.05) 2.5%,
+    rgba(0, 0, 0, 0.15) 3.5%,
+    transparent 7%
+  );
+  box-shadow: inset 0 0 0 1px var(--borderSubtle);
+}
+
+[data-theme="light"] .coverSpine {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.12) 2.5%,
+    rgba(0, 0, 0, 0.08) 3.5%,
+    transparent 7%
+  );
+}
+
+.latestReleaseBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+
+.latestReleaseBadges {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 5px;
 }
 
-.bannerTag {
-  color: var(--accent);
-  font-size: 0.8rem;
+.latestReleaseTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.70rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  color: var(--accentColor);
+  letter-spacing: var(--trackingWider);
   text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tagSparkle {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.releaseNumberBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  border-radius: var(--radiusFull);
+  background: var(--surfaceSecondary);
+  color: var(--textMuted);
+  border: 1px solid var(--borderSubtle);
+  letter-spacing: var(--trackingWide);
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .releaseBadge {
   display: inline-flex;
   align-items: center;
-  padding: 0.15rem 0.5rem;
-  font-size: 0.65rem;
+  padding: 1px 6px;
+  font-size: 0.64rem;
   font-weight: 700;
-  border-radius: 50px;
-  letter-spacing: 0.03em;
+  border-radius: var(--radiusFull);
+  letter-spacing: var(--trackingWide);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .releaseBadge.statePublished {
   background: rgba(34, 197, 94, 0.14);
   color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-.releaseBadge.statePreview {
-  background: rgba(245, 158, 11, 0.14);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid rgba(34, 197, 94, 0.28);
 }
 
 [data-theme="light"] .releaseBadge.statePublished {
@@ -197,303 +365,753 @@ main {
   border-color: rgba(22, 163, 74, 0.25);
 }
 
+.releaseBadge.statePreview {
+  background: rgba(245, 158, 11, 0.14);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
 [data-theme="light"] .releaseBadge.statePreview {
   background: rgba(245, 158, 11, 0.1);
   color: #d97706;
   border-color: rgba(217, 119, 6, 0.25);
 }
 
-.bannerContent {
+.latestReleaseDetails {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 2px;
 }
 
-.bannerNovelTitle {
-  color: var(--text-primary);
-  font-size: 0.92rem;
+.latestReleaseTitle {
+  font-size: 0.94rem;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.25;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color var(--durationFast) var(--easeOutStrong);
 }
 
-.bannerMeta {
+.latestReleaseMeta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.35rem 0.5rem;
-  font-size: 0.78rem;
-  color: var(--text-secondary);
+  gap: 5px;
+  font-size: 0.76rem;
+  color: var(--textSecondary);
+  margin-top: 1px;
 }
 
-.bannerVolume {
-  color: var(--accent);
-  font-size: 0.78rem;
+.latestReleaseVol {
+  color: var(--textPrimary);
   font-weight: 600;
 }
 
-.bannerSeparator {
-  opacity: 0.4;
-  font-size: 0.7rem;
+.metaDivider {
+  color: var(--textMuted);
+  opacity: 0.6;
+  font-size: 0.70rem;
 }
 
-.bannerDate {
+.latestReleaseDate {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 0.78rem;
+  gap: 4px;
+  color: var(--textMuted);
+  font-size: 0.74rem;
 }
 
 .metaIcon {
   width: 11px;
   height: 11px;
   flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
 }
 
-.bannerAction {
+.latestReleaseArrow {
   display: flex;
   align-items: center;
-  flex: 1 1 140px;
-}
-
-.releaseActionBtn {
-  width: 100%;
-  padding: 0.48rem 1rem;
-  font-size: 0.82rem;
   justify-content: center;
-  white-space: nowrap;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radiusFull);
+  background: var(--surfaceSecondary);
+  color: var(--textMuted);
+  flex-shrink: 0;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    color var(--durationFast) var(--easeOutStrong),
+    background-color var(--durationFast) var(--easeOutStrong);
 }
 
-.releaseActionBtn svg {
+.arrowIcon {
   width: 13px;
   height: 13px;
+  stroke: currentColor;
 }
 
-/* ========================================
-   FEATURED SECTION (Novelas Destacadas)
-======================================== */
+@media (max-width: 820px) {
+  .latestReleasesGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .latestReleaseCard {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .latestReleaseCoverContainer {
+    width: 58px;
+    min-width: 58px;
+  }
+
+  .latestReleaseTitle {
+    font-size: 0.88rem;
+  }
+
+  .latestReleaseArrow {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   4. FEATURED SECTION (NOVELAS DESTACADAS)
+   ========================================================================== */
 .featuredSection {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: var(--space2xl);
+  width: 100%;
 }
 
 .sectionHeader {
   text-align: center;
-}
-
-.sectionTitle {
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-  font-size: 1.8rem;
-}
-
-.sectionDescription {
-  color: var(--text-secondary);
-}
-
-.novelsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space2xs);
+  max-width: 640px;
   margin: 0 auto;
 }
 
-.novelCard {
-  position: relative;
-  display: block;
-  aspect-ratio: 1 / 1.43;
-  background: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
-  text-decoration: none;
-  overflow: hidden;
-  z-index: 1;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+.sectionEyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accentColor);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
 }
 
-.novelCard:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: var(--shadow-hover);
+.sectionTitle {
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  line-height: 1.15;
 }
 
-.novelCoverContainer {
-  position: relative;
+.sectionDescription {
+  font-size: 0.95rem;
+  color: var(--textSecondary);
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spaceXl);
   width: 100%;
+}
+
+@media (max-width: 900px) {
+  .featuredGrid {
+    gap: var(--spaceMd);
+  }
+}
+
+@media (max-width: 720px) {
+  .featuredGrid {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: var(--spaceLg);
+  }
+}
+
+@media (max-width: 500px) {
+  .featuredGrid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
+    gap: var(--spaceXl);
+  }
+}
+
+.featuredCardWrapper {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
-.novelCover {
+.featuredCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.featuredCoverContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.43;
+  border-radius: var(--radiusMedium);
+  overflow: hidden;
+  background: var(--surfaceSecondary);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6),
+    0 2px 8px -2px rgba(0, 0, 0, 0.4);
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+[data-theme="light"] .featuredCoverContainer {
+  box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.12),
+    0 4px 12px -2px rgba(0, 0, 0, 0.06);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .featuredCard:hover .featuredCoverContainer {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.75),
+      0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  }
+
+  [data-theme="light"] .featuredCard:hover .featuredCoverContainer {
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.18),
+      0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  }
+
+  .featuredCard:hover .featuredCardTitle {
+    color: var(--accentColor);
+  }
+}
+
+.featuredCard:active .featuredCoverContainer {
+  transform: scale(0.98);
+}
+
+.featuredCover {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.hoverOverlay {
+/* Badges del Ranking */
+.rankingBadge {
   position: absolute;
-  inset: 0;
+  top: var(--spaceSm);
+  left: var(--spaceSm);
+  z-index: 2;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border-radius: var(--radiusFull);
+  letter-spacing: var(--trackingWide);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* #1: Máxima legibilidad y distinción sobre cualquier portada (fondos complejos o colores similares) */
+.rankingBadge.rankingBadge1 {
+  background-color: rgba(13, 14, 18, 0.94);
+  color: var(--accentColor);
+  border: 1.5px solid var(--accentColor);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 154, 197, 0.35);
+}
+
+[data-theme="light"] .rankingBadge.rankingBadge1 {
+  background-color: rgba(255, 255, 255, 0.98);
+  color: var(--accentColor);
+  border: 1.5px solid var(--accentColor);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16), 0 0 10px rgba(230, 82, 139, 0.25);
+}
+
+/* #2 y #3: Superficies neutras elevadas de alto contraste */
+.rankingBadge.rankingBadge2,
+.rankingBadge.rankingBadge3 {
+  background-color: rgba(13, 14, 18, 0.9);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderStrong);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .rankingBadge.rankingBadge2,
+[data-theme="light"] .rankingBadge.rankingBadge3 {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderStrong);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Contenido editorial de la tarjeta */
+.featuredCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: var(--spaceMd);
+}
+
+.featuredCardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+  line-height: 1.35;
+  letter-spacing: var(--trackingTight);
+  text-wrap: balance;
+  margin: 0;
+  transition: color var(--durationFast) var(--easeOutStrong);
+}
+
+.featuredCardAuthor {
+  font-size: 0.86rem;
+  color: var(--textSecondary);
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.featuredCardMeta {
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.featuredCardVolumes {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--textMuted);
+  letter-spacing: var(--trackingWide);
+}
+
+/* Contenedor de botones de navegación */
+.viewMoreWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.novelCard:hover .hoverOverlay {
-  opacity: 1;
-}
-
-.hoverOverlay span {
-  padding: 0.4rem 1.2rem;
-  color: #fff;
-  font-weight: 700;
-  border: 2px solid #fff;
-  border-radius: 50px;
-}
-
-.viewMoreWrapper {
-  display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: var(--spaceMd);
+  margin-top: var(--spaceMd);
 }
 
+/* ==========================================================================
+   5. BOTONES GLOBALES DE LA HOME
+   ========================================================================== */
 .btnPrimary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.8rem;
-  background-color: var(--accent);
-  border-radius: 50px;
-  color: #fff;
+  gap: var(--spaceXs);
+  min-height: 44px;
+  padding: 0.7rem 1.6rem;
+  background-color: var(--accentColor);
+  color: var(--accentContrastText);
+  border: none;
+  border-radius: var(--radiusFull);
   font-weight: 600;
+  font-size: 0.9rem;
   text-decoration: none;
-  transition: transform 0.2s ease;
+  box-shadow: var(--shadowSubtle);
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    opacity var(--durationFast) var(--easeOutStrong);
 }
 
-.btnPrimary svg {
-  width: 20px;
-  height: 20px;
+.btnPrimary:active {
+  transform: scale(0.97);
 }
 
-.btnPrimary:hover {
-  transform: scale(1.03);
+@media (hover: hover) and (pointer: fine) {
+  .btnPrimary:hover {
+    box-shadow: var(--shadowMedium);
+    transform: translateY(-1px);
+  }
 }
 
 .btnSecondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.8rem;
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 50px;
-  color: var(--text-primary);
+  gap: var(--spaceXs);
+  min-height: 44px;
+  padding: 0.7rem 1.6rem;
+  background-color: var(--surfaceCard);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
   font-weight: 600;
+  font-size: 0.9rem;
   text-decoration: none;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    background-color var(--durationFast) var(--easeOutStrong),
+    border-color var(--durationFast) var(--easeOutStrong);
 }
 
-.btnSecondary svg {
-  width: 20px;
-  height: 20px;
+.btnSecondary:active {
+  transform: scale(0.97);
 }
 
-.btnSecondary:hover {
-  transform: scale(1.03);
-  border-color: var(--accent);
+@media (hover: hover) and (pointer: fine) {
+  .btnSecondary:hover {
+    border-color: var(--borderStrong);
+    background-color: var(--surfaceElevated);
+    transform: translateY(-1px);
+  }
 }
 
-/* ========================================
-   COMMUNITY SECTION
-======================================== */
-.communitySection {
+.btnIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  transition: transform var(--durationFast) var(--easeOutStrong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btnPrimary:hover .btnIcon,
+  .btnSecondary:hover .btnIcon,
+  .communityBtn:hover .btnIcon,
+  .commissionsBtn:hover .btnIcon {
+    transform: translateX(2px);
+  }
+}
+
+/* ==========================================================================
+   6. COMMISSIONS SECTION (COMISIONES DE TRADUCCIÓN)
+   ========================================================================== */
+.commissionsSection {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.commissionsCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space2xl);
+  align-items: center;
+  padding: var(--space2xl);
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
+  box-shadow: var(--shadowMedium);
+  transition: border-color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    transform var(--durationFast) var(--easeOutStrong);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .commissionsCard:hover {
+    border-color: var(--borderStrong);
+    box-shadow: var(--shadowElevated);
+    transform: translateY(-2px);
+  }
+}
+
+.commissionsContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
+}
+
+.commissionsBadges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spaceSm);
+}
+
+.commissionsTag {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accentColor);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+}
+
+.commissionsBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: var(--radiusFull);
+  letter-spacing: var(--trackingWide);
+  text-transform: uppercase;
+  background: rgba(255, 154, 197, 0.12);
+  color: var(--accentColor);
+  border: 1px solid rgba(255, 154, 197, 0.25);
+}
+
+[data-theme="light"] .commissionsBadge {
+  background: rgba(230, 82, 139, 0.1);
+  color: var(--accentColor);
+  border-color: rgba(230, 82, 139, 0.2);
+}
+
+.commissionsTitle {
+  font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.commissionsDescription {
+  font-size: 0.94rem;
+  color: var(--textSecondary);
+  line-height: 1.55;
+  margin: var(--space2xs) 0 var(--spaceSm);
+  text-wrap: pretty;
+}
+
+.commissionsFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceXs);
+}
+
+.commissionsFeatureItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceSm);
+  font-size: 0.88rem;
+  color: var(--textSecondary);
+}
+
+.featureCheckIcon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--accentColor);
+}
+
+.commissionsActionBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commissionsActionCard {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  text-align: center;
+  padding: var(--spaceXl) var(--spaceLg);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+  gap: var(--spaceMd);
+}
+
+.commissionsActionHint {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--textSecondary);
+  line-height: 1.4;
+}
+
+.commissionsBtn {
+  width: 100%;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .commissionsCard {
+    grid-template-columns: 1fr;
+    padding: var(--spaceLg);
+    gap: var(--spaceLg);
+    border-radius: var(--radiusLarge);
+  }
+
+  .commissionsActionCard {
+    padding: var(--spaceMd);
+    gap: var(--spaceSm);
+  }
+}
+
+/* ==========================================================================
+   7. COMMUNITY SECTION (COMUNIDAD Y APOYO)
+   ========================================================================== */
+.communitySection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space2xl);
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .communityGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceLg);
   width: 100%;
-  max-width: 800px;
 }
 
-.actionCard {
-  position: relative;
+@media (max-width: 640px) {
+  .communityGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.communityCard {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  text-align: center;
-  overflow: hidden;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  padding: var(--spaceXl);
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+  box-shadow: var(--shadowSubtle);
+  transition: border-color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    transform var(--durationFast) var(--easeOutStrong);
 }
 
-.actionCard:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent);
+@media (hover: hover) and (pointer: fine) {
+  .communityCard:hover {
+    border-color: var(--borderStrong);
+    box-shadow: var(--shadowMedium);
+    transform: translateY(-2px);
+  }
 }
 
-.cardIcon {
-  display: flex;
+.communityIconWrapper {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 1.5rem;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radiusMedium);
   background: rgba(255, 154, 197, 0.1);
-  border-radius: 50%;
-  color: var(--accent);
+  color: var(--accentColor);
+  margin-bottom: var(--spaceMd);
 }
 
-.cardIcon svg {
-  width: 32px;
-  height: 32px;
+[data-theme="light"] .communityIconWrapper {
+  background: rgba(230, 82, 139, 0.08);
+  color: var(--accentColor);
 }
 
-.cardTitle {
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-  font-size: 1.4rem;
+.communityIcon {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
 }
 
-.cardText {
-  flex-grow: 1;
-  margin-bottom: 1.5rem;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
+.communityCardContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.btnCard {
+.communityCardTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+  letter-spacing: var(--trackingTight);
+  margin-bottom: var(--spaceXs);
+}
+
+.communityCardText {
+  font-size: 0.92rem;
+  color: var(--textSecondary);
+  line-height: 1.5;
+  margin-bottom: var(--spaceLg);
+  flex: 1;
+}
+
+.communityBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  padding: 0.8rem 1rem;
-  background: transparent;
-  border: 2px solid var(--border);
-  border-radius: 10px;
-  color: var(--text-primary);
+  min-height: 44px;
+  padding: 0.65rem 1.1rem;
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusSmall);
+  color: var(--textPrimary);
+  font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--durationFast) var(--easeOutStrong),
+    border-color var(--durationFast) var(--easeOutStrong),
+    transform var(--durationInstant) var(--easeOutStrong);
 }
 
-.btnCard:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+.communityBtn:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .communityBtn:hover {
+    background-color: var(--surfaceElevated);
+    border-color: var(--borderStrong);
+  }
+}
+
+/* ==========================================================================
+   7. ACCESIBILIDAD Y REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .featuredCard:hover .featuredCoverContainer,
+  .featuredCard:active .featuredCoverContainer,
+  .latestReleaseCard:hover,
+  .commissionsCard:hover,
+  .communityCard:hover,
+  .btnPrimary:hover,
+  .btnSecondary:hover,
+  .btnPrimary:active,
+  .btnSecondary:active,
+  .communityBtn:active,
+  .commissionsBtn:active {
+    transform: none !important;
+  }
 }

@@ -5,34 +5,81 @@
 {{ end }}
 
 {{ define "main" }}
-<section class="rankingHeader">
-  <h1 class="pageTitle">Ranking de Novelas</h1>
-  <p class="pageDescription">
-    Descubre cuáles son las novelas más populares.
-  </p>
-  <p class="lastUpdated" id="lastUpdated">
-    Última actualización: -
-  </p>
-</section>
+<div class="rankingContainer">
+  <!-- Cabecera editorial del Ranking (sin etiqueta header dentro de main) -->
+  <section class="rankingIntroSection">
+    <span class="rankingEyebrow">Ranking de Popularidad</span>
+    <h1 class="pageTitle">Novelas Más Leídas</h1>
+    <p class="pageDescription">
+      Descubre cuáles son las novelas más populares de la comunidad según sus lecturas y visitas en Kasnia Project.
+    </p>
+    <div class="lastUpdatedWrapper" id="lastUpdatedWrapper" style="display: none;">
+      <svg class="lastUpdatedIcon" aria-hidden="true">
+        <use href="/img/svg/ranking.svg#clockIcon" />
+      </svg>
+      <span class="lastUpdated" id="lastUpdated">Actualizado</span>
+    </div>
+  </section>
 
-<section class="rankingControls">
-  <div class="controlGroup">
-    <button class="controlBtn active" data-period="days7">7 días</button>
-    <button class="controlBtn" data-period="days21">21 días</button>
-    <button class="controlBtn" data-period="days30">30 días</button>
+  <!-- Controles: Segmented Controls estilo iOS para periodo y límite -->
+  <section class="rankingControlsSection" aria-label="Controles del ranking">
+    <div class="segmentedControl" role="tablist" aria-label="Periodo de tiempo">
+      <button type="button" class="segmentedBtn active" data-period="days7" role="tab" aria-selected="true">
+        7 días
+      </button>
+      <button type="button" class="segmentedBtn" data-period="days21" role="tab" aria-selected="false">
+        21 días
+      </button>
+      <button type="button" class="segmentedBtn" data-period="days30" role="tab" aria-selected="false">
+        30 días
+      </button>
+    </div>
+
+    <div class="segmentedControl" role="tablist" aria-label="Cantidad de novelas">
+      <button type="button" class="segmentedBtn active" data-limit="5" role="tab" aria-selected="true">
+        Top 5
+      </button>
+      <button type="button" class="segmentedBtn" data-limit="all" role="tab" aria-selected="false">
+        Todas
+      </button>
+    </div>
+  </section>
+
+  <!-- Región para anuncios accesibles a lectores de pantalla -->
+  <div class="visuallyHidden" aria-live="polite" id="rankingLiveRegion"></div>
+
+  <!-- Contenedor dinámico del ranking -->
+  <div class="rankingContent" id="rankingContent">
+    <!-- Podio de Honor (Top 3) -->
+    <section class="rankingPodiumSection" id="rankingPodiumSection" aria-label="Podio de honor">
+      <div class="rankingPodiumGrid" id="rankingPodiumGrid">
+        <!-- Javascript inyectará las 3 tarjetas del podio aquí -->
+      </div>
+    </section>
+
+    <!-- Resto de posiciones (del puesto 4 en adelante) -->
+    <section class="rankingGridSection" id="rankingGridSection" aria-label="Resto de posiciones">
+      <div class="novelsGrid rankingGrid" id="rankingGrid">
+        <!-- Javascript inyectará las tarjetas restantes aquí -->
+      </div>
+    </section>
+
+    <!-- Estado vacío / datos en preparación -->
+    <div class="stateMessage" id="rankingEmptyState" style="display: none;">
+      <div class="stateIconWrapper">
+        <svg class="stateIcon" aria-hidden="true">
+          <use href="/img/svg/ranking.svg#emptyRankIcon" />
+        </svg>
+      </div>
+      <h2 class="stateTitle">Ranking en preparación</h2>
+      <p class="stateDescription">
+        Los datos de analíticas aún no se han sincronizado. Se mostrarán automáticamente en cuanto estén disponibles.
+      </p>
+    </div>
   </div>
-  
-  <div class="controlGroup">
-    <button class="controlBtn active" data-limit="5">Top 5</button>
-    <button class="controlBtn" data-limit="all">Todas</button>
-  </div>
-</section>
+</div>
 
-<section class="rankingList" id="rankingList">
-  <!-- JavaScript inyectará las filas del ranking aquí -->
-</section>
-
-<!-- Inyectar datos de ranking compilados -->
+<!-- Inyección segura de datos del ranking compilados -->
 {{ $rankingData := "{}" }}
 {{ if site.Data.ranking }}
   {{ $rankingData = site.Data.ranking | jsonify }}
@@ -41,16 +88,23 @@
   {{ $rankingData | safeJS }}
 </script>
 
-<!-- Inyectar información básica de novelas para obtener imágenes y títulos (opcionalmente puede venir del frontmatter, pero aprovechar novelasJSON.json es más limpio si lo hacemos en JS) -->
+<!-- Inyección completa de metadatos de las novelas para renderizado paritario con el catálogo -->
 {{ $novelas := where .Site.RegularPages "Section" "novelas" }}
 {{ $novelasData := slice }}
 {{ range $novelas }}
-  {{ $novelasData = $novelasData | append (dict "novelId" .Params.novelId "title" .Params.novelTitle "link" .File.BaseFileName) }}
+  {{ $novelasData = $novelasData | append (dict 
+    "novelId" .Params.novelId 
+    "novelTitle" .Params.novelTitle 
+    "nameEn" .Params.nameEn 
+    "nameJp" .Params.nameJp 
+    "author" (.Params.author | default "") 
+    "volumesReleased" (.Params.volumesReleased | default 0) 
+    "link" .File.BaseFileName
+  ) }}
 {{ end }}
 <script id="novelasData" type="application/json">
   {{ $novelasData | jsonify | safeJS }}
 </script>
-
 {{ end }}
 
 {{ define "js" }}
