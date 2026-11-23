@@ -14,7 +14,7 @@ genres:
   - "Recuentos de la vida"
   - "Romance"
 link: "bienvenida-a-japon-señorita-elfa"
-status: "paused"
+status: "active"
 synopsis: "¡¿A la señorita elfa le fascina la cultura japonesa?! La afición de Kitase Kazuhiro, un adulto trabajador, es dormir. Lleva desde niño viviendo emocionantes aventuras en el misterioso otro mundo con el que sueña. Un día, mientras explora unas antiguas ruinas con una elfa de la que se ha hecho amigo, acaba calcinado por el aliento de un dragón mágico con el que se encuentra. Cuando despierta de su sueño, está durmiendo a su lado a una niña elfa que no debería estar ahí…"
 author: "Makishima Suzuki"
 illustrator: "Yappen"
@@ -22,7 +22,6 @@ volumesReleased: 10
 demography: "Shounen (Juvenil, Chicos)"
 mangaAdaptation: true
 animeAdaptation: true
-novelNote: "Este proyecto está en pausa temporal mientras se avanza en otras novelas. Una vez que se complete el trabajo actual, se retomará la traducción de esta novela."
 
 volumes:
   - num: "01"
@@ -42,19 +41,21 @@ volumes:
       pdf: https://drive.google.com/file/d/1H1ctGr7bLUDsQ2X7mRoLe6kjxzKoQkok/view
       epub: https://drive.google.com/file/d/1T9KYBNg86Og3mFr6ZRL4ZYe21KbhKgqH/view
   - num: "02"
-    state: upcoming
+    state: published
+    pdfUpdateDate: 23/11/2026
+    epubUpdateDate: 23/11/2026
     credits:
-      translator: "-"
+      translator: Pupu
       corrector: Yaf
-      editor: "-"
+      editor: Diego & EliasQ
       pdfTypesetter: Diego
-      epubTypesetter: "-"
+      epubTypesetter: Diego
     propio:
-      pdf: false
-      epub: false
+      pdf: true
+      epub: true
     drive:
-      pdf: "#"
-      epub: "#"
+      pdf: https://drive.google.com/file/d/1hMRb95QmhoQ2_XKrx1SLb3LXBRmxmko2/view
+      epub: https://drive.google.com/file/d/156Q0AhzSM9IA1o5M9xd6OkMiOuC9X8V0/view
   - num: "03"
     state: upcoming
     credits:
