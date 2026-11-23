@@ -143,6 +143,12 @@
   color: var(--textMuted);
 }
 
+.searchInput::-webkit-search-cancel-button,
+.searchInput::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* Botón limpiar input de búsqueda (×) */
 .searchClearBtn {
   position: absolute;
@@ -484,6 +490,7 @@
 
 .resetFiltersBtn:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 /* Wrapper del selector de ordenación */
@@ -524,7 +531,7 @@
    ========================================================================== */
 
 /* Opt-in nativo para el nuevo modelo personalizable */
-select,
+.sortSelect,
 ::picker(select) {
   appearance: base-select; /* Activa el nuevo modelo personalizable nativo */
 }
@@ -697,6 +704,16 @@ select,
   }
 }
 
+.sortChevronIcon {
+  position: absolute;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  color: var(--textMuted);
+  pointer-events: none;
+  transition: transform var(--durationFast) var(--easeOutStrong);
+}
+
 @supports (appearance: base-select) {
   .sortChevronIcon {
     display: none;
@@ -836,6 +853,7 @@ select,
 
 .novelCard:active .novelCoverContainer {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .novelCover {
@@ -889,6 +907,7 @@ select,
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-wrap: balance;

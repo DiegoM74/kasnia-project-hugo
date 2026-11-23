@@ -21,10 +21,10 @@
         Traducciones al español con maquetación y diseño cuidados al detalle. Descarga volúmenes en PDF y EPUB directamente desde nuestro catálogo.
       </p>
 
-      <div class="heroStats" role="region" aria-label="Métricas del proyecto">
+      <div class="heroStats" role="group" aria-label="Métricas del proyecto">
         <div class="statCard">
           <span class="statNumber">+2</span>
-          <span class="statLabel">Año de trayectoria</span>
+          <span class="statLabel">Años de trayectoria</span>
         </div>
         <div class="statDivider" aria-hidden="true"></div>
         <div class="statCard">
@@ -55,6 +55,7 @@
         {{/* Extraer fecha de PDF */}}
         {{ $pdfSortKey := 0 }}
         {{ $pdfDateStr := "" }}
+        {{ $pdfIsoDate := "" }}
         {{ with .pdfUpdateDate }}
           {{ $pdfDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
           {{ $parts := split $pdfDateStr "/" }}
@@ -65,12 +66,14 @@
             {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
             {{ $y := strings.Trim (index $parts 2) " " }}
             {{ $pdfSortKey = int (printf "%s%s%s" $y $m $d) }}
+            {{ $pdfIsoDate = printf "%s-%s-%s" $y $m $d }}
           {{ end }}
         {{ end }}
 
         {{/* Extraer fecha de EPUB */}}
         {{ $epubSortKey := 0 }}
         {{ $epubDateStr := "" }}
+        {{ $epubIsoDate := "" }}
         {{ with .epubUpdateDate }}
           {{ $epubDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
           {{ $parts := split $epubDateStr "/" }}
@@ -81,15 +84,18 @@
             {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
             {{ $y := strings.Trim (index $parts 2) " " }}
             {{ $epubSortKey = int (printf "%s%s%s" $y $m $d) }}
+            {{ $epubIsoDate = printf "%s-%s-%s" $y $m $d }}
           {{ end }}
         {{ end }}
 
         {{/* Tomar la fecha más reciente entre PDF y EPUB */}}
         {{ $volSortKey := $pdfSortKey }}
         {{ $displayDate := $pdfDateStr }}
+        {{ $displayIso := $pdfIsoDate }}
         {{ if gt $epubSortKey $volSortKey }}
           {{ $volSortKey = $epubSortKey }}
           {{ $displayDate = $epubDateStr }}
+          {{ $displayIso = $epubIsoDate }}
         {{ end }}
 
         {{ if gt $volSortKey 0 }}
@@ -101,6 +107,7 @@
             "volNum" $num
             "state" $state
             "date" $displayDate
+            "isoDate" $displayIso
             "sortKey" $volSortKey
           }}
           {{ $allVolumes = $allVolumes | append $volItem }}
@@ -161,6 +168,8 @@
                     width="68"
                     height="97"
                     loading="eager"
+                    decoding="async"
+                    {{ if eq $index 0 }}fetchpriority="high"{{ end }}
                   />
                 </picture>
                 <div class="coverSpine" aria-hidden="true"></div>
@@ -189,12 +198,12 @@
                     <span class="latestReleaseVol">Volumen {{ $volNum }}</span>
                     {{ with .date }}
                       <span class="metaDivider" aria-hidden="true">•</span>
-                      <span class="latestReleaseDate">
+                      <time datetime="{{ $vol.isoDate }}" class="latestReleaseDate">
                         <svg class="metaIcon" aria-hidden="true">
                           <use href="/img/svg/home.svg#iconCalendar" />
                         </svg>
                         {{ . }}
-                      </span>
+                      </time>
                     {{ end }}
                   </div>
                 </div>
@@ -269,6 +278,7 @@
                       width="320"
                       height="458"
                       loading="lazy"
+                      decoding="async"
                     />
                   </picture>
                   <div class="coverSpine" aria-hidden="true"></div>

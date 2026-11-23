@@ -55,8 +55,6 @@ function initSynopsisToggle() {
 function animateDialogClose(dialogEl, onClosed) {
   if (!dialogEl || !dialogEl.open || dialogEl.classList.contains("isClosing")) return;
 
-  dialogEl.classList.add("isClosing");
-
   const finishClose = () => {
     dialogEl.classList.remove("isClosing");
     if (typeof dialogEl.close === "function") {
@@ -69,6 +67,14 @@ function animateDialogClose(dialogEl, onClosed) {
       onClosed();
     }
   };
+
+  // Cierre inmediato si el usuario prefiere movimiento reducido
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) {
+    finishClose();
+    return;
+  }
+
+  dialogEl.classList.add("isClosing");
 
   // Timeout de seguridad en caso de que animationend no se dispare
   const safetyTimer = setTimeout(finishClose, 250);
@@ -517,6 +523,27 @@ function initComments() {
 
   if (!commentsCard || !loadCommentsBtn || !commentsContent) return;
 
+  // Acceso defensivo a localStorage
+  function safeStorageGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function safeStorageSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (_) {}
+  }
+
+  function safeStorageRemove(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (_) {}
+  }
+
   const novelId = commentsCard.getAttribute("data-novel-id");
   const novelTitle = commentsCard.getAttribute("data-novel-title") || "";
   let isLoaded = false;
@@ -524,7 +551,7 @@ function initComments() {
 
   const commentsToolbar = document.getElementById("commentsToolbar");
   const sortButtons = commentsToolbar ? commentsToolbar.querySelectorAll(".segmentedBtn") : [];
-  let currentSort = localStorage.getItem("kasniaCommentSort") || "newest";
+  let currentSort = safeStorageGet("kasniaCommentSort") || "newest";
 
   if (commentsToolbar && sortButtons.length > 0) {
     sortButtons.forEach((btn) => {
@@ -536,7 +563,7 @@ function initComments() {
         const targetSort = btn.getAttribute("data-sort");
         if (targetSort === currentSort) return;
         currentSort = targetSort;
-        localStorage.setItem("kasniaCommentSort", currentSort);
+        safeStorageSet("kasniaCommentSort", currentSort);
 
         sortButtons.forEach((b) => {
           const active = b === btn;
@@ -550,11 +577,11 @@ function initComments() {
   }
 
   // Pre-llenar datos del autor guardados en localStorage
-  if (commentAuthorInput && localStorage.getItem("kasniaAuthor")) {
-    commentAuthorInput.value = localStorage.getItem("kasniaAuthor");
+  if (commentAuthorInput && safeStorageGet("kasniaAuthor")) {
+    commentAuthorInput.value = safeStorageGet("kasniaAuthor");
   }
-  if (commentEmailInput && localStorage.getItem("kasniaEmail")) {
-    commentEmailInput.value = localStorage.getItem("kasniaEmail");
+  if (commentEmailInput && safeStorageGet("kasniaEmail")) {
+    commentEmailInput.value = safeStorageGet("kasniaEmail");
   }
 
   // Gestión de modo Staff (Autenticación por MOD_SECRET guardada en el dispositivo)
@@ -567,7 +594,7 @@ function initComments() {
   const logoutStaffBtn = document.getElementById("logoutStaffBtn");
 
   function updateStaffUi() {
-    const hasKey = Boolean(localStorage.getItem("kasniaStaffKey"));
+    const hasKey = Boolean(safeStorageGet("kasniaStaffKey"));
     if (staffActiveBadge) staffActiveBadge.hidden = !hasKey;
     if (staffAuthTrigger) staffAuthTrigger.hidden = hasKey;
     if (staffAuthBox) staffAuthBox.hidden = true;
@@ -592,13 +619,13 @@ function initComments() {
     saveStaffKeyBtn?.addEventListener("click", () => {
       const val = (staffKeyInput?.value || "").trim();
       if (val) {
-        localStorage.setItem("kasniaStaffKey", val);
+        safeStorageSet("kasniaStaffKey", val);
         updateStaffUi();
       }
     });
 
     logoutStaffBtn?.addEventListener("click", () => {
-      localStorage.removeItem("kasniaStaffKey");
+      safeStorageRemove("kasniaStaffKey");
       updateStaffUi();
     });
   }
@@ -756,7 +783,7 @@ function initComments() {
     return colors[Math.abs(hash) % colors.length];
   }
 
-  // Formato relativo de tiempo en español
+  // Formato relativo de tiempo en español (Baseline Intl.RelativeTimeFormat)
   function formatRelativeTime(dateString) {
     if (!dateString) return "recientemente";
     const date = new Date(dateString);
@@ -765,6 +792,21 @@ function initComments() {
     const diffSec = Math.floor((now - date) / 1000);
 
     if (diffSec < 60) return "hace unos segundos";
+
+    if (typeof Intl !== "undefined" && Intl.RelativeTimeFormat) {
+      const rtf = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return rtf.format(-diffMin, "minute");
+      const diffHours = Math.floor(diffMin / 60);
+      if (diffHours < 24) return rtf.format(-diffHours, "hour");
+      const diffDays = Math.floor(diffHours / 24);
+      if (diffDays < 30) return rtf.format(-diffDays, "day");
+      const diffMonths = Math.floor(diffDays / 30);
+      if (diffMonths < 12) return rtf.format(-diffMonths, "month");
+      const diffYears = Math.floor(diffDays / 365);
+      return rtf.format(-diffYears, "year");
+    }
+
     const diffMin = Math.floor(diffSec / 60);
     if (diffMin < 60) return `hace ${diffMin} ${diffMin === 1 ? "minuto" : "minutos"}`;
     const diffHours = Math.floor(diffMin / 60);
@@ -815,10 +857,12 @@ function initComments() {
       return currentSort === "oldest" ? dateA - dateB : dateB - dateA;
     });
 
+    const fragment = document.createDocumentFragment();
     sortedComments.forEach((comment) => {
       const commentEl = createCommentNode(comment);
-      commentsList.appendChild(commentEl);
+      fragment.appendChild(commentEl);
     });
+    commentsList.appendChild(fragment);
 
     // Desplazamiento suave hacia el comentario referenciado en la URL
     if (window.location.hash && (window.location.hash.startsWith("#comment-") || window.location.hash === "#comentarios")) {
@@ -899,9 +943,11 @@ function initComments() {
     if (comment.replies && comment.replies.length > 0) {
       const repliesContainer = document.createElement("div");
       repliesContainer.className = "repliesContainer";
+      const replyFragment = document.createDocumentFragment();
       comment.replies.forEach((reply) => {
-        repliesContainer.appendChild(createCommentNode(reply, true));
+        replyFragment.appendChild(createCommentNode(reply, true));
       });
+      repliesContainer.appendChild(replyFragment);
       item.appendChild(repliesContainer);
     }
 
@@ -922,8 +968,8 @@ function initComments() {
     const replyWrapper = document.createElement("div");
     replyWrapper.className = "inlineReplyWrapper";
 
-    const savedAuthor = localStorage.getItem("kasniaAuthor") || "";
-    const savedEmail = localStorage.getItem("kasniaEmail") || "";
+    const savedAuthor = safeStorageGet("kasniaAuthor") || "";
+    const savedEmail = safeStorageGet("kasniaEmail") || "";
 
     replyWrapper.innerHTML = `
       <form class="commentForm inlineForm" novalidate>
@@ -1020,9 +1066,9 @@ function initComments() {
     }
 
     // Guardar nombre y correo en localStorage para próximas interacciones
-    localStorage.setItem("kasniaAuthor", author);
+    safeStorageSet("kasniaAuthor", author);
     if (email) {
-      localStorage.setItem("kasniaEmail", email);
+      safeStorageSet("kasniaEmail", email);
     }
 
     submitBtn.disabled = true;
@@ -1030,7 +1076,7 @@ function initComments() {
     const originalText = btnSpan ? btnSpan.textContent : "";
     if (btnSpan) btnSpan.textContent = "Publicando...";
 
-    const staffToken = localStorage.getItem("kasniaStaffKey") || null;
+    const staffToken = safeStorageGet("kasniaStaffKey") || null;
 
     const payload = {
       novelId,

@@ -238,6 +238,7 @@
 
 .latestReleaseCard:active {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .latestReleaseCoverContainer {
@@ -392,6 +393,7 @@
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: color var(--durationFast) var(--easeOutStrong);
@@ -605,6 +607,7 @@
 
 .featuredCard:active .featuredCoverContainer {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .featuredCover {
@@ -1104,6 +1107,7 @@
   .featuredCard:hover .featuredCoverContainer,
   .featuredCard:active .featuredCoverContainer,
   .latestReleaseCard:hover,
+  .latestReleaseCard:hover .latestReleaseArrow,
   .commissionsCard:hover,
   .communityCard:hover,
   .btnPrimary:hover,

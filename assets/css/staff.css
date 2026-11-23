@@ -331,6 +331,12 @@
 
 .staffProjectChip:active {
   transform: scale(0.96);
+  transition-duration: var(--durationInstant);
+}
+
+.staffProjectChip:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 2px;
 }
 
 .staffNoProjects {

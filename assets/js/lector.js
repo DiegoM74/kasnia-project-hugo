@@ -38,6 +38,27 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // Utilidades seguras para acceso a localStorage (tolerante a navegación privada restrictiva)
+  function safeStorageGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function safeStorageSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (_) {}
+  }
+
+  function safeStorageRemove(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (_) {}
+  }
+
   // Elementos UI principales
   const readerApp = document.getElementById("readerApp");
   const readerTitle = document.getElementById("readerTitle");
@@ -218,13 +239,13 @@ document.addEventListener("DOMContentLoaded", () => {
   loadSettings();
 
   function loadSettings() {
-    const savedTheme = localStorage.getItem("kasnia_reader_theme");
+    const savedTheme = safeStorageGet("kasnia_reader_theme");
     if (savedTheme && (THEME_PRESETS[savedTheme] || savedTheme === "custom")) {
       settings.theme = savedTheme;
     }
 
-    const savedBgColor = localStorage.getItem("kasnia_reader_bg_color");
-    const savedTextColor = localStorage.getItem("kasnia_reader_text_color");
+    const savedBgColor = safeStorageGet("kasnia_reader_bg_color");
+    const savedTextColor = safeStorageGet("kasnia_reader_text_color");
 
     if (savedBgColor) {
       settings.bgColor = savedBgColor;
@@ -238,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
       settings.textColor = THEME_PRESETS[settings.theme].text;
     }
 
-    const savedUITheme = localStorage.getItem("kasnia_reader_ui_theme");
+    const savedUITheme = safeStorageGet("kasnia_reader_ui_theme");
     if (savedUITheme && THEME_PRESETS[savedUITheme]) {
       settings.uiTheme = resolveUITheme(savedUITheme, settings.bgColor);
     } else if (THEME_PRESETS[settings.theme]) {
@@ -247,18 +268,18 @@ document.addEventListener("DOMContentLoaded", () => {
       settings.uiTheme = resolveUITheme("dark", settings.bgColor);
     }
 
-    const savedMode = localStorage.getItem("kasnia_reader_mode");
+    const savedMode = safeStorageGet("kasnia_reader_mode");
     if (savedMode === "paginated" || savedMode === "continuous") {
       settings.mode = savedMode;
     }
 
-    const savedFont = localStorage.getItem("kasnia_reader_font");
+    const savedFont = safeStorageGet("kasnia_reader_font");
     if (savedFont && FONT_PRESETS[savedFont]) {
       settings.font = savedFont;
     }
 
     const parseBounded = (key, isFloat = true) => {
-      const raw = localStorage.getItem(`kasnia_reader_${key === "fontSize" ? "font_size" : key.replace(/([A-Z])/g, "_$1").toLowerCase()}`);
+      const raw = safeStorageGet(`kasnia_reader_${key === "fontSize" ? "font_size" : key.replace(/([A-Z])/g, "_$1").toLowerCase()}`);
       if (!raw) return;
       const val = isFloat ? parseFloat(raw) : parseInt(raw, 10);
       const limits = SETTING_LIMITS[key];
@@ -276,46 +297,46 @@ document.addEventListener("DOMContentLoaded", () => {
     parseBounded("marginLeft", false);
     parseBounded("marginRight", false);
 
-    const savedBold = localStorage.getItem("kasnia_reader_bold");
+    const savedBold = safeStorageGet("kasnia_reader_bold");
     if (savedBold !== null) settings.bold = savedBold === "true";
 
-    const savedItalic = localStorage.getItem("kasnia_reader_italic");
+    const savedItalic = safeStorageGet("kasnia_reader_italic");
     if (savedItalic !== null) settings.italic = savedItalic === "true";
 
-    const savedUnderline = localStorage.getItem("kasnia_reader_underline");
+    const savedUnderline = safeStorageGet("kasnia_reader_underline");
     if (savedUnderline !== null) settings.underline = savedUnderline === "true";
 
-    const savedAlign = localStorage.getItem("kasnia_reader_align");
+    const savedAlign = safeStorageGet("kasnia_reader_align");
     if (["justify", "left", "center"].includes(savedAlign)) {
       settings.align = savedAlign;
     }
 
-    const savedHyphens = localStorage.getItem("kasnia_reader_hyphens");
+    const savedHyphens = safeStorageGet("kasnia_reader_hyphens");
     if (savedHyphens === "auto" || savedHyphens === "none") {
       settings.hyphens = savedHyphens;
     }
   }
 
   function saveSettings() {
-    localStorage.setItem("kasnia_reader_theme", settings.theme);
-    localStorage.setItem("kasnia_reader_ui_theme", settings.uiTheme);
-    localStorage.setItem("kasnia_reader_bg_color", settings.bgColor);
-    localStorage.setItem("kasnia_reader_text_color", settings.textColor);
-    localStorage.setItem("kasnia_reader_mode", settings.mode);
-    localStorage.setItem("kasnia_reader_font", settings.font);
-    localStorage.setItem("kasnia_reader_font_size", settings.fontSize);
-    localStorage.setItem("kasnia_reader_bold", settings.bold);
-    localStorage.setItem("kasnia_reader_italic", settings.italic);
-    localStorage.setItem("kasnia_reader_underline", settings.underline);
-    localStorage.setItem("kasnia_reader_align", settings.align);
-    localStorage.setItem("kasnia_reader_hyphens", settings.hyphens);
-    localStorage.setItem("kasnia_reader_para_spacing", settings.paraSpacing);
-    localStorage.setItem("kasnia_reader_line_height", settings.lineHeight);
-    localStorage.setItem("kasnia_reader_letter_spacing", settings.letterSpacing);
-    localStorage.setItem("kasnia_reader_margin_top", settings.marginTop);
-    localStorage.setItem("kasnia_reader_margin_bottom", settings.marginBottom);
-    localStorage.setItem("kasnia_reader_margin_left", settings.marginLeft);
-    localStorage.setItem("kasnia_reader_margin_right", settings.marginRight);
+    safeStorageSet("kasnia_reader_theme", settings.theme);
+    safeStorageSet("kasnia_reader_ui_theme", settings.uiTheme);
+    safeStorageSet("kasnia_reader_bg_color", settings.bgColor);
+    safeStorageSet("kasnia_reader_text_color", settings.textColor);
+    safeStorageSet("kasnia_reader_mode", settings.mode);
+    safeStorageSet("kasnia_reader_font", settings.font);
+    safeStorageSet("kasnia_reader_font_size", settings.fontSize);
+    safeStorageSet("kasnia_reader_bold", settings.bold);
+    safeStorageSet("kasnia_reader_italic", settings.italic);
+    safeStorageSet("kasnia_reader_underline", settings.underline);
+    safeStorageSet("kasnia_reader_align", settings.align);
+    safeStorageSet("kasnia_reader_hyphens", settings.hyphens);
+    safeStorageSet("kasnia_reader_para_spacing", settings.paraSpacing);
+    safeStorageSet("kasnia_reader_line_height", settings.lineHeight);
+    safeStorageSet("kasnia_reader_letter_spacing", settings.letterSpacing);
+    safeStorageSet("kasnia_reader_margin_top", settings.marginTop);
+    safeStorageSet("kasnia_reader_margin_bottom", settings.marginBottom);
+    safeStorageSet("kasnia_reader_margin_left", settings.marginLeft);
+    safeStorageSet("kasnia_reader_margin_right", settings.marginRight);
   }
 
   // 2. Control de fuentes dinámicas
@@ -908,16 +929,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pct !== null && !isNaN(pct)) {
           const percentage = Math.max(0, Math.min(100, Math.round(pct * 100)));
           progressEl.textContent = `${percentage}%`;
-          try {
-            localStorage.setItem(`${storageKey}_pct`, percentage.toString());
-          } catch (_) {}
+          safeStorageSet(`${storageKey}_pct`, percentage.toString());
           return;
         }
       } catch (_) {}
     }
 
     // Si las locations aún no están generadas, mantener el porcentaje previo de localStorage si existe
-    const savedPct = localStorage.getItem(`${storageKey}_pct`);
+    const savedPct = safeStorageGet(`${storageKey}_pct`);
     if (savedPct) {
       progressEl.textContent = `${savedPct}%`;
     }
@@ -931,6 +950,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // No animar ni ejecutar transición si ya se está en el extremo correspondiente
     if (!isNext && isAtBeginning()) return;
     if (isNext && isAtEnding()) return;
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (prefersReducedMotion) {
+      isPageTurning = true;
+      Promise.resolve()
+        .then(() => (isNext ? rendition.next() : rendition.prev()))
+        .catch(err => {
+          console.warn("Page navigation warning:", err);
+        })
+        .finally(() => {
+          isPageTurning = false;
+        });
+      return;
+    }
 
     isPageTurning = true;
     const outOffset = isNext ? -14 : 14;
@@ -1014,7 +1047,7 @@ document.addEventListener("DOMContentLoaded", () => {
     readerApp.style.setProperty("--reader-text", settings.textColor);
 
     // Cargar locations cacheadas si existen para cálculo instantáneo y preciso desde la recarga
-    const savedLocationsData = localStorage.getItem(locationsKey);
+    const savedLocationsData = safeStorageGet(locationsKey);
     if (savedLocationsData) {
       try {
         book.locations.load(savedLocationsData);
@@ -1025,7 +1058,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Restaurar inmediatamente el último porcentaje guardado en UI
-    const savedPct = localStorage.getItem(`${storageKey}_pct`);
+    const savedPct = safeStorageGet(`${storageKey}_pct`);
     if (savedPct && progressEl) {
       progressEl.textContent = `${savedPct}%`;
     }
@@ -1052,9 +1085,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!isLocationsReady) {
         book.locations.generate(1600).then(() => {
           isLocationsReady = true;
-          try {
-            localStorage.setItem(locationsKey, book.locations.save());
-          } catch (_) {}
+          safeStorageSet(locationsKey, book.locations.save());
           updateProgress();
         }).catch(() => {});
       }
@@ -1886,7 +1917,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
 
-    const savedLocation = localStorage.getItem(storageKey);
+    const savedLocation = safeStorageGet(storageKey);
     if (savedLocation) {
       rendition.display(savedLocation).then(() => {
         scheduleHideOverlay();
@@ -1906,9 +1937,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentLocation = location;
       if (!location || !location.start || !location.start.cfi) return;
 
-      try {
-        localStorage.setItem(storageKey, location.start.cfi);
-      } catch (_) {}
+      safeStorageSet(storageKey, location.start.cfi);
 
       if (settings.mode === "paginated") {
         btnPrev.style.visibility = isAtBeginning() ? "hidden" : "visible";
@@ -2065,6 +2094,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape") {
       if (tocPanel && tocPanel.style.display === "flex") closePanel(tocPanel);
       if (settingsPanel && settingsPanel.style.display === "flex") closePanel(settingsPanel);
+      if (infoPanel && infoPanel.style.display === "flex") closePanel(infoPanel);
       return;
     }
     if (settings.mode === "paginated") {
@@ -2081,22 +2111,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  let lastActivePanelTrigger = null;
+
   // Control de Modales (Apertura y Cierre con Animación)
-  function openPanel(panel) {
+  function openPanel(panel, triggerEl = null) {
     [tocPanel, settingsPanel, infoPanel].forEach(other => {
       if (other && other !== panel && other.style.display === "flex") {
         closePanel(other, true);
       }
     });
+
+    lastActivePanelTrigger = triggerEl;
+    if (triggerEl) {
+      triggerEl.setAttribute("aria-expanded", "true");
+    }
+
+    panel.hidden = false;
     panel.classList.remove("isClosing");
     panel.style.display = "flex";
+
+    // Mover foco al botón de cerrar para navegación accesible
+    const closeBtn = panel.querySelector(".closePanelBtn");
+    if (closeBtn) {
+      closeBtn.focus();
+    }
   }
 
   function closePanel(panel, immediate = false) {
     if (!panel || panel.style.display !== "flex" || panel.classList.contains("isClosing")) return;
-    if (immediate) {
+
+    if (panel === tocPanel && btnToc) btnToc.setAttribute("aria-expanded", "false");
+    if (panel === settingsPanel && btnSettings) btnSettings.setAttribute("aria-expanded", "false");
+    if (panel === infoPanel && btnInfo) btnInfo.setAttribute("aria-expanded", "false");
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    if (immediate || prefersReducedMotion) {
       panel.classList.remove("isClosing");
       panel.style.display = "none";
+      panel.hidden = true;
+      if (lastActivePanelTrigger && typeof lastActivePanelTrigger.focus === "function") {
+        lastActivePanelTrigger.focus();
+        lastActivePanelTrigger = null;
+      }
       return;
     }
 
@@ -2113,6 +2170,11 @@ document.addEventListener("DOMContentLoaded", () => {
       panel.removeEventListener("animationend", onAnimEnd);
       panel.classList.remove("isClosing");
       panel.style.display = "none";
+      panel.hidden = true;
+      if (lastActivePanelTrigger && typeof lastActivePanelTrigger.focus === "function") {
+        lastActivePanelTrigger.focus();
+        lastActivePanelTrigger = null;
+      }
     };
 
     // Timeout de seguridad en caso de que animationend no se dispare (durationFast = 160ms)
@@ -2128,19 +2190,19 @@ document.addEventListener("DOMContentLoaded", () => {
     panel.addEventListener("animationend", onAnimEnd);
   }
 
-  function togglePanel(panel) {
+  function togglePanel(panel, triggerEl = null) {
     if (panel.style.display === "flex" && !panel.classList.contains("isClosing")) {
       closePanel(panel);
     } else {
-      openPanel(panel);
+      openPanel(panel, triggerEl);
     }
   }
 
-  btnToc.addEventListener("click", () => togglePanel(tocPanel));
-  btnSettings.addEventListener("click", () => togglePanel(settingsPanel));
+  btnToc.addEventListener("click", () => togglePanel(tocPanel, btnToc));
+  btnSettings.addEventListener("click", () => togglePanel(settingsPanel, btnSettings));
   if (btnInfo) {
     btnInfo.addEventListener("click", () => {
-      togglePanel(infoPanel);
+      togglePanel(infoPanel, btnInfo);
       if (!isInfoLoaded) {
         loadBookInfo();
       }

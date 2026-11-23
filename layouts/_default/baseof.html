@@ -8,6 +8,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0d0e12" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)" />
 
     <!-- Título dinámico -->
     {{ $title := .Title }} {{ $description := .Site.Params.description }} {{ if
@@ -135,6 +138,9 @@
     <script src="{{ $themeJS.Permalink }}"></script>
   </head>
   <body>
+    <!-- Enlace accesible de salto al contenido -->
+    <a href="#mainContent" class="skipLink">Saltar al contenido principal</a>
+
     <!-- Header común -->
     <header>
       <nav class="navbar" aria-label="Navegación principal">
@@ -189,7 +195,7 @@
         <ul class="mobileMenuLinks">
           <li><a href="/novelas">Novelas</a></li>
           <li><a href="/ranking">Ranking</a></li>
-          <li><a href="/comisiones">Comisiones</a></li>
+          <!--<li><a href="/comisiones">Comisiones</a></li>-->
           <li><a href="/staff">Staff</a></li>
           <li><a href="/donaciones">Donaciones</a></li>
         </ul>
@@ -197,7 +203,7 @@
     </header>
 
     <!-- Contenido de la página -->
-    <main>{{ block "main" . }}{{ end }}</main>
+    <main id="mainContent" tabindex="-1">{{ block "main" . }}{{ end }}</main>
 
     <!-- Modal de volúmenes anteriores -->
     {{ if .Params.previousVols }}

@@ -238,6 +238,7 @@
 
 .btnPrimary:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .btnPrimary:focus-visible {
@@ -261,6 +262,7 @@
 
 .btnSecondary:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .btnSecondary:focus-visible {

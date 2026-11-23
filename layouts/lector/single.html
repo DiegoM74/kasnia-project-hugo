@@ -39,15 +39,15 @@
   <nav id="readerBottomBar" class="readerBottomBar" aria-label="Herramientas del lector">
     <div class="readerBottomBarContent">
       <!-- Botón de índice -->
-      <button id="readerTocBtn" class="readerBtn" aria-label="Índice">
+      <button id="readerTocBtn" class="readerBtn" aria-label="Índice" aria-haspopup="dialog" aria-expanded="false">
         <svg><use href="/img/svg/lector.svg#menuIcon" /></svg>
       </button>
       <!-- Botón de ajustes -->
-      <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura">
+      <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura" aria-haspopup="dialog" aria-expanded="false">
         <svg><use href="/img/svg/lector.svg#settingsIcon" /></svg>
       </button>
       <!-- Botón de información -->
-      <button id="readerInfoBtn" class="readerBtn" aria-label="Información del libro">
+      <button id="readerInfoBtn" class="readerBtn" aria-label="Información del libro" aria-haspopup="dialog" aria-expanded="false">
         <svg><use href="/img/svg/lector.svg#infoIcon" /></svg>
       </button>
       <!-- Botón de pantalla completa -->
@@ -58,12 +58,12 @@
   </nav>
 
   <!-- Modal de Índice -->
-  <div id="readerTocPanel" class="readerModalOverlay" style="display: none;">
+  <div id="readerTocPanel" class="readerModalOverlay" role="dialog" aria-modal="true" aria-labelledby="readerTocTitle" style="display: none;">
     <div class="readerModal">
       <div class="modalTopBar">
         <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
         <div class="readerModalHeader">
-          <h2>Índice</h2>
+          <h2 id="readerTocTitle">Índice</h2>
           <button class="readerBtn closePanelBtn" aria-label="Cerrar índice">
             <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
           </button>
@@ -74,12 +74,12 @@
   </div>
 
   <!-- Modal de Ajustes -->
-  <div id="readerSettingsPanel" class="readerModalOverlay" style="display: none;">
+  <div id="readerSettingsPanel" class="readerModalOverlay" role="dialog" aria-modal="true" aria-labelledby="readerSettingsTitle" style="display: none;">
     <div class="readerModal">
       <div class="modalTopBar">
         <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
         <div class="readerModalHeader">
-          <h2>Ajustes</h2>
+          <h2 id="readerSettingsTitle">Ajustes</h2>
           <button class="readerBtn closePanelBtn" aria-label="Cerrar ajustes">
             <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
           </button>
@@ -259,12 +259,12 @@
   </div>
 
   <!-- Modal de Información -->
-  <div id="readerInfoPanel" class="readerModalOverlay" style="display: none;">
+  <div id="readerInfoPanel" class="readerModalOverlay" role="dialog" aria-modal="true" aria-labelledby="readerInfoTitle" style="display: none;">
     <div class="readerModal readerInfoModal">
       <div class="modalTopBar">
         <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
         <div class="readerModalHeader">
-          <h2>Información del libro</h2>
+          <h2 id="readerInfoTitle">Información del libro</h2>
           <button class="readerBtn closePanelBtn" aria-label="Cerrar información">
             <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
           </button>

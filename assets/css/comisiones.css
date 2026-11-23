@@ -118,6 +118,12 @@
 
 .quickNavLink:active {
   transform: scale(0.96);
+  transition-duration: var(--durationInstant);
+}
+
+.quickNavLink:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 2px;
 }
 
 /* ==========================================================================
@@ -175,6 +181,12 @@
 
 .btnPrimary:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
+}
+
+.btnPrimary:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 3px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -207,6 +219,12 @@
 
 .btnSecondary:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
+}
+
+.btnSecondary:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 3px;
 }
 
 @media (hover: hover) and (pointer: fine) {

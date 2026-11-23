@@ -112,7 +112,7 @@
 
         elements.lastUpdated.textContent = `Actualizado el ${formattedDate}`;
         if (elements.lastUpdatedWrapper) {
-          elements.lastUpdatedWrapper.style.display = "inline-flex";
+          elements.lastUpdatedWrapper.hidden = false;
         }
       }
     } catch (e) {
@@ -159,6 +159,43 @@
         state.currentLimit = nextLimit;
         renderRanking(true);
       });
+    });
+
+    // Soporte WAI-ARIA de navegación por teclado para controles segmentados
+    document.querySelectorAll(".rankingControlsSection .segmentedControl").forEach((control) => {
+      setupSegmentedKeyNav(control);
+    });
+  }
+
+  /**
+   * Navegación accesible por teclado para controles segmentados (WAI-ARIA Tabs)
+   */
+  function setupSegmentedKeyNav(containerEl) {
+    if (!containerEl) return;
+    const buttons = Array.from(containerEl.querySelectorAll(".segmentedBtn"));
+    if (buttons.length === 0) return;
+
+    containerEl.addEventListener("keydown", (e) => {
+      const activeEl = document.activeElement;
+      const currentIndex = buttons.indexOf(activeEl);
+      if (currentIndex === -1) return;
+
+      let nextIndex = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        nextIndex = (currentIndex + 1) % buttons.length;
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+      } else if (e.key === "Home") {
+        nextIndex = 0;
+      } else if (e.key === "End") {
+        nextIndex = buttons.length - 1;
+      }
+
+      if (nextIndex !== null) {
+        e.preventDefault();
+        buttons[nextIndex].focus();
+        buttons[nextIndex].click();
+      }
     });
   }
 
@@ -208,6 +245,8 @@
               alt="Portada de ${title}"
               class="novelCover"
               loading="${isAboveFold ? "eager" : "lazy"}"
+              ${rank === 1 ? 'fetchpriority="high"' : ""}
+              decoding="async"
               width="240"
               height="343"
             />
@@ -216,7 +255,7 @@
         </div>
 
         <div class="novelCardContent">
-          <h2 class="novelCardTitle">${title}</h2>
+          <h3 class="novelCardTitle">${title}</h3>
           <p class="novelCardAuthor">${author}</p>
           <p class="novelCardMeta">
             <span class="novelCardVolumes">${volsLabel}</span>
@@ -251,6 +290,13 @@
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (animate && !prefersReducedMotion) {
+      if (typeof document.startViewTransition === "function") {
+        document.startViewTransition(() => {
+          doRender();
+        });
+        return;
+      }
+
       elements.rankingContent.classList.add("isSwitching");
       setTimeout(() => {
         doRender();
@@ -273,9 +319,9 @@
       !state.rankingData.periods ||
       !state.rankingData.periods[state.currentPeriod]
     ) {
-      if (elements.rankingPodiumSection) elements.rankingPodiumSection.style.display = "none";
-      if (elements.rankingGridSection) elements.rankingGridSection.style.display = "none";
-      if (elements.rankingEmptyState) elements.rankingEmptyState.style.display = "flex";
+      if (elements.rankingPodiumSection) elements.rankingPodiumSection.hidden = true;
+      if (elements.rankingGridSection) elements.rankingGridSection.hidden = true;
+      if (elements.rankingEmptyState) elements.rankingEmptyState.hidden = false;
       return;
     }
 
@@ -295,32 +341,30 @@
       .filter(Boolean);
 
     if (validItems.length === 0) {
-      if (elements.rankingPodiumSection) elements.rankingPodiumSection.style.display = "none";
-      if (elements.rankingGridSection) elements.rankingGridSection.style.display = "none";
-      if (elements.rankingEmptyState) elements.rankingEmptyState.style.display = "flex";
+      if (elements.rankingPodiumSection) elements.rankingPodiumSection.hidden = true;
+      if (elements.rankingGridSection) elements.rankingGridSection.hidden = true;
+      if (elements.rankingEmptyState) elements.rankingEmptyState.hidden = false;
       return;
     }
 
-    if (elements.rankingEmptyState) elements.rankingEmptyState.style.display = "none";
+    if (elements.rankingEmptyState) elements.rankingEmptyState.hidden = true;
 
     // Separar Podio (primeras 3) y Resto (posición 4 en adelante)
     const podiumItems = validItems.slice(0, 3);
     const restItems = validItems.slice(3);
 
+    // Atributos sizes declarativos optimizados basados en las media queries de ranking.css (cero Layout Thrashing)
+    const podiumCoverSizes =
+      "(max-width: 500px) min(100vw - 32px, 320px), (max-width: 720px) calc(50vw - 24px), (max-width: 1200px) calc(33.3vw - 24px), 360px";
+    const gridCoverSizes =
+      "(max-width: 640px) calc(50vw - 24px), (max-width: 920px) calc(33.3vw - 24px), (max-width: 1200px) calc(25vw - 24px), 260px";
+
     // 1. Renderizar Podio
     if (podiumItems.length > 0) {
-      elements.rankingPodiumSection.style.display = "block";
+      elements.rankingPodiumSection.hidden = false;
       elements.rankingPodiumGrid.innerHTML = "";
 
       const podiumFragment = document.createDocumentFragment();
-
-      // Cálculo de sizes para las portadas del podio (3 columnas máx.)
-      const podiumWidth = elements.rankingPodiumGrid.getBoundingClientRect().width || 1080;
-      let podiumCols = 3;
-      if (window.innerWidth <= 500) podiumCols = 1;
-      else if (window.innerWidth <= 720) podiumCols = 2;
-      const podiumColWidth = Math.round((podiumWidth - 24 * (podiumCols - 1)) / podiumCols);
-      const podiumCoverSizes = `${Math.max(podiumColWidth, 180)}px`;
 
       podiumItems.forEach(({ item, novel, rank }) => {
         const card = buildNovelCard(
@@ -335,23 +379,15 @@
 
       elements.rankingPodiumGrid.appendChild(podiumFragment);
     } else {
-      elements.rankingPodiumSection.style.display = "none";
+      elements.rankingPodiumSection.hidden = true;
     }
 
     // 2. Renderizar Resto de Posiciones (4 en adelante)
     if (restItems.length > 0) {
-      elements.rankingGridSection.style.display = "block";
+      elements.rankingGridSection.hidden = false;
       elements.rankingGrid.innerHTML = "";
 
       const restFragment = document.createDocumentFragment();
-
-      // Cálculo de sizes para las portadas de la cuadrícula general (4 columnas máx.)
-      const gridWidth = elements.rankingGrid.getBoundingClientRect().width || 1080;
-      let gridCols = 4;
-      if (window.innerWidth <= 640) gridCols = 2;
-      else if (window.innerWidth <= 920) gridCols = 3;
-      const gridColWidth = Math.round((gridWidth - 24 * (gridCols - 1)) / gridCols);
-      const gridCoverSizes = `${Math.max(gridColWidth, 140)}px`;
 
       restItems.forEach(({ item, novel, rank }) => {
         const card = buildNovelCard(
@@ -366,7 +402,7 @@
 
       elements.rankingGrid.appendChild(restFragment);
     } else {
-      elements.rankingGridSection.style.display = "none";
+      elements.rankingGridSection.hidden = true;
     }
 
     announceToScreenReader(validItems.length);

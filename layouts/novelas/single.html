@@ -93,6 +93,8 @@
             src="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-700.jpg"
             alt="Portada de {{ $novelTitle }}"
             loading="eager"
+            fetchpriority="high"
+            decoding="async"
             width="320"
             height="457"
           />
@@ -138,7 +140,7 @@
 
       <div class="heroActions">
         {{ if $latestPublished }}
-          <button class="heroActionBtn primary" id="quickDownloadBtn" data-target-volume="{{ $latestPublished }}">
+          <button class="heroActionBtn primary" id="quickDownloadBtn" data-target-volume="{{ $latestPublished }}" aria-haspopup="dialog">
             <svg class="actionIcon" aria-hidden="true"><use href="/img/svg/novela.svg#downloadIcon" /></svg>
             <span>Descargar último volumen (Vol. {{ $volDisplay }})</span>
           </button>
@@ -181,7 +183,7 @@
 
       <div class="downloadsToolbar">
         {{ if .Params.previousVols }}
-          <button class="toolbarBtn previousVolsBtn" id="openPreviousVols">
+          <button class="toolbarBtn previousVolsBtn" id="openPreviousVols" aria-haspopup="dialog">
             <svg class="btnIcon" aria-hidden="true"><use href="/img/svg/novela.svg#historyIcon" /></svg>
             <span>Volúmenes anteriores</span>
           </button>
@@ -248,6 +250,7 @@
           {{ end }}
           tabindex="{{ if or $isUpcoming $isTranslating }}-1{{ else }}0{{ end }}"
           role="button"
+          {{ if not (or $isUpcoming $isTranslating) }}aria-haspopup="dialog"{{ end }}
           aria-label="Volumen {{ $num }}{{ if $isPreview }}, Vista previa{{ end }}{{ if $isTranslating }}, En traducción{{ end }}{{ if $isUpcoming }}, Próximamente{{ end }}"
         >
           <div class="volumeCoverContainer">
@@ -267,6 +270,7 @@
                 src="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg"
                 alt="Portada de Volumen {{ $num }}"
                 loading="lazy"
+                decoding="async"
                 width="220"
                 height="314"
               />
@@ -466,6 +470,7 @@
                     width="175"
                     height="250"
                     loading="lazy"
+                    decoding="async"
                   />
                 </picture>
                 <div class="coverSpine" aria-hidden="true"></div>

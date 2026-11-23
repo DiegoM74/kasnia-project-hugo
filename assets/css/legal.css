@@ -108,6 +108,7 @@
 
 .quickNavLink:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .quickNavLink:focus-visible {
@@ -351,6 +352,7 @@
 
 .contactCard:active {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .contactCard:focus-visible {

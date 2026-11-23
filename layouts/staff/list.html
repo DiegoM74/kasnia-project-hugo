@@ -25,7 +25,7 @@
   <section class="staffGridSection">
     {{ if .Params.miembros }}
       <div class="staffGrid">
-        {{ range .Params.miembros }}
+        {{ range $index, $element := .Params.miembros }}
           {{ $staffId := .staffId }}
           {{ $nombre := .nombre }}
           {{ $rol := .rol }}
@@ -45,7 +45,8 @@
                       class="staffAvatar"
                       width="72"
                       height="72"
-                      loading="lazy"
+                      {{ if ge $index 3 }}loading="lazy"{{ end }}
+                      decoding="async"
                     />
                   </picture>
                 {{ else }}

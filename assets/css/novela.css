@@ -599,6 +599,7 @@ main {
 
 .volumeCard:not(.upcoming):not(.translating):active .volumeCoverContainer {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 /* Pie de Tarjeta de Volumen (siempre visible, limpio) */
@@ -951,6 +952,7 @@ main {
 
 .novelCard:active .novelCoverContainer {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .novelCardContent {
@@ -1129,6 +1131,7 @@ main {
 
 .loadCommentsBtn:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .loadCommentsBtn:focus-visible {
@@ -1402,6 +1405,7 @@ main {
   resize: vertical;
   min-height: 85px;
   line-height: 1.5;
+  field-sizing: content;
 }
 
 .formHelpText {
@@ -1454,6 +1458,7 @@ main {
 
 .submitCommentBtn:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .submitCommentBtn:disabled {
@@ -1764,6 +1769,7 @@ main {
 
 .commentReplyBtn:active {
   transform: scale(0.96);
+  transition-duration: var(--durationInstant);
 }
 
 /* Hilos de Respuestas Anidadas */
@@ -2275,7 +2281,12 @@ dialog.modalDialog.isClosing .modalContainer {
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background var(--durationFast) var(--easeOutStrong), color var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) var(--easeOutStrong);
+  transition: background var(--durationFast) var(--easeOutStrong), color var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) var(--easeOutStrong), transform var(--durationInstant) var(--easeOutStrong);
+}
+
+.serverBtn:active:not(.disabled) {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .serverBtn.active {
@@ -2321,6 +2332,7 @@ dialog.modalDialog.isClosing .modalContainer {
 
 .downloadLink:active {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .downloadLink.disabled {
@@ -2581,6 +2593,7 @@ dialog.modalDialog.isClosing .modalContainer {
 
 .previousDownloadBtn:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .previousDownloadIcon {
@@ -2812,6 +2825,7 @@ dialog.modalDialog.isClosing .modalContainer {
 @media (prefers-reduced-motion: reduce) {
   .coverContainer,
   .volumeCoverContainer,
+  .novelCoverContainer,
   .heroActionBtn,
   .toolbarBtn,
   .previousDownloadBtn,
@@ -2820,6 +2834,8 @@ dialog.modalDialog.isClosing .modalContainer {
   .loadCommentsBtn,
   .submitCommentBtn,
   .commentReplyBtn,
+  .formatBtn,
+  .serverBtn,
   .commentsSortControl .segmentedBtn,
   .toggleChevron {
     transition: none !important;

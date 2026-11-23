@@ -465,6 +465,10 @@ textarea {
   animation: readerOverlayFadeIn var(--durationNormal) ease forwards;
 }
 
+.readerModalOverlay[hidden] {
+  display: none !important;
+}
+
 .readerModalOverlay.isClosing {
   animation: readerOverlayFadeOut var(--durationFast) ease forwards;
   pointer-events: none;
@@ -768,7 +772,8 @@ textarea {
   font-size: 0.92rem;
   line-height: 1.4;
   transition: background-color var(--durationFast) var(--easeOutStrong),
-              color var(--durationFast) var(--easeOutStrong);
+              color var(--durationFast) var(--easeOutStrong),
+              transform var(--durationInstant) var(--easeOutStrong);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -779,6 +784,7 @@ textarea {
 
 .readerTocList a:active {
   transform: scale(0.99);
+  transition-duration: var(--durationInstant);
 }
 
 /* ==============================================================================
@@ -873,6 +879,7 @@ textarea {
 .alignBtn:active,
 .formatBtn:active {
   transform: scale(0.96);
+  transition-duration: var(--durationInstant);
 }
 
 .themeOptionBtn.active,
@@ -1037,6 +1044,7 @@ textarea {
 
 .stepperBtn:active {
   transform: scale(0.94);
+  transition-duration: var(--durationInstant);
 }
 
 .stepperValue {
@@ -1175,6 +1183,7 @@ textarea {
 
 .resetSettingsBtn:active {
   transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 /* ==============================================================================
@@ -1390,6 +1399,7 @@ textarea {
 
 .infoVolumeBtn:active:not(.disabled) {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .infoVolumeBtn.disabled {

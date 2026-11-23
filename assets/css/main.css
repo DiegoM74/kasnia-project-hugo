@@ -13,6 +13,11 @@
   z-index: 9999;
 }
 
+/* Supresión declarativa de transiciones en elementos con nombre durante el cambio de tema */
+html.themeTransitioning * {
+  view-transition-name: none !important;
+}
+
 /* ==========================================================================
    TIPOGRAFÍA: INTER VARIABLE AUTOALOJADA
    ========================================================================== */
@@ -151,6 +156,7 @@ html {
   scrollbar-gutter: stable;
   -webkit-text-size-adjust: 100%;
   color-scheme: dark;
+  accent-color: var(--accentColor);
 }
 
 [data-theme="light"] {
@@ -188,6 +194,36 @@ main {
 
 :focus:not(:focus-visible) {
   outline: none;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD: SKIP LINK
+   ========================================================================== */
+.skipLink {
+  position: fixed;
+  top: var(--spaceSm);
+  left: 50%;
+  transform: translateX(-50%) translateY(-140%);
+  z-index: 10000;
+  padding: var(--spaceXs) var(--spaceMd);
+  background-color: var(--surfaceCard);
+  color: var(--textPrimary);
+  border: 1px solid var(--accentColor);
+  border-radius: var(--radiusSmall);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadowMedium);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    opacity var(--durationFast) ease;
+}
+
+.skipLink:focus-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ==========================================================================
@@ -441,10 +477,13 @@ header {
   border-top: 1px solid var(--borderSubtle);
   z-index: 999;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transform: translateY(-12px);
+  overscroll-behavior: contain;
   transition: opacity var(--durationNormal) var(--easeDrawer),
-    transform var(--durationNormal) var(--easeDrawer);
+    transform var(--durationNormal) var(--easeDrawer),
+    visibility var(--durationNormal) var(--easeDrawer);
 }
 
 @supports (backdrop-filter: blur(24px)) or (-webkit-backdrop-filter: blur(24px)) {
@@ -457,6 +496,7 @@ header {
 
 .mobileMenu.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
 }
@@ -507,6 +547,14 @@ header {
 
 .mobileMenu.active .mobileMenuLinks li:nth-child(4) a {
   transition-delay: 160ms;
+}
+
+.mobileMenu.active .mobileMenuLinks li:nth-child(5) a {
+  transition-delay: 200ms;
+}
+
+.mobileMenu:not(.active) .mobileMenuLinks a {
+  transition-delay: 0ms !important;
 }
 
 .mobileMenuLinks a:hover,
@@ -723,11 +771,13 @@ footer {
   color: var(--textPrimary);
   box-shadow: var(--shadowMedium);
   cursor: pointer;
-  pointer-events: auto;
+  pointer-events: none;
+  visibility: hidden;
   opacity: 0;
   transform: translateY(14px) scale(0.92);
   transition: opacity var(--durationNormal) var(--easeOutStrong),
     transform var(--durationNormal) var(--easeOutStrong),
+    visibility var(--durationNormal) var(--easeOutStrong),
     background-color var(--durationFast) ease,
     border-color var(--durationFast) ease,
     color var(--durationFast) ease,
@@ -736,6 +786,8 @@ footer {
 
 .backToTop.visible {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
   transform: translateY(0) scale(1);
 }
 
@@ -847,6 +899,12 @@ footer {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 
   .mobileMenu {

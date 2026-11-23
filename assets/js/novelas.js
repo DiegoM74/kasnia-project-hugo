@@ -150,6 +150,16 @@
       }, 300);
     });
 
+    // Limpiar con tecla Escape
+    elements.searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && elements.searchInput.value) {
+        elements.searchInput.value = "";
+        toggleSearchClearBtn(false);
+        state.searchQuery = "";
+        applyFilters();
+      }
+    });
+
     // Botón para limpiar búsqueda rápida
     elements.searchClearBtn.addEventListener("click", () => {
       elements.searchInput.value = "";
@@ -175,7 +185,10 @@
 
     // Botones globales de restablecimiento
     elements.resetFiltersBtn.addEventListener("click", resetAllFilters);
-    elements.emptyStateResetBtn.addEventListener("click", resetAllFilters);
+    elements.emptyStateResetBtn.addEventListener("click", () => {
+      resetAllFilters();
+      elements.searchInput.focus();
+    });
 
     // Reintentar carga en error
     elements.retryBtn.addEventListener("click", () => {
@@ -511,17 +524,9 @@
     elements.novelsGrid.style.display = "grid";
     elements.noResultsMessage.style.display = "none";
 
-    // Calcular tamaño real de columna para el atributo sizes de <picture> (máx 4 columnas)
-    const gridWidth = elements.novelsGrid.getBoundingClientRect().width || 1080;
-    const gap = 24; // var(--spaceLg) = 24px
-    let cols = 4;
-    if (window.innerWidth <= 640) {
-      cols = 2;
-    } else if (window.innerWidth <= 920) {
-      cols = 3;
-    }
-    const colWidth = Math.round((gridWidth - gap * (cols - 1)) / cols);
-    const coverSizes = `${Math.max(colWidth, 140)}px`;
+    // Atributo sizes responsivo declarativo (sin recalcular layout sincrónico en JS)
+    const coverSizes =
+      "(max-width: 640px) calc(50vw - 28px), (max-width: 920px) calc(33vw - 24px), 252px";
 
     // Render con DocumentFragment para óptimo rendimiento sin reflows
     const fragment = document.createDocumentFragment();
@@ -560,6 +565,7 @@
                   alt="Portada de ${title}"
                   class="novelCover"
                   loading="lazy"
+                  decoding="async"
                   width="240"
                   height="343"
                 />

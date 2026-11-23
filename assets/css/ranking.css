@@ -27,6 +27,15 @@
 /* ==========================================================================
    2. CABECERA INTRODUCTORIA
    ========================================================================== */
+/* Respeto estricto del atributo hidden nativo en flex containers */
+.rankingContainer [hidden],
+.lastUpdatedWrapper[hidden],
+.stateMessage[hidden],
+.rankingPodiumSection[hidden],
+.rankingGridSection[hidden] {
+  display: none !important;
+}
+
 .rankingIntroSection {
   position: relative;
   display: flex;
@@ -330,6 +339,7 @@
 
 .novelCard:active .novelCoverContainer {
   transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .novelCover {
