@@ -38,6 +38,27 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // Utilidades seguras para acceso a localStorage (tolerante a navegación privada restrictiva)
+  function safeStorageGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function safeStorageSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (_) {}
+  }
+
+  function safeStorageRemove(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (_) {}
+  }
+
   // Elementos UI principales
   const readerApp = document.getElementById("readerApp");
   const readerTitle = document.getElementById("readerTitle");
@@ -155,12 +176,33 @@ document.addEventListener("DOMContentLoaded", () => {
     marginRight: { min: 0, max: 80, step: 5, precision: 0 }
   };
 
+  function isColorDark(hex) {
+    if (!hex || hex[0] !== "#") return true;
+    const cleanHex = hex.slice(1);
+    const num = parseInt(cleanHex.length === 3 ? cleanHex.split("").map(c => c + c).join("") : cleanHex, 16);
+    if (isNaN(num)) return true;
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+    return luminance < 0.5;
+  }
+
+  function resolveUITheme(currentUITheme, bgColor) {
+    const isDark = isColorDark(bgColor);
+    if (isDark) {
+      return currentUITheme === "grey" ? "grey" : "dark";
+    }
+    return currentUITheme === "sepia" ? "sepia" : "light";
+  }
+
   const DEFAULT_SETTINGS = {
     theme: "dark",
+    uiTheme: "dark",
     bgColor: "#121212",
     textColor: "#e0e0e0",
     mode: "paginated",
-    font: "'Open Sans', sans-serif",
+    font: "'Inter', sans-serif",
     fontSize: 1.0,
     bold: false,
     italic: false,
@@ -191,19 +233,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const storageKey = `kasnia_progress_${btoa(epubUrl).replace(/=/g, "")}`;
   const locationsKey = `kasnia_locations_${btoa(epubUrl).replace(/=/g, "")}`;
-  const loadedFonts = new Set(["'Open Sans', sans-serif", "'Merriweather', serif"]);
+  const loadedFonts = new Set(["'Inter', sans-serif", "'Open Sans', sans-serif", "'Merriweather', serif"]);
 
   // 2. Persistencia y carga de ajustes
   loadSettings();
 
   function loadSettings() {
-    const savedTheme = localStorage.getItem("kasnia_reader_theme");
+    const savedTheme = safeStorageGet("kasnia_reader_theme");
     if (savedTheme && (THEME_PRESETS[savedTheme] || savedTheme === "custom")) {
       settings.theme = savedTheme;
     }
 
-    const savedBgColor = localStorage.getItem("kasnia_reader_bg_color");
-    const savedTextColor = localStorage.getItem("kasnia_reader_text_color");
+    const savedBgColor = safeStorageGet("kasnia_reader_bg_color");
+    const savedTextColor = safeStorageGet("kasnia_reader_text_color");
 
     if (savedBgColor) {
       settings.bgColor = savedBgColor;
@@ -217,18 +259,27 @@ document.addEventListener("DOMContentLoaded", () => {
       settings.textColor = THEME_PRESETS[settings.theme].text;
     }
 
-    const savedMode = localStorage.getItem("kasnia_reader_mode");
+    const savedUITheme = safeStorageGet("kasnia_reader_ui_theme");
+    if (savedUITheme && THEME_PRESETS[savedUITheme]) {
+      settings.uiTheme = resolveUITheme(savedUITheme, settings.bgColor);
+    } else if (THEME_PRESETS[settings.theme]) {
+      settings.uiTheme = settings.theme;
+    } else {
+      settings.uiTheme = resolveUITheme("dark", settings.bgColor);
+    }
+
+    const savedMode = safeStorageGet("kasnia_reader_mode");
     if (savedMode === "paginated" || savedMode === "continuous") {
       settings.mode = savedMode;
     }
 
-    const savedFont = localStorage.getItem("kasnia_reader_font");
+    const savedFont = safeStorageGet("kasnia_reader_font");
     if (savedFont && FONT_PRESETS[savedFont]) {
       settings.font = savedFont;
     }
 
     const parseBounded = (key, isFloat = true) => {
-      const raw = localStorage.getItem(`kasnia_reader_${key === "fontSize" ? "font_size" : key.replace(/([A-Z])/g, "_$1").toLowerCase()}`);
+      const raw = safeStorageGet(`kasnia_reader_${key === "fontSize" ? "font_size" : key.replace(/([A-Z])/g, "_$1").toLowerCase()}`);
       if (!raw) return;
       const val = isFloat ? parseFloat(raw) : parseInt(raw, 10);
       const limits = SETTING_LIMITS[key];
@@ -246,45 +297,46 @@ document.addEventListener("DOMContentLoaded", () => {
     parseBounded("marginLeft", false);
     parseBounded("marginRight", false);
 
-    const savedBold = localStorage.getItem("kasnia_reader_bold");
+    const savedBold = safeStorageGet("kasnia_reader_bold");
     if (savedBold !== null) settings.bold = savedBold === "true";
 
-    const savedItalic = localStorage.getItem("kasnia_reader_italic");
+    const savedItalic = safeStorageGet("kasnia_reader_italic");
     if (savedItalic !== null) settings.italic = savedItalic === "true";
 
-    const savedUnderline = localStorage.getItem("kasnia_reader_underline");
+    const savedUnderline = safeStorageGet("kasnia_reader_underline");
     if (savedUnderline !== null) settings.underline = savedUnderline === "true";
 
-    const savedAlign = localStorage.getItem("kasnia_reader_align");
+    const savedAlign = safeStorageGet("kasnia_reader_align");
     if (["justify", "left", "center"].includes(savedAlign)) {
       settings.align = savedAlign;
     }
 
-    const savedHyphens = localStorage.getItem("kasnia_reader_hyphens");
+    const savedHyphens = safeStorageGet("kasnia_reader_hyphens");
     if (savedHyphens === "auto" || savedHyphens === "none") {
       settings.hyphens = savedHyphens;
     }
   }
 
   function saveSettings() {
-    localStorage.setItem("kasnia_reader_theme", settings.theme);
-    localStorage.setItem("kasnia_reader_bg_color", settings.bgColor);
-    localStorage.setItem("kasnia_reader_text_color", settings.textColor);
-    localStorage.setItem("kasnia_reader_mode", settings.mode);
-    localStorage.setItem("kasnia_reader_font", settings.font);
-    localStorage.setItem("kasnia_reader_font_size", settings.fontSize);
-    localStorage.setItem("kasnia_reader_bold", settings.bold);
-    localStorage.setItem("kasnia_reader_italic", settings.italic);
-    localStorage.setItem("kasnia_reader_underline", settings.underline);
-    localStorage.setItem("kasnia_reader_align", settings.align);
-    localStorage.setItem("kasnia_reader_hyphens", settings.hyphens);
-    localStorage.setItem("kasnia_reader_para_spacing", settings.paraSpacing);
-    localStorage.setItem("kasnia_reader_line_height", settings.lineHeight);
-    localStorage.setItem("kasnia_reader_letter_spacing", settings.letterSpacing);
-    localStorage.setItem("kasnia_reader_margin_top", settings.marginTop);
-    localStorage.setItem("kasnia_reader_margin_bottom", settings.marginBottom);
-    localStorage.setItem("kasnia_reader_margin_left", settings.marginLeft);
-    localStorage.setItem("kasnia_reader_margin_right", settings.marginRight);
+    safeStorageSet("kasnia_reader_theme", settings.theme);
+    safeStorageSet("kasnia_reader_ui_theme", settings.uiTheme);
+    safeStorageSet("kasnia_reader_bg_color", settings.bgColor);
+    safeStorageSet("kasnia_reader_text_color", settings.textColor);
+    safeStorageSet("kasnia_reader_mode", settings.mode);
+    safeStorageSet("kasnia_reader_font", settings.font);
+    safeStorageSet("kasnia_reader_font_size", settings.fontSize);
+    safeStorageSet("kasnia_reader_bold", settings.bold);
+    safeStorageSet("kasnia_reader_italic", settings.italic);
+    safeStorageSet("kasnia_reader_underline", settings.underline);
+    safeStorageSet("kasnia_reader_align", settings.align);
+    safeStorageSet("kasnia_reader_hyphens", settings.hyphens);
+    safeStorageSet("kasnia_reader_para_spacing", settings.paraSpacing);
+    safeStorageSet("kasnia_reader_line_height", settings.lineHeight);
+    safeStorageSet("kasnia_reader_letter_spacing", settings.letterSpacing);
+    safeStorageSet("kasnia_reader_margin_top", settings.marginTop);
+    safeStorageSet("kasnia_reader_margin_bottom", settings.marginBottom);
+    safeStorageSet("kasnia_reader_margin_left", settings.marginLeft);
+    safeStorageSet("kasnia_reader_margin_right", settings.marginRight);
   }
 
   // 2. Control de fuentes dinámicas
@@ -361,6 +413,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const accentVal = (settings.theme === "light" || settings.theme === "sepia") ? "#e6528b" : "#ff9ac5";
 
     return (
+      "@font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('/fonts/InterVariable.woff2') format('woff2'); }" +
+      "@font-face { font-family: 'Inter'; font-style: italic; font-weight: 100 900; font-display: swap; src: url('/fonts/InterVariable-Italic.woff2') format('woff2'); }" +
       "html {" +
         "background: transparent !important;" +
         "-webkit-tap-highlight-color: transparent !important;" +
@@ -704,11 +758,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Actualización en tiempo real de iframes y tema visual
   function updateIframeStyles() {
+    const uiTheme = resolveUITheme(settings.uiTheme, settings.bgColor);
+    settings.uiTheme = uiTheme;
+    readerApp.dataset.readerTheme = uiTheme;
+
     readerApp.style.setProperty("--reader-bg", settings.bgColor);
-    readerApp.style.setProperty("--reader-text", settings.textColor);
-    readerApp.style.setProperty("--reader-header-bg", settings.theme === "light" ? "#f5f5f5" : (settings.theme === "sepia" ? "#e8dcc4" : (settings.theme === "grey" ? "#282e3a" : "#1e1e1e")));
-    readerApp.style.setProperty("--reader-border", settings.theme === "light" ? "#dddddd" : (settings.theme === "sepia" ? "#d3c4a8" : (settings.theme === "grey" ? "#434c5e" : "#333333")));
-    readerApp.style.setProperty("--reader-accent", settings.theme === "light" || settings.theme === "sepia" ? "#e6528b" : "#ff9ac5");
+    readerApp.style.setProperty(
+      "--reader-header-bg",
+      uiTheme === "light" ? "#f5f5f7" : (uiTheme === "sepia" ? "#e8dcbf" : (uiTheme === "grey" ? "#262c37" : "#181a22"))
+    );
+    readerApp.style.setProperty(
+      "--reader-border",
+      uiTheme === "light" ? "rgba(0, 0, 0, 0.08)" : (uiTheme === "sepia" ? "rgba(91, 70, 54, 0.16)" : (uiTheme === "grey" ? "rgba(255, 255, 255, 0.10)" : "rgba(255, 255, 255, 0.08)"))
+    );
+    readerApp.style.setProperty(
+      "--reader-accent",
+      uiTheme === "light" || uiTheme === "sepia" ? "#e6528b" : "#ff9ac5"
+    );
 
     if (viewer) {
       viewer.style.backgroundColor = settings.bgColor;
@@ -719,6 +785,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (rendition) {
+      // Registrar dinámicamente el tema custom para sincronizar color de texto en epub.js
+      rendition.themes.register("custom", {
+        body: {
+          background: "transparent !important",
+          color: `${settings.textColor} !important`
+        }
+      });
+
+      if (settings.theme === "custom") {
+        rendition.themes.select("custom");
+      } else if (THEME_PRESETS[settings.theme]) {
+        rendition.themes.select(settings.theme);
+      }
+
       const cssString = generateReaderIframeCSS();
       const contents = rendition.getContents();
       contents.forEach(content => {
@@ -728,8 +808,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!styleEl) {
             styleEl = doc.createElement("style");
             styleEl.id = "kasniaThemePreload";
-            doc.head.appendChild(styleEl);
           }
+          // Asegurar que styleEl se inserte al final del head para máxima prioridad en la cascada
+          doc.head.appendChild(styleEl);
           styleEl.textContent = cssString;
 
           // Inyectar fuente personalizada si no está
@@ -848,16 +929,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pct !== null && !isNaN(pct)) {
           const percentage = Math.max(0, Math.min(100, Math.round(pct * 100)));
           progressEl.textContent = `${percentage}%`;
-          try {
-            localStorage.setItem(`${storageKey}_pct`, percentage.toString());
-          } catch (_) {}
+          safeStorageSet(`${storageKey}_pct`, percentage.toString());
           return;
         }
       } catch (_) {}
     }
 
     // Si las locations aún no están generadas, mantener el porcentaje previo de localStorage si existe
-    const savedPct = localStorage.getItem(`${storageKey}_pct`);
+    const savedPct = safeStorageGet(`${storageKey}_pct`);
     if (savedPct) {
       progressEl.textContent = `${savedPct}%`;
     }
@@ -871,6 +950,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // No animar ni ejecutar transición si ya se está en el extremo correspondiente
     if (!isNext && isAtBeginning()) return;
     if (isNext && isAtEnding()) return;
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (prefersReducedMotion) {
+      isPageTurning = true;
+      Promise.resolve()
+        .then(() => (isNext ? rendition.next() : rendition.prev()))
+        .catch(err => {
+          console.warn("Page navigation warning:", err);
+        })
+        .finally(() => {
+          isPageTurning = false;
+        });
+      return;
+    }
 
     isPageTurning = true;
     const outOffset = isNext ? -14 : 14;
@@ -947,15 +1040,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (settings.theme !== "custom") {
-      readerApp.dataset.readerTheme = settings.theme;
-    }
+    settings.uiTheme = resolveUITheme(settings.uiTheme, settings.bgColor);
+    readerApp.dataset.readerTheme = settings.uiTheme;
     readerApp.dataset.readerMode = settings.mode;
     readerApp.style.setProperty("--reader-bg", settings.bgColor);
     readerApp.style.setProperty("--reader-text", settings.textColor);
 
     // Cargar locations cacheadas si existen para cálculo instantáneo y preciso desde la recarga
-    const savedLocationsData = localStorage.getItem(locationsKey);
+    const savedLocationsData = safeStorageGet(locationsKey);
     if (savedLocationsData) {
       try {
         book.locations.load(savedLocationsData);
@@ -966,7 +1058,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Restaurar inmediatamente el último porcentaje guardado en UI
-    const savedPct = localStorage.getItem(`${storageKey}_pct`);
+    const savedPct = safeStorageGet(`${storageKey}_pct`);
     if (savedPct && progressEl) {
       progressEl.textContent = `${savedPct}%`;
     }
@@ -993,9 +1085,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!isLocationsReady) {
         book.locations.generate(1600).then(() => {
           isLocationsReady = true;
-          try {
-            localStorage.setItem(locationsKey, book.locations.save());
-          } catch (_) {}
+          safeStorageSet(locationsKey, book.locations.save());
           updateProgress();
         }).catch(() => {});
       }
@@ -1204,6 +1294,172 @@ document.addEventListener("DOMContentLoaded", () => {
         ${title ? `<h3 class="infoSectionTitle">${title}</h3>` : ""}
         <div class="infoGrid">
           ${rowsHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  let uploadsDataCache = null;
+  async function fetchUploadsData() {
+    if (uploadsDataCache) return uploadsDataCache;
+    try {
+      const res = await fetch("/novelas/uploads.json");
+      if (res.ok) {
+        uploadsDataCache = await res.json();
+        return uploadsDataCache;
+      }
+    } catch (e) {
+      console.warn("No se pudo cargar uploads.json para navegación de volúmenes:", e);
+    }
+    return null;
+  }
+
+  async function generateVolumeNavHtml(currentUrl, serie, volNum) {
+    const uploads = await fetchUploadsData();
+    if (!uploads) return "";
+
+    const cleanFilename = (url) => {
+      if (!url) return "";
+      try {
+        const decoded = decodeURIComponent(url);
+        return decoded.split("/").pop().split("?")[0].trim().toLowerCase();
+      } catch (_) {
+        return url.split("/").pop().split("?")[0].trim().toLowerCase();
+      }
+    };
+
+    const currentFilename = cleanFilename(currentUrl);
+    let matchedNovel = null;
+    let matchedIndex = -1;
+
+    // 1. Intentar coincidencia por nombre de archivo exacto
+    for (const slug in uploads) {
+      const novel = uploads[slug];
+      if (Array.isArray(novel.volumes)) {
+        const idx = novel.volumes.findIndex(v => {
+          return cleanFilename(v.epubFileName) === currentFilename ||
+                 cleanFilename(v.epubUrl) === currentFilename;
+        });
+        if (idx !== -1) {
+          matchedNovel = novel;
+          matchedIndex = idx;
+          break;
+        }
+      }
+    }
+
+    // 2. Si no hubo coincidencia por archivo, intentar por título de serie y número de volumen
+    if (!matchedNovel && serie) {
+      const normSerie = serie.trim().toLowerCase();
+      for (const slug in uploads) {
+        const novel = uploads[slug];
+        const normTitle = (novel.novelTitle || "").toLowerCase();
+        if (normTitle.includes(normSerie) || normSerie.includes(normTitle)) {
+          matchedNovel = novel;
+          if (volNum && Array.isArray(novel.volumes)) {
+            matchedIndex = novel.volumes.findIndex(v => {
+              return String(parseInt(v.num, 10)) === String(parseInt(volNum, 10)) ||
+                     v.num === volNum;
+            });
+          }
+          break;
+        }
+      }
+    }
+
+    if (!matchedNovel || !Array.isArray(matchedNovel.volumes)) {
+      return "";
+    }
+
+    const volumes = matchedNovel.volumes;
+    if (matchedIndex === -1 && volNum) {
+      matchedIndex = volumes.findIndex(v => String(parseInt(v.num, 10)) === String(parseInt(volNum, 10)));
+    }
+
+    if (matchedIndex === -1) {
+      return "";
+    }
+
+    // Buscar volumen anterior disponible para lectura (published o preview)
+    let prevVol = null;
+    for (let i = matchedIndex - 1; i >= 0; i--) {
+      const v = volumes[i];
+      if ((v.state === "published" || v.state === "preview") && v.epubUrl && v.epubUrl !== "#") {
+        prevVol = v;
+        break;
+      }
+    }
+
+    // Buscar volumen siguiente disponible para lectura (published o preview)
+    let nextVol = null;
+    for (let i = matchedIndex + 1; i < volumes.length; i++) {
+      const v = volumes[i];
+      if ((v.state === "published" || v.state === "preview") && v.epubUrl && v.epubUrl !== "#") {
+        nextVol = v;
+        break;
+      }
+    }
+
+    if (!prevVol && !nextVol && volumes.length <= 1) {
+      return `
+        <div class="infoSection infoVolumeNavSection">
+          <div class="infoNovelLinkWrapper">
+            <a href="/novelas/${matchedNovel.slug}" class="infoNovelLink">
+              <span>Ver ficha de la novela en la web</span>
+              <svg class="infoNovelLinkIcon"><use href="/img/svg/lector.svg#externalIcon" /></svg>
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    const prevNumDisplay = prevVol ? (prevVol.num.startsWith("0") ? prevVol.num.slice(1) : prevVol.num) : "";
+    const nextNumDisplay = nextVol ? (nextVol.num.startsWith("0") ? nextVol.num.slice(1) : nextVol.num) : "";
+
+    const prevBtnHtml = prevVol
+      ? `<a href="/lector/?epub=${encodeURIComponent(prevVol.epubUrl)}" class="infoVolumeBtn prevVolumeBtn">
+          <svg class="infoVolumeIcon"><use href="/img/svg/lector.svg#chevronLeft" /></svg>
+          <div class="infoVolumeMeta">
+            <span class="infoVolumeLabel">Anterior</span>
+            <span class="infoVolumeName">Volumen ${prevNumDisplay}</span>
+          </div>
+        </a>`
+      : `<div class="infoVolumeBtn prevVolumeBtn disabled" aria-disabled="true">
+          <svg class="infoVolumeIcon"><use href="/img/svg/lector.svg#chevronLeft" /></svg>
+          <div class="infoVolumeMeta">
+            <span class="infoVolumeLabel">Anterior</span>
+            <span class="infoVolumeName">No disponible</span>
+          </div>
+        </div>`;
+
+    const nextBtnHtml = nextVol
+      ? `<a href="/lector/?epub=${encodeURIComponent(nextVol.epubUrl)}" class="infoVolumeBtn nextVolumeBtn">
+          <div class="infoVolumeMeta">
+            <span class="infoVolumeLabel">Siguiente</span>
+            <span class="infoVolumeName">Volumen ${nextNumDisplay}</span>
+          </div>
+          <svg class="infoVolumeIcon"><use href="/img/svg/lector.svg#chevronRight" /></svg>
+        </a>`
+      : `<div class="infoVolumeBtn nextVolumeBtn disabled" aria-disabled="true">
+          <div class="infoVolumeMeta">
+            <span class="infoVolumeLabel">Siguiente</span>
+            <span class="infoVolumeName">Último disponible</span>
+          </div>
+          <svg class="infoVolumeIcon"><use href="/img/svg/lector.svg#chevronRight" /></svg>
+        </div>`;
+
+    return `
+      <div class="infoSection infoVolumeNavSection">
+        <h3 class="infoSectionTitle">Volúmenes de la Obra</h3>
+        <div class="infoVolumeNavGrid">
+          ${prevBtnHtml}
+          ${nextBtnHtml}
+        </div>
+        <div class="infoNovelLinkWrapper">
+          <a href="/novelas/${matchedNovel.slug}" class="infoNovelLink">
+            <span>Ver todos los volúmenes en la web</span>
+            <svg class="infoNovelLinkIcon"><use href="/img/svg/lector.svg#externalIcon" /></svg>
+          </a>
         </div>
       </div>
     `;
@@ -1441,7 +1697,14 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       }
 
-      const finalHtml = heroHtml + techSectionHtml + staffSectionHtml + genresSectionHtml + synopsisSectionHtml;
+      let volumeNavHtml = "";
+      try {
+        volumeNavHtml = await generateVolumeNavHtml(epubUrl, serie, volNum);
+      } catch (navErr) {
+        console.warn("No se pudo generar la navegación de volúmenes:", navErr);
+      }
+
+      const finalHtml = heroHtml + volumeNavHtml + techSectionHtml + staffSectionHtml + genresSectionHtml + synopsisSectionHtml;
       infoContent.innerHTML = finalHtml || '<div class="infoEmptyState">No hay información disponible para este libro.</div>';
       isInfoLoaded = true;
     } catch (err) {
@@ -1523,8 +1786,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!preStyle) {
         preStyle = doc.createElement("style");
         preStyle.id = "kasniaThemePreload";
-        doc.head.insertBefore(preStyle, doc.head.firstChild);
       }
+      doc.head.appendChild(preStyle);
       preStyle.textContent = generateReaderIframeCSS();
 
       if (rendition && rendition.manager && rendition.manager.container) {
@@ -1640,12 +1903,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    if (THEME_PRESETS[settings.theme]) {
+    rendition.themes.register("custom", {
+      body: {
+        background: "transparent !important",
+        color: `${settings.textColor} !important`
+      }
+    });
+
+    if (settings.theme === "custom") {
+      rendition.themes.select("custom");
+    } else if (THEME_PRESETS[settings.theme]) {
       rendition.themes.select(settings.theme);
     }
     rendition.themes.fontSize(`${settings.fontSize.toFixed(2)}em`);
 
-    const savedLocation = localStorage.getItem(storageKey);
+    const savedLocation = safeStorageGet(storageKey);
     if (savedLocation) {
       rendition.display(savedLocation).then(() => {
         scheduleHideOverlay();
@@ -1665,9 +1937,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentLocation = location;
       if (!location || !location.start || !location.start.cfi) return;
 
-      try {
-        localStorage.setItem(storageKey, location.start.cfi);
-      } catch (_) {}
+      safeStorageSet(storageKey, location.start.cfi);
 
       if (settings.mode === "paginated") {
         btnPrev.style.visibility = isAtBeginning() ? "hidden" : "visible";
@@ -1824,6 +2094,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape") {
       if (tocPanel && tocPanel.style.display === "flex") closePanel(tocPanel);
       if (settingsPanel && settingsPanel.style.display === "flex") closePanel(settingsPanel);
+      if (infoPanel && infoPanel.style.display === "flex") closePanel(infoPanel);
       return;
     }
     if (settings.mode === "paginated") {
@@ -1840,58 +2111,98 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  let lastActivePanelTrigger = null;
+
   // Control de Modales (Apertura y Cierre con Animación)
-  function openPanel(panel) {
+  function openPanel(panel, triggerEl = null) {
     [tocPanel, settingsPanel, infoPanel].forEach(other => {
       if (other && other !== panel && other.style.display === "flex") {
         closePanel(other, true);
       }
     });
+
+    lastActivePanelTrigger = triggerEl;
+    if (triggerEl) {
+      triggerEl.setAttribute("aria-expanded", "true");
+    }
+
+    panel.hidden = false;
     panel.classList.remove("isClosing");
     panel.style.display = "flex";
+
+    // Mover foco al botón de cerrar para navegación accesible
+    const closeBtn = panel.querySelector(".closePanelBtn");
+    if (closeBtn) {
+      closeBtn.focus();
+    }
   }
 
   function closePanel(panel, immediate = false) {
-    if (!panel || panel.style.display !== "flex") return;
-    if (immediate) {
+    if (!panel || panel.style.display !== "flex" || panel.classList.contains("isClosing")) return;
+
+    if (panel === tocPanel && btnToc) btnToc.setAttribute("aria-expanded", "false");
+    if (panel === settingsPanel && btnSettings) btnSettings.setAttribute("aria-expanded", "false");
+    if (panel === infoPanel && btnInfo) btnInfo.setAttribute("aria-expanded", "false");
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+    if (immediate || prefersReducedMotion) {
       panel.classList.remove("isClosing");
       panel.style.display = "none";
+      panel.hidden = true;
+      if (lastActivePanelTrigger && typeof lastActivePanelTrigger.focus === "function") {
+        lastActivePanelTrigger.focus();
+        lastActivePanelTrigger = null;
+      }
       return;
     }
 
     panel.classList.add("isClosing");
 
-    const onAnimEnd = e => {
-      if (e && e.target !== panel) return;
+    const modalEl = panel.querySelector(".readerModal");
+    let closed = false;
+
+    const finishClose = () => {
+      if (closed) return;
+      closed = true;
+      clearTimeout(safetyTimer);
+      if (modalEl) modalEl.removeEventListener("animationend", onAnimEnd);
       panel.removeEventListener("animationend", onAnimEnd);
       panel.classList.remove("isClosing");
       panel.style.display = "none";
+      panel.hidden = true;
+      if (lastActivePanelTrigger && typeof lastActivePanelTrigger.focus === "function") {
+        lastActivePanelTrigger.focus();
+        lastActivePanelTrigger = null;
+      }
     };
 
-    panel.addEventListener("animationend", onAnimEnd);
+    // Timeout de seguridad en caso de que animationend no se dispare (durationFast = 160ms)
+    const safetyTimer = setTimeout(finishClose, 280);
 
-    // Fallback de seguridad en caso de que animationend no se dispare
-    setTimeout(() => {
-      if (panel.classList.contains("isClosing")) {
-        panel.classList.remove("isClosing");
-        panel.style.display = "none";
+    const onAnimEnd = e => {
+      if (e.target === modalEl || e.target === panel) {
+        finishClose();
       }
-    }, 250);
+    };
+
+    if (modalEl) modalEl.addEventListener("animationend", onAnimEnd);
+    panel.addEventListener("animationend", onAnimEnd);
   }
 
-  function togglePanel(panel) {
+  function togglePanel(panel, triggerEl = null) {
     if (panel.style.display === "flex" && !panel.classList.contains("isClosing")) {
       closePanel(panel);
     } else {
-      openPanel(panel);
+      openPanel(panel, triggerEl);
     }
   }
 
-  btnToc.addEventListener("click", () => togglePanel(tocPanel));
-  btnSettings.addEventListener("click", () => togglePanel(settingsPanel));
+  btnToc.addEventListener("click", () => togglePanel(tocPanel, btnToc));
+  btnSettings.addEventListener("click", () => togglePanel(settingsPanel, btnSettings));
   if (btnInfo) {
     btnInfo.addEventListener("click", () => {
-      togglePanel(infoPanel);
+      togglePanel(infoPanel, btnInfo);
       if (!isInfoLoaded) {
         loadBookInfo();
       }
@@ -1978,11 +2289,95 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Habilitar gesto táctil de arrastre hacia abajo (drag-to-dismiss) en paneles móviles
+  function enablePanelDragToDismiss(overlayEl, closeFn) {
+    if (!overlayEl) return;
+    const container = overlayEl.querySelector(".readerModal");
+    const topBar = overlayEl.querySelector(".modalTopBar") || overlayEl.querySelector(".readerModalHeader");
+    const handle = overlayEl.querySelector(".modalHandle");
+
+    if (!container || !topBar) return;
+
+    let startY = 0;
+    let currentY = 0;
+    let isDragging = false;
+    let startedOnHandle = false;
+
+    const onPointerDown = e => {
+      // Ignorar clicks en botones o controles interactivos dentro de la barra superior
+      if (e.target.closest("button") || e.target.closest("a") || e.target.closest("input") || e.target.closest("select")) return;
+
+      isDragging = true;
+      startedOnHandle = Boolean(e.target.closest(".modalHandle"));
+      startY = e.clientY;
+      currentY = 0;
+      container.classList.add("isDragging");
+      container.style.transition = "none";
+      try {
+        topBar.setPointerCapture?.(e.pointerId);
+      } catch (_) {}
+    };
+
+    const onPointerMove = e => {
+      if (!isDragging) return;
+      const deltaY = e.clientY - startY;
+
+      if (deltaY > 0) {
+        currentY = deltaY;
+        const progress = Math.min(currentY / 220, 1);
+        container.style.transform = `translateY(${currentY}px)`;
+        container.style.opacity = (1 - progress * 0.3).toFixed(2);
+        if (currentY > 70) {
+          container.classList.add("willDismiss");
+        } else {
+          container.classList.remove("willDismiss");
+        }
+      } else {
+        const rubber = deltaY * 0.2;
+        container.style.transform = `translateY(${rubber}px)`;
+        container.style.opacity = "1";
+        container.classList.remove("willDismiss");
+      }
+    };
+
+    const onPointerUp = e => {
+      if (!isDragging) return;
+      isDragging = false;
+      const deltaY = e.clientY - startY;
+      try {
+        topBar.releasePointerCapture?.(e.pointerId);
+      } catch (_) {}
+      container.classList.remove("isDragging");
+      container.classList.remove("willDismiss");
+      container.style.transition = "";
+
+      // Si se arrastró más de 70px o fue un toque limpio sobre el tirador:
+      if (currentY > 70 || (startedOnHandle && Math.abs(deltaY) < 10)) {
+        container.style.transform = "";
+        container.style.opacity = "";
+        closeFn(overlayEl);
+      } else {
+        container.style.transform = "";
+        container.style.opacity = "";
+      }
+    };
+
+    topBar.addEventListener("pointerdown", onPointerDown);
+    topBar.addEventListener("pointermove", onPointerMove);
+    topBar.addEventListener("pointerup", onPointerUp);
+    topBar.addEventListener("pointercancel", onPointerUp);
+
+    handle?.addEventListener("click", () => {
+      closeFn(overlayEl);
+    });
+  }
+
   [tocPanel, settingsPanel, infoPanel].forEach(panel => {
     if (panel) {
       panel.addEventListener("click", e => {
         if (e.target === panel) closePanel(panel);
       });
+      enablePanelDragToDismiss(panel, closePanel);
     }
   });
 
@@ -1991,10 +2386,10 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", e => {
       const selectedTheme = e.currentTarget.dataset.theme;
       if (THEME_PRESETS[selectedTheme]) {
+        settings.uiTheme = selectedTheme;
         settings.theme = selectedTheme;
         settings.bgColor = THEME_PRESETS[selectedTheme].bg;
         settings.textColor = THEME_PRESETS[selectedTheme].text;
-        readerApp.dataset.readerTheme = selectedTheme;
 
         saveSettings();
         updateUIFromSettings();
@@ -2011,9 +2406,10 @@ document.addEventListener("DOMContentLoaded", () => {
     bgPicker.addEventListener("input", e => {
       settings.bgColor = e.target.value;
       settings.theme = "custom";
-      readerApp.dataset.readerTheme = "custom";
+      settings.uiTheme = resolveUITheme(settings.uiTheme, settings.bgColor);
+      themeBtns.forEach(btn => btn.classList.remove("active"));
+      if (bgHex) bgHex.textContent = settings.bgColor.toUpperCase();
       saveSettings();
-      updateUIFromSettings();
       updateIframeStyles();
     });
   }
@@ -2022,9 +2418,11 @@ document.addEventListener("DOMContentLoaded", () => {
     textPicker.addEventListener("input", e => {
       settings.textColor = e.target.value;
       settings.theme = "custom";
-      readerApp.dataset.readerTheme = "custom";
+      // El color de texto no altera el tema de la UI; preserva coherencia con el fondo
+      settings.uiTheme = resolveUITheme(settings.uiTheme, settings.bgColor);
+      themeBtns.forEach(btn => btn.classList.remove("active"));
+      if (textHex) textHex.textContent = settings.textColor.toUpperCase();
       saveSettings();
-      updateUIFromSettings();
       updateIframeStyles();
     });
   }

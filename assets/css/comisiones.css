@@ -1,54 +1,71 @@
-/* ========================================
-   MAIN CONTAINER
-======================================== */
-main {
+/* ==========================================================================
+   COMISIONES DE TRADUCCIÓN (Fase 6 Rediseño - Estilo Apple Books / App Store)
+   Kasnia Project - 100% Vanilla CSS con tokens camelCase
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.commissionsContainer {
   position: relative;
-  max-width: 1000px;
-  margin: 70px auto 0;
-  padding: 3rem 1.5rem;
+  width: 100%;
+  max-width: var(--containerMaxWidth);
+  margin: 0 auto;
+  padding: calc(var(--navbarHeight) + var(--space2xl)) var(--spaceLg) var(--space4xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space3xl);
 }
 
-/* ========================================
-   KEYFRAME ANIMATIONS
-======================================== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@media (max-width: 640px) {
+  .commissionsContainer {
+    padding: calc(var(--navbarHeight) + var(--spaceLg)) var(--spaceMd) var(--space3xl);
+    gap: var(--space2xl);
   }
 }
 
-/* ========================================
-   1. HERO SECTION
-======================================== */
-.heroSection {
+/* ==========================================================================
+   2. INTRODUCCIÓN Y HERO
+   ========================================================================== */
+.commissionsIntroSection {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  gap: 1.25rem;
-  margin-bottom: 4.5rem;
-  animation: fadeIn 0.8s ease-out;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.commissionsEyebrow {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accentColor);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+  margin-bottom: var(--spaceSm);
 }
 
 .pageTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-size: clamp(2.2rem, 5.5vw, 3.2rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.1;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin-bottom: var(--spaceSm);
+  text-wrap: balance;
 }
 
-.heroSubtitle {
-  max-width: 750px;
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: clamp(1rem, 2vw, 1.15rem);
-  line-height: 1.65;
+.pageDescription {
+  font-size: clamp(0.95rem, 2vw, 1.08rem);
+  color: var(--textSecondary);
+  line-height: 1.55;
+  max-width: 58ch;
+  text-wrap: pretty;
+  margin-bottom: var(--spaceLg);
 }
 
 .heroActions {
@@ -56,105 +73,471 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: var(--spaceMd);
+  margin-bottom: var(--spaceXl);
 }
 
-.ctaButtonPrimary {
+/* ==========================================================================
+   3. BARRA DE NAVEGACIÓN RÁPIDA (QUICK NAV PILLS)
+   ========================================================================== */
+.quickNav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space2xs);
+  padding: 4px;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  max-width: 100%;
+}
+
+.quickNavLink {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.85rem 1.6rem;
-  background-color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 12px;
-  color: var(--bg-primary);
-  font-size: 0.95rem;
-  font-weight: 700;
+  padding: 0.45rem 1rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--textSecondary);
   text-decoration: none;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  border-radius: var(--radiusFull);
+  white-space: nowrap;
+  transition: color var(--durationFast) var(--easeOutStrong),
+    background-color var(--durationFast) var(--easeOutStrong),
+    transform var(--durationFast) var(--easeOutStrong);
 }
 
-.ctaButtonPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+@media (hover: hover) and (pointer: fine) {
+  .quickNavLink:hover {
+    color: var(--textPrimary);
+    background-color: var(--surfaceCard);
+    transform: translateY(-1px);
+  }
 }
 
-.ctaButtonIcon {
-  width: 20px;
-  height: 20px;
+.quickNavLink:active {
+  transform: scale(0.96);
+  transition-duration: var(--durationInstant);
 }
 
-/* ========================================
-   SECTION HEADERS
-======================================== */
+.quickNavLink:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   4. ENCABEZADOS DE SECCIÓN
+   ========================================================================== */
 .sectionHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+  gap: var(--spaceXs);
+  margin-bottom: var(--space2xl);
 }
 
 .sectionTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.18;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  text-wrap: balance;
 }
 
 .sectionSubtitle {
-  max-width: 650px;
+  max-width: 58ch;
+  font-size: clamp(0.92rem, 1.8vw, 1.02rem);
+  color: var(--textSecondary);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+/* ==========================================================================
+   5. BOTONES GLOBALES
+   ========================================================================== */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceSm);
+  min-height: 44px;
+  padding: 0.7rem 1.6rem;
+  background-color: var(--accentColor);
+  color: var(--accentContrastText);
+  border: none;
+  border-radius: var(--radiusFull);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  box-shadow: var(--shadowSubtle);
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+.btnPrimary:active {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
+}
+
+.btnPrimary:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btnPrimary:hover {
+    box-shadow: var(--shadowMedium);
+    transform: translateY(-1px);
+  }
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceSm);
+  min-height: 44px;
+  padding: 0.7rem 1.6rem;
+  background-color: var(--surfaceCard);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    background-color var(--durationFast) var(--easeOutStrong),
+    border-color var(--durationFast) var(--easeOutStrong);
+}
+
+.btnSecondary:active {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
+}
+
+.btnSecondary:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btnSecondary:hover {
+    border-color: var(--borderStrong);
+    background-color: var(--surfaceElevated);
+    transform: translateY(-1px);
+  }
+}
+
+.btnIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   6. SECCIÓN DE TARIFAS (PRICING)
+   ========================================================================== */
+.pricingSection {
+  position: relative;
+  scroll-margin-top: calc(var(--navbarHeight) + var(--spaceMd));
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceLg);
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+@media (max-width: 720px) {
+  .pricingGrid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+  }
+}
+
+.pricingCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space2xl) var(--spaceXl);
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    border-color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+.pricingCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--borderStrong);
+  box-shadow: var(--shadowMedium);
+}
+
+.pricingCardFeatured {
+  background-color: var(--surfaceCard);
+  border: 1.5px solid var(--accentColor);
+  box-shadow: var(--shadowMedium);
+}
+
+.pricingCardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.pricingPlanHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spaceXs);
+  margin-bottom: var(--spaceSm);
+}
+
+.pricingBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.8rem;
+  border-radius: var(--radiusFull);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--trackingWide);
+}
+
+.pricingBadge.regular {
+  background-color: var(--surfaceCard);
+  color: var(--textSecondary);
+  border: 1px solid var(--borderSubtle);
+}
+
+.pricingBadge.featured {
+  background-color: var(--accentColor);
+  color: var(--accentContrastText);
+}
+
+.pricingPlanTitle {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+}
+
+.pricingAmountWrapper {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  margin: var(--spaceXs) 0 2px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.pricingCurrency {
+  color: var(--accentColor);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.pricingValue {
+  color: var(--accentColor);
+  font-size: clamp(3rem, 6vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--trackingTight);
+}
+
+.pricingUnit {
+  color: var(--textSecondary);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.pricingBasis {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+  margin-bottom: 2px;
+}
+
+.pricingEquivalent {
+  font-size: 0.85rem;
+  color: var(--textMuted);
+  margin-bottom: var(--spaceLg);
+}
+
+.pricingFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
+  width: 100%;
+  padding: var(--spaceLg) 0 0;
   margin: 0;
-  color: var(--text-secondary);
-  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+  border-top: 1px solid var(--borderSubtle);
+  list-style: none;
+  text-align: left;
+}
+
+.pricingFeatures li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spaceSm);
+  color: var(--textPrimary);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.featureCheck {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--accentColor);
+  flex-shrink: 0;
+}
+
+.pricingCardFooter {
+  width: 100%;
+  margin-top: var(--spaceXl);
+  display: flex;
+  justify-content: center;
+}
+
+.pricingCtaBtn {
+  width: 100%;
+}
+
+/* ==========================================================================
+   7. TARJETAS DE NOTAS DE PAGO
+   ========================================================================== */
+.paymentGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spaceMd);
+  max-width: 960px;
+  margin: var(--space2xl) auto 0;
+}
+
+@media (max-width: 860px) {
+  .paymentGrid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+}
+
+.paymentCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
+  padding: var(--spaceLg);
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+}
+
+.paymentIconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  color: var(--accentColor);
+  flex-shrink: 0;
+}
+
+.paymentIconWrapper.paypalWrapper {
+  color: #0070ba;
+}
+
+.paymentIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.paymentCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paymentTitle {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+}
+
+.paymentDescription {
+  font-size: 0.88rem;
+  color: var(--textSecondary);
   line-height: 1.5;
 }
 
-/* ========================================
-   2. PROCESS SECTION
-======================================== */
+/* ==========================================================================
+   8. SECCIÓN DE PROCESO (PASO A PASO)
+   ========================================================================== */
 .processSection {
-  margin-bottom: 4.5rem;
-  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  scroll-margin-top: calc(var(--navbarHeight) + var(--spaceMd));
 }
 
 .processGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spaceMd);
+}
+
+@media (max-width: 960px) {
+  .processGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .processGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .stepCard {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.5rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
+  gap: var(--spaceSm);
+  padding: var(--spaceLg);
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    border-color var(--durationFast) var(--easeOutStrong);
 }
 
 .stepCard:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
+  transform: translateY(-3px);
+  border-color: var(--borderStrong);
 }
 
 .stepCardHighlight {
-  border-color: var(--accent);
+  border-color: var(--accentColor);
 }
 
 .stepCardHeader {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spaceSm);
 }
 
 .stepNumber {
@@ -164,255 +547,98 @@ main {
   width: 38px;
   height: 38px;
   flex-shrink: 0;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--accent);
-  font-size: 1.1rem;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  color: var(--accentColor);
+  font-size: 1rem;
   font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 }
 
 .stepTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
+  color: var(--textPrimary);
 }
 
 .stepDescription {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  color: var(--textSecondary);
   line-height: 1.55;
+  margin: 0;
 }
 
 .stepDescription a {
-  color: var(--accent);
+  color: var(--accentColor);
   text-decoration: underline;
   text-underline-offset: 3px;
+  font-weight: 500;
 }
 
-/* ========================================
-   3. PRICING SECTION
-======================================== */
-.pricingSection {
-  margin-bottom: 4.5rem;
-  animation: fadeIn 0.8s ease-out;
-}
-
-.pricingGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-  gap: 1.5rem;
-  max-width: 760px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.pricingCard {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 2.2rem 1.8rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  text-align: center;
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.pricingCard:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-}
-
-.pricingCardFeatured {
-  border-top: 4px solid var(--accent);
-}
-
-.pricingPlanTitle {
-  margin: 0 0 0.25rem 0;
-  color: var(--text-primary);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 0.3px;
-}
-
-.pricingAmountWrapper {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 0.25rem;
-  margin: 0.5rem 0;
-}
-
-.pricingCurrency {
-  color: var(--accent);
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.pricingValue {
-  color: var(--accent);
-  font-size: clamp(3rem, 6vw, 3.8rem);
-  font-weight: 800;
-  line-height: 1;
-}
-
-.pricingUnit {
-  color: var(--text-secondary);
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.pricingBasis {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-
-.pricingEquivalent {
-  margin: 0 0 1.25rem 0;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-}
-
-.pricingFeatures {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
-  padding: 1.25rem 0 0;
-  margin: 0;
-  border-top: 1px solid var(--border);
-  list-style: none;
-  text-align: left;
-}
-
-.pricingFeatures li {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--text-primary);
-  font-size: 0.92rem;
-}
-
-.featureCheck {
-  width: 18px;
-  height: 18px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-.paymentGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-  gap: 1.25rem;
-  margin-top: 2rem;
-}
-
-.paymentCard {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  padding: 1.5rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-}
-
-.paymentCardHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.paymentIcon {
-  width: 22px;
-  height: 22px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-.paymentIcon.paypalColor {
-  color: #0070ba;
-}
-
-.paymentTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.paymentDescription {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-/* ========================================
-   4. SCOPE SECTION (INCLUDES VS EXCLUDES)
-======================================== */
+/* ==========================================================================
+   9. SECCIÓN DE ALCANCE (INCLUYE VS NO INCLUYE)
+   ========================================================================== */
 .scopeSection {
-  margin-bottom: 4.5rem;
-  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  scroll-margin-top: calc(var(--navbarHeight) + var(--spaceMd));
 }
 
 .scopeGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceLg);
+}
+
+@media (max-width: 768px) {
+  .scopeGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .scopeCard {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.8rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-}
-
-.scopeCardInclude {
-  border-top: 4px solid var(--accent);
-}
-
-.scopeCardExclude {
-  border-top: 4px solid var(--border);
+  gap: var(--spaceLg);
+  padding: var(--space2xl) var(--spaceXl);
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
 }
 
 .scopeCardHeader {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spaceMd);
 }
 
 .scopeIconWrapper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radiusMedium);
+  border: 1px solid var(--borderSubtle);
 }
 
 .scopeIconWrapper.include {
-  color: var(--accent);
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+[data-theme="light"] .scopeIconWrapper.include {
+  background-color: rgba(34, 197, 94, 0.08);
+  color: #16a34a;
+  border-color: rgba(22, 163, 74, 0.2);
 }
 
 .scopeIconWrapper.exclude {
-  color: var(--text-secondary);
+  background-color: var(--surfaceSecondary);
+  color: var(--textMuted);
 }
 
 .scopeHeaderIcon {
@@ -421,16 +647,16 @@ main {
 }
 
 .scopeTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
 }
 
 .scopeList {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: var(--spaceMd);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -439,123 +665,150 @@ main {
 .scopeList li {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
+  gap: var(--spaceSm);
 }
 
 .scopeItemIcon {
-  width: 20px;
-  height: 20px;
-  margin-top: 2px;
-  color: var(--accent);
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: #4ade80;
   flex-shrink: 0;
 }
 
+[data-theme="light"] .scopeItemIcon {
+  color: #16a34a;
+}
+
 .scopeItemIcon.cross {
-  color: var(--text-secondary);
+  color: var(--textMuted);
 }
 
 .scopeList strong {
   display: block;
-  margin-bottom: 0.2rem;
-  color: var(--text-primary);
   font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--textPrimary);
+  margin-bottom: 2px;
 }
 
 .scopeList p {
   margin: 0;
-  color: var(--text-secondary);
   font-size: 0.88rem;
+  color: var(--textSecondary);
   line-height: 1.45;
 }
 
-/* ========================================
-   7. DELIVERY SECTION
-======================================== */
+/* ==========================================================================
+   10. SECCIÓN DE TIEMPOS ESTIMADOS
+   ========================================================================== */
 .deliverySection {
-  margin-bottom: 4.5rem;
-  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  scroll-margin-top: calc(var(--navbarHeight) + var(--spaceMd));
 }
 
 .deliveryGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spaceMd);
+}
+
+@media (max-width: 860px) {
+  .deliveryGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .deliveryCard {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  padding: 1.6rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  gap: var(--spaceSm);
+  padding: var(--spaceLg);
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
 }
 
-.deliveryCardHeader {
-  display: flex;
+.deliveryIconWrapper {
+  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-}
-
-.deliveryIcon {
-  width: 24px;
-  height: 24px;
-  color: var(--accent);
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  color: var(--accentColor);
   flex-shrink: 0;
 }
 
+.deliveryIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.deliveryCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .deliveryTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
+  color: var(--textPrimary);
 }
 
 .deliveryDescription {
   margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  color: var(--textSecondary);
   line-height: 1.55;
 }
 
-/* ========================================
-   8. ORDER SECTION & REQUIREMENTS
-======================================== */
+/* ==========================================================================
+   11. SECCIÓN DE SOLICITUD Y REQUISITOS
+   ========================================================================== */
 .orderSection {
-  margin-bottom: 4.5rem;
-  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  scroll-margin-top: calc(var(--navbarHeight) + var(--spaceMd));
 }
 
 .orderGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceLg);
+}
+
+@media (max-width: 768px) {
+  .orderGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .requirementsCard,
 .orderGuideCard {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  padding: 1.8rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 18px;
+  gap: var(--spaceMd);
+  padding: var(--space2xl) var(--spaceXl);
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
 }
 
 .requirementsTitle,
 .orderGuideTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
 }
 
 .requirementsList {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: var(--spaceSm);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -564,9 +817,9 @@ main {
 .requirementsItem {
   display: flex;
   align-items: flex-start;
-  gap: 0.7rem;
-  color: var(--text-secondary);
-  font-size: 0.92rem;
+  gap: var(--spaceSm);
+  color: var(--textSecondary);
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -574,14 +827,14 @@ main {
   width: 18px;
   height: 18px;
   margin-top: 2px;
-  color: var(--accent);
+  color: var(--accentColor);
   flex-shrink: 0;
 }
 
 .orderGuideList {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: var(--spaceSm);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -590,9 +843,9 @@ main {
 .orderGuideItem {
   display: flex;
   align-items: flex-start;
-  gap: 0.8rem;
-  color: var(--text-secondary);
-  font-size: 0.92rem;
+  gap: var(--spaceSm);
+  color: var(--textSecondary);
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -600,79 +853,66 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   margin-top: 1px;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--accent);
-  font-size: 0.9rem;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusSmall);
+  color: var(--accentColor);
+  font-size: 0.85rem;
   font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 }
 
 .orderCtaButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.85rem 1.4rem;
-  margin-top: 0.5rem;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--accent);
-  border-radius: 12px;
-  color: var(--accent);
-  font-weight: 700;
-  text-decoration: none;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
+  margin-top: var(--spaceMd);
+  width: 100%;
+  min-height: 48px;
+  gap: var(--spaceSm);
+  font-size: 0.95rem;
 }
 
-.orderCtaButton:hover {
-  background-color: var(--accent);
-  color: var(--bg-primary);
-  transform: translateY(-2px);
-}
-
-.orderCtaIcon {
-  width: 20px;
-  height: 20px;
-}
-
-/* ========================================
-   8. TERMS SECTION
-======================================== */
+/* ==========================================================================
+   12. SECCIÓN DE CONDICIONES DEL SERVICIO
+   ========================================================================== */
 .termsSection {
-  margin-bottom: 4.5rem;
-  animation: fadeIn 0.8s ease-out;
+  position: relative;
+  scroll-margin-top: calc(var(--navbarHeight) + var(--spaceMd));
 }
 
 .termsCard {
-  padding: 1.8rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 18px;
+  padding: var(--space2xl) var(--spaceXl);
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
 }
 
 .termsList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceLg);
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
+@media (max-width: 720px) {
+  .termsList {
+    grid-template-columns: 1fr;
+    gap: var(--spaceMd);
+  }
+}
+
 .termsItem {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  color: var(--text-secondary);
-  font-size: 0.92rem;
-  line-height: 1.55;
+  gap: var(--spaceSm);
+  color: var(--textSecondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .termsBullet {
@@ -680,68 +920,76 @@ main {
   height: 6px;
   margin-top: 8px;
   flex-shrink: 0;
-  background-color: var(--accent);
+  background-color: var(--accentColor);
   border-radius: 50%;
 }
 
-/* ========================================
-   9. CTA SECTION
-======================================== */
+.termsItem strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--textPrimary);
+  margin-bottom: 2px;
+}
+
+.termsItem p {
+  margin: 0;
+  color: var(--textSecondary);
+  font-size: 0.88rem;
+}
+
+/* ==========================================================================
+   13. LLAMADA A LA ACCIÓN FINAL (CTA)
+   ========================================================================== */
 .ctaSection {
-  animation: fadeIn 0.8s ease-out;
+  position: relative;
 }
 
 .ctaCard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: clamp(2rem, 5vw, 3.5rem) 1.5rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 24px;
+  gap: var(--spaceMd);
+  padding: clamp(2.5rem, 5vw, 4rem) var(--spaceLg);
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
   text-align: center;
+  box-shadow: var(--shadowMedium);
 }
 
 .ctaTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.18;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  text-wrap: balance;
 }
 
 .ctaDescription {
-  max-width: 550px;
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  max-width: 52ch;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  color: var(--textSecondary);
   line-height: 1.55;
+  text-wrap: pretty;
 }
 
-.ctaButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.95rem 2rem;
-  margin-top: 0.5rem;
-  background-color: var(--accent);
-  border-radius: 14px;
-  color: var(--bg-primary);
-  font-size: 1.05rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+.ctaButtonLarge {
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
 }
 
-.ctaButton:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-.ctaIcon {
-  width: 22px;
-  height: 22px;
+/* ==========================================================================
+   14. ACCESIBILIDAD Y REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .btnPrimary,
+  .btnSecondary,
+  .quickNavLink,
+  .pricingCard,
+  .stepCard {
+    transition: none !important;
+    transform: none !important;
+  }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="clockIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="emptyRankIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2v4"/>
+      <path d="m4.93 10.93 2.83-2.83"/>
+      <path d="M2 18h4"/>
+      <path d="M20 18h2"/>
+      <path d="m19.07 10.93-2.83-2.83"/>
+      <path d="M22 22H2"/>
+      <path d="m8 22 4-10 4 10"/>
+    </symbol>
+  </defs>
+</svg>

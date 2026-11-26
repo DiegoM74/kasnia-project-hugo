@@ -1,23 +1,30 @@
 {
-  "version": 1,
+  "version": 2,
   "skills": {
     "apple-design": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/apple-design/SKILL.md",
-      "computedHash": "f3f1d2cbc8f3e79ccddff05f4e42d34d995f057fb30ff670e4edf8c87d568b69"
+      "computedHash": "118d450c2d6ca54fee5f56cf8883fa3231bc2d917bb8f5a3f87488162c55fac9"
     },
     "emil-design-eng": {
       "source": "emilkowalski/skills",
       "sourceType": "github",
       "skillPath": "skills/emil-design-eng/SKILL.md",
-      "computedHash": "77853cec799207f80868c611374c6ed5fdf34a55355c5ab544b59e791c63ad98"
+      "computedHash": "8c563f971b37710a80a95b88d5f2ea6758b3ec4b66ec15f5bb41850830e8f5ed"
+    },
+    "modern-web-guidance": {
+      "source": "GoogleChrome/modern-web-guidance",
+      "commit": "64a6d708f5a43f2cd3fde5d4d7db3905ba1bdf65",
+      "sourceType": "github",
+      "skillPath": "skills/modern-web-guidance/SKILL.md",
+      "computedHash": "d9f3ceba8b5c77b12ae6f852932a349843ce086d03ce76ab5e2257e7e5acd16d"
     },
     "redesign-existing-projects": {
       "source": "tasteskill/tasteskill",
       "sourceType": "github",
       "skillPath": "skills/redesign-skill/SKILL.md",
-      "computedHash": "47eced3e960a2c961d3cbee11fa1216264f589344b586a5cbd03967cd6b9c54b"
+      "computedHash": "a462c359ad5d5d2d96d18f9c1d2abefdf08318a1ec78f7852660d51ae098be4f"
     }
   }
 }

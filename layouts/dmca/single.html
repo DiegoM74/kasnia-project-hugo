@@ -7,93 +7,119 @@
 {{ end }}
 
 {{ define "main" }}
-<section class="legalHero">
-  <h1 class="legalTitle">Política DMCA</h1>
-  <p class="legalSubtitle">
-    Compromiso con la protección de los derechos de autor y la propiedad
-    intelectual.
-  </p>
-</section>
+<div class="legalContainer">
+  <!-- ========================================
+       1. HERO & INTRO
+  ======================================== -->
+  <section class="legalIntroSection">
+    <span class="legalEyebrow">Propiedad Intelectual</span>
+    <h1 class="pageTitle">Política DMCA</h1>
+    <p class="pageDescription">
+      Compromiso con el respeto a los derechos de autor, la protección de la propiedad intelectual y el cumplimiento legal.
+    </p>
 
-<section class="legalSection">
-  <h2 class="sectionTitle">Notificación de Infracción</h2>
-  <p class="legalText">
-    Kasnia Project respeta la propiedad intelectual de otros y espera que
-    sus usuarios hagan lo mismo. De acuerdo con la Digital Millennium
-    Copyright Act (DMCA), responderemos expeditamente a las notificaciones
-    claras de presunta infracción de derechos de autor.
-  </p>
-  <p class="legalText">
-    Si usted es propietario de derechos de autor o un agente autorizado y
-    cree que algún contenido en nuestro sitio infringe sus derechos, por
-    favor envíe una notificación que incluya la siguiente información:
-  </p>
+    <!-- Barra de navegación rápida en píldoras -->
+    <nav class="quickNav" aria-label="Secciones de la política DMCA">
+      <a href="#compromiso" class="quickNavLink">Compromiso</a>
+      <a href="#requisitos" class="quickNavLink">Requisitos</a>
+      <a href="#contacto" class="quickNavLink">Contacto</a>
+    </nav>
+  </section>
 
-  <ul class="requirementsList">
-    <li class="requirementItem">
-      <span class="checkIconWrapper">
-        <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
-      </span>
-      <span>
-        Identificación detallada del trabajo protegido por derechos de
-        autor que se alega ha sido infringido.
-      </span>
-    </li>
-    <li class="requirementItem">
-      <span class="checkIconWrapper">
-        <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
-      </span>
-      <span>
-        Descripción de dónde se encuentra el material infractor en el
-        sitio (URL específica).
-      </span>
-    </li>
-    <li class="requirementItem">
-      <span class="checkIconWrapper">
-        <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
-      </span>
-      <span>
-        Su información de contacto: nombre, dirección, número de teléfono
-        y correo electrónico.
-      </span>
-    </li>
-    <li class="requirementItem">
-      <span class="checkIconWrapper">
-        <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
-      </span>
-      <span>
-        Una declaración de que usted cree de buena fe que el uso del
-        material no está autorizado.
-      </span>
-    </li>
-    <li class="requirementItem">
-      <span class="checkIconWrapper">
-        <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
-      </span>
-      <span>
-        Una declaración de que la información en la notificación es
-        precisa y que usted es el propietario o está autorizado a actuar
-        en su nombre.
-      </span>
-    </li>
-  </ul>
-</section>
+  <!-- ========================================
+       2. CONTENIDO EDITORIAL
+  ======================================== -->
+  <div class="legalContentWrapper">
+    <!-- Compromiso y Marco Legal -->
+    <section class="legalSection" id="compromiso">
+      <h2 class="sectionTitle">Compromiso con los Derechos de Autor</h2>
+      <p class="legalText">
+        <strong>Kasnia Project</strong> es una iniciativa sin fines comerciales dedicada a la traducción y difusión de novelas ligeras japonesas al español para la comunidad hispanohablante. Respetamos plenamente la propiedad intelectual y el trabajo de los autores, ilustradores y casas editoriales originales.
+      </p>
+      <p class="legalText">
+        De conformidad con la Digital Millennium Copyright Act (DMCA) y los estándares internacionales de propiedad intelectual, atenderemos y responderemos con celeridad a cualquier notificación fundada de presunta infracción de derechos de autor remitida por sus titulares legítimos o representantes acreditados.
+      </p>
+    </section>
 
-<section class="legalSection contactSection">
-  <h2 class="sectionTitle">Contacto</h2>
-  <p class="legalText">
-    Envíe su notificación de infracción a nuestro correo de contacto.
-    Responderemos a la brevedad posible.
-  </p>
+    <!-- Requisitos de Notificación -->
+    <section class="legalSection" id="requisitos">
+      <h2 class="sectionTitle">Cómo Remitir una Notificación</h2>
+      <p class="legalText">
+        Si usted es el titular de los derechos de autor o un agente debidamente autorizado y considera que algún enlace o contenido alojado en nuestro sitio infringe sus derechos, le solicitamos que envíe una notificación escrita que incluya los siguientes datos:
+      </p>
 
-  <a href="mailto:contacto@kasniaproject.com" class="contactBox">
-    <div class="contactIconWrapper">
-      <svg><use href="/img/svg/legal.svg#iconMail" /></svg>
+      <ul class="requirementsList">
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Identificación de la obra protegida</h3>
+            <p class="requirementDesc">Nombre oficial, autor y detalles específicos del material con derechos de autor que se alega infringido.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Ubicación exacta del contenido</h3>
+            <p class="requirementDesc">La dirección web (URL específica) dentro de Kasnia Project donde se localiza el enlace o material reportado.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Información de contacto completa</h3>
+            <p class="requirementDesc">Nombre completo del titular o representante legal, dirección física, número de teléfono y correo electrónico verificado.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Declaración de buena fe</h3>
+            <p class="requirementDesc">Manifestación expresa de que cree de buena fe que el uso del material reclamado no cuenta con autorización del propietario, su agente o la legislación vigente.</p>
+          </div>
+        </li>
+        <li class="requirementItem">
+          <span class="checkIconWrapper" aria-hidden="true">
+            <svg><use href="/img/svg/legal.svg#iconCheck" /></svg>
+          </span>
+          <div class="requirementContent">
+            <h3 class="requirementTitle">Declaración de veracidad y legitimidad</h3>
+            <p class="requirementDesc">Declaración solemne de que la información provista en la notificación es verídica y que actúa con autorización válida y legal en representación del titular de los derechos exclusivos.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Contacto Oficial -->
+    <section class="legalSection contactSection" id="contacto">
+      <h2 class="sectionTitle">Canal de Contacto Oficial</h2>
+      <p class="legalText">
+        Envíe su notificación DMCA o consulta sobre derechos de autor a nuestra casilla de correo. Procesaremos su solicitud a la mayor brevedad posible.
+      </p>
+
+      <a href="mailto:contacto@kasniaproject.com" class="contactCard" aria-label="Enviar correo a contacto@kasniaproject.com">
+        <div class="contactIconWrapper" aria-hidden="true">
+          <svg><use href="/img/svg/legal.svg#iconMail" /></svg>
+        </div>
+        <div class="contactInfo">
+          <span class="contactLabel">Correo de Notificaciones</span>
+          <span class="contactValue">contacto@kasniaproject.com</span>
+        </div>
+      </a>
+    </section>
+
+    <!-- Pie de actualización -->
+    <div class="legalFooterMeta">
+      <span>Última revisión:</span>
+      <time datetime="2026-10-27">27 de octubre de 2026</time>
     </div>
-    <div class="contactInfo">
-      <span class="contactLabel">Correo Electrónico</span>
-      <span class="contactValue">contacto@kasniaproject.com</span>
-    </div>
-  </a>
-</section>
+  </div>
+</div>
 {{ end }}

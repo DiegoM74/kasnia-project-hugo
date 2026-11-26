@@ -1,70 +1,113 @@
-/* ========================================
-   CSS VARIABLES
-======================================== */
-:root {
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.7);
-}
+/* ==========================================================================
+   NOVELA.CSS — FICHA INDIVIDUAL DE NOVELA Y MODALES
+   Kasnia Project — Estilo Apple Books / App Store
+   ========================================================================== */
 
-[data-theme="light"] {
-  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-/* ========================================
-   MAIN CONTAINER
-======================================== */
+/* --------------------------------------------------------------------------
+   1. CONTENEDOR PRINCIPAL
+   -------------------------------------------------------------------------- */
 main {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
-  max-width: 1000px;
-  margin: 70px auto 0;
-  padding: 3rem 1.5rem;
+  gap: var(--space3xl);
+  max-width: var(--containerMaxWidth);
+  margin: 0 auto;
+  padding: calc(var(--navbarHeight) + var(--spaceLg)) var(--spaceLg) var(--space4xl);
   z-index: 1;
 }
 
-/* ========================================
-   NOVEL HERO SECTION
-======================================== */
-.novelHero {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: start;
-  justify-content: center;
-  gap: 2.5rem;
-  animation: fadeInUp 0.6s ease-out;
+/* --------------------------------------------------------------------------
+   2. MIGAS DE PAN (BREADCRUMBS)
+   -------------------------------------------------------------------------- */
+.novelBreadcrumbs {
+  width: 100%;
+  margin-bottom: calc(-1 * var(--spaceLg));
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.breadcrumbsContainer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spaceXs);
+  font-size: 0.85rem;
+  color: var(--textMuted);
+}
+
+.breadcrumbLink {
+  color: var(--textSecondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--durationFast) ease;
+}
+
+.breadcrumbLink:hover {
+  color: var(--accentColor);
+}
+
+.breadcrumbSeparator {
+  width: 14px;
+  height: 14px;
+  color: var(--textMuted);
+  flex-shrink: 0;
+}
+
+.breadcrumbCurrent {
+  color: var(--textPrimary);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 320px;
+}
+
+/* --------------------------------------------------------------------------
+   3. HERO DE LA NOVELA (2 COLUMNAS EDITORIAL APPLE BOOKS)
+   -------------------------------------------------------------------------- */
+.novelHero {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  align-items: start;
+  gap: var(--space2xl);
+  width: 100%;
+}
+
+.novelCoverWrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .coverContainer {
   position: relative;
-  flex: 0 1 320px;
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
   aspect-ratio: 1 / 1.43;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
+  border-radius: var(--radiusMedium);
+  background: var(--surfaceSecondary);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 
+    0 18px 40px -10px rgba(0, 0, 0, 0.7),
+    0 4px 16px -2px rgba(0, 0, 0, 0.4);
+  transition: transform var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+[data-theme="light"] .coverContainer {
+  box-shadow: 
+    0 18px 40px -12px rgba(0, 0, 0, 0.22),
+    0 4px 14px -2px rgba(0, 0, 0, 0.08);
 }
 
 .coverContainer:hover {
   transform: translateY(-4px);
-  border-color: var(--accent);
-  box-shadow: var(--shadow-hover);
+  box-shadow: 
+    0 24px 50px -10px rgba(0, 0, 0, 0.8),
+    0 6px 20px -2px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="light"] .coverContainer:hover {
+  box-shadow: 
+    0 24px 50px -12px rgba(0, 0, 0, 0.26),
+    0 6px 18px -2px rgba(0, 0, 0, 0.12);
 }
 
 .novelCover {
@@ -74,99 +117,238 @@ main {
   object-fit: cover;
 }
 
-/* ========================================
-   STATUS BADGE (Novel Cover)
-======================================== */
-.statusBadge {
+/* Lomo físico de libro (Idéntico a Home y Catálogo de novelas) */
+.coverSpine {
   position: absolute;
-  top: 16px;
-  left: -40px;
-  width: 150px;
-  padding: 0.5rem 0;
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transform: rotate(-45deg);
-  z-index: 10;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.05) 2.5%,
+    rgba(0, 0, 0, 0.15) 3.5%,
+    transparent 7%
+  );
+  box-shadow: inset 0 0 0 1px var(--borderSubtle);
 }
 
-.statusBadge.active {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+[data-theme="light"] .coverSpine {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.12) 2.5%,
+    rgba(0, 0, 0, 0.08) 3.5%,
+    transparent 7%
+  );
 }
 
-.statusBadge.active::before {
-  content: "Activa";
-}
-
-.statusBadge.uptodate {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
-}
-
-.statusBadge.uptodate::before {
-  content: "Al día";
-}
-
-.statusBadge.paused {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
-}
-
-.statusBadge.paused::before {
-  content: "Pausada";
-}
-
-.statusBadge.completed {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
-}
-
-.statusBadge.completed::before {
-  content: "Finalizada";
-}
-
-.statusBadge.planned {
-  background: linear-gradient(135deg, #0ea5e9, #0284c7);
-  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
-}
-
-.statusBadge.planned::before {
-  content: "Planeada";
-}
-
-/* ========================================
-   NOVEL INFO
-======================================== */
-.novelInfo {
+/* Columna de Información del Hero */
+.novelHeroInfo {
   display: flex;
   flex-direction: column;
+  gap: var(--spaceMd);
+}
+
+.novelBadgesRow {
+  display: flex;
   align-items: center;
-  flex: 1 1 300px;
-  gap: 1.5rem;
-  text-align: center;
+  flex-wrap: wrap;
+  gap: var(--spaceXs);
 }
 
+/* Badges de Estado del Proyecto */
+.projectStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radiusFull);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--trackingWide);
+}
+
+.projectStatusBadge.active {
+  background: rgba(34, 197, 94, 0.14);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+.projectStatusBadge.active::before { content: "Activa"; }
+
+.projectStatusBadge.uptodate {
+  background: rgba(59, 130, 246, 0.14);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.projectStatusBadge.uptodate::before { content: "Al día"; }
+
+.projectStatusBadge.paused {
+  background: rgba(245, 158, 11, 0.14);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.projectStatusBadge.paused::before { content: "Pausada"; }
+
+.projectStatusBadge.completed {
+  background: rgba(168, 85, 247, 0.14);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+.projectStatusBadge.completed::before { content: "Finalizada"; }
+
+.projectStatusBadge.planned {
+  background: rgba(14, 165, 233, 0.14);
+  color: #0ea5e9;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+.projectStatusBadge.planned::before { content: "Planeada"; }
+
+.demographyBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.adaptationPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.adaptationPill .pillIcon {
+  width: 13px;
+  height: 13px;
+  color: var(--accentColor);
+}
+
+/* Título de la Novela */
 .novelTitle {
-  color: var(--text-primary);
-  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0;
+  color: var(--textPrimary);
+  font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: 800;
-  line-height: 1.2;
-  background: linear-gradient(45deg, var(--text-primary), var(--accent));
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  line-height: 1.15;
+  letter-spacing: var(--trackingTight);
+  text-wrap: balance;
 }
 
+/* Creadores en línea editorial */
+.novelCreators {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spaceXs);
+  font-size: 0.95rem;
+  color: var(--textSecondary);
+}
+
+.creatorItem {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.creatorRole {
+  color: var(--textMuted);
+  font-weight: 400;
+}
+
+.creatorName {
+  color: var(--textPrimary);
+  font-weight: 600;
+}
+
+.creatorNote {
+  color: var(--textMuted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.creatorDivider {
+  color: var(--textMuted);
+  margin: 0 0.15rem;
+  user-select: none;
+}
+
+/* Botones de acción del Hero (CTA rápido) */
+.heroActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spaceSm);
+  margin-top: var(--spaceXs);
+}
+
+.heroActionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceSm);
+  min-height: 48px;
+  padding: 0 var(--spaceLg);
+  border-radius: var(--radiusFull);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform var(--durationInstant) var(--easeOutStrong), box-shadow var(--durationFast) ease, background var(--durationFast) ease, border-color var(--durationFast) ease;
+}
+
+.heroActionBtn:active {
+  transform: scale(0.97);
+}
+
+.heroActionBtn.primary {
+  background: var(--accentColor);
+  color: var(--accentContrastText);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.heroActionBtn.primary:hover {
+  filter: brightness(1.05);
+}
+
+.heroActionBtn.primary .actionIcon {
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+}
+
+.heroActionBtn.secondary {
+  background: var(--surfaceCard);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderSubtle);
+}
+
+.heroActionBtn.secondary:hover {
+  background: var(--surfaceSecondary);
+  border-color: var(--borderStrong);
+}
+
+/* Sinopsis Colapsable */
 .novelSynopsis {
+  position: relative;
   width: 100%;
-  color: var(--text-secondary);
-  font-size: 1rem;
+  margin-top: var(--spaceXs);
+  color: var(--textSecondary);
+  font-size: 0.98rem;
   line-height: 1.7;
-  text-align: left;
+  max-width: 72ch;
 }
 
 .synopsisContent {
@@ -183,15 +365,17 @@ main {
 
 .synopsisToggle {
   display: none;
-  margin: 0 auto;
-  padding: 0.5rem 0;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: var(--spaceXs);
+  padding: 0.4rem 0;
   background: none;
   border: none;
-  color: var(--accent);
+  color: var(--accentColor);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--durationFast) ease;
 }
 
 .synopsisToggle:hover {
@@ -200,151 +384,196 @@ main {
 
 .synopsisToggle.visible {
   display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
 }
 
-.synopsisToggle svg {
+.toggleChevron {
   width: 16px;
   height: 16px;
-  transition: transform 0.3s ease;
+  transition: transform var(--durationNormal) var(--easeOutStrong);
 }
 
-.synopsisToggle.expanded svg {
+.synopsisToggle.expanded .toggleChevron {
   transform: rotate(180deg);
 }
 
-/* ========================================
-   CREATOR CARDS
-======================================== */
-.creatorCards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+/* --------------------------------------------------------------------------
+   4. AVISO DE NOVELA (NOVEL NOTE)
+   -------------------------------------------------------------------------- */
+.novelNoteSection {
   width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.creatorCard {
   display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 1rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.creatorCard:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent);
-  box-shadow: var(--shadow-hover);
-}
-
-.creatorIcon {
-  display: flex;
-  align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 154, 197, 0.1);
-  border-radius: 50%;
 }
 
-.creatorIcon svg {
-  width: 20px;
-  height: 20px;
-  color: var(--accent);
-}
-
-.creatorInfo {
+.novelNoteBox {
   display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+  align-items: flex-start;
+  gap: var(--spaceMd);
+  width: 100%;
+  max-width: 680px; /* Acotado y centrado armoniosamente */
+  margin: 0 auto;
+  padding: var(--spaceMd) var(--spaceLg);
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-left: 4px solid #f59e0b;
+  border-radius: var(--radiusMedium);
 }
 
-.creatorLabel {
-  color: var(--text-secondary);
-  font-size: 0.75rem;
+.novelNoteIcon {
+  width: 22px;
+  height: 22px;
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.novelNoteText {
+  color: var(--textPrimary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.novelNoteText p {
+  margin: 0;
+}
+
+.novelNoteText a {
+  color: var(--accentColor);
+  text-decoration: underline;
+  text-underline-offset: 3px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  transition: opacity var(--durationFast) ease;
 }
 
-.creatorName {
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-weight: 700;
+.novelNoteText a:hover {
+  opacity: 0.8;
 }
 
-.creatorNote {
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-  font-style: italic;
-}
-
-/* ========================================
-   DOWNLOADS SECTION
-======================================== */
+/* --------------------------------------------------------------------------
+   5. SECCIÓN DE DESCARGAS Y VOLÚMENES
+   -------------------------------------------------------------------------- */
 .downloadsSection {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--spaceXl);
 }
 
-.sectionHeader {
-  text-align: center;
+.downloadsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spaceSm) var(--spaceMd);
+  padding-bottom: var(--spaceSm);
+  border-bottom: 1px solid var(--borderSubtle);
+}
+
+.downloadsTitleBlock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spaceSm);
+  flex-wrap: wrap;
 }
 
 .sectionTitle {
-  margin-bottom: 0.5rem;
-  color: var(--text-primary);
-  font-size: 1.8rem;
+  margin: 0;
+  color: var(--textPrimary);
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
   font-weight: 700;
+  letter-spacing: var(--trackingTight);
 }
 
 .sectionDescription {
-  color: var(--text-secondary);
+  margin: 0;
+  color: var(--textSecondary);
+  font-size: 0.9rem;
 }
 
-/* ========================================
-   VOLUMES GRID
-======================================== */
+.downloadsToolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceXs);
+}
+
+.toolbarBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0 var(--spaceMd);
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textPrimary);
+  font-size: 0.88rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: var(--shadowSubtle);
+  transition: transform var(--durationInstant) var(--easeOutStrong), background var(--durationFast) ease, border-color var(--durationFast) ease;
+}
+
+.toolbarBtn:hover {
+  background: var(--surfaceSecondary);
+  border-color: var(--borderStrong);
+}
+
+.toolbarBtn:active {
+  transform: scale(0.97);
+}
+
+.toolbarBtn .btnIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--accentColor);
+}
+
+.sortOrderBtn[aria-pressed="true"] .btnIcon {
+  transform: rotate(180deg);
+}
+
+/* Cuadrícula de Volúmenes */
 .volumesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 22%, 250px), 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(155px, 20vw, 215px), 1fr));
+  gap: var(--spaceLg);
   width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
 }
 
 .volumeCard {
   position: relative;
-  aspect-ratio: 1 / 1.43;
-  background: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  border-radius: var(--radiusMedium);
   cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  outline: none;
+  transition: transform var(--durationFast) var(--easeOutStrong);
 }
 
-.volumeCard:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: var(--shadow-hover);
+.volumeCard:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 4px;
 }
 
 .volumeCoverContainer {
   position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1.43;
+  border-radius: var(--radiusMedium);
+  background: var(--surfaceSecondary);
+  overflow: hidden;
+  box-shadow: 
+    0 10px 24px -6px rgba(0, 0, 0, 0.55),
+    0 3px 10px -2px rgba(0, 0, 0, 0.3);
+  transition: transform var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+[data-theme="light"] .volumeCoverContainer {
+  box-shadow: 
+    0 10px 24px -8px rgba(0, 0, 0, 0.16),
+    0 3px 8px -2px rgba(0, 0, 0, 0.06);
 }
 
 .volumeCover {
@@ -354,220 +583,1553 @@ main {
   object-fit: cover;
 }
 
-.volumeOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1rem;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.3) 50%,
-    transparent 100%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
+/* Hover y Active en Tarjeta de Volumen */
+.volumeCard:not(.upcoming):not(.translating):hover .volumeCoverContainer {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 18px 36px -6px rgba(0, 0, 0, 0.7),
+    0 4px 14px -2px rgba(0, 0, 0, 0.4);
 }
 
-.volumeCard:hover .volumeOverlay {
-  opacity: 1;
+[data-theme="light"] .volumeCard:not(.upcoming):not(.translating):hover .volumeCoverContainer {
+  box-shadow: 
+    0 18px 36px -8px rgba(0, 0, 0, 0.22),
+    0 4px 12px -2px rgba(0, 0, 0, 0.1);
+}
+
+.volumeCard:not(.upcoming):not(.translating):active .volumeCoverContainer {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
+}
+
+/* Pie de Tarjeta de Volumen (siempre visible, limpio) */
+.volumeCardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: var(--spaceSm) 0.15rem 0.2rem;
+}
+
+.volumeCardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spaceXs);
 }
 
 .volumeNumber {
-  margin-bottom: 0.5rem;
-  color: #fff;
-  font-size: 1.1rem;
+  color: var(--textPrimary);
+  font-size: 0.98rem;
   font-weight: 700;
+  letter-spacing: var(--trackingTight);
+  transition: color var(--durationFast) ease;
 }
 
-.volumeDownloadHint {
+.volumeCard:not(.upcoming):not(.translating):hover .volumeNumber {
+  color: var(--accentColor);
+}
+
+.volumeStateBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radiusFull);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--trackingWide);
+}
+
+.volumeStateBadge.preview {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.volumeStateBadge.translating {
+  background: rgba(99, 102, 241, 0.15);
+  color: #6366f1;
+}
+
+.volumeStateBadge.upcoming {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.volumeActionHint {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.85rem;
+  gap: 0.35rem;
+  color: var(--textMuted);
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
-.volumeDownloadHint svg {
-  width: 16px;
-  height: 16px;
+.volumeActionHint .hintIcon {
+  width: 14px;
+  height: 14px;
+  color: currentColor;
 }
 
-/* ========================================
-   VOLUME BADGE (Preview/Upcoming)
-======================================== */
-.volumeBadge {
-  position: absolute;
-  top: 12px;
-  left: -35px;
-  width: 130px;
-  padding: 0.4rem 0;
-  color: #fff;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transform: rotate(-45deg);
-  z-index: 10;
+.volumeCard:not(.upcoming):not(.translating):hover .volumeActionHint {
+  color: var(--textSecondary);
 }
 
-.volumeBadge.previewBadge {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
-}
-
-.volumeBadge.previewBadge::before {
-  content: "Preview";
-}
-
-.volumeBadge.translatingBadge {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
-}
-
-.volumeBadge.translatingBadge::before {
-  content: "Proceso";
-}
-
-.volumeBadge.upcomingBadge {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-}
-
-.volumeBadge.upcomingBadge::before {
-  content: "Pronto";
-}
-
-/* Volume States */
-.volumeCard.upcoming {
-  cursor: not-allowed;
-}
-
-.volumeCard.upcoming:hover {
-  border-color: rgba(239, 68, 68, 0.5);
-}
-
-.volumeCard.upcoming .volumeDownloadHint {
-  color: rgba(255, 255, 255, 0.6);
-}
-
+/* Estados Deshabilitados (upcoming y translating) */
+.volumeCard.upcoming,
 .volumeCard.translating {
   cursor: not-allowed;
 }
 
-.volumeCard.translating:hover {
-  border-color: rgba(99, 102, 241, 0.5);
+.volumeCard.upcoming .volumeCoverContainer,
+.volumeCard.translating .volumeCoverContainer {
+  opacity: 0.88;
 }
 
-.volumeCard.translating .volumeDownloadHint {
-  color: rgba(255, 255, 255, 0.6);
+/* --------------------------------------------------------------------------
+   6. SECCIÓN DETALLES DE LA OBRA (PANEL UNIFICADO APPLE BOOKS)
+   -------------------------------------------------------------------------- */
+.detailsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceLg);
 }
 
-.volumeCard.preview:hover {
-  border-color: rgba(245, 158, 11, 0.6);
+.detailsCard {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spaceXl);
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
+  box-shadow: var(--shadowMedium);
 }
 
-/* ========================================
-   MODAL
-======================================== */
-.modalOverlay {
-  position: fixed;
-  inset: 0;
+.detailsColumns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space2xl);
+}
+
+.detailsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
+}
+
+.detailsColumnTitle {
+  margin: 0;
+  color: var(--textPrimary);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: var(--trackingTight);
+  padding-bottom: var(--spaceXs);
+  border-bottom: 1px solid var(--borderSubtle);
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.detailsRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spaceMd);
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--borderSubtle);
+}
+
+.detailsRow:last-child {
+  border-bottom: none;
+}
+
+.detailsLabel {
+  color: var(--textMuted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.detailsValue {
+  margin: 0;
+  color: var(--textPrimary);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-word;
+}
+
+.detailsValue.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.detailsSubNote {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--textMuted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Badges de Adaptación (Sí / No) */
+.adaptationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radiusFull);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.adaptationBadge.yes {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+}
+
+.adaptationBadge.no {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+}
+
+.adaptationBadge .badgeIcon {
+  width: 13px;
+  height: 13px;
+}
+
+/* Fila de Géneros en el Panel de Detalles */
+.detailsGenresRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spaceSm);
+  margin-top: var(--spaceLg);
+  padding-top: var(--spaceLg);
+  border-top: 1px solid var(--borderSubtle);
+}
+
+.genresLabel {
+  color: var(--textMuted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--trackingWide);
+}
+
+.genreTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.genreTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.8rem;
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--accentColor);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   6.0. SECCIÓN DE NOVELAS RECOMENDADAS (TAMBIÉN TE PODRÍA GUSTAR)
+   -------------------------------------------------------------------------- */
+.recommendationsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceLg);
+  margin-top: var(--space2xl);
+}
+
+.recommendationsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 160px));
+  gap: var(--spaceLg);
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .recommendationsGrid {
+    gap: var(--spaceMd);
+  }
+}
+
+@media (max-width: 640px) {
+  .recommendationsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 155px));
+    gap: var(--spaceMd);
+  }
+}
+
+@media (max-width: 440px) {
+  .recommendationsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spaceSm);
+  }
+}
+
+/* Escala visual compacta para novelas recomendadas */
+.recommendationsSection .novelCardContent {
+  padding-top: var(--spaceSm);
+  gap: 2px;
+}
+
+.recommendationsSection .novelCardTitle {
+  font-size: 0.88rem;
+  line-height: 1.25;
+}
+
+.recommendationsSection .novelCardAuthor {
+  font-size: 0.78rem;
+}
+
+.recommendationsSection .novelCardVolumes {
+  font-size: 0.75rem;
+}
+
+/* Tarjeta de Novela Reutilizable (Paridad estricta con novelas.css y ranking.css) */
+.novelCardWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.novelCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radiusMedium);
+  outline-offset: 4px;
+}
+
+.novelCard:focus-visible {
+  outline: 2px solid var(--accentColor);
+}
+
+.novelCoverContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.43;
+  border-radius: var(--radiusMedium);
+  overflow: hidden;
+  background-color: var(--surfaceSecondary);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6),
+    0 2px 8px -2px rgba(0, 0, 0, 0.4);
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+[data-theme="light"] .novelCoverContainer {
+  box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.12),
+    0 4px 12px -2px rgba(0, 0, 0, 0.06);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .novelCard:hover .novelCoverContainer {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.75),
+      0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  }
+
+  [data-theme="light"] .novelCard:hover .novelCoverContainer {
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.18),
+      0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  }
+
+  .novelCard:hover .novelCardTitle {
+    color: var(--accentColor);
+  }
+}
+
+.novelCard:active .novelCoverContainer {
+  transform: scale(0.98);
+  transition-duration: var(--durationInstant);
+}
+
+.novelCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: var(--spaceMd);
+}
+
+.novelCardTitle {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+  line-height: 1.32;
+  letter-spacing: var(--trackingTight);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-wrap: balance;
+  transition: color var(--durationFast) var(--easeOutStrong);
+}
+
+.novelCardAuthor {
+  font-size: 0.85rem;
+  color: var(--textSecondary);
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.novelCardMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.novelCardVolumes {
+  font-size: 0.82rem;
+  color: var(--textMuted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   6.1. SECCIÓN DE COMENTARIOS (NATIVA KASNIA - APPLE BOOKS POLISH)
+   -------------------------------------------------------------------------- */
+.novelCommentsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceLg);
+  margin-top: var(--space2xl);
+  scroll-margin-top: calc(var(--navbarHeight) + 24px);
+}
+
+/* Respeto estricto del atributo hidden en flexboxes */
+.novelCommentsSection [hidden],
+.commentsContent[hidden],
+.commentsPlaceholder[hidden],
+.commentsSkeletons[hidden],
+.emptyCommentsState[hidden],
+.commentsCountBadge[hidden],
+.commentsToolbar[hidden] {
+  display: none !important;
+}
+
+.sectionHeaderTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceSm);
+  flex-wrap: wrap;
+}
+
+.commentsCountBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radiusFull);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  color: var(--accentColor);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.commentsCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusXLarge);
+  box-shadow: var(--shadowMedium);
+  overflow: hidden;
+  transition: background var(--durationNormal) ease, border-color var(--durationNormal) ease;
+}
+
+/* Estado Inicial (Carga bajo demanda) */
+.commentsPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space3xl) var(--spaceLg);
+  gap: var(--spaceXs);
+}
+
+.placeholderIconWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radiusFull);
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--accentColor);
+  margin-bottom: var(--spaceSm);
+}
+
+.placeholderIcon {
+  width: 26px;
+  height: 26px;
+}
+
+.placeholderTitle {
+  margin: 0;
+  color: var(--textPrimary);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: var(--trackingTight);
+}
+
+.placeholderText {
+  margin: 0 0 var(--spaceLg) 0;
+  color: var(--textSecondary);
+  font-size: 0.92rem;
+  max-width: 460px;
+  line-height: 1.55;
+}
+
+.loadCommentsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceSm);
+  min-height: 48px;
+  padding: 0 var(--spaceXl);
+  background: var(--accentColor);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radiusFull);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--accentGlow);
+  transition: background var(--durationFast) ease, transform var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) ease;
+}
+
+.loadCommentsBtn .btnIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.loadCommentsBtn:hover {
+  background: var(--accentHover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--accentGlow);
+}
+
+.loadCommentsBtn:active {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
+}
+
+.loadCommentsBtn:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 4px;
+}
+
+.loadCommentsBtn:disabled {
+  opacity: 0.75;
+  cursor: wait;
+  pointer-events: none;
+}
+
+/* Contenido Principal de Comentarios */
+.commentsContent {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spaceXl);
+  gap: var(--spaceXl);
+}
+
+/* Formulario Principal y Respuestas */
+.commentFormWrapper {
+  padding: var(--spaceLg);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+}
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceMd);
+}
+
+.commentFormHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spaceSm);
+  flex-wrap: wrap;
+}
+
+.commentFormTitle {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+  letter-spacing: var(--trackingTight);
+}
+
+.staffControlWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceXs);
+}
+
+.staffAuthTrigger {
+  background: transparent;
+  border: none;
+  color: var(--textMuted);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--radiusSmall);
+  transition: color var(--durationFast) ease;
+}
+
+.staffAuthTrigger:hover {
+  color: var(--accentColor);
+}
+
+.staffAuthBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  padding: 0.15rem 0.35rem;
+}
+
+.staffKeyInput {
+  width: 105px;
+  background: transparent;
+  border: none;
+  color: var(--textPrimary);
+  font-size: 0.78rem;
+  outline: none;
+  padding: 0.15rem 0.25rem;
+  font-family: inherit;
+}
+
+.saveStaffKeyBtn {
+  background: var(--accentColor);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radiusFull);
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--durationFast) ease;
+}
+
+.saveStaffKeyBtn:hover {
+  background: var(--accentHover);
+}
+
+.cancelStaffKeyBtn {
+  background: transparent;
+  border: none;
+  color: var(--textMuted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  line-height: 1;
+}
+
+.staffActiveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radiusFull);
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid var(--accentColor);
+  color: var(--accentColor);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.staffDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radiusFull);
+  background: var(--accentColor);
+  box-shadow: 0 0 6px var(--accentColor);
+}
+
+.staffLogoutBtn {
+  background: transparent;
+  border: none;
+  color: var(--accentColor);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  margin-left: 0.15rem;
+  transition: color var(--durationFast) ease;
+}
+
+.staffLogoutBtn:hover {
+  color: #ef4444;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spaceMd);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.formLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--textSecondary);
+}
+
+.textareaHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spaceSm);
+  flex-wrap: wrap;
+}
+
+.formatToolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  padding: 0.15rem 0.25rem;
+}
+
+.formatBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: 26px;
+  height: 24px;
+  padding: 0 0.45rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radiusSmall);
+  color: var(--textSecondary);
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--durationFast) ease, color var(--durationFast) ease;
+}
+
+.formatBtn:hover {
+  background: var(--surfaceSecondary);
+  color: var(--accentColor);
+}
+
+.formatBtn:active {
+  transform: scale(0.95);
+}
+
+.formatBtn.formatSpoiler {
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.formatBtn.formatSpoiler .btnIcon {
+  width: 13px;
+  height: 13px;
+}
+
+.requiredMark {
+  color: #ef4444;
+}
+
+.optionalMark {
+  font-size: 0.75rem;
+  color: var(--textMuted);
+  font-weight: 400;
+}
+
+.formInput,
+.formTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.9rem;
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  color: var(--textPrimary);
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color var(--durationFast) ease, box-shadow var(--durationFast) ease;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 3px var(--accentGlow);
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+  color: var(--textMuted);
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 85px;
+  line-height: 1.5;
+  field-sizing: content;
+}
+
+.formHelpText {
+  font-size: 0.75rem;
+  color: var(--textMuted);
+}
+
+.formFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spaceMd);
+}
+
+.charCounter {
+  font-size: 0.8rem;
+  color: var(--textMuted);
+  font-variant-numeric: tabular-nums;
+}
+
+.submitCommentBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceSm);
+  min-height: 42px;
+  padding: 0 var(--spaceLg);
+  background: var(--accentColor);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radiusFull);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 3px 10px var(--accentGlow);
+  transition: background var(--durationFast) ease, transform var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) ease;
+}
+
+.submitCommentBtn .btnIcon {
+  width: 15px;
+  height: 15px;
+}
+
+.submitCommentBtn:hover {
+  background: var(--accentHover);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px var(--accentGlow);
+}
+
+.submitCommentBtn:active {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
+}
+
+.submitCommentBtn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* Skeletons de Carga */
+.commentsSkeletons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceMd);
+}
+
+.skeletonComment {
+  display: flex;
+  gap: var(--spaceMd);
+  padding: var(--spaceLg);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+}
+
+.skeletonAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radiusFull);
+  background: var(--surfaceCard);
+  flex-shrink: 0;
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+
+.skeletonContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
+  flex: 1;
+}
+
+.skeletonLine {
+  height: 12px;
+  border-radius: var(--radiusFull);
+  background: var(--surfaceCard);
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+
+.skeletonLine.short {
+  width: 25%;
+}
+
+.skeletonLine.medium {
+  width: 60%;
+}
+
+.skeletonLine.long {
+  width: 90%;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* Barra de Herramientas y Ordenación de Comentarios */
+.commentsToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spaceMd);
+  padding: var(--spaceSm) 0;
+  border-top: 1px solid var(--borderSubtle);
+  border-bottom: 1px solid var(--borderSubtle);
+  margin-bottom: var(--spaceSm);
+}
+
+.commentsToolbarHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceSm);
+}
+
+.commentsToolbarTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+  letter-spacing: -0.01em;
+}
+
+.commentsSortControl.segmentedControl {
+  display: inline-flex;
+  padding: 3px;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  box-shadow: var(--shadowSubtle);
+}
+
+.commentsSortControl .segmentedBtn {
+  min-height: 32px;
+  padding: 0.3rem 0.85rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  outline: none;
+  transition: background-color var(--durationFast) var(--easeOutStrong),
+    color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    transform var(--durationInstant) var(--easeOutStrong);
+}
+
+.commentsSortControl .segmentedBtn:hover {
+  color: var(--textPrimary);
+}
+
+.commentsSortControl .segmentedBtn:active {
+  transform: scale(0.96);
+}
+
+.commentsSortControl .segmentedBtn.active {
+  background-color: var(--surfaceCard);
+  color: var(--accentColor);
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="light"] .commentsSortControl .segmentedBtn.active {
+  background-color: #ffffff;
+  color: var(--accentColor);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Lista de Comentarios */
+.commentsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceLg);
+}
+
+/* Tarjeta Individual de Comentario */
+.commentItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
+  scroll-margin-top: calc(var(--navbarHeight) + 24px);
+}
+
+.commentCard {
+  display: flex;
+  gap: var(--spaceMd);
+  padding: var(--spaceLg);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+  transition: border-color var(--durationFast) ease, box-shadow var(--durationFast) ease;
+}
+
+.commentItem.highlightedComment .commentCard {
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 2px rgba(255, 154, 197, 0.4), 0 8px 24px rgba(255, 154, 197, 0.15);
+}
+
+:root[data-theme="light"] .commentItem.highlightedComment .commentCard {
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 2px rgba(230, 82, 139, 0.4), 0 8px 24px rgba(230, 82, 139, 0.15);
+}
+
+.commentAvatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radiusFull);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  user-select: none;
+}
+
+.commentMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.commentMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceSm);
+  flex-wrap: wrap;
+}
+
+.commentAuthorName {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--textPrimary);
+}
+
+.commentStaffBadge {
+  padding: 0.12rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: var(--radiusFull);
+  background: var(--accentColor);
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.commentDate {
+  font-size: 0.78rem;
+  color: var(--textMuted);
+}
+
+.commentText {
+  font-size: 0.92rem;
+  color: var(--textSecondary);
+  line-height: 1.6;
+  word-break: break-word;
+  white-space: pre-line;
+  margin: 0.2rem 0;
+}
+
+/* Efecto Spoiler Interactivo */
+.commentSpoiler {
+  display: inline;
+  background: rgba(140, 150, 165, 0.4);
+  color: transparent;
+  border-radius: var(--radiusSmall);
+  padding: 0.1rem 0.4rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--durationFast) ease, color var(--durationFast) ease;
+}
+
+[data-theme="light"] .commentSpoiler {
+  background: rgba(100, 116, 139, 0.28);
+  color: transparent;
+}
+
+.commentSpoiler:hover {
+  background: rgba(140, 150, 165, 0.6);
+}
+
+[data-theme="light"] .commentSpoiler:hover {
+  background: rgba(100, 116, 139, 0.42);
+}
+
+.commentSpoiler.isRevealed {
+  background: rgba(14, 165, 233, 0.12);
+  color: var(--textPrimary);
+  user-select: text;
+  cursor: text;
+}
+
+.commentActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spaceSm);
+  margin-top: 0.45rem;
+}
+
+.commentReplyBtn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 28px;
+  padding: 0 0.65rem;
+  background: transparent;
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textMuted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--durationFast) ease,
+    border-color var(--durationFast) ease,
+    background var(--durationFast) ease;
+}
+
+.commentReplyBtn .btnIcon {
+  width: 13px;
+  height: 13px;
+}
+
+.commentReplyBtn:hover {
+  color: var(--accentColor);
+  border-color: var(--accentColor);
+  background: var(--surfaceCard);
+}
+
+.commentReplyBtn:active {
+  transform: scale(0.96);
+  transition-duration: var(--durationInstant);
+}
+
+/* Hilos de Respuestas Anidadas */
+.repliesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceMd);
+  margin-top: var(--spaceXs);
+  padding-left: var(--spaceLg);
+  border-left: 2px solid var(--borderSubtle);
+}
+
+.commentItem.isReply .commentCard {
+  background: var(--surfaceCard);
+}
+
+.commentItem.isReply .commentAvatar {
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+/* Mini Formulario de Respuesta Inline */
+.inlineReplyWrapper {
+  margin-top: var(--spaceSm);
+  padding: var(--spaceMd);
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+}
+
+.inlineReplyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spaceSm);
+}
+
+.inlineReplyTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--textPrimary);
+}
+
+.cancelReplyBtn {
+  background: transparent;
+  border: none;
+  color: var(--textMuted);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--radiusSmall);
+  transition: color var(--durationFast) ease;
+}
+
+.cancelReplyBtn:hover {
+  color: #ef4444;
+}
+
+/* Estado Vacío */
+.emptyCommentsState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space2xl) var(--spaceLg);
+  gap: var(--spaceXs);
+}
+
+.emptyIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radiusFull);
+  background: var(--surfaceSecondary);
+  color: var(--textMuted);
+  margin-bottom: var(--spaceSm);
+}
+
+.emptyIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.emptyTitle {
+  margin: 0;
+  color: var(--textPrimary);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.emptyText {
+  margin: 0;
+  color: var(--textMuted);
+  font-size: 0.88rem;
+}
+
+/* Alertas de Feedback */
+.commentFeedback {
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radiusMedium);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: var(--spaceSm);
+}
+
+.commentFeedback.error {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.commentFeedback.success {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+/* Reglas Responsivas */
+@media (max-width: 640px) {
+  .commentsPlaceholder {
+    padding: var(--space2xl) var(--spaceMd);
+  }
+
+  .loadCommentsBtn {
+    width: 100%;
+  }
+
+  .commentsContent {
+    padding: var(--spaceMd);
+    gap: var(--spaceLg);
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .commentCard {
+    padding: var(--spaceMd);
+    gap: var(--spaceSm);
+  }
+
+  .commentAvatar {
+    width: 34px;
+    height: 34px;
+    font-size: 0.82rem;
+  }
+
+  .repliesContainer {
+    padding-left: var(--spaceSm);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. MODALES NATIVOS (<dialog>) CON EFECTO CRISTAL APPLE
+   -------------------------------------------------------------------------- */
+dialog.modalDialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  overflow: visible;
+  z-index: 2000;
+  max-width: 100vw;
+  max-height: 100dvh;
+}
+
+/* Telón de Fondo (Scrim) con animación de entrada y salida */
+dialog.modalDialog[open]::backdrop {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 2000;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  -webkit-backdrop-filter: blur(8px);
+  animation: modalFadeIn var(--durationNormal) ease forwards;
 }
 
-.modalOverlay.active {
-  opacity: 1;
-  visibility: visible;
+dialog.modalDialog.isClosing::backdrop {
+  animation: modalFadeOut var(--durationFast) ease forwards;
 }
 
-.modal {
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Contenedor del Diálogo Flotante (Desktop) con cabecera fija */
+.modalContainer {
   position: relative;
-  width: 100%;
-  max-width: 500px;
-  max-height: 90dvh;
-  padding: 2rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  overflow-y: auto;
-  transform: scale(0.95);
-  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  max-width: 480px;
+  max-height: 88dvh;
+  padding: 0;
+  border-radius: var(--radiusXLarge);
+  border: 1px solid var(--borderStrong);
+  box-shadow: var(--shadowElevated);
+  overflow: hidden; /* El contenedor no scrollea; scrollea el modalBody */
+  
+  /* Efecto Cristal Apple en el Panel */
+  background: rgba(24, 26, 34, 0.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  
+  animation: modalScaleIn var(--durationNormal) var(--easeOutStrong) forwards;
 }
 
-.modalOverlay.active .modal {
-  transform: scale(1);
+[data-theme="light"] .modalContainer {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+dialog.modalDialog.isClosing .modalContainer {
+  animation: modalScaleOut var(--durationFast) ease-in forwards;
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalScaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+}
+
+/* Barra superior fija (TopBar) que nunca desaparece al scrollear */
+.modalTopBar {
+  flex-shrink: 0;
+  padding: var(--spaceLg) var(--spaceXl) var(--spaceSm);
+  background: inherit;
+  z-index: 10;
+  touch-action: none;
+}
+
+/* Tirador táctil móvil */
+.modalHandle {
+  position: relative;
+  display: none;
+  width: 40px;
+  height: 5px;
+  margin: -4px auto var(--spaceSm) auto;
+  background: var(--borderStrong);
+  border-radius: var(--radiusFull);
+  cursor: grab;
+  touch-action: none;
+  transition: background var(--durationFast) ease, width var(--durationFast) ease, height var(--durationFast) ease, transform var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) ease, opacity var(--durationFast) ease;
+}
+
+/* Área táctil generosa para dedos en móvil */
+.modalHandle::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  bottom: -14px;
+  left: -20px;
+  right: -20px;
+}
+
+/* Feedback visual de arrastre activo */
+.modalContainer.isDragging {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.modalContainer.isDragging .modalTopBar {
+  cursor: grabbing;
+}
+
+.modalContainer.isDragging .modalHandle,
+.modalHandle:active {
+  width: 54px;
+  height: 6px;
+  background: var(--accentColor);
+  box-shadow: 0 0 12px rgba(255, 154, 197, 0.65);
+  cursor: grabbing;
+  transform: scale(1.05);
+}
+
+[data-theme="light"] .modalContainer.isDragging .modalHandle,
+[data-theme="light"] .modalHandle:active {
+  box-shadow: 0 0 12px rgba(230, 82, 139, 0.45);
+}
+
+/* Umbral de descarte alcanzado: feedback táctil visual */
+.modalContainer.willDismiss .modalHandle {
+  opacity: 0.85;
+  transform: scale(0.94);
+  box-shadow: 0 0 16px rgba(255, 154, 197, 0.85);
+}
+
+/* Cabecera del Modal */
 .modalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
-  padding-right: 30px;
+  gap: var(--spaceMd);
+}
+
+.modalHeaderInfo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spaceXs);
 }
 
 .modalTitle {
-  margin-left: 2px;
-  color: var(--text-primary);
-  font-size: 1.5rem;
+  margin: 0;
+  color: var(--textPrimary);
+  font-size: 1.35rem;
   font-weight: 700;
+  letter-spacing: var(--trackingTight);
 }
 
-.modalClose {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: none;
-  border: none;
-  border-radius: 50%;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+.modalSubtitle {
+  display: block;
+  width: 100%;
+  color: var(--textSecondary);
+  font-size: 0.85rem;
+  margin-top: 2px;
 }
 
-.modalClose:hover {
-  background: var(--bg-primary);
-  color: var(--accent);
-}
-
-.modalClose svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* Preview Indicator (added by JS) */
+/* Indicador de Vista Previa en Modal */
 .previewIndicator {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-left: 0.75rem;
-  padding: 0.3rem 0.8rem;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  border-radius: 20px;
-  color: #fff;
-  font-size: 0.7rem;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radiusFull);
+  color: #f59e0b;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--trackingWide);
 }
 
 .previewIndicator svg {
@@ -575,187 +2137,229 @@ main {
   height: 12px;
 }
 
-/* ========================================
-   CREDITS SECTION (Modal)
-======================================== */
-.creditsSection {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.creditsSectionTitle {
+/* Botón de Cierre de Modal */
+.modalClose {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: -6px -6px -6px auto;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--textSecondary);
+  cursor: pointer;
+  transition: background var(--durationFast) ease, color var(--durationFast) ease, transform var(--durationInstant) var(--easeOutStrong);
 }
 
-.creditsList {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+.modalClose:hover {
+  background: var(--surfaceSecondary);
+  color: var(--textPrimary);
 }
 
-.creditItem {
+.modalClose:active {
+  transform: scale(0.94);
+}
+
+.modalClose svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Cuerpo del Modal (Área con scroll interno independiente) */
+.modalBody {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--spaceSm) var(--spaceXl) var(--spaceXl);
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: var(--spaceLg);
+  scrollbar-width: thin;
 }
 
-.creditRole {
-  display: flex;
+/* --------------------------------------------------------------------------
+   8. BOTÓN REFINADO "LEER ONLINE"
+   -------------------------------------------------------------------------- */
+.readerSection {
+  width: 100%;
+  margin-bottom: var(--space2xs);
+}
+
+.readerBtnPrimary {
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  color: var(--text-secondary);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.creditName {
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-.creditName a {
-  color: var(--accent);
+  justify-content: center;
+  gap: var(--spaceSm);
+  width: 100%;
+  min-height: 46px;
+  padding: 0.7rem var(--spaceLg);
+  background: rgba(255, 154, 197, 0.12);
+  color: var(--accentColor);
+  border: 1px solid rgba(255, 154, 197, 0.32);
+  border-radius: var(--radiusMedium);
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: var(--trackingWide);
   text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background var(--durationFast) ease, border-color var(--durationFast) ease, transform var(--durationInstant) var(--easeOutStrong), box-shadow var(--durationFast) ease;
 }
 
-.creditName a:hover {
-  text-decoration: underline;
+.readerBtnPrimary:hover {
+  background: rgba(255, 154, 197, 0.22);
+  border-color: rgba(255, 154, 197, 0.55);
+  box-shadow: 0 4px 14px rgba(255, 154, 197, 0.22);
 }
 
-.updateDateContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  margin-top: 1rem;
+.readerBtnPrimary:active {
+  transform: scale(0.98);
 }
 
-.updateDateItem {
+.readerBtnIcon {
+  width: 19px;
+  height: 19px;
+  color: var(--accentColor);
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .readerBtnPrimary {
+  background: rgba(230, 82, 139, 0.09);
+  color: var(--accentColor);
+  border: 1px solid rgba(230, 82, 139, 0.26);
+  box-shadow: 0 2px 8px rgba(230, 82, 139, 0.08);
+}
+
+[data-theme="light"] .readerBtnPrimary:hover {
+  background: rgba(230, 82, 139, 0.16);
+  border-color: rgba(230, 82, 139, 0.48);
+  box-shadow: 0 4px 14px rgba(230, 82, 139, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   9. BLOQUE DE DESCARGAS (SELECTOR DE SERVIDOR Y ENLACES)
+   -------------------------------------------------------------------------- */
+.downloadsBlock {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: var(--spaceSm);
+  padding-top: var(--spaceSm);
+  border-top: 1px solid var(--borderSubtle);
 }
 
-.updateDateLabel {
-  color: var(--text-secondary);
-  font-size: 0.7rem;
+.downloadsBlockHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blockLabel {
+  color: var(--textMuted);
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: var(--trackingWider);
 }
 
-.updateDateValue {
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-/* ========================================
-   SERVER TOGGLE (Modal)
-======================================== */
+/* Selector de Servidor estilo iOS Segmented Control */
 .serverToggle {
   display: flex;
-  margin-bottom: 1.5rem;
-  padding: 0.4rem;
-  background: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  padding: 3px;
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
 }
 
 .serverBtn {
   flex: 1;
-  padding: 0.6rem;
+  padding: 0.55rem var(--spaceSm);
   background: transparent;
   border: none;
-  border-radius: 8px;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background var(--durationFast) var(--easeOutStrong), color var(--durationFast) var(--easeOutStrong), box-shadow var(--durationFast) var(--easeOutStrong), transform var(--durationInstant) var(--easeOutStrong);
+}
+
+.serverBtn:active:not(.disabled) {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .serverBtn.active {
-  background: var(--accent);
-  color: #fff;
+  background: var(--surfaceCard);
+  color: var(--textPrimary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.serverBtn:not(.active):hover {
-  color: var(--text-primary);
+[data-theme="light"] .serverBtn.active {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .serverBtn.disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   pointer-events: none;
   cursor: not-allowed;
 }
 
-/* ========================================
-   DOWNLOAD LINKS (Modal)
-======================================== */
+/* Enlaces de Descarga PDF y EPUB */
 .downloadLinks {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: var(--spaceSm);
 }
 
 .downloadLink {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  padding: 1rem;
-  background: var(--bg-primary);
-  border: 2px solid var(--border);
-  border-radius: 16px;
-  color: var(--text-primary);
-  font-weight: 600;
-  text-align: center;
+  gap: var(--spaceSm);
+  padding: var(--spaceMd);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
+  color: var(--textPrimary);
   text-decoration: none;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color var(--durationFast) ease, background var(--durationFast) ease, transform var(--durationInstant) var(--easeOutStrong);
 }
 
 .downloadLink:hover {
-  border-color: var(--accent);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
+  border-color: var(--accentColor);
+  background: var(--surfaceCard);
+}
+
+.downloadLink:active {
+  transform: scale(0.98);
+  transition-duration: var(--durationInstant);
 }
 
 .downloadLink.disabled {
-  opacity: 0.4;
+  opacity: 0.35;
   pointer-events: none;
   cursor: not-allowed;
 }
 
 .downloadLink.disabled:hover {
-  border-color: var(--border);
-  box-shadow: none;
+  border-color: var(--borderSubtle);
+  background: var(--surfaceSecondary);
   transform: none;
 }
 
-.downloadLink.update-flash {
-  animation: flashEffect 0.5s ease;
+/* Animación sutil al cambiar de servidor */
+.downloadLink.serverSwitchAnim {
+  animation: serverSwitchPulse var(--durationNormal) var(--easeOutStrong);
 }
 
-@keyframes flashEffect {
-  0%,
+@keyframes serverSwitchPulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
   100% {
     opacity: 1;
     transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.98);
   }
 }
 
@@ -764,476 +2368,501 @@ main {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  margin-bottom: 0.3rem;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radiusMedium);
 }
 
 .downloadIcon.pdf {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.12);
   color: #ef4444;
 }
 
 .downloadIcon.epub {
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(59, 130, 246, 0.12);
   color: #3b82f6;
 }
 
 .downloadIcon svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 .downloadFormat {
-  display: block;
-  font-size: 1rem;
-}
-
-/* ========================================
-   READER SECTION (MODAL)
-======================================== */
-.readerSection {
-  margin-top: 0.5rem;
-  width: 100%;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 2px;
 }
 
-.readerSeparator {
-  border: 0;
-  height: 1px;
-  background: var(--border);
-  margin: 1rem 0;
-  width: 100%;
+.formatName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.readerBtnModal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  background-color: transparent;
-  border: 2px solid var(--border);
-  border-radius: 0.5rem;
-  color: var(--text-primary);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  width: fit-content;
+.formatHint {
+  font-size: 0.72rem;
+  color: var(--textMuted);
 }
 
-.readerBtnModal:hover {
-  border-color: var(--accent);
-  background-color: var(--bg-secondary);
-}
-
-.readerBtnModal .downloadIcon {
-  color: inherit;
-}
-.readerBtnModal .downloadIcon svg {
-  width: 20px;
-  height: 20px;
-}
-
-/* ========================================
-   READER SECTION (MODAL)
-======================================== */
-.readerSection {
-  margin-top: 0.5rem;
-  width: 100%;
-}
-
-.readerSeparator {
-  border: 0;
-  height: 1px;
-  background: var(--border);
-  margin: 1rem 0;
-}
-
-.readerBtnContainer {
+/* --------------------------------------------------------------------------
+   10. SECCIÓN DE CRÉDITOS Y ACTUALIZACIONES EN MODAL
+   -------------------------------------------------------------------------- */
+.creditsSection {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: var(--spaceSm);
+  padding-top: var(--spaceMd);
+  border-top: 1px solid var(--borderSubtle);
+}
+
+.creditsSectionTitle {
+  display: flex;
   align-items: center;
-  grid-column: 1 / -1; /* Ocupar todo el ancho si está en un grid */
-}
-
-.readerBtnModal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.6rem 1.5rem;
-  background-color: transparent;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-primary);
-  text-decoration: none;
-  font-weight: 600;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.readerBtnModal:hover {
-  border-color: var(--accent);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateY(-3px);
-}
-
-.readerBtnModal .downloadIcon.reader {
-  width: 20px;
-  height: 20px;
+  gap: 0.45rem;
   margin: 0;
-  background: transparent;
-  color: var(--text-primary);
-}
-
-.readerBtnModal .downloadIcon.reader svg {
-  width: 20px;
-  height: 20px;
-}
-
-.readerBtnModal .downloadFormat {
-  font-size: 0.95rem;
-}
-
-/* ========================================
-   INFO SECTION
-======================================== */
-.infoSection {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.infoGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 2rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: var(--shadow-card);
-}
-
-.infoItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: border-color 0.3s ease;
-}
-
-.infoItem:hover {
-  border-color: var(--accent);
-}
-
-.infoLabel {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-secondary);
+  color: var(--textMuted);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--trackingWider);
 }
 
-.infoLabel svg {
+.creditsIcon {
   width: 14px;
   height: 14px;
-  color: var(--accent);
+  color: var(--accentColor);
 }
 
-.infoValue {
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-weight: 600;
+.creditsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceSm);
 }
 
-/* Translation Status (Auto-text) */
-.infoItem:first-child .infoValue::before {
-  content: "Traducción ";
-}
-
-.infoItem .active::after {
-  content: "activa";
-}
-
-.infoItem .uptodate::after {
-  content: "al día";
-}
-
-.infoItem .paused::after {
-  content: "pausada";
-}
-
-.infoItem .completed::after {
-  content: "finalizada";
-}
-
-.infoItem .planned::after {
-  content: "planeada";
-}
-
-/* ========================================
-   GENRE TAGS
-======================================== */
-.genreTags {
+.creditItem {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.genreTag {
-  padding: 0.3rem 0.7rem;
-  background: rgba(255, 154, 197, 0.1);
-  border-radius: 20px;
-  color: var(--accent);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-/* ========================================
-   ADAPTATION BADGE
-======================================== */
-.adaptationBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
+.creditRole {
+  color: var(--textMuted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
   font-weight: 600;
 }
 
-.adaptationBadge.yes {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-}
-
-.adaptationBadge.yes::after {
-  content: "Sí";
-}
-
-.adaptationBadge.no {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-}
-
-.adaptationBadge.no::after {
-  content: "No";
-}
-
-.adaptationBadge svg {
-  width: 14px;
-  height: 14px;
-}
-
-/* ========================================
-   PREVIOUS VOLUMES BUTTON
-======================================== */
-.previousVolsBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin: 1.5rem auto 0;
-  padding: 0.8rem 1.5rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-primary);
-  font-size: 0.95rem;
+.creditName {
+  color: var(--textPrimary);
+  font-size: 0.88rem;
   font-weight: 600;
-  cursor: pointer;
-  box-shadow: var(--shadow-card);
-  transition: all 0.3s ease;
+  word-break: break-word;
 }
 
-.previousVolsBtn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
+.creditName a {
+  color: var(--accentColor);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.previousVolsBtn svg {
-  width: 20px;
-  height: 20px;
+.updateDateContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spaceSm);
+  padding-top: var(--spaceXs);
 }
 
-/* ========================================
-   PREVIOUS VOLUMES MODAL CONTENT
-======================================== */
+.updateDateItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.updateDateLabel {
+  color: var(--textMuted);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+}
+
+.updateDateValue {
+  color: var(--textSecondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   11. MODAL DE VOLÚMENES ANTERIORES
+   -------------------------------------------------------------------------- */
 .previousVolsWarning {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background: rgba(245, 158, 11, 0.1);
-  border-left: 4px solid #f59e0b;
-  border-radius: 8px;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spaceSm);
+  padding: var(--spaceSm) var(--spaceMd);
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radiusMedium);
+  color: var(--textSecondary);
+  font-size: 0.84rem;
   line-height: 1.5;
+}
+
+.previousVolsWarning .warningIcon {
+  width: 18px;
+  height: 18px;
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.previousVolsWarning p {
+  margin: 0;
 }
 
 .previousGroupsList {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--spaceMd);
 }
 
 .previousGroup {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.previousGroup:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
+  gap: var(--spaceSm);
+  padding: var(--spaceMd);
+  background: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusLarge);
 }
 
 .groupInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 2px;
 }
 
 .groupRange {
-  color: var(--text-primary);
-  font-size: 1.1rem;
+  color: var(--textPrimary);
+  font-size: 1rem;
   font-weight: 700;
 }
 
 .groupName {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-weight: 500;
+  color: var(--textMuted);
+  font-size: 0.78rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--trackingWide);
 }
 
 .groupActions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.previousDownloadBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.8rem;
-  background: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  gap: var(--spaceSm);
 }
 
 .groupActions.single {
   grid-template-columns: 1fr;
 }
 
-.previousDownloadBtn:hover {
-  border-color: var(--accent);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-3px);
+.previousDownloadBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceSm);
+  min-height: 44px;
+  padding: 0 var(--spaceMd);
+  background: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusMedium);
+  color: var(--textPrimary);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color var(--durationFast) ease, background var(--durationFast) ease, transform var(--durationInstant) var(--easeOutStrong);
 }
 
-.previousDownloadBtn.external:hover {
-  border-color: #f59e0b;
+.previousDownloadBtn:hover {
+  border-color: var(--accentColor);
+  background: var(--surfaceBase);
+}
+
+.previousDownloadBtn:active {
+  transform: scale(0.97);
+  transition-duration: var(--durationInstant);
 }
 
 .previousDownloadIcon {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
 }
 
 .previousDownloadIcon.pdf {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.12);
   color: #ef4444;
 }
 
 .previousDownloadIcon.epub {
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(59, 130, 246, 0.12);
   color: #3b82f6;
 }
 
 .previousDownloadIcon.external {
-  background: rgba(245, 158, 11, 0.1);
+  background: rgba(245, 158, 11, 0.12);
   color: #f59e0b;
 }
 
 .previousDownloadIcon svg {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
 }
 
-/* ========================================
-   NOVEL NOTE SECTION
-======================================== */
-.novelNoteSection {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+/* --------------------------------------------------------------------------
+   12. RESPONSIVE Y MÓVIL (BOTTOM SHEET)
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .novelHero {
+    grid-template-columns: 240px 1fr;
+    gap: var(--spaceXl);
+  }
+
+  .detailsColumns {
+    grid-template-columns: 1fr;
+    gap: var(--spaceXl);
+  }
+
+  .detailsColumn:nth-child(2) {
+    padding-top: var(--spaceXl);
+    border-top: 1px solid var(--borderSubtle);
+  }
 }
 
-.novelNoteBox {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 500px;
-  padding: 1rem 1.5rem;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid var(--border);
-  border-left: 4px solid #f59e0b;
-  border-radius: 8px;
-  box-shadow: var(--shadow-card);
+@media (max-width: 680px) {
+  main {
+    gap: var(--space2xl);
+    padding: calc(var(--navbarHeight) + var(--spaceMd)) var(--spaceSm) var(--space3xl);
+  }
+
+  .novelHero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: var(--spaceLg);
+  }
+
+  .novelCoverWrapper {
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .novelBadgesRow,
+  .novelCreators,
+  .heroActions {
+    justify-content: center;
+  }
+
+  .novelSynopsis {
+    text-align: left;
+  }
+
+  .downloadsHeader {
+    align-items: center;
+    gap: var(--spaceSm);
+  }
+
+  .downloadsToolbar {
+    width: auto;
+    gap: var(--spaceXs);
+  }
+
+  .toolbarBtn {
+    min-height: 38px;
+    padding: 0 0.8rem;
+    font-size: 0.82rem;
+    gap: 0.35rem;
+  }
+
+  .volumesGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spaceSm);
+  }
+
+  .detailsCard {
+    padding: var(--spaceLg);
+  }
+
+  .detailsRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .detailsValue {
+    text-align: left;
+  }
+
+  /* MODALES: BOTTOM SHEET EN MÓVIL CON CURVA --easeDrawer */
+  dialog.modalDialog {
+    margin: auto auto 0 auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .modalContainer {
+    width: 100%;
+    max-width: 100%;
+    max-height: 85dvh;
+    border-radius: var(--radiusXLarge) var(--radiusXLarge) 0 0;
+    border-bottom: none;
+    animation: modalDrawerIn var(--durationNormal) var(--easeDrawer) forwards;
+  }
+
+  dialog.modalDialog.isClosing .modalContainer {
+    animation: modalDrawerOut var(--durationFast) ease-in forwards;
+  }
+
+  @keyframes modalDrawerIn {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes modalDrawerOut {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+
+  .modalTopBar {
+    padding: var(--spaceSm) var(--spaceMd) var(--spaceXs);
+  }
+
+  .modalHandle {
+    display: block;
+  }
+
+  .modalBody {
+    padding: var(--spaceXs) var(--spaceMd) calc(var(--spaceXl) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .downloadLinks {
+    grid-template-columns: 1fr;
+  }
 }
 
-.novelNoteIcon {
-  width: 24px;
-  height: 24px;
-  color: #f59e0b;
-  flex-shrink: 0;
+@media (max-width: 480px) {
+  .downloadsHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spaceSm);
+  }
+
+  .downloadsTitleBlock {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .downloadsToolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--spaceXs);
+    width: 100%;
+  }
+
+  .toolbarBtn {
+    flex: 0 1 auto;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 0.75rem;
+    font-size: 0.8rem;
+    gap: 0.3rem;
+  }
+
+  .downloadsToolbar:has(.previousVolsBtn) .toolbarBtn {
+    flex: 1 1 0;
+    padding: 0 0.5rem;
+  }
+
+  .commentsToolbar {
+    flex-wrap: wrap;
+    gap: var(--spaceSm);
+  }
+
+  .commentsSortControl.segmentedControl {
+    width: 100%;
+  }
+
+  .commentsSortControl .segmentedBtn {
+    flex: 1 1 0;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .commentReplyBtn {
+    margin-left: 0;
+  }
 }
 
-.novelNoteText {
-  color: var(--text-primary);
-  font-size: 0.95rem;
-  font-weight: 500;
-  line-height: 1.5;
-  margin: 0;
+/* --------------------------------------------------------------------------
+   13. ACCESIBILIDAD Y REDUCED MOTION / REDUCED TRANSPARENCY
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .coverContainer,
+  .volumeCoverContainer,
+  .novelCoverContainer,
+  .heroActionBtn,
+  .toolbarBtn,
+  .previousDownloadBtn,
+  .downloadLink,
+  .readerBtnPrimary,
+  .loadCommentsBtn,
+  .submitCommentBtn,
+  .commentReplyBtn,
+  .formatBtn,
+  .serverBtn,
+  .commentsSortControl .segmentedBtn,
+  .toggleChevron {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .skeletonAvatar,
+  .skeletonLine {
+    animation: none !important;
+  }
+
+  .modalContainer,
+  dialog.modalDialog::backdrop {
+    animation: none !important;
+  }
 }
 
-.novelNoteText a {
-  color: var(--text-primary);
-  text-decoration: none;
-  border-bottom: 1px solid #f59e0b; 
-  transition: color 0.2s ease;
-}
+@media (prefers-reduced-transparency: reduce) {
+  dialog.modalDialog::backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0, 0, 0, 0.85);
+  }
 
-.novelNoteText a:hover {
-  color: #f59e0b;
+  .modalContainer {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--surfaceElevated) !important;
+  }
 }

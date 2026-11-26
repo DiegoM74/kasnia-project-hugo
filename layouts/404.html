@@ -1,57 +1,50 @@
 {{/* Bloque para CSS específicos */}}
 {{ define "css" }}
   {{ $cssFile := resources.Get "css/404.css" }}
-  {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $css.Permalink }}">
+  {{ if $cssFile }}
+    {{ $css := $cssFile | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $css.Permalink }}">
+  {{ end }}
 {{ end }}
 
 {{/* Contenido de la página */}}
 {{ define "main" }}
 <div class="errorContainer">
-  <div class="ghostShadow">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 120"
-      class="shadowIcon"
-      aria-hidden="true"
-    >
-      <ellipse
-        fill="var(--text-secondary)"
-        opacity=".2"
-        cx="50"
-        cy="110"
-        rx="30"
-        ry="5"
-      />
-    </svg>
-  </div>
-  <div class="ghostWrapper">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 120"
-      class="ghostIcon"
-      aria-hidden="true"
-    >
-      <path
-        fill="var(--text-primary)"
-        d="M20 60q0-40 30-40t30 40v40L70 90l-10 10-10-10-10 10-10-10-10 10z"
-      />
-      <g fill="var(--bg-primary)">
-        <circle cx="35" cy="55" r="5" />
-        <circle cx="65" cy="55" r="5" />
-        <ellipse cx="50" cy="75" rx="4" ry="6" />
-      </g>
-    </svg>
+  <div class="errorIllustrationContainer" aria-hidden="true">
+    <div class="errorBookGlow"></div>
+    <div class="errorBookWrapper">
+      <svg class="errorBookSvg" viewBox="0 0 240 160">
+        <use href="/img/svg/404.svg#missingPageBook" />
+      </svg>
+    </div>
+    <div class="errorShadowWrapper">
+      <svg class="errorShadowSvg" viewBox="0 0 240 32">
+        <use href="/img/svg/404.svg#bookGroundShadow" />
+      </svg>
+    </div>
   </div>
 
-  <div class="contentWrapper">
-    <h1 class="errorCode">404</h1>
-    <h2 class="errorHeading">Página No Encontrada</h2>
+  <div class="errorContent">
+    <span class="errorBadge">Error 404</span>
+    <h1 class="errorTitle">Página no encontrada</h1>
     <p class="errorDescription">
-      ¡Ups! Parece que este fantasma ha asustado a la página que buscabas. Es
-      posible que haya sido eliminada o que la dirección sea incorrecta.
+      El capítulo o enlace que buscas no existe, ha cambiado de lugar o aún no ha sido escrito. Puedes regresar a la página principal o descubrir nuevas historias en nuestro catálogo.
     </p>
-    <a href="/" class="homeButton"> Volver al Inicio </a>
+
+    <div class="errorActions">
+      <a href="/" class="btnPrimary">
+        <svg class="btnIcon" aria-hidden="true">
+          <use href="/img/svg/404.svg#iconHome" />
+        </svg>
+        <span>Volver al inicio</span>
+      </a>
+      <a href="/novelas" class="btnSecondary">
+        <svg class="btnIcon" aria-hidden="true">
+          <use href="/img/svg/404.svg#iconBooks" />
+        </svg>
+        <span>Explorar catálogo</span>
+      </a>
+    </div>
   </div>
 </div>
 {{ end }}

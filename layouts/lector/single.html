@@ -7,15 +7,15 @@
 
 <div id="readerApp" class="readerApp ui-hidden">
   
-  <!-- Barra superior (Header) -->
-  <header id="readerHeader" class="readerHeader">
+  <!-- Barra superior (Header -> Nav accesible) -->
+  <nav id="readerHeader" class="readerHeader" aria-label="Controles de lectura superiores">
     <div class="readerHeaderLeft">
       <button id="readerCloseBtn" class="readerBtn" aria-label="Cerrar y volver">
         <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
       </button>
       <h1 id="readerTitle" class="readerTitle">Cargando...</h1>
     </div>
-  </header>
+  </nav>
 
   <!-- Contenedor del Libro -->
   <div id="readerContainer" class="readerContainer">
@@ -31,23 +31,23 @@
   </div>
 
   <!-- Pie / Progreso (Siempre visible) -->
-  <footer id="readerFooter" class="readerFooter">
+  <footer id="readerFooter" class="readerFooter" aria-label="Progreso de lectura">
     <span id="readerProgress"></span>
   </footer>
 
   <!-- Barra inferior (Menú) -->
-  <nav id="readerBottomBar" class="readerBottomBar">
+  <nav id="readerBottomBar" class="readerBottomBar" aria-label="Herramientas del lector">
     <div class="readerBottomBarContent">
       <!-- Botón de índice -->
-      <button id="readerTocBtn" class="readerBtn" aria-label="Índice">
+      <button id="readerTocBtn" class="readerBtn" aria-label="Índice" aria-haspopup="dialog" aria-expanded="false">
         <svg><use href="/img/svg/lector.svg#menuIcon" /></svg>
       </button>
       <!-- Botón de ajustes -->
-      <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura">
+      <button id="readerSettingsBtn" class="readerBtn" aria-label="Ajustes de lectura" aria-haspopup="dialog" aria-expanded="false">
         <svg><use href="/img/svg/lector.svg#settingsIcon" /></svg>
       </button>
       <!-- Botón de información -->
-      <button id="readerInfoBtn" class="readerBtn" aria-label="Información del libro">
+      <button id="readerInfoBtn" class="readerBtn" aria-label="Información del libro" aria-haspopup="dialog" aria-expanded="false">
         <svg><use href="/img/svg/lector.svg#infoIcon" /></svg>
       </button>
       <!-- Botón de pantalla completa -->
@@ -58,26 +58,32 @@
   </nav>
 
   <!-- Modal de Índice -->
-  <div id="readerTocPanel" class="readerModalOverlay" style="display: none;">
+  <div id="readerTocPanel" class="readerModalOverlay" role="dialog" aria-modal="true" aria-labelledby="readerTocTitle" style="display: none;">
     <div class="readerModal">
-      <div class="readerModalHeader">
-        <h2>Índice</h2>
-        <button class="readerBtn closePanelBtn">
-          <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
-        </button>
+      <div class="modalTopBar">
+        <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
+        <div class="readerModalHeader">
+          <h2 id="readerTocTitle">Índice</h2>
+          <button class="readerBtn closePanelBtn" aria-label="Cerrar índice">
+            <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
+          </button>
+        </div>
       </div>
       <ul id="readerTocList" class="readerTocList"></ul>
     </div>
   </div>
 
   <!-- Modal de Ajustes -->
-  <div id="readerSettingsPanel" class="readerModalOverlay" style="display: none;">
+  <div id="readerSettingsPanel" class="readerModalOverlay" role="dialog" aria-modal="true" aria-labelledby="readerSettingsTitle" style="display: none;">
     <div class="readerModal">
-      <div class="readerModalHeader">
-        <h2>Ajustes</h2>
-        <button class="readerBtn closePanelBtn" aria-label="Cerrar ajustes">
-          <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
-        </button>
+      <div class="modalTopBar">
+        <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
+        <div class="readerModalHeader">
+          <h2 id="readerSettingsTitle">Ajustes</h2>
+          <button class="readerBtn closePanelBtn" aria-label="Cerrar ajustes">
+            <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
+          </button>
+        </div>
       </div>
       <div class="readerSettingsContent">
         
@@ -128,12 +134,12 @@
             <span id="fontLoadingIndicator" class="fontLoadingIndicator" style="display: none;">Cargando...</span>
           </div>
           <select id="fontFamilySelect" class="fontSelect">
+            <option value="'Inter', sans-serif">Inter (Sans-serif)</option>
             <option value="'Open Sans', sans-serif">Open Sans (Sans-serif)</option>
             <option value="'Merriweather', serif">Merriweather (Serif)</option>
             <option value="'Lora', serif">Lora (Serif)</option>
             <option value="'Literata', serif">Literata (Serif Book)</option>
             <option value="'Roboto', sans-serif">Roboto (Sans-serif)</option>
-            <option value="'Inter', sans-serif">Inter (Sans-serif)</option>
             <option value="'JetBrains Mono', monospace">JetBrains Mono (Monospace)</option>
           </select>
         </div>
@@ -253,13 +259,16 @@
   </div>
 
   <!-- Modal de Información -->
-  <div id="readerInfoPanel" class="readerModalOverlay" style="display: none;">
+  <div id="readerInfoPanel" class="readerModalOverlay" role="dialog" aria-modal="true" aria-labelledby="readerInfoTitle" style="display: none;">
     <div class="readerModal readerInfoModal">
-      <div class="readerModalHeader">
-        <h2>Información del libro</h2>
-        <button class="readerBtn closePanelBtn" aria-label="Cerrar información">
-          <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
-        </button>
+      <div class="modalTopBar">
+        <div class="modalHandle" aria-label="Arrastrar hacia abajo para cerrar" role="button" tabindex="0"></div>
+        <div class="readerModalHeader">
+          <h2 id="readerInfoTitle">Información del libro</h2>
+          <button class="readerBtn closePanelBtn" aria-label="Cerrar información">
+            <svg><use href="/img/svg/lector.svg#closeIcon" /></svg>
+          </button>
+        </div>
       </div>
       <div id="readerInfoContent" class="readerInfoContent">
         <div class="infoLoadingState">Cargando información...</div>

@@ -52,64 +52,112 @@
   {{ $coverId := printf "%02s" $novelId }}
   {{ $novelTitle := .Params.novelTitle }}
 
+  {{ $latestPublished := "" }}
+  {{ range .Params.volumes }}
+    {{ if eq .state "published" }}
+      {{ $latestPublished = .num }}
+    {{ end }}
+  {{ end }}
+
+  {{ $volDisplay := default "0" $latestPublished }}
+  {{ if and $latestPublished (hasPrefix $latestPublished "0") }}
+    {{ $volDisplay = substr $latestPublished 1 }}
+  {{ end }}
+
+  <!-- Migas de pan / Breadcrumbs -->
+  <nav class="novelBreadcrumbs" aria-label="Ruta de navegación">
+    <div class="breadcrumbsContainer">
+      <a href="/novelas" class="breadcrumbLink">Novelas</a>
+      <svg class="breadcrumbSeparator" aria-hidden="true"><use href="/img/svg/novela.svg#chevronRight" /></svg>
+      <span class="breadcrumbCurrent" aria-current="page">{{ $novelTitle }}</span>
+    </div>
+  </nav>
+
+  <!-- Hero de la Novela -->
   <section class="novelHero">
-    <div class="coverContainer" style="view-transition-name: n{{ $coverId }}">
-      <span class="statusBadge {{ .Params.status }}"></span>
+    <div class="novelCoverWrapper">
+      <div class="coverContainer" style="view-transition-name: n{{ $coverId }}">
         <picture>
           <source
             srcset="{{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-400.avif 400w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-700.avif 700w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-900.avif 900w"
-            sizes="(max-width: 360px) calc(100vw - 2rem), 320px"
+            sizes="(max-width: 480px) 240px, (max-width: 768px) 280px, 320px"
             type="image/avif"
           />
           <source
             srcset="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg 400w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-700.jpg 700w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-900.jpg 900w"
-            sizes="(max-width: 360px) calc(100vw - 2rem), 320px"
+            sizes="(max-width: 480px) 240px, (max-width: 768px) 280px, 320px"
             type="image/jpeg"
           />
           <img
             class="novelCover"
-            src="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg"
-            alt="Portada de {{ .Params.novelTitle }}"
+            src="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-700.jpg"
+            alt="Portada de {{ $novelTitle }}"
             loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            width="320"
+            height="457"
           />
         </picture>
+        <div class="coverSpine" aria-hidden="true"></div>
+      </div>
     </div>
 
-    <div class="novelInfo">
-      <h1 class="novelTitle">{{ .Params.novelTitle }}</h1>
+    <div class="novelHeroInfo">
+      <div class="novelBadgesRow">
+        <span class="projectStatusBadge {{ .Params.status }}" data-status="{{ .Params.status }}"></span>
+        <span class="demographyBadge">{{ .Params.demography }}</span>
+        {{ if .Params.animeAdaptation }}
+          <span class="adaptationPill" title="Cuenta con adaptación al anime">
+            <svg class="pillIcon" aria-hidden="true"><use href="/img/svg/novela.svg#tvIcon" /></svg>
+            Anime
+          </span>
+        {{ end }}
+        {{ if .Params.mangaAdaptation }}
+          <span class="adaptationPill" title="Cuenta con adaptación al manga">
+            <svg class="pillIcon" aria-hidden="true"><use href="/img/svg/novela.svg#mangaIcon" /></svg>
+            Manga
+          </span>
+        {{ end }}
+      </div>
+
+      <h1 class="novelTitle">{{ $novelTitle }}</h1>
+
+      <div class="novelCreators">
+        <span class="creatorItem">
+          <span class="creatorRole">Por</span>
+          <strong class="creatorName">{{ .Params.author }}</strong>
+        </span>
+        <span class="creatorDivider">•</span>
+        <span class="creatorItem">
+          <span class="creatorRole">Ilustrado por</span>
+          <strong class="creatorName">{{ .Params.illustrator }}</strong>
+          {{ with .Params.illustratorNote }}
+            <span class="creatorNote">({{ . }})</span>
+          {{ end }}
+        </span>
+      </div>
+
+      <div class="heroActions">
+        {{ if $latestPublished }}
+          <button class="heroActionBtn primary" id="quickDownloadBtn" data-target-volume="{{ $latestPublished }}" aria-haspopup="dialog">
+            <svg class="actionIcon" aria-hidden="true"><use href="/img/svg/novela.svg#downloadIcon" /></svg>
+            <span>Descargar último volumen (Vol. {{ $volDisplay }})</span>
+          </button>
+        {{ end }}
+        <a href="#descargas" class="heroActionBtn secondary">
+          <span>Ver todos los volúmenes</span>
+        </a>
+      </div>
+
       <div class="novelSynopsis">
         <div class="synopsisContent collapsed">
           {{ .Params.synopsis | markdownify }}
         </div>
-        <button class="synopsisToggle">
-          Ver más
-          <svg><use href="/img/svg/novela.svg#chevronDown" /></svg>
+        <button class="synopsisToggle" aria-expanded="false">
+          <span class="toggleText">Ver más</span>
+          <svg class="toggleChevron" aria-hidden="true"><use href="/img/svg/novela.svg#chevronDown" /></svg>
         </button>
-      </div>
-    </div>
-  </section>
-
-  <section class="creatorCards">
-    <div class="creatorCard">
-      <div class="creatorIcon">
-        <svg><use href="/img/svg/novela.svg#authorIcon" /></svg>
-      </div>
-      <div class="creatorInfo">
-        <span class="creatorLabel">Autor</span>
-        <span class="creatorName">{{ .Params.author }}</span>
-      </div>
-    </div>
-
-    <div class="creatorCard">
-      <div class="creatorIcon">
-        <svg><use href="/img/svg/novela.svg#illustratorIcon" /></svg>
-      </div>
-      <div class="creatorInfo">
-        <span class="creatorLabel">Ilustrador</span>
-        <span class="creatorName">{{ .Params.illustrator }}</span>
-        {{ with .Params.illustratorNote }}
-          <span class="creatorNote">{{ . }}</span>
-        {{ end }}
       </div>
     </div>
   </section>
@@ -117,22 +165,34 @@
   {{ with .Params.novelNote }}
     <section class="novelNoteSection">
       <div class="novelNoteBox">
-        <svg class="novelNoteIcon"><use href="/img/svg/novela.svg#noteIcon" /></svg>
-        <p class="novelNoteText">{{ . | markdownify }}</p>
+        <svg class="novelNoteIcon" aria-hidden="true"><use href="/img/svg/novela.svg#noteIcon" /></svg>
+        <div class="novelNoteText">{{ . | markdownify }}</div>
       </div>
     </section>
   {{ end }}
 
-  <section class="downloadsSection">
-    <div class="sectionHeader">
-      <h2 class="sectionTitle">Descargas</h2>
-      <p class="sectionDescription">Hace clic sobre un volumen para descargar</p>
-      {{ if .Params.previousVols }}
-        <button class="previousVolsBtn" id="openPreviousVols">
-          <svg><use href="/img/svg/novela.svg#historyIcon" /></svg>
-          Volúmenes anteriores
+  <!-- Sección de Descargas -->
+  <section class="downloadsSection" id="descargas">
+    <div class="downloadsHeader">
+      <div class="downloadsTitleBlock">
+        <h2 class="sectionTitle">Descargas</h2>
+        <p class="sectionDescription">
+          {{ len .Params.volumes }} {{ if eq (len .Params.volumes) 1 }}volumen disponible{{ else }}volúmenes disponibles{{ end }}
+        </p>
+      </div>
+
+      <div class="downloadsToolbar">
+        {{ if .Params.previousVols }}
+          <button class="toolbarBtn previousVolsBtn" id="openPreviousVols" aria-haspopup="dialog">
+            <svg class="btnIcon" aria-hidden="true"><use href="/img/svg/novela.svg#historyIcon" /></svg>
+            <span>Volúmenes anteriores</span>
+          </button>
+        {{ end }}
+        <button class="toolbarBtn sortOrderBtn" id="sortOrderToggle" aria-pressed="false" aria-label="Invertir orden de los volúmenes">
+          <svg class="btnIcon" aria-hidden="true"><use href="/img/svg/novela.svg#sortIcon" /></svg>
+          <span class="sortOrderLabel">Nuevos primero</span>
         </button>
-      {{ end }}
+      </div>
     </div>
 
     <div class="volumesGrid">
@@ -168,20 +228,9 @@
           {{ $epubLink = printf "https://descargas.kasniaproject.com/%s-Volumen-%s-[Kasnia-Project].epub" (replace (replace (replace (replace $novelTitle ":" "") "," "") "!" "") " " "-") $num }}
         {{ end }}
 
-        {{ $badgeClass := "" }}
-        {{ if $isPreview }}{{ $badgeClass = "previewBadge" }}{{ end }}
-        {{ if $isTranslating }}{{ $badgeClass = "translatingBadge" }}{{ end }}
-        {{ if $isUpcoming }}{{ $badgeClass = "upcomingBadge" }}{{ end }}
-
-        {{ $icon := "downloadIcon" }}
-        {{ $hintText := "Clic para descargar" }}
-        {{ if $isTranslating }}
-          {{ $icon = "lockIcon" }}
-          {{ $hintText = "En traducción" }}
-        {{ end }}
-        {{ if $isUpcoming }}
-          {{ $icon = "lockIcon" }}
-          {{ $hintText = "No disponible" }}
+        {{ $volDisplayNum := $num }}
+        {{ if hasPrefix $num "0" }}
+          {{ $volDisplayNum = substr $num 1 }}
         {{ end }}
 
         <article
@@ -199,35 +248,56 @@
             {{ with $vol.pdfUpdateDate }}data-pdf-update="{{ . }}"{{ end }}
             {{ with $vol.epubUpdateDate }}data-epub-update="{{ . }}"{{ end }}
           {{ end }}
-          >
+          tabindex="{{ if or $isUpcoming $isTranslating }}-1{{ else }}0{{ end }}"
+          role="button"
+          {{ if not (or $isUpcoming $isTranslating) }}aria-haspopup="dialog"{{ end }}
+          aria-label="Volumen {{ $num }}{{ if $isPreview }}, Vista previa{{ end }}{{ if $isTranslating }}, En traducción{{ end }}{{ if $isUpcoming }}, Próximamente{{ end }}"
+        >
           <div class="volumeCoverContainer">
-            {{ if or $isPreview $isTranslating $isUpcoming }}
-              <span class="volumeBadge {{ $badgeClass }}"></span>
-            {{ end }}
-              <picture>
-                <source
-                  srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $num }}-400.avif 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $num }}-700.avif 700w"
-                  sizes="(max-width: 380px) calc(100vw - 2rem), (max-width: 560px) calc(50vw - 2rem), (max-width: 750px) calc(33vw - 2rem), 207px"
-                  type="image/avif"
-                />
-                <source
-                  srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-400.jpg 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg 700w"
-                  sizes="(max-width: 380px) calc(100vw - 2rem), (max-width: 560px) calc(50vw - 2rem), (max-width: 750px) calc(33vw - 2rem), 207px"
-                  type="image/jpeg"
-                />
-                <img
-                  class="volumeCover"
-                  src="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg"
-                  alt="Volumen {{ $num }}"
-                  loading="lazy"
-                />
-              </picture>
-            <div class="volumeOverlay">
-              <span class="volumeNumber">Volumen {{ $num }}</span>
-              <span class="volumeDownloadHint">
-                <svg><use href="/img/svg/novela.svg#{{ $icon }}" /></svg>
-                {{ $hintText }}
-              </span>
+            <picture>
+              <source
+                srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $num }}-400.avif 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $num }}-700.avif 700w"
+                sizes="(max-width: 480px) calc(50vw - 1.5rem), (max-width: 768px) calc(33.3vw - 1.5rem), 220px"
+                type="image/avif"
+              />
+              <source
+                srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-400.jpg 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg 700w"
+                sizes="(max-width: 480px) calc(50vw - 1.5rem), (max-width: 768px) calc(33.3vw - 1.5rem), 220px"
+                type="image/jpeg"
+              />
+              <img
+                class="volumeCover"
+                src="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $num }}-700.jpg"
+                alt="Portada de Volumen {{ $num }}"
+                loading="lazy"
+                decoding="async"
+                width="220"
+                height="314"
+              />
+            </picture>
+            <div class="coverSpine" aria-hidden="true"></div>
+          </div>
+
+          <div class="volumeCardFooter">
+            <div class="volumeCardMeta">
+              <span class="volumeNumber">Volumen {{ $volDisplayNum }}</span>
+              {{ if $isPreview }}
+                <span class="volumeStateBadge preview">Vista previa</span>
+              {{ else if $isTranslating }}
+                <span class="volumeStateBadge translating">En proceso</span>
+              {{ else if $isUpcoming }}
+                <span class="volumeStateBadge upcoming">Pronto</span>
+              {{ end }}
+            </div>
+
+            <div class="volumeActionHint">
+              {{ if or $isTranslating $isUpcoming }}
+                <svg class="hintIcon" aria-hidden="true"><use href="/img/svg/novela.svg#lockIcon" /></svg>
+                <span class="hintText">{{ if $isTranslating }}En proceso{{ else }}No disponible{{ end }}</span>
+              {{ else }}
+                <svg class="hintIcon" aria-hidden="true"><use href="/img/svg/novela.svg#downloadIcon" /></svg>
+                <span class="hintText">Descargar</span>
+              {{ end }}
             </div>
           </div>
         </article>
@@ -235,103 +305,93 @@
     </div>
   </section>
 
-  {{ $latestPublished := "" }}
-  {{ range .Params.volumes }}
-    {{ if eq .state "published" }}
-      {{ $latestPublished = .num }}
-    {{ end }}
-  {{ end }}
-
-  {{ $volDisplay := default "0" $latestPublished }}
-
-  {{ if and $latestPublished (hasPrefix $latestPublished "0") }}
-    {{ $volDisplay = substr $latestPublished 1 }}
-  {{ end }}
-
-  <section class="infoSection">
+  <!-- Sección Detalles de la Obra (Panel unificado Apple Books) -->
+  <section class="detailsSection">
     <div class="sectionHeader">
-      <h2 class="sectionTitle">Información</h2>
-      <p class="sectionDescription">Detalles adicionales de la novela</p>
+      <h2 class="sectionTitle">Detalles de la obra</h2>
+      <p class="sectionDescription">Información técnica y canónica de la publicación</p>
     </div>
 
-    <div class="infoGrid">
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#statusIcon" /></svg>
-          Estado
-        </span>
-        <span class="infoValue {{ .Params.status }}"></span>
+    <div class="detailsCard">
+      <div class="detailsColumns">
+        <div class="detailsColumn">
+          <h3 class="detailsColumnTitle">Títulos y autoría</h3>
+          <dl class="detailsList">
+            <div class="detailsRow">
+              <dt class="detailsLabel">Nombre en japonés</dt>
+              <dd class="detailsValue">{{ .Params.nameJp }}</dd>
+            </div>
+            <div class="detailsRow">
+              <dt class="detailsLabel">Nombre en inglés</dt>
+              <dd class="detailsValue">{{ .Params.nameEn }}</dd>
+            </div>
+            {{ with .Params.nameEs }}
+              <div class="detailsRow">
+                <dt class="detailsLabel">Nombre en español</dt>
+                <dd class="detailsValue">{{ . }}</dd>
+              </div>
+            {{ end }}
+            <div class="detailsRow">
+              <dt class="detailsLabel">Autor original</dt>
+              <dd class="detailsValue">{{ .Params.author }}</dd>
+            </div>
+            <div class="detailsRow">
+              <dt class="detailsLabel">Ilustrador</dt>
+              <dd class="detailsValue">
+                {{ .Params.illustrator }}
+                {{ with .Params.illustratorNote }}
+                  <span class="detailsSubNote">({{ . }})</span>
+                {{ end }}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="detailsColumn">
+          <h3 class="detailsColumnTitle">Publicación y edición</h3>
+          <dl class="detailsList">
+            <div class="detailsRow">
+              <dt class="detailsLabel">Estado de traducción</dt>
+              <dd class="detailsValue">
+                <span class="projectStatusBadge inline {{ .Params.status }}" data-status="{{ .Params.status }}"></span>
+              </dd>
+            </div>
+            <div class="detailsRow">
+              <dt class="detailsLabel">Volúmenes traducidos</dt>
+              <dd class="detailsValue tabular">{{ $volDisplay }}</dd>
+            </div>
+            <div class="detailsRow">
+              <dt class="detailsLabel">Volúmenes publicados</dt>
+              <dd class="detailsValue tabular">{{ .Params.volumesReleased }}</dd>
+            </div>
+            <div class="detailsRow">
+              <dt class="detailsLabel">Demografía</dt>
+              <dd class="detailsValue">{{ .Params.demography }}</dd>
+            </div>
+            <div class="detailsRow">
+              <dt class="detailsLabel">Adaptación a Manga</dt>
+              <dd class="detailsValue">
+                <span class="adaptationBadge {{ if .Params.mangaAdaptation }}yes{{ else }}no{{ end }}">
+                  <svg class="badgeIcon" aria-hidden="true"><use href="/img/svg/novela.svg#{{ if .Params.mangaAdaptation }}checkIcon{{ else }}uncheckIcon{{ end }}" /></svg>
+                  <span>{{ if .Params.mangaAdaptation }}Sí{{ else }}No{{ end }}</span>
+                </span>
+              </dd>
+            </div>
+            <div class="detailsRow">
+              <dt class="detailsLabel">Adaptación a Anime</dt>
+              <dd class="detailsValue">
+                <span class="adaptationBadge {{ if .Params.animeAdaptation }}yes{{ else }}no{{ end }}">
+                  <svg class="badgeIcon" aria-hidden="true"><use href="/img/svg/novela.svg#{{ if .Params.animeAdaptation }}checkIcon{{ else }}uncheckIcon{{ end }}" /></svg>
+                  <span>{{ if .Params.animeAdaptation }}Sí{{ else }}No{{ end }}</span>
+                </span>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
 
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#usersIcon" /></svg>
-          Demografía
-        </span>
-        <span class="infoValue">{{ .Params.demography }}</span>
-      </div>
-
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#bookIcon" /></svg>
-          Volúmenes Lanzados
-        </span>
-        <span class="infoValue">{{ .Params.volumesReleased }}</span>
-      </div>
-
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#bookIcon" /></svg>
-          Volúmenes Traducidos
-        </span>
-          <span class="infoValue">{{ $volDisplay }}</span>
-      </div>
-
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#hashIcon" /></svg>
-          Nombre japonés
-        </span>
-        <span class="infoValue">{{ .Params.nameJp }}</span>
-      </div>
-
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#hashIcon" /></svg>
-          Nombre inglés
-        </span>
-        <span class="infoValue">{{ .Params.nameEn }}</span>
-      </div>
-
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#mangaIcon" /></svg>
-          Adaptación Manga
-        </span>
-        <span class="infoValue">
-          <span class="adaptationBadge {{ if .Params.mangaAdaptation }}yes{{ else }}no{{ end }}">
-            <svg><use href="/img/svg/novela.svg#{{ if .Params.mangaAdaptation }}checkIcon{{ else }}uncheckIcon{{ end }}" /></svg>
-          </span>
-        </span>
-      </div>
-
-      <div class="infoItem">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#tvIcon" /></svg>
-          Adaptación Anime
-        </span>
-        <span class="infoValue">
-          <span class="adaptationBadge {{ if .Params.animeAdaptation }}yes{{ else }}no{{ end }}">
-            <svg><use href="/img/svg/novela.svg#{{ if .Params.animeAdaptation }}checkIcon{{ else }}uncheckIcon{{ end }}" /></svg>
-          </span>
-        </span>
-      </div>
-
-      <div class="infoItem" style="grid-column: 1 / -1">
-        <span class="infoLabel">
-          <svg><use href="/img/svg/novela.svg#tagIcon" /></svg>
-          Géneros
-        </span>
+      <div class="detailsGenresRow">
+        <span class="genresLabel">Géneros:</span>
         <div class="genreTags">
           {{ range .Params.genres }}
             <span class="genreTag">{{ . }}</span>
@@ -341,11 +401,234 @@
     </div>
   </section>
 
+  <!-- Sección Novelas Recomendadas / Obras Similares -->
+  {{ $currentNovelId := .Params.novelId }}
+  {{ $currentAuthor := .Params.author | default "" }}
+  {{ $currentDemography := .Params.demography | default "" }}
+  {{ $currentGenres := .Params.genres | default slice }}
+
+  {{ $candidates := slice }}
+  {{ range where site.RegularPages "Section" "novelas" }}
+    {{ if ne .Params.novelId $currentNovelId }}
+      {{ $score := 0 }}
+      {{ if and $currentAuthor (eq .Params.author $currentAuthor) }}
+        {{ $score = add $score 15 }}
+      {{ end }}
+      {{ if and $currentDemography (eq .Params.demography $currentDemography) }}
+        {{ $score = add $score 3 }}
+      {{ end }}
+      {{ $otherGenres := .Params.genres | default slice }}
+      {{ range $currentGenres }}
+        {{ if in $otherGenres . }}
+          {{ $score = add $score 2 }}
+        {{ end }}
+      {{ end }}
+      {{ $candidates = $candidates | append (dict "score" $score "novel" .) }}
+    {{ end }}
+  {{ end }}
+
+  {{ $sortedCandidates := sort $candidates "score" "desc" }}
+  {{ $recommended := first 3 $sortedCandidates }}
+
+  {{ if gt (len $recommended) 0 }}
+    <section class="recommendationsSection" aria-labelledby="recommendationsTitle">
+      <div class="sectionHeader">
+        <h2 class="sectionTitle" id="recommendationsTitle">También te podría gustar</h2>
+        <p class="sectionDescription">Obras recomendadas con temática, demografía o géneros similares</p>
+      </div>
+
+      <div class="recommendationsGrid">
+        {{ range $recommended }}
+          {{ $rec := .novel }}
+          {{ $recId := printf "%02s" $rec.Params.novelId }}
+          {{ $recTitle := $rec.Params.novelTitle | default $rec.Title }}
+          {{ $recAuthor := $rec.Params.author | default "Autor por confirmar" }}
+          {{ $recVols := $rec.Params.volumesReleased | default 0 }}
+          <article class="novelCardWrapper">
+            <a
+              href="{{ $rec.RelPermalink }}"
+              class="novelCard"
+              style="view-transition-name: n{{ $recId }}"
+              aria-label="{{ $recTitle }}, por {{ $recAuthor }}"
+            >
+              <div class="novelCoverContainer">
+                <picture>
+                  <source
+                    srcset="{{ site.Params.cdnImages }}/cover/avif/{{ $recId }}-400.avif 400w, {{ site.Params.cdnImages }}/cover/avif/{{ $recId }}-700.avif 700w, {{ site.Params.cdnImages }}/cover/avif/{{ $recId }}-900.avif 900w"
+                    sizes="(max-width: 640px) calc(50vw - 1.5rem), 180px"
+                    type="image/avif"
+                  />
+                  <source
+                    srcset="{{ site.Params.cdnImages }}/cover/jpg/{{ $recId }}-400.jpg 400w, {{ site.Params.cdnImages }}/cover/jpg/{{ $recId }}-700.jpg 700w, {{ site.Params.cdnImages }}/cover/jpg/{{ $recId }}-900.jpg 900w"
+                    sizes="(max-width: 640px) calc(50vw - 1.5rem), 180px"
+                    type="image/jpeg"
+                  />
+                  <img
+                    src="{{ site.Params.cdnImages }}/cover/jpg/{{ $recId }}-400.jpg"
+                    alt="Portada de {{ $recTitle }}"
+                    class="novelCover"
+                    width="175"
+                    height="250"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+                <div class="coverSpine" aria-hidden="true"></div>
+              </div>
+
+              <div class="novelCardContent">
+                <h3 class="novelCardTitle">{{ $recTitle }}</h3>
+                <p class="novelCardAuthor">{{ $recAuthor }}</p>
+                <p class="novelCardMeta">
+                  <span class="novelCardVolumes">{{ $recVols }} {{ if eq $recVols 1 }}volumen{{ else }}volúmenes{{ end }}</span>
+                </p>
+              </div>
+            </a>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+
+  <!-- Sección de Comentarios (Nativa Kasnia) -->
+  <section class="novelCommentsSection" id="comentarios">
+    <div class="sectionHeader">
+      <div class="sectionHeaderTitleGroup">
+        <h2 class="sectionTitle">Comentarios y opiniones</h2>
+        <span class="commentsCountBadge" id="commentsCountBadge" hidden>0</span>
+      </div>
+      <p class="sectionDescription">Comparte tus impresiones sobre la novela con la comunidad</p>
+    </div>
+
+    <div class="commentsCard" data-novel-id="{{ .Params.novelId }}" data-novel-title="{{ .Params.novelTitle }}">
+      <!-- Estado Inicial (Bajo demanda) -->
+      <div class="commentsPlaceholder" id="commentsPlaceholder">
+        <div class="placeholderIconWrapper">
+          <svg class="placeholderIcon" aria-hidden="true"><use href="/img/svg/novela.svg#chatIcon" /></svg>
+        </div>
+        <p class="placeholderTitle">Comentarios de la comunidad</p>
+        <p class="placeholderText">Lee opiniones o comparte tu experiencia sobre esta novela con otros lectores.</p>
+        <button type="button" class="loadCommentsBtn" id="loadCommentsBtn">
+          <svg class="btnIcon" aria-hidden="true"><use href="/img/svg/novela.svg#chatIcon" /></svg>
+          <span>Cargar comentarios</span>
+        </button>
+      </div>
+
+      <!-- Contenedor Principal de Comentarios -->
+      <div class="commentsContent" id="commentsContent" hidden>
+        <!-- Formulario Principal -->
+        <div class="commentFormWrapper">
+          <form class="commentForm" id="mainCommentForm" novalidate>
+            <div class="commentFormHeader">
+              <h3 class="commentFormTitle">Deja tu comentario</h3>
+              <div class="staffControlWrapper">
+                <button type="button" class="staffAuthTrigger" id="staffAuthTrigger">¿Eres del Staff?</button>
+                <div class="staffAuthBox" id="staffAuthBox" hidden>
+                  <input type="password" id="staffKeyInput" class="staffKeyInput" placeholder="Clave de Staff" autocomplete="current-password" />
+                  <button type="button" id="saveStaffKeyBtn" class="saveStaffKeyBtn">Activar</button>
+                  <button type="button" id="cancelStaffKeyBtn" class="cancelStaffKeyBtn">×</button>
+                </div>
+                <span class="staffActiveBadge" id="staffActiveBadge" hidden>
+                  <span class="staffDot"></span> Modo Staff Activo
+                  <button type="button" id="logoutStaffBtn" class="staffLogoutBtn" title="Desactivar modo staff">×</button>
+                </span>
+              </div>
+            </div>
+            <div class="formRow">
+              <div class="formGroup">
+                <label for="commentAuthor" class="formLabel">Nombre o apodo <span class="requiredMark">*</span></label>
+                <input type="text" id="commentAuthor" name="author" class="formInput" maxlength="40" required autocomplete="nickname" />
+              </div>
+              <div class="formGroup">
+                <label for="commentEmail" class="formLabel">Correo electrónico <span class="optionalMark">(opcional)</span></label>
+                <input type="email" id="commentEmail" name="email" class="formInput" placeholder="Para recibir avisos si te responden" autocomplete="email" />
+                <span class="formHelpText">Tu correo nunca será público.</span>
+              </div>
+            </div>
+
+            <!-- Campo Trampa Honeypot invisible para bots -->
+            <div class="honeypotGroup" aria-hidden="true" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="formGroup">
+              <div class="textareaHeader">
+                <label for="commentText" class="formLabel">Comentario <span class="requiredMark">*</span></label>
+                <div class="formatToolbar" role="toolbar" aria-label="Herramientas de formato">
+                  <button type="button" class="formatBtn" data-format="bold" title="Negrita (**texto**)" aria-label="Negrita">
+                    <strong>B</strong>
+                  </button>
+                  <button type="button" class="formatBtn" data-format="italic" title="Cursiva (*texto*)" aria-label="Cursiva">
+                    <em>I</em>
+                  </button>
+                  <button type="button" class="formatBtn formatSpoiler" data-format="spoiler" title="Spoiler (||texto||)" aria-label="Spoiler">
+                    <svg class="btnIcon" aria-hidden="true"><use href="/img/svg/novela.svg#eyeIcon" /></svg>
+                    <span>Spoiler</span>
+                  </button>
+                </div>
+              </div>
+              <textarea id="commentText" name="content" class="formTextarea" placeholder="¿Qué te pareció este volumen o la historia? Usa ||spoilers|| si revelas la trama..." maxlength="1000" rows="3" required></textarea>
+            </div>
+
+            <div class="formFooter">
+              <div class="charCounter"><span id="charCount">0</span> / 1000</div>
+              <button type="submit" class="submitCommentBtn">
+                <svg class="btnIcon" aria-hidden="true"><use href="/img/svg/novela.svg#sendIcon" /></svg>
+                <span>Publicar comentario</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Skeletons de Carga -->
+        <div class="commentsSkeletons" id="commentsSkeletons" hidden>
+          <div class="skeletonComment">
+            <div class="skeletonAvatar"></div>
+            <div class="skeletonContent">
+              <div class="skeletonLine short"></div>
+              <div class="skeletonLine medium"></div>
+              <div class="skeletonLine long"></div>
+            </div>
+          </div>
+          <div class="skeletonComment">
+            <div class="skeletonAvatar"></div>
+            <div class="skeletonContent">
+              <div class="skeletonLine short"></div>
+              <div class="skeletonLine medium"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toolbar / Ordenación de Comentarios -->
+        <div class="commentsToolbar" id="commentsToolbar" hidden>
+          <div class="commentsToolbarHeading">
+            <span class="commentsToolbarTitle">Discusión</span>
+          </div>
+          <div class="commentsSortControl segmentedControl" role="group" aria-label="Ordenar comentarios">
+            <button type="button" class="segmentedBtn active" data-sort="newest" aria-pressed="true">
+              Más recientes
+            </button>
+            <button type="button" class="segmentedBtn" data-sort="oldest" aria-pressed="false">
+              Más antiguos
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista de Comentarios -->
+        <div class="commentsList" id="commentsList"></div>
+
+        <!-- Estado Vacío -->
+        <div class="emptyCommentsState" id="emptyCommentsState" hidden>
+          <div class="emptyIconWrapper">
+            <svg class="emptyIcon" aria-hidden="true"><use href="/img/svg/novela.svg#chatIcon" /></svg>
+          </div>
+          <p class="emptyTitle">Aún no hay comentarios</p>
+          <p class="emptyText">¡Sé el primero en compartir tu opinión sobre esta novela!</p>
+        </div>
+      </div>
     </div>
   </section>
 {{ end }}
-
-
 
 {{ define "js" }}
   {{ $jsFile := resources.Get "js/novela.js" }}

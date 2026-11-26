@@ -7,6 +7,7 @@ nameJp: "Isekai Walkingu"
 nameEn: "Isekai Walking"
 nameEs: ""
 genres:
+  - "Acción"
   - "Aventura"
   - "Fantasía"
 link: "isekai-walking"
@@ -25,7 +26,7 @@ volumes:
     credits:
       translator: "Diego"
       corrector: "Diego"
-      editor: "-"
+      editor: "SLN"
       pdfTypesetter: "Diego"
       epubTypesetter: "-"
     propio:
@@ -40,7 +41,7 @@ volumes:
     credits:
       translator: "Diego"
       corrector: "Diego"
-      editor: "-"
+      editor: "SLN"
       pdfTypesetter: "Diego"
       epubTypesetter: "-"
     propio:
@@ -55,7 +56,7 @@ volumes:
     credits:
       translator: "Diego"
       corrector: "Diego"
-      editor: "-"
+      editor: "SLN"
       pdfTypesetter: "Diego"
       epubTypesetter: "-"
     propio:
@@ -70,7 +71,7 @@ volumes:
     credits:
       translator: "Diego"
       corrector: "Diego"
-      editor: "-"
+      editor: "SLN"
       pdfTypesetter: "Diego"
       epubTypesetter: "-"
     propio:
@@ -85,7 +86,7 @@ volumes:
     credits:
       translator: "Diego"
       corrector: "Diego"
-      editor: "-"
+      editor: "SLN"
       pdfTypesetter: "Diego"
       epubTypesetter: "-"
     propio:
@@ -100,7 +101,7 @@ volumes:
     credits:
       translator: "Diego"
       corrector: "Diego"
-      editor: "-"
+      editor: "SLN"
       pdfTypesetter: "Diego"
       epubTypesetter: "-"
     propio:

@@ -2,13 +2,67 @@
 {{- $sorted := sort $novelas "Params.nameEn" "asc" -}}
 {{- $list := slice -}}
 {{- range $sorted -}}
+  {{- $novelId := .Params.novelId -}}
+  {{- $status := .Params.status | default "active" -}}
+  {{- $demography := .Params.demography | default "" -}}
+
+  {{/* Extraer fecha más reciente de los volúmenes para ordenación por recientes */}}
+  {{- $maxSortKey := 0 -}}
+  {{- range .Params.volumes -}}
+    {{- if in (slice "published" "preview") .state -}}
+      {{- $pdfKey := 0 -}}
+      {{- with .pdfUpdateDate -}}
+        {{- $parts := split (strings.Trim (printf "%v" .) " \t\r\n\"") "/" -}}
+        {{- if eq (len $parts) 3 -}}
+          {{- $d := strings.Trim (index $parts 0) " " -}}
+          {{- if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end -}}
+          {{- $m := strings.Trim (index $parts 1) " " -}}
+          {{- if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end -}}
+          {{- $y := strings.Trim (index $parts 2) " " -}}
+          {{- $pdfKey = int (printf "%s%s%s" $y $m $d) -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $epubKey := 0 -}}
+      {{- with .epubUpdateDate -}}
+        {{- $parts := split (strings.Trim (printf "%v" .) " \t\r\n\"") "/" -}}
+        {{- if eq (len $parts) 3 -}}
+          {{- $d := strings.Trim (index $parts 0) " " -}}
+          {{- if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end -}}
+          {{- $m := strings.Trim (index $parts 1) " " -}}
+          {{- if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end -}}
+          {{- $y := strings.Trim (index $parts 2) " " -}}
+          {{- $epubKey = int (printf "%s%s%s" $y $m $d) -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $volKey := $pdfKey -}}
+      {{- if gt $epubKey $volKey }}{{ $volKey = $epubKey }}{{ end -}}
+      {{- if gt $volKey $maxSortKey }}{{ $maxSortKey = $volKey }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{/* Extraer puntuación de popularidad de ranking.json (30 días) */}}
+  {{- $popularity := 0.0 -}}
+  {{- if and site.Data.ranking site.Data.ranking.periods.days30 -}}
+    {{- range site.Data.ranking.periods.days30 -}}
+      {{- if eq .novelId $novelId -}}
+        {{- $popularity = .percentage -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
   {{- $item := dict
-    "novelId" .Params.novelId
+    "novelId" $novelId
     "nameJp" .Params.nameJp
     "nameEn" .Params.nameEn
     "nameEs" .Params.nameEs
     "novelTitle" .Params.novelTitle
+    "author" (.Params.author | default "")
+    "volumesReleased" (.Params.volumesReleased | default 0)
     "genres" .Params.genres
+    "status" $status
+    "demography" $demography
+    "latestDate" $maxSortKey
+    "popularityScore" $popularity
     "link" .File.BaseFileName
   -}}
   {{- $list = $list | append $item -}}

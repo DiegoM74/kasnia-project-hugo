@@ -5,248 +5,418 @@
 {{ end }}
 
 {{ define "main" }}
-<section class="heroSection">
-  <h1 class="heroTitle">¡Bienvenido a Kasnia Project!</h1>
-  <p class="heroSubtitle">
-    Somos un grupo dedicado a traducir novelas ligeras al español. Nos enfocamos
-    en hacer un trabajo de calidad.
-  </p>
+<div class="homeContainer">
+  {{/* ========================================
+     HERO SECTION
+  ======================================== */}}
+  <section class="heroSection" aria-labelledby="heroTitle">
+    <div class="heroAmbientGlow" aria-hidden="true"></div>
+    <div class="heroContent">
+      <div class="heroBadge">
+        <span class="heroBadgeDot" aria-hidden="true"></span>
+        <span>Novelas Ligeras en Español</span>
+      </div>
+      <h1 id="heroTitle" class="heroTitle">Kasnia Project</h1>
+      <p class="heroSubtitle">
+        Traducciones al español con maquetación y diseño cuidados al detalle. Descarga volúmenes en PDF y EPUB directamente desde nuestro catálogo.
+      </p>
 
-  <div class="heroStats">
-    <div class="statCard">
-      <span class="statNumber">+1</span>
-      <span class="statLabel">año de trayectoria</span>
+      <div class="heroStats" role="group" aria-label="Métricas del proyecto">
+        <div class="statCard">
+          <span class="statNumber">+2</span>
+          <span class="statLabel">Años de trayectoria</span>
+        </div>
+        <div class="statDivider" aria-hidden="true"></div>
+        <div class="statCard">
+          <span class="statNumber">+45</span>
+          <span class="statLabel">Volúmenes lanzados</span>
+        </div>
+      </div>
     </div>
-    <div class="statCard">
-      <span class="statNumber">+25</span>
-      <span class="statLabel">volúmenes lanzados</span>
-    </div>
-  </div>
-</section>
+  </section>
 
-{{/* ========================================
-   ÚLTIMO LANZAMIENTO (AUTOMÁTICO)
-======================================== */}}
-{{ $latestVolume := dict }}
-{{ $maxSortKey := 0 }}
+  {{/* ========================================
+     ÚLTIMOS LANZAMIENTOS (4 VOLÚMENES MÁS RECIENTES)
+  ======================================== */}}
+  {{ $allVolumes := slice }}
 
-{{ range where site.RegularPages "Section" "novelas" }}
-  {{ $novel := . }}
-  {{ $novelTitle := $novel.Params.novelTitle | default $novel.Title }}
-  {{ $novelLink := $novel.RelPermalink }}
+  {{ range where site.RegularPages "Section" "novelas" }}
+    {{ $novel := . }}
+    {{ $novelTitle := $novel.Params.novelTitle | default $novel.Title }}
+    {{ $novelLink := $novel.RelPermalink }}
+    {{ $novelId := $novel.Params.novelId }}
+    {{ $novelAuthor := $novel.Params.author }}
 
-  {{ range $novel.Params.volumes }}
-    {{ $state := .state }}
-    {{ if in (slice "published" "preview") $state }}
-      {{ $num := .num }}
+    {{ range $novel.Params.volumes }}
+      {{ $state := .state }}
+      {{ if in (slice "published" "preview") $state }}
+        {{ $num := .num }}
 
-      {{/* Extraer fecha de PDF */}}
-      {{ $pdfSortKey := 0 }}
-      {{ $pdfDateStr := "" }}
-      {{ with .pdfUpdateDate }}
-        {{ $pdfDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
-        {{ $parts := split $pdfDateStr "/" }}
-        {{ if eq (len $parts) 3 }}
-          {{ $d := strings.Trim (index $parts 0) " " }}
-          {{ if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end }}
-          {{ $m := strings.Trim (index $parts 1) " " }}
-          {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
-          {{ $y := strings.Trim (index $parts 2) " " }}
-          {{ $pdfSortKey = int (printf "%s%s%s" $y $m $d) }}
+        {{/* Extraer fecha de PDF */}}
+        {{ $pdfSortKey := 0 }}
+        {{ $pdfDateStr := "" }}
+        {{ $pdfIsoDate := "" }}
+        {{ with .pdfUpdateDate }}
+          {{ $pdfDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
+          {{ $parts := split $pdfDateStr "/" }}
+          {{ if eq (len $parts) 3 }}
+            {{ $d := strings.Trim (index $parts 0) " " }}
+            {{ if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end }}
+            {{ $m := strings.Trim (index $parts 1) " " }}
+            {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
+            {{ $y := strings.Trim (index $parts 2) " " }}
+            {{ $pdfSortKey = int (printf "%s%s%s" $y $m $d) }}
+            {{ $pdfIsoDate = printf "%s-%s-%s" $y $m $d }}
+          {{ end }}
         {{ end }}
-      {{ end }}
 
-      {{/* Extraer fecha de EPUB */}}
-      {{ $epubSortKey := 0 }}
-      {{ $epubDateStr := "" }}
-      {{ with .epubUpdateDate }}
-        {{ $epubDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
-        {{ $parts := split $epubDateStr "/" }}
-        {{ if eq (len $parts) 3 }}
-          {{ $d := strings.Trim (index $parts 0) " " }}
-          {{ if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end }}
-          {{ $m := strings.Trim (index $parts 1) " " }}
-          {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
-          {{ $y := strings.Trim (index $parts 2) " " }}
-          {{ $epubSortKey = int (printf "%s%s%s" $y $m $d) }}
+        {{/* Extraer fecha de EPUB */}}
+        {{ $epubSortKey := 0 }}
+        {{ $epubDateStr := "" }}
+        {{ $epubIsoDate := "" }}
+        {{ with .epubUpdateDate }}
+          {{ $epubDateStr = strings.Trim (printf "%v" .) " \t\r\n\"" }}
+          {{ $parts := split $epubDateStr "/" }}
+          {{ if eq (len $parts) 3 }}
+            {{ $d := strings.Trim (index $parts 0) " " }}
+            {{ if eq (len $d) 1 }}{{ $d = printf "0%s" $d }}{{ end }}
+            {{ $m := strings.Trim (index $parts 1) " " }}
+            {{ if eq (len $m) 1 }}{{ $m = printf "0%s" $m }}{{ end }}
+            {{ $y := strings.Trim (index $parts 2) " " }}
+            {{ $epubSortKey = int (printf "%s%s%s" $y $m $d) }}
+            {{ $epubIsoDate = printf "%s-%s-%s" $y $m $d }}
+          {{ end }}
         {{ end }}
-      {{ end }}
 
-      {{/* Tomar la fecha más reciente entre PDF y EPUB */}}
-      {{ $volSortKey := $pdfSortKey }}
-      {{ $displayDate := $pdfDateStr }}
-      {{ if gt $epubSortKey $volSortKey }}
-        {{ $volSortKey = $epubSortKey }}
-        {{ $displayDate = $epubDateStr }}
-      {{ end }}
+        {{/* Tomar la fecha más reciente entre PDF y EPUB */}}
+        {{ $volSortKey := $pdfSortKey }}
+        {{ $displayDate := $pdfDateStr }}
+        {{ $displayIso := $pdfIsoDate }}
+        {{ if gt $epubSortKey $volSortKey }}
+          {{ $volSortKey = $epubSortKey }}
+          {{ $displayDate = $epubDateStr }}
+          {{ $displayIso = $epubIsoDate }}
+        {{ end }}
 
-      {{ if gt $volSortKey $maxSortKey }}
-        {{ $maxSortKey = $volSortKey }}
-        {{ $latestVolume = dict
-          "novelTitle" $novelTitle
-          "novelLink" $novelLink
-          "volNum" $num
-          "state" $state
-          "date" $displayDate
-        }}
+        {{ if gt $volSortKey 0 }}
+          {{ $volItem := dict
+            "novelTitle" $novelTitle
+            "novelLink" $novelLink
+            "novelId" $novelId
+            "novelAuthor" $novelAuthor
+            "volNum" $num
+            "state" $state
+            "date" $displayDate
+            "isoDate" $displayIso
+            "sortKey" $volSortKey
+          }}
+          {{ $allVolumes = $allVolumes | append $volItem }}
+        {{ end }}
       {{ end }}
     {{ end }}
   {{ end }}
-{{ end }}
 
-{{ if gt $maxSortKey 0 }}
-  {{ with $latestVolume }}
-    {{ $stateText := "" }}
-    {{ $stateClass := "" }}
-    {{ if eq .state "published" }}
-      {{ $stateText = "Publicado" }}
-      {{ $stateClass = "statePublished" }}
-    {{ else if eq .state "preview" }}
-      {{ $stateText = "Vista Previa" }}
-      {{ $stateClass = "statePreview" }}
-    {{ end }}
+  {{ $recentVolumes := sort $allVolumes "sortKey" "desc" }}
+  {{ $recentReleases := first 2 $recentVolumes }}
 
-    <section class="latestReleaseSection">
-      <div class="latestReleaseBanner">
-        <div class="bannerMain">
-          <div class="bannerBadges">
-            <span class="bannerTag">Último Lanzamiento</span>
-            {{ with $stateText }}
-              <span class="releaseBadge {{ $stateClass }}">{{ . }}</span>
-            {{ end }}
-          </div>
+  {{ if gt (len $recentReleases) 0 }}
+    <section class="latestReleasesSection" aria-labelledby="latestReleasesTitle">
+      <div class="sectionHeader">
+        <span class="sectionEyebrow">Novedades</span>
+        <h2 id="latestReleasesTitle" class="sectionTitle">Últimos Lanzamientos</h2>
+        <p class="sectionDescription">
+          Los volúmenes traducidos y actualizados más recientes en Kasnia Project.
+        </p>
+      </div>
 
-          <div class="bannerContent">
-            <span class="bannerNovelTitle">{{ .novelTitle }}</span>
-            <div class="bannerMeta">
-              <span class="bannerVolume">Volumen {{ .volNum }}</span>
-              {{ with .date }}
-                <span class="bannerSeparator">•</span>
-                <span class="bannerDate">
-                  <svg class="metaIcon">
-                    <use href="/img/svg/home.svg#iconCalendar" />
-                  </svg>
-                  Actualizado el {{ . }}
-                </span>
-              {{ end }}
-            </div>
-          </div>
+      <div class="latestReleasesGrid">
+        {{ range $index, $vol := $recentReleases }}
+          {{ $stateText := "" }}
+          {{ $stateClass := "" }}
+          {{ if eq .state "published" }}
+            {{ $stateText = "Publicado" }}
+            {{ $stateClass = "statePublished" }}
+          {{ else if eq .state "preview" }}
+            {{ $stateText = "Vista Previa" }}
+            {{ $stateClass = "statePreview" }}
+          {{ end }}
+          {{ $coverId := printf "%02s" .novelId }}
+          {{ $volNum := .volNum }}
+
+          <article class="latestReleaseCardWrapper">
+            <a
+              href="{{ .novelLink }}"
+              class="latestReleaseCard"
+              aria-label="{{ .novelTitle }} Volumen {{ $volNum }}{{ with .date }}, actualizado el {{ . }}{{ end }}"
+            >
+              <div class="latestReleaseCoverContainer">
+                <picture>
+                  <source
+                    srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $volNum }}-400.avif 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/avif/v{{ $volNum }}-700.avif 700w"
+                    sizes="(max-width: 520px) 58px, 68px"
+                    type="image/avif"
+                  />
+                  <source
+                    srcset="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $volNum }}-400.jpg 400w, {{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $volNum }}-700.jpg 700w"
+                    sizes="(max-width: 520px) 58px, 68px"
+                    type="image/jpeg"
+                  />
+                  <img
+                    class="latestReleaseCover"
+                    src="{{ site.Params.cdnImages }}/vols/{{ $coverId }}/jpg/v{{ $volNum }}-400.jpg"
+                    alt="Portada {{ .novelTitle }} Volumen {{ $volNum }}"
+                    width="68"
+                    height="97"
+                    loading="eager"
+                    decoding="async"
+                    {{ if eq $index 0 }}fetchpriority="high"{{ end }}
+                  />
+                </picture>
+                <div class="coverSpine" aria-hidden="true"></div>
+              </div>
+
+              <div class="latestReleaseBody">
+                <div class="latestReleaseBadges">
+                  {{ if eq $index 0 }}
+                    <span class="latestReleaseTag">
+                      <svg class="tagSparkle" aria-hidden="true">
+                        <use href="/img/svg/home.svg#tagSparkle" />
+                      </svg>
+                      Último Lanzamiento
+                    </span>
+                  {{ else }}
+                    <span class="releaseNumberBadge">#{{ add $index 1 }} Reciente</span>
+                  {{ end }}
+                  {{ with $stateText }}
+                    <span class="releaseBadge {{ $stateClass }}">{{ . }}</span>
+                  {{ end }}
+                </div>
+
+                <div class="latestReleaseDetails">
+                  <h3 class="latestReleaseTitle">{{ .novelTitle }}</h3>
+                  <div class="latestReleaseMeta">
+                    <span class="latestReleaseVol">Volumen {{ $volNum }}</span>
+                    {{ with .date }}
+                      <span class="metaDivider" aria-hidden="true">•</span>
+                      <time datetime="{{ $vol.isoDate }}" class="latestReleaseDate">
+                        <svg class="metaIcon" aria-hidden="true">
+                          <use href="/img/svg/home.svg#iconCalendar" />
+                        </svg>
+                        {{ . }}
+                      </time>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="latestReleaseArrow" aria-hidden="true">
+                <svg class="arrowIcon">
+                  <use href="/img/svg/home.svg#arrowRight" />
+                </svg>
+              </div>
+            </a>
+          </article>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ========================================
+     FEATURED SECTION (NOVELAS DESTACADAS)
+  ======================================== */}}
+  <section class="featuredSection" aria-labelledby="featuredTitle">
+    <div class="sectionHeader">
+      <span class="sectionEyebrow">Ranking Semanal</span>
+      <h2 id="featuredTitle" class="sectionTitle">Novelas Destacadas</h2>
+      <p class="sectionDescription">
+        Las obras más leídas de los últimos 7 días en Kasnia Project.
+      </p>
+    </div>
+
+    <div class="featuredGrid">
+      {{ $destacadas := slice }}
+      {{ if and site.Data.ranking site.Data.ranking.periods.days7 }}
+        {{ range first 3 site.Data.ranking.periods.days7 }}
+          {{ $destacadas = $destacadas | append .novelId }}
+        {{ end }}
+      {{ else }}
+        {{ $destacadas = slice "01" "09" "10" }}
+      {{ end }}
+
+      {{ range $index, $novelId := $destacadas }}
+        {{ $rank := add $index 1 }}
+        {{ range where $.Site.RegularPages "Section" "novelas" }}
+          {{ if eq .Params.novelId $novelId }}
+            {{ $coverId := printf "%02s" .Params.novelId }}
+            <article class="featuredCardWrapper">
+              <a
+                href="{{ .RelPermalink }}"
+                class="featuredCard"
+                style="view-transition-name: n{{ $coverId }}"
+                aria-label="{{ .Params.novelTitle | default .Title }}, puesto {{ $rank }} en el ranking semanal"
+              >
+                <div class="featuredCoverContainer">
+                  <span class="rankingBadge rankingBadge{{ $rank }}" aria-hidden="true">
+                    #{{ $rank }}
+                  </span>
+
+                  <picture>
+                    <source
+                      srcset="{{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-400.avif 400w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-700.avif 700w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-900.avif 900w"
+                      sizes="(max-width: 600px) calc(100vw - 3rem), (max-width: 900px) 260px, 320px"
+                      type="image/avif"
+                    />
+                    <source
+                      srcset="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg 400w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-700.jpg 700w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-900.jpg 900w"
+                      sizes="(max-width: 600px) calc(100vw - 3rem), (max-width: 900px) 260px, 320px"
+                      type="image/jpeg"
+                    />
+                    <img
+                      src="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg"
+                      alt="Portada de {{ .Params.novelTitle | default .Title }}"
+                      class="featuredCover"
+                      width="320"
+                      height="458"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
+                  <div class="coverSpine" aria-hidden="true"></div>
+                </div>
+
+                <div class="featuredCardContent">
+                  <h3 class="featuredCardTitle">{{ .Params.novelTitle | default .Title }}</h3>
+                  <p class="featuredCardAuthor">{{ .Params.author }}</p>
+                  <p class="featuredCardMeta">
+                    <span class="featuredCardVolumes">{{ .Params.volumesReleased }} volúmenes</span>
+                  </p>
+                </div>
+              </a>
+            </article>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <div class="viewMoreWrapper">
+      <a href="/novelas" class="btnPrimary">
+        <span>Ver todas las novelas</span>
+        <svg class="btnIcon" aria-hidden="true">
+          <use href="/img/svg/home.svg#arrowRight" />
+        </svg>
+      </a>
+      <a href="/ranking" class="btnSecondary">
+        <span>Ver ranking completo</span>
+        <svg class="btnIcon" aria-hidden="true">
+          <use href="/img/svg/home.svg#arrowRight" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  {{/* ========================================
+     COMMISSIONS SECTION (COMISIONES DE TRADUCCIÓN)
+  ======================================== */}}
+  <!--<section class="commissionsSection" aria-labelledby="commissionsTitle">
+    <div class="commissionsCard">
+      <div class="commissionsContent">
+        <div class="commissionsBadges">
+          <span class="commissionsTag">Servicio Personalizado</span>
+          <span class="commissionsBadge">Inglés a Español</span>
         </div>
+        <h2 id="commissionsTitle" class="commissionsTitle">¿Quieres leer tu novela favorita sin esperas?</h2>
+        <p class="commissionsDescription">
+          Ofrecemos servicio de traducción a pedido con estilo cuidado, corrección ortotipográfica y maquetación editorial completa en PDF y EPUB.
+        </p>
+        <ul class="commissionsFeatures" aria-label="Ventajas de las comisiones">
+          <li class="commissionsFeatureItem">
+            <svg class="featureCheckIcon" aria-hidden="true">
+              <use href="/img/svg/home.svg#checkIcon" />
+            </svg>
+            <span>Traducción y corrección minuciosa de calidad</span>
+          </li>
+          <li class="commissionsFeatureItem">
+            <svg class="featureCheckIcon" aria-hidden="true">
+              <use href="/img/svg/home.svg#checkIcon" />
+            </svg>
+            <span>Maquetación editorial limpia en PDF y EPUB</span>
+          </li>
+          <li class="commissionsFeatureItem">
+            <svg class="featureCheckIcon" aria-hidden="true">
+              <use href="/img/svg/home.svg#checkIcon" />
+            </svg>
+            <span>Tarifas claras calculadas por conteo de palabras</span>
+          </li>
+        </ul>
+      </div>
 
-        <div class="bannerAction">
-          <a href="{{ .novelLink }}" class="btnPrimary releaseActionBtn">
-            <span>Ir a descargar</span>
-            <svg>
+      <div class="commissionsActionBox">
+        <div class="commissionsActionCard">
+          <span class="commissionsActionHint">Cotizaciones personalizadas</span>
+          <a href="/comisiones" class="btnPrimary commissionsBtn">
+            <span>Ver tarifas y requisitos</span>
+            <svg class="btnIcon" aria-hidden="true">
               <use href="/img/svg/home.svg#arrowRight" />
             </svg>
           </a>
         </div>
       </div>
-    </section>
-  {{ end }}
-{{ end }}
+    </div>
+  </section>-->
 
-<section class="featuredSection">
-  <div class="sectionHeader">
-    <h2 class="sectionTitle">Novelas Destacadas</h2>
-    <p class="sectionDescription">
-      ¿No sabes qué leer? Mira nuestras novelas más populares.
-    </p>
-  </div>
-  <div class="novelsGrid">
-    {{ $destacadas := slice }}
-    {{ if and site.Data.ranking site.Data.ranking.periods.days7 }}
-      {{ range first 3 site.Data.ranking.periods.days7 }}
-        {{ $destacadas = $destacadas | append .novelId }}
-      {{ end }}
-    {{ else }}
-      {{ $destacadas = slice "01" "09" "10" }}
-    {{ end }}
-    {{ range $destacadas }}
-      {{ $novelId := . }}
-      {{ range where $.Site.RegularPages "Section" "novelas" }}
-        {{ if eq .Params.novelId $novelId }}
-          {{ $coverId := printf "%02s" .Params.novelId }}
-          <a
-            href="{{ .RelPermalink }}"
-            class="novelCard"
-            style="view-transition-name: n{{ $coverId }}"
-          >
-            <div class="novelCoverContainer">
-              <picture>
-                <source
-                  srcset="{{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-400.avif 400w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-700.avif 700w, {{ site.Params.cdnImages }}/cover/avif/{{ $coverId }}-900.avif 900w"
-                  sizes="(max-width: 500px) calc(100vw - 2rem), (max-width: 756px) 434px, 279px"
-                  type="image/avif"
-                />
-                <source
-                  srcset="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg 400w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-700.jpg 700w, {{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-900.jpg 900w"
-                  sizes=" (max-width: 500px) calc(100vw - 2rem), (max-width: 756px) 434px, 279px"
-                  type="image/jpeg"
-                />
-                <img
-                  src="{{ site.Params.cdnImages }}/cover/jpg/{{ $coverId }}-400.jpg"
-                  alt="Portada {{ .Params.novelTitle }}"
-                  class="novelCover"
-                  loading="lazy"
-                />
-              </picture>
-              <div class="hoverOverlay">
-                <span>Leer Ahora</span>
-              </div>
-            </div>
+  {{/* ========================================
+     COMMUNITY SECTION
+  ======================================== */}}
+  <section class="communitySection" aria-labelledby="communityTitle">
+    <div class="sectionHeader">
+      <span class="sectionEyebrow">Colaboración</span>
+      <h2 id="communityTitle" class="sectionTitle">Comunidad y Apoyo</h2>
+      <p class="sectionDescription">
+        Kasnia es un proyecto independiente sin fines de lucro. Conoce a quienes lo hacen posible o apóyanos para mantener la plataforma activa.
+      </p>
+    </div>
+
+    <div class="communityGrid">
+      <div class="communityCard staffCard">
+        <div class="communityIconWrapper" aria-hidden="true">
+          <svg class="communityIcon">
+            <use href="/img/svg/home.svg#staffIcon" />
+          </svg>
+        </div>
+        <div class="communityCardContent">
+          <h3 class="communityCardTitle">Nuestro Equipo</h3>
+          <p class="communityCardText">
+            Traductores, correctores, editores y maquetadores dedicados a cada volumen.
+          </p>
+          <a href="/staff" class="communityBtn">
+            <span>Conocer al Staff</span>
+            <svg class="btnIcon" aria-hidden="true">
+              <use href="/img/svg/home.svg#arrowRight" />
+            </svg>
           </a>
-        {{ end }}
-      {{ end }}
-    {{ end }}
-  </div>
-
-  <div class="viewMoreWrapper">
-    <a href="/novelas" class="btnPrimary">
-      Ver todas las novelas
-      <svg>
-        <use href="/img/svg/home.svg#arrowRight" />
-      </svg>
-    </a>
-    <a href="/ranking" class="btnSecondary">
-      Ver Ranking Completo
-      <svg>
-        <use href="/img/svg/home.svg#arrowRight" />
-      </svg>
-    </a>
-  </div>
-</section>
-
-<section class="communitySection">
-  <h2 class="sectionTitle">Comunidad y Apoyo</h2>
-  <div class="communityGrid">
-    <div class="actionCard staffCard">
-      <div class="cardIcon">
-        <svg>
-          <use href="/img/svg/home.svg#staffIcon" />
-        </svg>
+        </div>
       </div>
-      <div class="cardContent">
-        <h3 class="cardTitle">Nuestro Equipo</h3>
-        <p class="cardText">
-          Conoce a las personas que hacen posible este proyecto.
-        </p>
-        <a href="/staff" class="btnCard"> Conocer Staff </a>
+
+      <div class="communityCard donationCard">
+        <div class="communityIconWrapper" aria-hidden="true">
+          <svg class="communityIcon">
+            <use href="/img/svg/home.svg#donationIcon" />
+          </svg>
+        </div>
+        <div class="communityCardContent">
+          <h3 class="communityCardTitle">Donaciones</h3>
+          <p class="communityCardText">
+            Tu contribución cubre los costes de servidores, descargas y licencias de software.
+          </p>
+          <a href="/donaciones" class="communityBtn">
+            <span>Hacer una donación</span>
+            <svg class="btnIcon" aria-hidden="true">
+              <use href="/img/svg/home.svg#arrowRight" />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
-
-    <div class="actionCard donationCard">
-      <div class="cardIcon">
-        <svg>
-          <use href="/img/svg/home.svg#donationIcon" />
-        </svg>
-      </div>
-      <div class="cardContent">
-        <h3 class="cardTitle">Donaciones</h3>
-        <p class="cardText">Tu apoyo nos ayuda a traer más contenido.</p>
-        <a href="/donaciones" class="btnCard"> Hacer una donación </a>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+</div>
 {{ end }}

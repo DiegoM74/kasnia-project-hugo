@@ -1,48 +1,73 @@
 (function () {
-  const savedTheme = localStorage.getItem("theme") || "dark";
-  document.documentElement.setAttribute("data-theme", savedTheme);
+  try {
+    const savedTheme = localStorage.getItem("theme");
+    const systemPrefersLight = window.matchMedia(
+      "(prefers-color-scheme: light)"
+    ).matches;
+    const activeTheme = savedTheme || (systemPrefersLight ? "light" : "dark");
+    document.documentElement.setAttribute("data-theme", activeTheme);
+  } catch (_) {
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
 })();
 
-document.addEventListener("DOMContentLoaded", () => {
+const initThemeToggle = () => {
   const themeToggle = document.getElementById("themeToggle");
   if (!themeToggle) return;
 
   const html = document.documentElement;
 
+  const applyTheme = (theme, persist = true) => {
+    html.setAttribute("data-theme", theme);
+    if (persist) {
+      try {
+        localStorage.setItem("theme", theme);
+      } catch (_) {}
+    }
+  };
+
   themeToggle.addEventListener("click", () => {
-    const currentTheme = html.getAttribute("data-theme");
+    const currentTheme = html.getAttribute("data-theme") || "dark";
     const newTheme = currentTheme === "dark" ? "light" : "dark";
 
-    const updateTheme = () => {
-      html.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
-    };
-
     if (!document.startViewTransition) {
-      updateTheme();
+      applyTheme(newTheme, true);
       return;
     }
 
-    // Guardar y remover temporalmente view-transition-name de las portadas
-    const elementsWithTransition = document.querySelectorAll(
-      '[style*="view-transition-name"]'
-    );
-    const savedStyles = [];
+    // Supresión declarativa en CSS (.themeTransitioning) sin manipular inline styles
+    html.classList.add("themeTransitioning");
 
-    elementsWithTransition.forEach((el, i) => {
-      savedStyles[i] = el.getAttribute("style");
-      const newStyle = el.style.cssText
-        .replace(/view-transition-name:\s*[^;]+;?/gi, "")
-        .trim();
-      newStyle
-        ? el.setAttribute("style", newStyle)
-        : el.removeAttribute("style");
+    const transition = document.startViewTransition(() => {
+      applyTheme(newTheme, true);
     });
 
-    document.startViewTransition(updateTheme).finished.finally(() => {
-      elementsWithTransition.forEach((el, i) => {
-        if (savedStyles[i]) el.setAttribute("style", savedStyles[i]);
-      });
+    transition.finished.finally(() => {
+      html.classList.remove("themeTransitioning");
     });
   });
-});
+
+  // Sincronización en vivo entre pestañas
+  window.addEventListener("storage", (e) => {
+    if (e.key === "theme" && (e.newValue === "light" || e.newValue === "dark")) {
+      applyTheme(e.newValue, false);
+    }
+  });
+
+  // Sincronización con el sistema si el usuario no ha fijado una preferencia explícita
+  try {
+    window
+      .matchMedia("(prefers-color-scheme: light)")
+      .addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          applyTheme(e.matches ? "light" : "dark", false);
+        }
+      });
+  } catch (_) {}
+};
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initThemeToggle);
+} else {
+  initThemeToggle();
+}

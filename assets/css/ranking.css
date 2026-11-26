@@ -1,218 +1,574 @@
-main {
+/* ==========================================================================
+   RANKING DE NOVELAS (Fase 5 Rediseño - Estilo Apple Books / App Store)
+   Kasnia Project - 100% Vanilla CSS con tokens camelCase
+   ========================================================================== */
+
+/* ==========================================================================
+   1. CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.rankingContainer {
   position: relative;
-  max-width: 1000px;
-  margin: 70px auto 0;
-  padding: 3rem 1.5rem;
-  z-index: 1;
+  width: 100%;
+  max-width: var(--containerMaxWidth);
+  margin: 0 auto;
+  padding: calc(var(--navbarHeight) + var(--space2xl)) var(--spaceLg) var(--space4xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space2xl);
 }
 
-.rankingHeader {
+@media (max-width: 640px) {
+  .rankingContainer {
+    padding: calc(var(--navbarHeight) + var(--spaceLg)) var(--spaceMd) var(--space3xl);
+    gap: var(--spaceXl);
+  }
+}
+
+/* ==========================================================================
+   2. CABECERA INTRODUCTORIA
+   ========================================================================== */
+/* Respeto estricto del atributo hidden nativo en flex containers */
+.rankingContainer [hidden],
+.lastUpdatedWrapper[hidden],
+.stateMessage[hidden],
+.rankingPodiumSection[hidden],
+.rankingGridSection[hidden] {
+  display: none !important;
+}
+
+.rankingIntroSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin: 0 auto 2rem;
-  animation: fadeInUp 0.6s ease-out;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.rankingEyebrow {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accentColor);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+  margin-bottom: var(--spaceSm);
 }
 
 .pageTitle {
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: clamp(2.2rem, 5.5vw, 3.2rem);
   font-weight: 800;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-  line-height: 1.2;
+  line-height: 1.1;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin-bottom: var(--spaceSm);
+  text-wrap: balance;
 }
 
 .pageDescription {
-  max-width: 60ch;
-  margin: 0 auto 1rem;
-  color: var(--text-secondary);
-  font-size: 1.1rem;
+  font-size: clamp(0.95rem, 2vw, 1.08rem);
+  color: var(--textSecondary);
+  line-height: 1.55;
+  max-width: 56ch;
+  text-wrap: pretty;
+  margin-bottom: var(--spaceXs);
 }
 
-.lastUpdated {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  font-style: italic;
+.lastUpdatedWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--spaceSm);
+  padding: 4px 12px;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
 }
 
-.rankingControls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  animation: fadeInUp 0.6s ease-out 0.1s backwards;
-}
-
-.controlGroup {
-  display: flex;
-  gap: 0.5rem;
-  background-color: var(--bg-secondary);
-  padding: 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-.controlBtn {
-  background: transparent;
-  border: none;
-  color: var(--text-secondary);
-  padding: 0.5rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.controlBtn:hover {
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
-}
-
-.controlBtn.active {
-  background-color: var(--accent);
-  color: #fff;
-}
-
-.rankingList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 1rem 4rem 1rem;
-  animation: fadeInUp 0.6s ease-out 0.2s backwards;
-}
-
-.rankingItem {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  text-decoration: none;
-  color: var(--text-primary);
-}
-
-.rankingItem:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
-
-.rankingCoverContainer {
-  position: relative;
-  width: 100%;
-  padding-top: 142.85%; /* 1 / 1.43 aspect ratio */
-  background-color: var(--bg-primary);
+.lastUpdatedIcon {
+  width: 13px;
+  height: 13px;
+  color: var(--textMuted);
   flex-shrink: 0;
 }
 
-.rankingCoverContainer picture,
-.rankingCoverContainer img {
+.lastUpdated {
+  font-size: 0.8rem;
+  color: var(--textSecondary);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   3. CONTROLES: SEGMENTED CONTROLS ESTILO IOS
+   ========================================================================== */
+.rankingControlsSection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spaceMd);
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.segmentedControl {
+  display: inline-flex;
+  padding: 3px;
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  box-shadow: var(--shadowSubtle);
+}
+
+.segmentedBtn {
+  min-height: 40px;
+  padding: 0.5rem 1.15rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  outline: none;
+  transition: background-color var(--durationFast) var(--easeOutStrong),
+    color var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong),
+    transform var(--durationInstant) var(--easeOutStrong);
+}
+
+.segmentedBtn:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 2px;
+}
+
+.segmentedBtn:active {
+  transform: scale(0.97);
+}
+
+.segmentedBtn.active {
+  background-color: var(--surfaceCard);
+  color: var(--textPrimary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .segmentedBtn.active {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   4. CONTENEDOR DINÁMICO Y TRANSICIONES VANILLA
+   ========================================================================== */
+.rankingContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space2xl);
+  width: 100%;
+  transition: opacity var(--durationFast) var(--easeOutStrong),
+    transform var(--durationFast) var(--easeOutStrong);
+}
+
+/* Transición suave al alternar periodos o filtros */
+.rankingContent.isSwitching {
+  opacity: 0.45;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+.visuallyHidden {
   position: absolute;
-  top: 0;
-  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   5. SECCIONES: PODIO Y RESTO DEL RANKING
+   ========================================================================== */
+.rankingPodiumSection {
+  width: 100%;
+}
+
+.rankingPodiumGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spaceXl);
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .rankingPodiumGrid {
+    gap: var(--spaceMd);
+  }
+}
+
+@media (max-width: 720px) {
+  .rankingPodiumGrid {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: var(--spaceLg);
+  }
+}
+
+@media (max-width: 500px) {
+  .rankingPodiumGrid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
+    gap: var(--spaceXl);
+  }
+}
+
+.rankingGridSection {
+  width: 100%;
+}
+
+.rankingSectionHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--spaceSm);
+  margin-bottom: var(--spaceLg);
+}
+
+.rankingSectionTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--textMuted);
+  letter-spacing: var(--trackingWider);
+  text-transform: uppercase;
+}
+
+.rankingSectionLine {
+  flex: 1;
+  height: 1px;
+  background-color: var(--borderSubtle);
+}
+
+.rankingGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spaceLg);
+  width: 100%;
+}
+
+@media (max-width: 920px) {
+  .rankingGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spaceMd);
+  }
+}
+
+@media (max-width: 640px) {
+  .rankingGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spaceMd);
+  }
+}
+
+/* ==========================================================================
+   TARJETA DE NOVELA REUTILIZABLE (NOVEL CARD)
+   Copia de la tarjeta de novelas.css para mantener la paridad visual.
+   Debe mantenerse sincronizada con novelas.css.
+   ========================================================================== */
+.novelCardWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.novelCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radiusMedium);
+  outline-offset: 4px;
+}
+
+.novelCard:focus-visible {
+  outline: 2px solid var(--accentColor);
+}
+
+/* Contenedor de portada con lomo físico */
+.novelCoverContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.43;
+  border-radius: var(--radiusMedium);
+  overflow: hidden;
+  background-color: var(--surfaceSecondary);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6),
+    0 2px 8px -2px rgba(0, 0, 0, 0.4);
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) var(--easeOutStrong);
+}
+
+[data-theme="light"] .novelCoverContainer {
+  box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.12),
+    0 4px 12px -2px rgba(0, 0, 0, 0.06);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .novelCard:hover .novelCoverContainer {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.75),
+      0 4px 12px -2px rgba(0, 0, 0, 0.5);
+  }
+
+  [data-theme="light"] .novelCard:hover .novelCoverContainer {
+    box-shadow: 0 18px 44px -8px rgba(0, 0, 0, 0.18),
+      0 4px 12px -2px rgba(0, 0, 0, 0.08);
+  }
+
+  .novelCard:hover .novelCardTitle {
+    color: var(--accentColor);
+  }
+}
+
+.novelCard:active .novelCoverContainer {
+  transform: scale(0.98);
+  transition-duration: var(--durationInstant);
+}
+
+.novelCover {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+  transition: opacity var(--durationFast) var(--easeOutStrong);
 }
 
-.rankingPosition {
+/* Lomo físico de libro (Inspiración Apple Books) */
+.coverSpine {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 800;
-  padding: 0.1rem 0.5rem;
-  border-radius: 6px;
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.2);
-  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.05) 2.5%,
+    rgba(0, 0, 0, 0.15) 3.5%,
+    transparent 7%
+  );
+  box-shadow: inset 0 0 0 1px var(--borderSubtle);
 }
 
-.rankingItem:nth-child(1) .rankingPosition {
-  background: #ffd700;
-  color: #000;
-  border-color: #ffd700;
-}
-.rankingItem:nth-child(2) .rankingPosition {
-  background: #c0c0c0;
-  color: #000;
-  border-color: #c0c0c0;
-}
-.rankingItem:nth-child(3) .rankingPosition {
-  background: #cd7f32;
-  color: #fff;
-  border-color: #cd7f32;
+[data-theme="light"] .coverSpine {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.12) 2.5%,
+    rgba(0, 0, 0, 0.08) 3.5%,
+    transparent 7%
+  );
 }
 
-.rankingInfo {
-  padding: 1.2rem;
+/* Contenido editorial inferior */
+.novelCardContent {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  gap: 3px;
+  padding-top: var(--spaceMd);
 }
 
-.rankingNovelTitle {
-  font-size: 1.1rem;
+.novelCardTitle {
+  font-size: 1.02rem;
   font-weight: 700;
-  margin: 0 0 0.5rem 0;
-  color: var(--text-primary);
+  color: var(--textPrimary);
+  line-height: 1.32;
+  letter-spacing: var(--trackingTight);
+  margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-wrap: balance;
+  transition: color var(--durationFast) var(--easeOutStrong);
+}
+
+.novelCardAuthor {
+  font-size: 0.85rem;
+  color: var(--textSecondary);
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.3;
+}
+
+.novelCardMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.novelCardVolumes {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--textMuted);
+  letter-spacing: var(--trackingWide);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   6. ESPECIFICIDADES DEL RANKING SOBRE NOVEL CARD
+   ========================================================================== */
+
+/* Badges de posición sobre la portada */
+.rankingBadge {
+  position: absolute;
+  top: var(--spaceSm);
+  left: var(--spaceSm);
+  z-index: 2;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  border-radius: var(--radiusFull);
+  letter-spacing: var(--trackingWide);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* #1: Máxima legibilidad y distinción sobre cualquier portada (fondos complejos o colores similares) */
+.rankingBadge.rankingBadge1 {
+  background-color: rgba(13, 14, 18, 0.94);
+  color: var(--accentColor);
+  border: 1.5px solid var(--accentColor);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 154, 197, 0.35);
+}
+
+[data-theme="light"] .rankingBadge.rankingBadge1 {
+  background-color: rgba(255, 255, 255, 0.98);
+  color: var(--accentColor);
+  border: 1.5px solid var(--accentColor);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16), 0 0 10px rgba(230, 82, 139, 0.25);
+}
+
+/* #2 y #3: Superficies neutras elevadas de alto contraste (idénticas a la Home) */
+.rankingBadge.rankingBadge2,
+.rankingBadge.rankingBadge3 {
+  background-color: rgba(13, 14, 18, 0.9);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderStrong);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .rankingBadge.rankingBadge2,
+[data-theme="light"] .rankingBadge.rankingBadge3 {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: var(--textPrimary);
+  border: 1px solid var(--borderStrong);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Posiciones 4 en adelante: Badge sutil y compacta */
+.rankingBadge.rankingBadgeRest {
+  background-color: rgba(13, 14, 18, 0.88);
+  color: var(--textSecondary);
+  border: 1px solid var(--borderSubtle);
+  font-size: 0.72rem;
+  padding: 3px 8px;
+}
+
+[data-theme="light"] .rankingBadge.rankingBadgeRest {
+  background-color: rgba(255, 255, 255, 0.92);
+  color: var(--textSecondary);
+  border: 1px solid var(--borderSubtle);
+  font-size: 0.72rem;
+  padding: 3px 8px;
+}
+
+/* Metadatos editoriales de porcentaje de visitas */
+.metaDivider {
+  display: inline-block;
+  margin: 0 6px;
+  color: var(--textMuted);
+  opacity: 0.6;
+  font-size: 0.72rem;
 }
 
 .rankingPercentage {
-  font-size: 0.95rem;
-  color: var(--accent);
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--textSecondary);
+  letter-spacing: var(--trackingWide);
+  font-variant-numeric: tabular-nums;
 }
 
-.rankingBarContainer {
-  height: 6px;
-  background-color: var(--bg-primary);
-  border-radius: 3px;
-  overflow: hidden;
-  width: 100%;
-}
-
-.rankingBar {
-  height: 100%;
-  background-color: var(--accent);
-  transition: width 0.5s ease;
-}
-
-.emptyState {
-  grid-column: 1 / -1;
+/* ==========================================================================
+   7. ESTADO VACÍO (EMPTY STATE)
+   ========================================================================== */
+.stateMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 4rem 2rem;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--text-secondary);
-  font-size: 1.1rem;
+  padding: var(--space3xl) var(--spaceLg);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.stateIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radiusFull);
+  background-color: var(--surfaceSecondary);
+  border: 1px solid var(--borderSubtle);
+  color: var(--accentColor);
+  margin-bottom: var(--spaceLg);
+}
+
+.stateIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.stateTitle {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: var(--trackingTight);
+  color: var(--textPrimary);
+  margin-bottom: var(--spaceXs);
+}
+
+.stateDescription {
+  font-size: 0.95rem;
+  color: var(--textSecondary);
+  line-height: 1.5;
+  margin-bottom: var(--spaceLg);
+  text-wrap: balance;
+}
+
+/* ==========================================================================
+   8. PREFERENCIAS DE ACCESIBILIDAD Y REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .novelCoverContainer,
+  .segmentedBtn,
+  .rankingContent {
+    transition: none !important;
+    transform: none !important;
+  }
 }

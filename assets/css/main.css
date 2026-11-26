@@ -1,6 +1,6 @@
-/* ========================================
+/* ==========================================================================
    VIEW TRANSITION API
-======================================== */
+   ========================================================================== */
 @view-transition {
   navigation: auto;
 }
@@ -13,175 +13,378 @@
   z-index: 9999;
 }
 
-/* ========================================
-   CSS VARIABLES
-======================================== */
+/* Supresión declarativa de transiciones en elementos con nombre durante el cambio de tema */
+html.themeTransitioning * {
+  view-transition-name: none !important;
+}
+
+/* ==========================================================================
+   TIPOGRAFÍA: INTER VARIABLE AUTOALOJADA
+   ========================================================================== */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/InterVariable-Italic.woff2") format("woff2");
+}
+
+/* ==========================================================================
+   DESIGN TOKENS (camelCase)
+   ========================================================================== */
 :root {
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --text-primary: #e5e5e5;
-  --text-secondary: #a0a0a0;
-  --accent: #ff9ac5;
-  --navbar-bg: rgba(15, 15, 15, 0.7);
-  --border: rgba(255, 255, 255, 0.1);
+  /* Identidad & Acento (Fijo de Kasnia) */
+  --accentColor: #ff9ac5;
+  --accentContrastText: #12070c;
+
+  /* Superficies y Fondos - Modo Oscuro (Gris neutro profundo #0d0e12) */
+  --surfaceBase: #0d0e12;
+  --surfaceSecondary: #13151b;
+  --surfaceCard: #181a22;
+  --surfaceElevated: #20232e;
+
+  /* Efecto Cristal (Navbar y Modales) */
+  --navbarBg: rgba(13, 14, 18, 0.75);
+  --navbarBgSolid: #0d0e12;
+  --mobileMenuBg: rgba(13, 14, 18, 0.94);
+
+  /* Jerarquía de Texto */
+  --textPrimary: #f5f5f7;
+  --textSecondary: #98989f;
+  --textMuted: #636366;
+
+  /* Bordes */
+  --borderSubtle: rgba(255, 255, 255, 0.08);
+  --borderStrong: rgba(255, 255, 255, 0.16);
+
+  /* Sombras tintadas suaves */
+  --shadowSubtle: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadowMedium: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadowElevated: 0 16px 40px rgba(0, 0, 0, 0.45);
+
+  /* Tipografía y Espaciado Óptico */
+  --fontPrimary: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --trackingTight: -0.02em;
+  --trackingNormal: 0em;
+  --trackingWide: 0.04em;
+  --trackingWider: 0.08em;
+
+  /* Radios continuos (Inspiración Apple) */
+  --radiusSmall: 8px;
+  --radiusMedium: 14px;
+  --radiusLarge: 20px;
+  --radiusXLarge: 28px;
+  --radiusFull: 9999px;
+
+  /* Espaciado sistemático */
+  --space2xs: 4px;
+  --spaceXs: 8px;
+  --spaceSm: 12px;
+  --spaceMd: 16px;
+  --spaceLg: 24px;
+  --spaceXl: 32px;
+  --space2xl: 48px;
+  --space3xl: 64px;
+  --space4xl: 96px;
+
+  /* Estructura y Layout */
+  --containerMaxWidth: 1080px;
+  --navbarHeight: 68px;
+
+  /* Movimiento y Curvas (Apple & Emil Design Eng) */
+  --easeOutStrong: cubic-bezier(0.23, 1, 0.32, 1);
+  --easeInOutSmooth: cubic-bezier(0.77, 0, 0.175, 1);
+  --easeDrawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --durationInstant: 100ms;
+  --durationFast: 160ms;
+  --durationNormal: 240ms;
+  --durationSlow: 350ms;
 }
 
 [data-theme="light"] {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f5;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  --accent: #e6528b;
-  --navbar-bg: rgba(255, 255, 255, 0.7);
-  --border: rgba(0, 0, 0, 0.1);
+  /* Identidad & Acento (Fijo de Kasnia) */
+  --accentColor: #e6528b;
+  --accentContrastText: #ffffff;
+
+  /* Superficies y Fondos - Modo Claro (Apple clean off-white) */
+  --surfaceBase: #fbfbfd;
+  --surfaceSecondary: #f2f2f7;
+  --surfaceCard: #ffffff;
+  --surfaceElevated: #ffffff;
+
+  /* Efecto Cristal (Navbar y Modales) */
+  --navbarBg: rgba(251, 251, 253, 0.8);
+  --navbarBgSolid: #fbfbfd;
+  --mobileMenuBg: rgba(251, 251, 253, 0.96);
+
+  /* Jerarquía de Texto */
+  --textPrimary: #1d1d1f;
+  --textSecondary: #6e6e73;
+  --textMuted: #86868b;
+
+  /* Bordes */
+  --borderSubtle: rgba(0, 0, 0, 0.06);
+  --borderStrong: rgba(0, 0, 0, 0.12);
+
+  /* Sombras */
+  --shadowSubtle: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadowMedium: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadowElevated: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* ========================================
-   BASE STYLES
-======================================== */
-* {
+/* ==========================================================================
+   RESET & ESTILOS BASE
+   ========================================================================== */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Open Sans", sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  color-scheme: dark;
+  accent-color: var(--accentColor);
 }
 
-/* ========================================
-   HEADER
-======================================== */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  font-family: var(--fontPrimary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  background-color: var(--surfaceBase);
+  color: var(--textPrimary);
+  line-height: 1.6;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  transition: background-color var(--durationNormal) var(--easeInOutSmooth),
+    color var(--durationNormal) var(--easeInOutSmooth);
+}
+
+body.menuOpen {
+  overflow: hidden;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+}
+
+/* Accesibilidad y foco visual */
+:focus-visible {
+  outline: 2px solid var(--accentColor);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================================================
+   ACCESIBILIDAD: SKIP LINK
+   ========================================================================== */
+.skipLink {
+  position: fixed;
+  top: var(--spaceSm);
+  left: 50%;
+  transform: translateX(-50%) translateY(-140%);
+  z-index: 10000;
+  padding: var(--spaceXs) var(--spaceMd);
+  background-color: var(--surfaceCard);
+  color: var(--textPrimary);
+  border: 1px solid var(--accentColor);
+  border-radius: var(--radiusSmall);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadowMedium);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--durationFast) var(--easeOutStrong),
+    opacity var(--durationFast) ease;
+}
+
+.skipLink:focus-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   HEADER & NAVBAR
+   ========================================================================== */
 header {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  height: var(--navbarHeight);
   z-index: 1000;
   view-transition-name: header;
 }
 
-/* ========================================
-   NAVBAR
-======================================== */
 .navbar {
-  background: var(--navbar-bg);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  height: 100%;
+  background-color: var(--navbarBgSolid);
+  border-bottom: 1px solid var(--borderSubtle);
+  transition: background-color var(--durationNormal) var(--easeInOutSmooth),
+    border-color var(--durationNormal) var(--easeInOutSmooth);
+}
+
+@supports (backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px)) {
+  .navbar {
+    background-color: var(--navbarBg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
 }
 
 .navbarContainer {
-  max-width: 1000px;
-  height: 70px;
+  max-width: var(--containerMaxWidth);
+  height: 100%;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--spaceLg);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  container-type: inline-size;
 }
 
 .navbarLogo {
-  height: 45px;
-  display: flex;
+  height: 42px;
+  display: inline-flex;
   align-items: center;
   text-decoration: none;
-  transition: transform 0.2s ease;
+  border-radius: var(--radiusSmall);
+  transition: transform var(--durationFast) var(--easeOutStrong);
 }
 
-.navbarLogo:hover {
-  transform: scale(1.05);
+@media (hover: hover) and (pointer: fine) {
+  .navbarLogo:hover {
+    transform: scale(1.04);
+  }
+}
+
+.navbarLogo:active {
+  transform: scale(0.97);
 }
 
 .logo {
   height: 100%;
   width: auto;
-  color: var(--text-primary);
+  color: var(--textPrimary);
+  display: block;
 }
 
 .navbarRight {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: var(--spaceLg);
 }
 
 .navbarLinks {
   display: flex;
-  gap: 2rem;
+  align-items: center;
+  gap: var(--spaceXs);
   list-style: none;
 }
 
 .navbarLinks a {
   position: relative;
-  color: var(--text-primary);
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spaceXs) var(--spaceSm);
+  font-size: 0.92rem;
   font-weight: 500;
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
+  color: var(--textSecondary);
+  text-decoration: none;
+  border-radius: var(--radiusSmall);
+  transition: color var(--durationFast) ease,
+    background-color var(--durationFast) ease,
+    transform var(--durationFast) var(--easeOutStrong);
 }
 
-.navbarLinks a::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--accent);
-  transition: width 0.3s ease;
+@media (hover: hover) and (pointer: fine) {
+  .navbarLinks a:hover {
+    color: var(--textPrimary);
+    background-color: var(--borderSubtle);
+  }
 }
 
-.navbarLinks a:hover {
-  color: var(--accent);
+.navbarLinks a:active {
+  transform: scale(0.97);
 }
 
-.navbarLinks a:hover::after {
-  width: 100%;
-}
-
-/* ========================================
+/* ==========================================================================
    THEME TOGGLE BUTTON
-======================================== */
+   ========================================================================== */
 .themeToggle {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: none;
-  border: none;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
   cursor: pointer;
-  transition: background 0.2s ease;
+  color: var(--textSecondary);
+  transition: background-color var(--durationFast) ease,
+    border-color var(--durationFast) ease,
+    color var(--durationFast) ease,
+    transform var(--durationFast) var(--easeOutStrong);
 }
 
-.themeToggle:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) and (pointer: fine) {
+  .themeToggle:hover {
+    background-color: var(--surfaceSecondary);
+    border-color: var(--borderStrong);
+    color: var(--textPrimary);
+  }
+}
+
+.themeToggle:active {
+  transform: scale(0.94);
 }
 
 .themeToggle svg {
-  width: 24px;
-  height: 24px;
-  color: var(--text-primary);
-  transition: transform 0.3s ease;
+  width: 20px;
+  height: 20px;
+  stroke-width: 2px;
+  transition: transform var(--durationNormal) var(--easeOutStrong),
+    opacity var(--durationFast) ease;
 }
 
-.themeToggle:hover svg {
-  transform: rotate(20deg);
+@media (hover: hover) and (pointer: fine) {
+  .themeToggle:hover svg {
+    transform: rotate(18deg) scale(1.08);
+  }
 }
 
 .sunIcon {
   display: block;
+  fill: currentColor;
 }
 
 .moonIcon {
   display: none;
+  fill: currentColor;
 }
 
 [data-theme="light"] .sunIcon {
@@ -192,378 +395,544 @@ header {
   display: block;
 }
 
-/* ========================================
-   MENU TOGGLE BUTTON (Mobile)
-======================================== */
+/* ==========================================================================
+   MENU TOGGLE BUTTON (Móvil)
+   ========================================================================== */
 .menuToggle {
   position: relative;
   display: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: none;
-  border: none;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
   cursor: pointer;
+  color: var(--textSecondary);
   z-index: 1001;
-  transition: background 0.2s ease;
+  transition: background-color var(--durationFast) ease,
+    border-color var(--durationFast) ease,
+    color var(--durationFast) ease,
+    transform var(--durationFast) var(--easeOutStrong);
 }
 
-.menuToggle:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) and (pointer: fine) {
+  .menuToggle:hover {
+    background-color: var(--surfaceSecondary);
+    border-color: var(--borderStrong);
+    color: var(--textPrimary);
+  }
+}
+
+.menuToggle:active {
+  transform: scale(0.94);
 }
 
 .menuToggle svg {
   position: absolute;
-  width: 24px;
-  height: 24px;
-  color: var(--text-primary);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  transition: opacity var(--durationNormal) var(--easeOutStrong),
+    transform var(--durationNormal) var(--easeOutStrong);
 }
 
 .menuIcon {
   opacity: 1;
-  transform: rotate(0deg);
+  transform: scale(1) rotate(0deg);
 }
 
 .closeIcon {
   opacity: 0;
-  transform: rotate(90deg);
+  transform: scale(0.7) rotate(-90deg);
 }
 
 .menuToggle.active .menuIcon {
   opacity: 0;
-  transform: rotate(-90deg);
+  transform: scale(0.7) rotate(90deg);
 }
 
 .menuToggle.active .closeIcon {
   opacity: 1;
-  transform: rotate(0deg);
+  transform: scale(1) rotate(0deg);
+  color: var(--accentColor);
 }
 
-/* ========================================
-   MOBILE MENU
-======================================== */
+/* ==========================================================================
+   MENÚ MÓVIL
+   ========================================================================== */
 .mobileMenu {
   position: fixed;
-  top: 70px;
-  right: -100%;
+  top: var(--navbarHeight);
+  left: 0;
+  right: 0;
   width: 100%;
-  height: calc(100dvh - 70px);
+  height: calc(100dvh - var(--navbarHeight));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--navbar-bg);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--surfaceBase);
+  border-top: 1px solid var(--borderSubtle);
   z-index: 999;
-  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-12px);
+  overscroll-behavior: contain;
+  transition: opacity var(--durationNormal) var(--easeDrawer),
+    transform var(--durationNormal) var(--easeDrawer),
+    visibility var(--durationNormal) var(--easeDrawer);
+}
+
+@supports (backdrop-filter: blur(24px)) or (-webkit-backdrop-filter: blur(24px)) {
+  .mobileMenu {
+    background-color: var(--mobileMenuBg);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+  }
 }
 
 .mobileMenu.active {
-  right: 0;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .mobileMenuLinks {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: var(--spaceXl);
   list-style: none;
+  padding: var(--space2xl);
 }
 
 .mobileMenuLinks a {
-  color: var(--text-primary);
+  position: relative;
+  display: inline-block;
+  color: var(--textPrimary);
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 600;
+  letter-spacing: var(--trackingTight);
+  padding: var(--spaceSm) var(--spaceXl);
+  border-radius: var(--radiusMedium);
   opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  transform: translateY(16px);
+  transition: opacity var(--durationNormal) var(--easeOutStrong),
+    transform var(--durationNormal) var(--easeOutStrong),
+    color var(--durationFast) ease,
+    background-color var(--durationFast) ease;
 }
 
 .mobileMenu.active .mobileMenuLinks a {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
 }
 
-.mobileMenuLinks li:nth-child(1) a {
-  transition-delay: 0.1s;
+.mobileMenu.active .mobileMenuLinks li:nth-child(1) a {
+  transition-delay: 40ms;
 }
 
-.mobileMenuLinks li:nth-child(2) a {
-  transition-delay: 0.15s;
+.mobileMenu.active .mobileMenuLinks li:nth-child(2) a {
+  transition-delay: 80ms;
 }
 
-.mobileMenuLinks li:nth-child(3) a {
-  transition-delay: 0.2s;
+.mobileMenu.active .mobileMenuLinks li:nth-child(3) a {
+  transition-delay: 120ms;
 }
 
-.mobileMenuLinks a:hover {
-  color: var(--accent);
+.mobileMenu.active .mobileMenuLinks li:nth-child(4) a {
+  transition-delay: 160ms;
 }
 
-/* ========================================
-   FOOTER
-======================================== */
+.mobileMenu.active .mobileMenuLinks li:nth-child(5) a {
+  transition-delay: 200ms;
+}
+
+.mobileMenu:not(.active) .mobileMenuLinks a {
+  transition-delay: 0ms !important;
+}
+
+.mobileMenuLinks a:hover,
+.mobileMenuLinks a:active {
+  color: var(--accentColor);
+}
+
+.mobileMenuLinks a:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   FOOTER (Estilo editorial Apple)
+   ========================================================================== */
 footer {
-  background-color: var(--bg-secondary);
-  border-top: 1px solid var(--border);
-  padding: 4rem 0 2rem;
-  margin-top: 4rem;
+  background-color: var(--surfaceSecondary);
+  border-top: 1px solid var(--borderSubtle);
+  padding: var(--space4xl) 0 var(--space2xl);
+  margin-top: auto;
+  transition: background-color var(--durationNormal) var(--easeInOutSmooth),
+    border-color var(--durationNormal) var(--easeInOutSmooth);
 }
 
 .footerContainer {
-  max-width: 1000px;
+  max-width: var(--containerMaxWidth);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--spaceLg);
 }
 
 .footerContent {
   display: grid;
-  grid-template-columns: 1.5fr 2fr 1fr;
+  grid-template-columns: 1.6fr 2fr 1.2fr;
   align-items: start;
-  gap: 2.5rem;
-  margin-bottom: 2.5rem;
+  gap: var(--space3xl);
+  margin-bottom: var(--space3xl);
 }
 
 .footerBrand {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: var(--spaceMd);
 }
 
 .footerLogoLink {
-  display: inline-block;
-  color: var(--text-primary);
-  text-decoration: none;
-  transition: transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radiusSmall);
+  transition: transform var(--durationFast) var(--easeOutStrong);
 }
 
-.footerLogoLink:hover {
-  transform: scale(1.05);
+@media (hover: hover) and (pointer: fine) {
+  .footerLogoLink:hover {
+    transform: scale(1.03);
+  }
+}
+
+.footerLogoLink:active {
+  transform: scale(0.97);
 }
 
 .footerLogoSvg {
-  height: 60px;
+  height: 52px;
   width: auto;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
+  color: var(--textPrimary);
+  display: block;
 }
 
 .footerDescription {
-  max-width: 280px;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  max-width: 320px;
+  color: var(--textSecondary);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  text-wrap: pretty;
 }
 
 .footerLinksGroup {
   display: flex;
-  justify-content: center;
-  gap: 4rem;
+  justify-content: flex-start;
+  gap: var(--space4xl);
+}
+
+.footerLinksSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
 }
 
 .footerHeading {
-  margin-bottom: 1.2rem;
-  color: var(--text-primary);
-  font-size: 0.95rem;
+  color: var(--textMuted);
+  font-size: 0.78rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--trackingWider);
+  margin-bottom: var(--spaceXs);
 }
 
 .footerList {
   list-style: none;
-}
-
-.footerList li {
-  margin-bottom: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spaceSm);
 }
 
 .footerLink {
   position: relative;
-  display: inline-block;
-  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  color: var(--textSecondary);
   text-decoration: none;
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
+  font-size: 0.92rem;
+  font-weight: 450;
+  transition: color var(--durationFast) ease,
+    transform var(--durationFast) var(--easeOutStrong);
 }
 
-.footerLink::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--accent);
-  transition: width 0.3s ease;
+@media (hover: hover) and (pointer: fine) {
+  .footerLink:hover {
+    color: var(--accentColor);
+    transform: translateX(2px);
+  }
 }
 
-.footerLink:hover {
-  color: var(--accent);
-}
-
-.footerLink:hover::after {
-  width: 100%;
+.footerLink:active {
+  transform: scale(0.97);
 }
 
 .footerSocial {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: var(--spaceSm);
 }
 
 .socialIconsContainer {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: var(--spaceSm);
+  margin-top: var(--spaceXs);
 }
 
 .socialLink {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--text-secondary);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 44px;
+  height: 44px;
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textSecondary);
+  box-shadow: var(--shadowSubtle);
+  transition: background-color var(--durationFast) ease,
+    border-color var(--durationFast) ease,
+    color var(--durationFast) ease,
+    transform var(--durationFast) var(--easeOutStrong),
+    box-shadow var(--durationFast) ease;
 }
 
-.socialLink:hover {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+@media (hover: hover) and (pointer: fine) {
+  .socialLink:hover {
+    background-color: var(--accentColor);
+    border-color: var(--accentColor);
+    color: var(--accentContrastText);
+    transform: translateY(-2px);
+    box-shadow: var(--shadowMedium);
+  }
+}
+
+.socialLink:active {
+  transform: scale(0.94);
 }
 
 .footerIcon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
 }
 
 .footerBottom {
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
+  border-top: 1px solid var(--borderSubtle);
+  padding-top: var(--spaceLg);
   text-align: center;
 }
 
 .footerBottom p {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
+  color: var(--textMuted);
+  font-size: 0.82rem;
+  letter-spacing: var(--trackingWide);
 }
 
-/* ========================================
-   BACK TO TOP BUTTON
-======================================== */
+/* ==========================================================================
+   BOTÓN VOLVER ARRIBA (Back to Top)
+   ========================================================================== */
 .backToTopContainer {
   position: fixed;
-  bottom: 2rem;
-  left: 0;
-  right: 0;
+  bottom: var(--spaceXl);
+  right: var(--spaceXl);
   display: flex;
   justify-content: flex-end;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 2rem;
   pointer-events: none;
   z-index: 900;
 }
 
 .backToTop {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  color: var(--text-primary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 46px;
+  height: 46px;
+  background-color: var(--surfaceCard);
+  border: 1px solid var(--borderSubtle);
+  border-radius: var(--radiusFull);
+  color: var(--textPrimary);
+  box-shadow: var(--shadowMedium);
   cursor: pointer;
-  pointer-events: auto;
+  pointer-events: none;
+  visibility: hidden;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(14px) scale(0.92);
+  transition: opacity var(--durationNormal) var(--easeOutStrong),
+    transform var(--durationNormal) var(--easeOutStrong),
+    visibility var(--durationNormal) var(--easeOutStrong),
+    background-color var(--durationFast) ease,
+    border-color var(--durationFast) ease,
+    color var(--durationFast) ease,
+    box-shadow var(--durationFast) ease;
 }
 
 .backToTop.visible {
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
-.backToTop:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+@media (hover: hover) and (pointer: fine) {
+  .backToTop:hover {
+    background-color: var(--accentColor);
+    border-color: var(--accentColor);
+    color: var(--accentContrastText);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--shadowElevated);
+  }
+}
+
+.backToTop:active {
+  transform: scale(0.94);
 }
 
 .backToTop svg {
-  width: 24px;
-  height: 24px;
-  stroke-width: 2px;
+  width: 22px;
+  height: 22px;
+  stroke-width: 2.2px;
+  stroke: currentColor;
+  fill: none;
 }
 
-/* ========================================
-   MEDIA QUERIES
-======================================== */
+/* ==========================================================================
+   RESPONSIVE & BREAKPOINTS
+   ========================================================================== */
 @media (max-width: 768px) {
   .footerContent {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: var(--space2xl);
   }
 
   .footerBrand {
     align-items: center;
+    text-align: center;
     margin: 0 auto;
-  }
-
-  .footerLogoSvg {
-    height: 70px;
+    max-width: 400px;
   }
 
   .footerDescription {
-    max-width: 450px;
+    text-align: center;
   }
 
   .footerLinksGroup {
     justify-content: center;
-    gap: 5rem;
+    gap: var(--space3xl);
+  }
+
+  .footerLinksSection {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footerList {
+    align-items: center;
   }
 
   .footerSocial {
     align-items: center;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .socialIconsContainer {
+    justify-content: center;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .navbarLinks {
     display: none;
   }
 
   .menuToggle {
-    display: flex;
+    display: inline-flex;
+  }
+
+  .backToTopContainer {
+    bottom: var(--spaceMd);
+    right: var(--spaceMd);
   }
 }
 
-@media (max-width: 480px) {
-  .footerLinksGroup {
-    flex-wrap: wrap;
-    gap: 3rem;
+@media (max-width: 440px) {
+  .navbarContainer {
+    padding: 0 var(--spaceMd);
   }
 
   .footerContainer {
-    padding: 0 1.5rem;
+    padding: 0 var(--spaceMd);
+  }
+
+  .footerLinksGroup {
+    gap: var(--space2xl);
+  }
+}
+
+/* ==========================================================================
+   PREFERENCIAS DE ACCESIBILIDAD (Movimiento y Transparencia Reducidos)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  .mobileMenu {
+    transform: none !important;
+    transition: opacity var(--durationFast) ease !important;
+  }
+
+  .mobileMenuLinks a {
+    transform: none !important;
+    transition: opacity var(--durationFast) ease !important;
+  }
+
+  .backToTop {
+    transform: none !important;
+    transition: opacity var(--durationFast) ease !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .navbar {
+    background-color: var(--navbarBgSolid) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .mobileMenu {
+    background-color: var(--surfaceBase) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }

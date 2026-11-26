@@ -50,4 +50,9 @@ pnpm-debug.log*
 
 # AI Agents & Skills cache
 .agents/cache/
+.agents/tmp/
+.agents/**/.cache/
 .skills/
+
+# Cloudflare Wrangler cache
+.wrangler/
