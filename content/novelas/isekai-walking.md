@@ -1,6 +1,6 @@
 ---
 title: "Isekai Walking"
-description: "Lee Isekai Walking en español. Descarga los volúmenes traducidos de esta novela ligera de aventura, y fantasía. Traducción de calidad por Kasnia Project."
+description: "Lee Isekai Walking en español. Descarga los volúmenes traducidos de esta novela ligera de acción, aventura y fantasía. Traducción de calidad por Kasnia Project."
 novelId: "12"
 novelTitle: "Isekai Walking"
 nameJp: "Isekai Walkingu"
@@ -11,7 +11,7 @@ genres:
   - "Aventura"
   - "Fantasía"
 link: "isekai-walking"
-status: "planned"
+status: "active"
 synopsis: "Sora, un estudiante común y corriente, ha sido invocado a otro mundo como uno de los siete “héroes elegidos” destinados a derrotar al Rey Demonio. Mientras que los otros seis reciben títulos grandiosos y estadísticas excepcionales, Sora se queda sin título, sin nivel y con una única habilidad aparentemente decepcionante: nunca se cansa al caminar. Tras ser considerado inútil para la misión, Sora es expulsado y abandonado a su suerte en las calles. Sin embargo, decide convertir el trato injusto que ha recibido y su aparentemente “inútil” habilidad en una ventaja. Con determinación, se propone ganar dinero, hacer amigos y descubrir lugares que jamás había visto antes."
 author: "arukuhito"
 illustrator: "Yu-nit"
@@ -22,27 +22,27 @@ animeAdaptation: false
 
 volumes:
   - num: "01"
-    state: "upcoming"
+    state: published
+    pdfUpdateDate: 27/11/2026
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "SLN"
-      pdfTypesetter: "Diego"
+      translator: Diego
+      corrector: Diego
+      editor: SLN
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
-      pdf: false
+      pdf: true
       epub: false
     drive:
-      pdf: "#"
+      pdf: https://drive.google.com/file/d/1pty95Uir4IO9i_8o6deMG7ci1zxpxGyi/view
       epub: "#"
-
   - num: "02"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "SLN"
-      pdfTypesetter: "Diego"
+      translator: Diego
+      corrector: Diego
+      editor: SLN
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -50,14 +50,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "03"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "SLN"
-      pdfTypesetter: "Diego"
+      translator: Diego
+      corrector: Diego
+      editor: SLN
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -65,14 +64,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "04"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "SLN"
-      pdfTypesetter: "Diego"
+      translator: Diego
+      corrector: Diego
+      editor: SLN
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -80,14 +78,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "05"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "SLN"
-      pdfTypesetter: "Diego"
+      translator: Diego
+      corrector: Diego
+      editor: SLN
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
@@ -95,14 +92,13 @@ volumes:
     drive:
       pdf: "#"
       epub: "#"
-
   - num: "06"
-    state: "upcoming"
+    state: upcoming
     credits:
-      translator: "Diego"
-      corrector: "Diego"
-      editor: "SLN"
-      pdfTypesetter: "Diego"
+      translator: Diego
+      corrector: Diego
+      editor: SLN
+      pdfTypesetter: Diego
       epubTypesetter: "-"
     propio:
       pdf: false
