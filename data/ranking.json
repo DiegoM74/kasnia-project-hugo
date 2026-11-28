@@ -1,38 +1,46 @@
 {
-  "updatedAt": "2026-11-27T07:42:12.944Z",
+  "updatedAt": "2026-11-28T07:09:52.561Z",
   "periods": {
     "days7": [
       {
         "novelId": "01",
-        "percentage": 54.8
+        "percentage": 37.3
       },
       {
         "novelId": "06",
-        "percentage": 29
-      },
-      {
-        "novelId": "02",
-        "percentage": 4.8
+        "percentage": 24.9
       },
       {
         "novelId": "09",
-        "percentage": 3.2
+        "percentage": 7.7
       },
       {
         "novelId": "11",
-        "percentage": 3.2
+        "percentage": 7
       },
       {
         "novelId": "13",
-        "percentage": 3.2
+        "percentage": 6.8
       },
       {
-        "novelId": "04",
-        "percentage": 1.6
+        "novelId": "12",
+        "percentage": 6.4
+      },
+      {
+        "novelId": "02",
+        "percentage": 6.1
       },
       {
         "novelId": "07",
-        "percentage": 0
+        "percentage": 2.2
+      },
+      {
+        "novelId": "04",
+        "percentage": 1.2
+      },
+      {
+        "novelId": "10",
+        "percentage": 0.4
       },
       {
         "novelId": "08",
@@ -43,15 +51,7 @@
         "percentage": 0
       },
       {
-        "novelId": "12",
-        "percentage": 0
-      },
-      {
         "novelId": "05",
-        "percentage": 0
-      },
-      {
-        "novelId": "10",
         "percentage": 0
       },
       {
@@ -62,39 +62,39 @@
     "days21": [
       {
         "novelId": "11",
-        "percentage": 43.3
+        "percentage": 41.1
       },
       {
         "novelId": "01",
-        "percentage": 31.5
+        "percentage": 31.6
       },
       {
         "novelId": "06",
-        "percentage": 10.4
+        "percentage": 11
       },
       {
         "novelId": "02",
-        "percentage": 5.6
+        "percentage": 5.3
       },
       {
         "novelId": "09",
-        "percentage": 3
+        "percentage": 3.5
       },
       {
         "novelId": "13",
-        "percentage": 2.6
+        "percentage": 2.5
+      },
+      {
+        "novelId": "12",
+        "percentage": 2.1
       },
       {
         "novelId": "04",
-        "percentage": 2.2
+        "percentage": 1.8
       },
       {
         "novelId": "07",
         "percentage": 1.1
-      },
-      {
-        "novelId": "12",
-        "percentage": 0.4
       },
       {
         "novelId": "08",
@@ -120,31 +120,35 @@
     "days30": [
       {
         "novelId": "11",
-        "percentage": 36.8
+        "percentage": 36.9
       },
       {
         "novelId": "01",
-        "percentage": 27.9
+        "percentage": 28.9
       },
       {
         "novelId": "06",
-        "percentage": 11.5
+        "percentage": 12.1
       },
       {
         "novelId": "02",
-        "percentage": 11
+        "percentage": 7.5
       },
       {
         "novelId": "04",
-        "percentage": 5.4
+        "percentage": 5.2
       },
       {
         "novelId": "09",
-        "percentage": 3.3
+        "percentage": 3.9
       },
       {
         "novelId": "13",
-        "percentage": 2.6
+        "percentage": 2.8
+      },
+      {
+        "novelId": "12",
+        "percentage": 1.5
       },
       {
         "novelId": "07",
@@ -152,10 +156,6 @@
       },
       {
         "novelId": "03",
-        "percentage": 0.3
-      },
-      {
-        "novelId": "12",
         "percentage": 0.3
       },
       {
